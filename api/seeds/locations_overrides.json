@@ -1,0 +1,36 @@
+{
+  "_comment": "Keyed by INE municipality code. 'expect' guards against a wrong code (must occur in the INE name). es = Spanish display name (slug source), en/uk/ru = checked translations, aliases = extra search names. The top-50 uk/ru names were reviewed on 2026-09-17 against the import report; a native speaker should still proofread them.",
+  "municipios": {
+    "46250": { "expect": "Val", "es": "Valencia", "aliases": ["València"] },
+    "20069": { "expect": "Donostia", "es": "San Sebastián", "en": "San Sebastián", "uk": "Сан-Себастьян", "ru": "Сан-Себастьян", "aliases": ["Donostia", "Donostia-San Sebastián"] },
+    "15030": { "expect": "Coruña", "es": "A Coruña", "uk": "Ла-Корунья", "ru": "Ла-Корунья", "aliases": ["La Coruña", "Coruña"] },
+    "07040": { "expect": "Palma", "aliases": ["Palma de Mallorca"] },
+    "17079": { "expect": "Girona", "aliases": ["Gerona"] },
+    "25120": { "expect": "Lleida", "en": "Lleida", "ru": "Льейда", "aliases": ["Lérida"] },
+    "08187": { "expect": "Sabadell", "en": "Sabadell" },
+    "28092": { "expect": "Móstoles", "en": "Móstoles" },
+    "32054": { "expect": "Ourense", "uk": "Оуренсе", "aliases": ["Orense"] },
+    "01059": { "expect": "Vitoria", "uk": "Віторія-Гастейс", "aliases": ["Vitoria", "Gasteiz"] },
+    "12040": { "expect": "Castell", "es": "Castellón de la Plana", "en": "Castellón de la Plana", "uk": "Кастельйон-де-ла-Плана", "aliases": ["Castelló de la Plana", "Castellón", "Castelló"] },
+    "35016": { "expect": "Palmas", "en": "Las Palmas de Gran Canaria" },
+    "08101": { "expect": "Hospitalet", "en": "L'Hospitalet de Llobregat", "uk": "Оспіталет-де-Льобрегат", "aliases": ["Hospitalet"] },
+    "03065": { "expect": "Elche", "ru": "Эльче", "aliases": ["Elx"] },
+    "08279": { "expect": "Terrassa", "uk": "Терраса", "ru": "Террасса" },
+    "30016": { "expect": "Cartagena", "uk": "Картахена" },
+    "33044": { "expect": "Oviedo", "uk": "Ов'єдо" },
+    "38038": { "expect": "Santa Cruz de Tenerife", "uk": "Санта-Крус-де-Тенерифе" },
+    "38023": { "expect": "Laguna", "uk": "Сан-Крістобаль-де-ла-Лагуна", "ru": "Сан-Кристобаль-де-Ла-Лагуна", "aliases": ["La Laguna"] },
+    "06015": { "expect": "Badajoz", "uk": "Бадахос" },
+    "26089": { "expect": "Logro", "uk": "Логроньо" },
+    "41038": { "expect": "Dos Hermanas", "uk": "Дос-Ерманас", "ru": "Дос-Эрманас" },
+    "43148": { "expect": "Tarragona", "uk": "Таррагона" },
+    "08245": { "expect": "Santa Coloma", "uk": "Санта-Колома-де-Граманет" },
+    "11012": { "expect": "Cádiz", "en": "Cádiz" },
+
+    "_new_municipalities": "Created after GeoNames got INE codes: geonames_id points to the town itself; coords_near borrows the point of the municipality it was split from.",
+    "11903": { "expect": "Tesorillo", "geonames_id": 2511297 },
+    "18916": { "expect": "Torrenueva Costa", "geonames_id": 2510275 },
+    "21902": { "expect": "Perrunal", "geonames_id": 2518262 },
+    "14902": { "expect": "Guijarrosa", "coords_near": "Santaella" }
+  }
+}

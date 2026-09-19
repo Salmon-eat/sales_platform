@@ -1,0 +1,163 @@
+{
+  "status": {
+    "draft": "Черновик",
+    "pending": "На модерации",
+    "active": "Активна",
+    "paused": "Приостановлена",
+    "expired": "Срок истёк",
+    "closed": "Закрыта",
+    "rejected": "Отклонена"
+  },
+  "period": {
+    "hour": "в час",
+    "day": "в день",
+    "week": "в неделю",
+    "month": "в месяц"
+  },
+  "periodShort": {
+    "hour": "/час",
+    "day": "/день",
+    "week": "/нед",
+    "month": "/мес"
+  },
+  "schedule": {
+    "full": "Полный день",
+    "part": "Неполный",
+    "weekends": "Выходные",
+    "shifts": "Смены"
+  },
+  "contract": {
+    "indefinido": "Бессрочный",
+    "temporal": "Временный",
+    "fijo_discontinuo": "Сезонный постоянный"
+  },
+  "source": {
+    "agency": "Агентство",
+    "partner": "Партнёр",
+    "employer": "Работодатель"
+  },
+  "langLower": {
+    "es": "испанский",
+    "en": "английский",
+    "uk": "украинский",
+    "ru": "русский"
+  },
+  "actions": {
+    "publish": "Опубликовать",
+    "pause": "Приостановить",
+    "resume": "Возобновить",
+    "extend": "Продлить на 30 дней",
+    "extendShort": "+30 дней",
+    "close": "Закрыть",
+    "delete": "Удалить черновик"
+  },
+  "list": {
+    "title": "Вакансии",
+    "new": "Новая вакансия",
+    "mine": "Мои",
+    "searchPlaceholder": "Название, компания или №",
+    "colListing": "Вакансия",
+    "colCategory": "Категория",
+    "colCity": "Город",
+    "colSalary": "Зарплата",
+    "colStatus": "Статус",
+    "colUntil": "До",
+    "colAuthor": "Автор",
+    "pinned": "закреплена",
+    "spainWide": "Вся Испания"
+  },
+  "edit": {
+    "breadcrumbNew": "Новая",
+    "created": "Вакансия создана.",
+    "readOnly": "Эту вакансию создал {email}. Изменять её может автор или администратор.",
+    "publishedAt": "Опубликовано",
+    "expiresAt": "Действует до",
+    "closedAt": "Закрыто",
+    "author": "Автор"
+  },
+  "form": {
+    "errCategory": "Выберите категорию",
+    "errLocation": "Выберите город или «Вся Испания»",
+    "errText": "Заполните текст вакансии хотя бы на одном языке",
+    "errPublishEs": "Для публикации нужна испанская версия: заполните вкладку ES. Черновик можно сохранить и без неё.",
+    "placeTitle": "Категория и место",
+    "profession": "Профессия",
+    "scopeLocal": "Город / посёлок",
+    "scopeSpain": "Вся Испания / разные города",
+    "spainHint": "Показывается в выдаче любого города после местных вакансий (работа в разъездах).",
+    "textTitle": "Текст вакансии — отдельно для каждого языка",
+    "textHint": "Для каждого языка текст нужно перевести отдельно.",
+    "tabFilled": "заполнено",
+    "tabEmpty": "пусто",
+    "copyFrom": "Скопировать текст с {from, select, es {испанского} en {английского} uk {украинского} other {русского}}, чтобы переписать его {to, select, es {по-испански} en {по-английски} uk {по-украински} other {по-русски}}",
+    "fieldTitle": "Название · {lang}",
+    "fieldDescription": "Описание · {lang}",
+    "fieldRequirements": "Требования · {lang}",
+    "fieldConditions": "Условия · {lang}",
+    "salaryTitle": "Зарплата и условия",
+    "salaryFrom": "От, €",
+    "salaryTo": "До, €",
+    "salaryPeriod": "Период",
+    "salaryMonthly": "≈ {amount} в месяц — по этой сумме работает фильтр «зарплата от»",
+    "salaryWarn": "Без зарплаты публиковать можно, но такие вакансии собирают заметно меньше откликов. На сайте будет «Зарплата не указана».",
+    "housing": "Жильё",
+    "noLanguage": "Без языка",
+    "noExperience": "Без опыта",
+    "schedule": "График",
+    "contract": "Контракт",
+    "tagsTitle": "Теги вакансии",
+    "tagsHint": "Становятся фильтрами на сайте во всём разделе «Работа».",
+    "hiringTitle": "Набор",
+    "vacancies": "Количество мест",
+    "startDate": "Начало работы",
+    "duration": "Длительность, мес. (сезон / временная)",
+    "urgent": "Срочно (пометка «Срочно» на карточке)",
+    "attributesTitle": "Атрибуты: {category}",
+    "rangeFrom": "от",
+    "rangeTo": "до",
+    "sourceTitle": "Источник и контакты",
+    "source": "Источник",
+    "company": "Компания",
+    "contactName": "Контактное лицо",
+    "contactPhone": "Телефон",
+    "contactWhatsapp": "WhatsApp",
+    "contactTelegram": "Telegram (@username)",
+    "contactEmail": "Email",
+    "pinned": "Закрепить вверху выдачи",
+    "saving": "Сохраняем…",
+    "saveDraft": "Сохранить черновик",
+    "saveAndPublish": "Сохранить и опубликовать"
+  },
+  "preview": {
+    "caption": "Превью карточки (как в списке на сайте)",
+    "untitled": "Название вакансии",
+    "noSalary": "Зарплата не указана",
+    "perPeriod": "{period, select, hour {в час} day {в день} week {в неделю} other {в месяц}}",
+    "urgent": "Срочно",
+    "agency": "Агентство Bazarcito",
+    "company": "Компания",
+    "city": "Город",
+    "spainWide": "Вся Испания",
+    "justNow": "только что",
+    "tagHousing": "жильё",
+    "tagNoLanguage": "без языка",
+    "tagNoExperience": "без опыта",
+    "apply": "Откликнуться",
+    "langs": "Языки:",
+    "needsEs": "для публикации нужна ES"
+  },
+  "category": {
+    "placeholder": "Начните вводить профессию: официант, хостес, водитель CE, программист…",
+    "change": "Изменить категорию",
+    "noMatches": "Ничего не найдено. Попробуйте другое название или «Другое».",
+    "sector": "сфера",
+    "sectionOff": "{section} (раздел отключён)"
+  },
+  "location": {
+    "placeholder": "Начните вводить: Мадрид, Torrevieja, Covadonga…",
+    "change": "Изменить город",
+    "village": "посёлок",
+    "villageMark": "(посёлок)",
+    "municipality": "муниципалитет"
+  }
+}

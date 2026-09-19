@@ -1,0 +1,96 @@
+# Local development.
+#   docker compose up -d                 -> db, redis, api (hot reload)
+#   docker compose --profile web up -d   -> + Next.js dev server in a container
+name: bazarcito-dev
+
+services:
+  db:
+    image: postgis/postgis:16-3.5
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-bazarcito}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-bazarcito}
+      POSTGRES_DB: ${POSTGRES_DB:-bazarcito}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/postgres/init/20-extensions.sql:/docker-entrypoint-initdb.d/20-extensions.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: ./api
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      ENV: development
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-bazarcito}:${POSTGRES_PASSWORD:-bazarcito}@db:5432/${POSTGRES_DB:-bazarcito}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:-dev-secret}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      # admin sign-in by a whitelisted email without Google; refused when ENV=production
+      ADMIN_DEV_LOGIN: ${ADMIN_DEV_LOGIN:-true}
+      # shared secret for the Telegram bot sync (empty = off)
+      BOT_SYNC_TOKEN: ${BOT_SYNC_TOKEN:-}
+      PUBLIC_SITE_URL: http://localhost:3000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app
+      - /app/.venv
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: ./api
+    command: python -m app.worker
+    environment:
+      ENV: development
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-bazarcito}:${POSTGRES_PASSWORD:-bazarcito}@db:5432/${POSTGRES_DB:-bazarcito}
+      REDIS_URL: redis://redis:6379/0
+      SECRET_KEY: ${SECRET_KEY:-dev-secret}
+    volumes:
+      - ./api:/app
+      - /app/.venv
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  web:
+    profiles: ["web"]
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
+    environment:
+      API_INTERNAL_URL: http://api:8000
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      NEXT_PUBLIC_DEFAULT_LOCALE: uk
+      WATCHPACK_POLLING: "true"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/app
+      - web_node_modules:/app/node_modules
+    depends_on:
+      - api
+
+volumes:
+  pgdata:
+  web_node_modules:

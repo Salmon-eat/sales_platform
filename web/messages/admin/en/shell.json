@@ -1,0 +1,15 @@
+{
+  "nav": "Admin sections",
+  "dashboard": "Dashboard",
+  "applications": "Applications",
+  "listings": "Jobs",
+  "users": "Staff",
+  "logout": "Sign out",
+  "logoutAll": "Sign out on all devices",
+  "logoutAllHint": "Close all sessions, e.g. after losing a phone",
+  "language": "Admin language",
+  "newApplications": "New applications",
+  "activeListings": "Active jobs",
+  "newListing": "New job",
+  "links": "Ad links"
+}

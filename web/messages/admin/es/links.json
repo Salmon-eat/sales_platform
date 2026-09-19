@@ -1,0 +1,59 @@
+{
+  "title": "Enlaces publicitarios",
+  "intro": "Un enlace propio para cada bloguero o canal: cuántas personas trajo, cuántas enviaron una solicitud y cuánto costó cada solicitud.",
+  "new": "+ Nuevo enlace",
+  "empty": "Aún no hay enlaces.",
+  "created": "El enlace está listo: {url} — envíelo al bloguero.",
+  "copy": "Copiar",
+  "copied": "Copiado",
+  "lastClick": "último clic {date}",
+  "edit": "Editar",
+  "form": {
+    "name": "Nick del bloguero o nombre del canal",
+    "namePlaceholder": "@olena_travel",
+    "channel": "Canal",
+    "target": "Lleva a",
+    "targetHint": "Dirección de la página sin el dominio, p. ej. /es/empleo",
+    "cost": "Coste, €",
+    "costHint": "Lo que se pagó — para calcular el coste de cada solicitud",
+    "notes": "Nota",
+    "notesPlaceholder": "Stories el 12.10, sin código promocional",
+    "create": "Crear enlace",
+    "nameHint": "El enlace corto se crea solo, p. ej. {base}/go/olen27"
+  },
+  "channel": {
+    "blogger": "Bloguero",
+    "instagram": "Instagram",
+    "tiktok": "TikTok",
+    "facebook": "Facebook",
+    "telegram": "Telegram",
+    "youtube": "YouTube",
+    "google": "Google Ads",
+    "partner": "Socio",
+    "other": "Otro"
+  },
+  "col": {
+    "link": "Enlace",
+    "clicks": "Clics",
+    "visitors": "Visitantes",
+    "applications": "Solicitudes",
+    "conversion": "Conversión",
+    "cost": "Coste",
+    "perApplication": "Coste por solicitud"
+  },
+  "error": {
+    "generic": "No se pudo guardar el enlace",
+    "link_code_taken": "Ese código ya existe — elija otro",
+    "link_code_fixed": "El código del enlace no se puede cambiar",
+    "link_code_format": "Código: solo letras latinas, cifras y guiones, mínimo 3 caracteres",
+    "link_bad_target": "«Lleva a» debe ser una página de este sitio que empiece por /",
+    "link_closed": "El enlace está cerrado y ya no se puede modificar"
+  },
+  "tabActive": "Activos ({count})",
+  "tabHistory": "Historial ({count})",
+  "historyEmpty": "Aún no hay enlaces cerrados.",
+  "close": "Cerrar",
+  "closeConfirm": "¿Cerrar el enlace «{name}»? Dejará de contar visitas y pasará al historial. No se puede volver a abrir.",
+  "closedNotice": "El enlace se ha cerrado y está en el historial.",
+  "period": "activo {from} – {to}"
+}

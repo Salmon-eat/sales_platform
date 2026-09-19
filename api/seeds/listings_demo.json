@@ -1,0 +1,192 @@
+{
+  "_comment": "Demo listings for development (stage 2). python -m app.cli seed-listings. hours_ago -> published_at, expires_in_days may be negative (the worker expires it).",
+  "listings": [
+    {
+      "category": "conductor-ce", "city": "valencia", "status": "active", "hours_ago": 2, "is_pinned": true,
+      "salary_min": 2800, "salary_max": 3200, "salary_period": "month", "housing": true, "schedule": ["full"], "contract": "indefinido",
+      "attributes": { "trailer_type": ["frigorifico"], "cap_95": true, "route_scope": "internacional", "weeks_on_off": "3-1" },
+      "original_lang": "uk",
+      "translations": {
+        "uk": { "title": "Водій CE, рефрижератор", "description": "Міжнародні рейси Іспанія — Франція — Німеччина на сучасних рефрижераторах. Графік 3 тижні роботи / 1 тиждень вдома.", "requirements": "Права CE, код 95, досвід від 1 року.", "conditions": "Житло між рейсами, офіційне оформлення, виплати двічі на місяць." },
+        "es": { "title": "Conductor CE, frigorífico", "description": "Rutas internacionales España — Francia — Alemania con camiones frigoríficos modernos. Turnos de 3 semanas de trabajo y 1 de descanso.", "requirements": "Carnet CE, CAP 95, experiencia mínima de 1 año.", "conditions": "Alojamiento entre rutas, contrato indefinido, pagos quincenales." }
+      }
+    },
+    {
+      "category": "ayudante-cocina", "city": "malaga", "status": "active", "hours_ago": 5,
+      "salary_min": 1500, "salary_period": "month", "no_language": true, "schedule": ["full", "shifts"], "contract": "temporal",
+      "original_lang": "es",
+      "translations": {
+        "es": { "title": "Ayudante de cocina", "description": "Restaurante en el centro de Málaga busca ayudante de cocina para la temporada de verano. Preparación de ingredientes y limpieza de la cocina.", "conditions": "Comida incluida, contrato de 6 meses." },
+        "uk": { "title": "Помічник кухаря", "description": "Ресторан у центрі Малаги шукає помічника кухаря на літній сезон. Підготовка інгредієнтів і прибирання кухні.", "conditions": "Харчування, контракт на 6 місяців. Іспанська не обов'язкова." }
+      }
+    },
+    {
+      "category": "solador", "city": "barcelona", "status": "active", "hours_ago": 9,
+      "salary_min": 16, "salary_max": 18, "salary_period": "hour", "schedule": ["full"], "contract": "temporal",
+      "original_lang": "uk",
+      "translations": {
+        "uk": { "title": "Плиточник", "description": "Ремонт квартир і комерційних приміщень у Барселоні. Укладання плитки, підготовка поверхонь.", "requirements": "Досвід від 2 років, власний базовий інструмент.", "conditions": "Оплата щотижня, об'єкти в межах міста." },
+        "es": { "title": "Solador", "description": "Reformas de pisos y locales comerciales en Barcelona. Colocación de azulejos y preparación de superficies.", "requirements": "Experiencia mínima de 2 años, herramienta básica propia.", "conditions": "Pago semanal, obras dentro de la ciudad." }
+      }
+    },
+    {
+      "category": "recogida-fruta", "city": "murcia", "status": "active", "hours_ago": 20,
+      "salary_min": 1400, "salary_period": "month", "housing": true, "no_language": true, "no_experience": true, "schedule": ["full"], "contract": "temporal",
+      "original_lang": "uk",
+      "translations": {
+        "uk": { "title": "Збір фруктів, сезон", "description": "Збір лимонів і апельсинів у регіоні Мурсія. Сезон з листопада по травень, можна приїхати парою.", "conditions": "Житло від роботодавця, транспорт до поля." },
+        "es": { "title": "Recogida de fruta, temporada", "description": "Recogida de limones y naranjas en la Región de Murcia. Campaña de noviembre a mayo, se admiten parejas.", "conditions": "Alojamiento facilitado, transporte al campo." },
+        "ru": { "title": "Сбор фруктов, сезон", "description": "Сбор лимонов и апельсинов в регионе Мурсия. Сезон с ноября по май, можно приехать парой.", "conditions": "Жильё от работодателя, транспорт до поля." }
+      }
+    },
+    {
+      "category": "conductor-ce", "city": null, "status": "active", "hours_ago": 30,
+      "salary_min": 3200, "salary_max": 3600, "salary_period": "month", "schedule": ["full"], "contract": "indefinido",
+      "source": "partner", "employer_name": "TransIberia Logística",
+      "attributes": { "trailer_type": ["lona", "frigorifico"], "adr": true, "cap_95": true, "route_scope": "nacional", "weeks_on_off": "4-2" },
+      "original_lang": "uk",
+      "translations": {
+        "uk": { "title": "Водій CE по всій Іспанії, тент і реф", "description": "Внутрішні рейси по Іспанії для партнерської логістичної компанії. Постійна машина, база в Мадриді або Валенсії.", "requirements": "Права CE, код 95, ADR.", "conditions": "4 тижні роботи / 2 вдома, добові окремо." },
+        "es": { "title": "Conductor CE nacional, lona y frigorífico", "description": "Rutas nacionales por toda España para una empresa logística colaboradora. Camión asignado, base en Madrid o Valencia.", "requirements": "Carnet CE, CAP 95, ADR.", "conditions": "4 semanas de trabajo y 2 de descanso, dietas aparte." },
+        "en": { "title": "CE driver, domestic routes across Spain", "description": "Domestic routes across Spain for a partner logistics company. Assigned truck, based in Madrid or Valencia.", "requirements": "CE licence, Code 95, ADR.", "conditions": "4 weeks on / 2 weeks off, daily allowance on top." },
+        "ru": { "title": "Водитель CE по всей Испании, тент и реф", "description": "Внутренние рейсы по Испании для партнёрской логистической компании. Закреплённая машина, база в Мадриде или Валенсии.", "requirements": "Права CE, код 95, ADR.", "conditions": "4 недели работы / 2 дома, суточные отдельно." }
+      }
+    },
+    {
+      "category": "conductor-c", "city": "zaragoza", "status": "active", "hours_ago": 40,
+      "salary_min": 2100, "salary_period": "month", "schedule": ["full"], "contract": "indefinido",
+      "original_lang": "es",
+      "translations": {
+        "es": { "title": "Conductor C para reparto regional", "description": "Reparto de mercancía paletizada en Aragón con camión rígido. Vuelta a casa todos los días.", "requirements": "Carnet C y CAP vigente." },
+        "uk": { "title": "Водій C, регіональна доставка", "description": "Доставка палетованих вантажів по Арагону на вантажівці категорії C. Щодня вдома.", "requirements": "Права C і чинний код 95." }
+      }
+    },
+    {
+      "category": "repartidor", "city": "madrid", "status": "active", "hours_ago": 3,
+      "salary_min": 12, "salary_period": "hour", "no_experience": true, "schedule": ["part", "weekends"], "contract": "temporal",
+      "original_lang": "es",
+      "translations": {
+        "es": { "title": "Repartidor en furgoneta, fines de semana", "description": "Reparto de paquetería de última milla en Madrid los fines de semana. Furgoneta de empresa.", "requirements": "Carnet B, conocimiento básico de la ciudad." }
+      }
+    },
+    {
+      "category": "carretillero", "city": "alicante", "status": "active", "hours_ago": 50,
+      "salary_min": 1650, "salary_period": "month", "schedule": ["shifts"], "contract": "temporal",
+      "original_lang": "es",
+      "translations": {
+        "es": { "title": "Carretillero para almacén logístico", "description": "Carga y descarga de camiones y ubicación de palets en un almacén del polígono industrial de Alicante. Turnos rotativos.", "requirements": "Carnet de carretillero en vigor." },
+        "uk": { "title": "Водій навантажувача на логістичний склад", "description": "Завантаження та розвантаження вантажівок, розміщення палет на складі в промзоні Аліканте. Змінний графік.", "requirements": "Чинне посвідчення водія навантажувача." }
+      }
+    },
+    {
+      "category": "albanil", "city": "sevilla", "status": "active", "hours_ago": 70,
+      "salary_min": 90, "salary_max": 110, "salary_period": "day", "schedule": ["full"], "contract": "temporal",
+      "original_lang": "uk",
+      "translations": {
+        "uk": { "title": "Муляр на будівництво житлового комплексу", "description": "Кладка стін і перегородок на новобудові в Севільї. Робота на 4–6 місяців.", "requirements": "Досвід кладки від 1 року." },
+        "es": { "title": "Albañil para obra residencial", "description": "Levantamiento de muros y tabiques en obra nueva en Sevilla. Trabajo para 4–6 meses.", "requirements": "Experiencia mínima de 1 año." }
+      }
+    },
+    {
+      "category": "electricista", "city": "bilbao", "status": "active", "hours_ago": 90,
+      "salary_min": 2200, "salary_max": 2500, "salary_period": "month", "schedule": ["full"], "contract": "indefinido",
+      "original_lang": "es",
+      "translations": {
+        "es": { "title": "Electricista de mantenimiento industrial", "description": "Mantenimiento eléctrico preventivo y correctivo en planta industrial de Bilbao.", "requirements": "FP de electricidad o experiencia equivalente." },
+        "uk": { "title": "Електрик з обслуговування виробництва", "description": "Планове й аварійне обслуговування електрообладнання на заводі в Більбао.", "requirements": "Профільна освіта або відповідний досвід." },
+        "ru": { "title": "Электрик по обслуживанию производства", "description": "Плановое и аварийное обслуживание электрооборудования на заводе в Бильбао.", "requirements": "Профильное образование или соответствующий опыт." }
+      }
+    },
+    {
+      "category": "camarero", "city": "palma", "status": "active", "hours_ago": 12,
+      "salary_min": 1600, "salary_period": "month", "housing": true, "schedule": ["shifts"], "contract": "fijo_discontinuo",
+      "original_lang": "uk",
+      "translations": {
+        "uk": { "title": "Офіціант у готель на Майорці", "description": "Робота в ресторані готелю в Пальмі на сезон з квітня по жовтень.", "requirements": "Базова англійська або іспанська.", "conditions": "Житло і харчування від готелю." },
+        "es": { "title": "Camarero para hotel en Mallorca", "description": "Trabajo en el restaurante de un hotel de Palma de abril a octubre.", "requirements": "Inglés o español básico.", "conditions": "Alojamiento y manutención a cargo del hotel." }
+      }
+    },
+    {
+      "category": "cocinero", "city": "marbella", "status": "active", "hours_ago": 60,
+      "salary_min": 2000, "salary_max": 2300, "salary_period": "month", "schedule": ["full"], "contract": "indefinido",
+      "original_lang": "es",
+      "translations": {
+        "es": { "title": "Cocinero para restaurante mediterráneo", "description": "Cocina mediterránea y parrilla en restaurante de Marbella con terraza.", "requirements": "Experiencia en cocina de producción." },
+        "uk": { "title": "Кухар у ресторан середземноморської кухні", "description": "Середземноморська кухня та гриль у ресторані з терасою в Марбельї.", "requirements": "Досвід роботи на гарячому цеху." }
+      }
+    },
+    {
+      "category": "limpieza-hoteles", "city": "benidorm", "status": "active", "hours_ago": 26,
+      "salary_min": 1450, "salary_period": "month", "housing": true, "no_language": true, "schedule": ["full"], "contract": "temporal",
+      "original_lang": "uk",
+      "translations": {
+        "uk": { "title": "Покоївка в готель у Бенідормі", "description": "Прибирання номерів і загальних зон у готелі 4*. Навчання на місці.", "conditions": "Житло поруч із готелем, іспанська не потрібна." },
+        "es": { "title": "Camarera de pisos en Benidorm", "description": "Limpieza de habitaciones y zonas comunes en hotel de 4 estrellas. Formación en el puesto.", "conditions": "Alojamiento cerca del hotel, no se requiere español." },
+        "ru": { "title": "Горничная в отель в Бенидорме", "description": "Уборка номеров и общих зон в отеле 4*. Обучение на месте.", "conditions": "Жильё рядом с отелем, испанский не нужен." }
+      }
+    },
+    {
+      "category": "limpieza-hogar", "city": "barcelona", "status": "active", "hours_ago": 100,
+      "salary_min": 11, "salary_period": "hour", "schedule": ["part"], "contract": "temporal",
+      "original_lang": "ru",
+      "translations": {
+        "ru": { "title": "Уборка квартир, частичная занятость", "description": "Уборка квартир клиентов клининговой компании в Барселоне, 4–5 часов в день.", "requirements": "Аккуратность, опыт приветствуется." },
+        "es": { "title": "Limpieza de hogares, media jornada", "description": "Limpieza de viviendas de clientes de una empresa de limpieza en Barcelona, 4–5 horas al día.", "requirements": "Responsabilidad; se valora experiencia." }
+      }
+    },
+    {
+      "category": "invernadero", "city": "almeria", "status": "active", "hours_ago": 110,
+      "salary_min": 1300, "salary_period": "month", "housing": true, "no_language": true, "no_experience": true, "schedule": ["full"], "contract": "temporal",
+      "original_lang": "uk",
+      "translations": {
+        "uk": { "title": "Робота в теплицях, Альмерія", "description": "Догляд за томатами й перцем у теплицях, збір урожаю. Можна без досвіду.", "conditions": "Житло, транспорт до теплиць." },
+        "es": { "title": "Trabajo en invernaderos, Almería", "description": "Cuidado de tomates y pimientos en invernadero y recolección. Sin experiencia.", "conditions": "Alojamiento y transporte a los invernaderos." }
+      }
+    },
+    {
+      "category": "cuidado-mayores", "city": "valencia", "status": "active", "hours_ago": 36,
+      "salary_min": 1250, "salary_period": "month", "housing": true, "schedule": ["full"], "contract": "indefinido",
+      "original_lang": "uk",
+      "translations": {
+        "uk": { "title": "Доглядальниця з проживанням", "description": "Догляд за літньою жінкою в родині у Валенсії: побут, приготування їжі, прогулянки.", "requirements": "Базова іспанська, досвід догляду.", "conditions": "Проживання й харчування в родині, 2 вихідних на тиждень." },
+        "es": { "title": "Cuidadora interna", "description": "Cuidado de una señora mayor en Valencia: tareas del hogar, comidas y paseos.", "requirements": "Español básico y experiencia en cuidados.", "conditions": "Alojamiento y comida incluidos, 2 días libres a la semana." }
+      }
+    },
+    {
+      "category": "mozo-almacen", "city": "getafe", "status": "active", "hours_ago": 7,
+      "salary_min": 1500, "salary_period": "month", "no_experience": true, "schedule": ["shifts"], "contract": "temporal",
+      "original_lang": "es",
+      "translations": {
+        "es": { "title": "Mozo de almacén, preparación de pedidos", "description": "Preparación de pedidos con escáner en centro logístico de Getafe. Turnos de mañana y tarde.", "conditions": "Incorporación inmediata, posibilidad de contrato indefinido." },
+        "uk": { "title": "Комплектувальник замовлень на склад", "description": "Збирання замовлень зі сканером у логістичному центрі в Хетафе. Ранкова і вечірня зміни.", "conditions": "Старт одразу, можливий постійний контракт." }
+      }
+    },
+    {
+      "category": "operario", "city": "vitoria-gasteiz", "status": "draft",
+      "salary_min": 1700, "salary_period": "month", "schedule": ["shifts"], "contract": "temporal",
+      "original_lang": "es",
+      "translations": {
+        "es": { "title": "Operario de producción en fábrica de componentes", "description": "Línea de montaje de componentes de automoción en Vitoria-Gasteiz." },
+        "uk": { "title": "Оператор виробництва на заводі комплектуючих", "description": "Лінія складання автокомплектуючих у Віторії-Гастейс." }
+      }
+    },
+    {
+      "category": "empaquetado", "city": "lleida", "status": "paused", "hours_ago": 150,
+      "salary_min": 10, "salary_period": "hour", "no_language": true, "schedule": ["full"], "contract": "temporal",
+      "original_lang": "uk",
+      "translations": {
+        "uk": { "title": "Пакувальник фруктів", "description": "Сортування й пакування персиків і груш на складі в Льєйді. Сезон липень — вересень." }
+      }
+    },
+    {
+      "category": "conductor-ce", "city": "a-coruna", "status": "active", "hours_ago": 900, "expires_in_days": -2,
+      "salary_min": 2600, "salary_period": "month", "schedule": ["full"], "contract": "indefinido",
+      "attributes": { "trailer_type": ["cisterna"], "adr": true, "route_scope": "nacional", "weeks_on_off": "2-1" },
+      "original_lang": "es",
+      "translations": {
+        "es": { "title": "Conductor CE cisterna ADR", "description": "Transporte de combustible en cisterna por Galicia y norte de Portugal.", "requirements": "Carnet CE, ADR cisternas." },
+        "uk": { "title": "Водій CE, цистерна ADR", "description": "Перевезення пального в цистерні по Галісії та півночі Португалії.", "requirements": "Права CE, ADR для цистерн." }
+      }
+    }
+  ]
+}

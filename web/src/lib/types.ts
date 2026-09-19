@@ -1,0 +1,531 @@
+// Mirrors api/app/schemas.
+
+export type UserRole = "user" | "manager" | "admin";
+
+export type User = {
+  id: number;
+  email: string | null;
+  name: string | null;
+  avatar: string | null;
+  lang: string;
+  role: UserRole;
+};
+
+export type AdminUser = {
+  id: number;
+  email: string | null;
+  name: string | null;
+  avatar: string | null;
+  role: UserRole;
+  is_active: boolean;
+  last_login_at: string | null;
+  created_at: string;
+  active_sessions: number;
+};
+
+export type Page<T> = {
+  items: T[];
+  total: number;
+  page: number;
+  per_page: number;
+  pages: number;
+};
+
+export type Localized = Record<"es" | "en" | "uk" | "ru", string>;
+
+// ---------- public taxonomy / locations (one language) ----------
+
+export type CategoryNode = {
+  id: number;
+  slug: string;
+  slugs: Localized;
+  name: string;
+  icon: string | null;
+  synonyms: string[];
+  children: CategoryNode[];
+};
+
+export type Taxonomy = {
+  sections: {
+    key: string;
+    slug: string;
+    slugs: Localized;
+    name: string;
+    is_enabled: boolean;
+    /** listings: vacancies and ads; services: permanent agency services (catalog + service pages) */
+    kind: "listings" | "services";
+    categories: CategoryNode[];
+  }[];
+};
+
+export type LocationRef = { level: string; slug: string; name: string };
+
+/** Option lists for the application form, prepared on the server. */
+export type ApplicationOptions = {
+  sectors: { id: number; name: string }[];
+  cities: { slug: string; name: string }[];
+};
+
+// ---------- listings ----------
+
+export type Lang = "es" | "en" | "uk" | "ru";
+export type ListingStatus = "draft" | "pending" | "active" | "paused" | "expired" | "closed" | "rejected";
+export type SalaryPeriod = "hour" | "day" | "week" | "month";
+export type ListingAction = "publish" | "pause" | "resume" | "close" | "extend";
+
+export type LocationBrief = { id: number; level: string; slug: string; name: string; parent_name: string | null };
+
+export type ListingCategoryRef = { key: string; slug: string; name: string; icon: string | null };
+
+export type ListingCard = {
+  id: number;
+  slug: string;
+  /** without the language prefix: {section}/{offer word}/{slug}-{id} */
+  path: string;
+  lang: Lang;
+  is_translated: boolean;
+  title: string;
+  section_key: string;
+  category: ListingCategoryRef;
+  sector: ListingCategoryRef | null;
+  location: LocationBrief | null;
+  location_scope: "local" | "spain_wide";
+  salary_min: number | null;
+  salary_max: number | null;
+  salary_period: SalaryPeriod | null;
+  housing: boolean;
+  no_language: boolean;
+  no_experience: boolean;
+  source: "agency" | "partner" | "employer";
+  /** null for agency listings */
+  employer_name: string | null;
+  is_urgent: boolean;
+  is_pinned: boolean;
+  published_at: string | null;
+  schedule: string[];
+  contract: string | null;
+  vacancies: number | null;
+  /** features from the listing's attributes, already in the page language */
+  tags: CardTag[];
+};
+
+export type CardTag = { key: string; label: string; kind: "lang" | "doc" | "ok" | "perk" | "info" };
+
+export type ListingStats = { total: number; today: number };
+
+// ---------- search ----------
+
+export type FacetValue = { value: string; count: number; label: string | null };
+export type FacetGroup = { key: string; tier: 2 | 3; label: string | null; type: "bool" | "multi" | "single"; values: FacetValue[] };
+export type CategoryFacet = { id: number; slug: string; key: string; name: string; count: number; selected: boolean };
+export type PlaceFacet = { slug: string; name: string; count: number; selected: boolean };
+export type SelectedCategory = {
+  id: number;
+  key: string;
+  slug: string;
+  slugs: Localized;
+  name: string;
+  parent: SelectedCategory | null;
+};
+export type SelectedPlace = { slug: string; level: string; name: string; parent_slug: string | null; parent_name: string | null };
+export type Relaxation = {
+  kind: "attributes" | "radius" | "province" | "spain";
+  count: number;
+  query: string;
+  location: string | null;
+  label_value: string | null;
+};
+
+export type SearchResponse = {
+  items: (ListingCard & { distance_km: number | null })[];
+  total: number;
+  page: number;
+  per_page: number;
+  pages: number;
+  canonical_query: string;
+  sort: "relevance" | "new" | "salary";
+  category: SelectedCategory | null;
+  location: SelectedPlace | null;
+  categories: CategoryFacet[];
+  places: PlaceFacet[];
+  spain_wide: number;
+  facets: FacetGroup[];
+  understood: { category: SelectedCategory | null; location: SelectedPlace | null; rest_q: string; complete: boolean } | null;
+  relaxations: Relaxation[];
+  fuzzy: boolean;
+};
+
+// ---------- public pages ----------
+
+export type NamedSlug = { key: string; slug: string; name: string };
+export type PlaceRef = { slug: string; level: string; name: string; parent_slug: string | null; parent_name: string | null };
+
+export type ResolveOut = {
+  /** services: agency services catalog (sector = chosen sector); service: one service (profession = the service) */
+  type: "list" | "listing" | "services" | "service" | "redirect" | "not_found";
+  redirect: string | null;
+  section: NamedSlug | null;
+  sector: NamedSlug | null;
+  profession: NamedSlug | null;
+  feature: "housing" | null;
+  location: PlaceRef | null;
+  listing_id: number | null;
+  listing_state: "active" | "closed" | "closed_noindex" | "gone" | null;
+  alternates: Partial<Record<Lang, string>>;
+  tier: string | null;
+  indexable: boolean;
+  count: number | null;
+  title_override: string | null;
+  description_override: string | null;
+};
+
+export type ListingDetail = ListingCard & {
+  description: string;
+  requirements: string | null;
+  conditions: string | null;
+  original_lang: Lang;
+  translations: Lang[];
+  schedule: string[];
+  contract: string | null;
+  salary_monthly_min: number | null;
+  vacancies: number | null;
+  start_date: string | null;
+  duration_months: number | null;
+  /** group "tags": section tags (for students, documents...); "category": profession attributes */
+  attributes: { key: string; label: string; values: string[]; group: "tags" | "category" }[];
+  expires_at: string | null;
+  closed_at: string | null;
+  state: "active" | "closed" | "closed_noindex" | "gone";
+  section_slug: string;
+  section_name: string;
+  category_path: NamedSlug[];
+  location_detail: LocationBrief | null;
+  province: PlaceRef | null;
+  lat: number | null;
+  lon: number | null;
+  similar: ListingCard[];
+};
+
+export type ContentBlock = { key: string; lang: string; title: string; body: string; data: Record<string, unknown>; updated_at: string };
+
+export type SitemapPage = { items: { path: string; lastmod: string | null; alternates: Partial<Record<Lang, string>> }[]; page: number; pages: number };
+
+export type SuggestProfession ={ slug: string; key: string; section_key: string; name: string; count: number };
+export type SuggestPlace = { slug: string; level: string; name: string; parent_name: string | null; count: number };
+export type SuggestResponse = {
+  professions: SuggestProfession[];
+  places: SuggestPlace[];
+  combos: { category: SuggestProfession; place: SuggestPlace; count: number }[];
+};
+
+export type ListingTranslation = {
+  lang: Lang;
+  title: string;
+  description: string;
+  requirements: string | null;
+  conditions: string | null;
+  slug: string;
+  is_machine: boolean;
+};
+
+export type AdminListingItem = {
+  id: number;
+  status: ListingStatus;
+  title: string;
+  langs: Lang[];
+  original_lang: Lang;
+  category_name: string;
+  sector_name: string | null;
+  location: LocationBrief | null;
+  location_scope: "local" | "spain_wide";
+  salary_min: number | null;
+  salary_max: number | null;
+  salary_period: SalaryPeriod | null;
+  is_pinned: boolean;
+  published_at: string | null;
+  expires_at: string | null;
+  created_by_email: string | null;
+  updated_at: string;
+  can_edit: boolean;
+};
+
+export type AdminListingDetail = {
+  id: number;
+  status: ListingStatus;
+  section_id: number;
+  category_id: number;
+  location_scope: "local" | "spain_wide";
+  location: LocationBrief | null;
+  point: { lat: number; lon: number } | null;
+  original_lang: Lang;
+  salary_min: number | null;
+  salary_max: number | null;
+  salary_period: SalaryPeriod | null;
+  salary_monthly_min: number | null;
+  housing: boolean;
+  no_language: boolean;
+  no_experience: boolean;
+  schedule: string[];
+  contract: string | null;
+  vacancies: number | null;
+  start_date: string | null;
+  is_urgent: boolean;
+  duration_months: number | null;
+  attributes: Record<string, unknown>;
+  contact: { name?: string; phone?: string; whatsapp?: string; telegram?: string; email?: string };
+  source: "agency" | "partner" | "employer";
+  employer_name: string | null;
+  is_pinned: boolean;
+  published_at: string | null;
+  expires_at: string | null;
+  closed_at: string | null;
+  created_by_email: string | null;
+  created_at: string;
+  updated_at: string;
+  translations: ListingTranslation[];
+  can_edit: boolean;
+};
+
+export type ApplicationStatus = "new" | "in_progress" | "done" | "rejected";
+
+export type AdminApplication = {
+  id: number;
+  name: string;
+  /** null: a site chat message without a phone (reply in the chat) */
+  phone: string | null;
+  messenger: "phone" | "telegram" | "whatsapp" | "viber";
+  status: ApplicationStatus;
+  lang: string;
+  source: string;
+  category_name: string | null;
+  location_name: string | null;
+  /** the job the candidate responded to */
+  listing: AppliedListing | null;
+  in_spain: boolean | null;
+  comment: string | null;
+  notes_count: number;
+  created_at: string;
+  updated_at: string;
+  /** new/in progress without changes for 48 h */
+  stale: boolean;
+  /** site chat / Telegram messages staff has not read yet */
+  unread: number;
+};
+
+export type ChatMessage = { id: number; author: "visitor" | "staff"; text: string; created_at: string };
+
+export type AdminChatMessage = {
+  id: number;
+  /** note: the team's note in the Telegram topic */
+  author: "visitor" | "staff" | "note";
+  /** a manager who wrote in Telegram, or the admin user */
+  author_name: string | null;
+  text: string;
+  /** Telegram: text, photo, voice, document... */
+  content_type: string | null;
+  /** Telegram: did the reply reach the client */
+  delivery: "pending" | "delivered" | "failed" | null;
+  created_at: string;
+};
+
+export type BotInfo = {
+  app_id: number;
+  title: string | null;
+  /** the questionnaire card as plain text */
+  card: string | null;
+  username: string | null;
+  topic_url: string | null;
+  manager_name: string | null;
+  status: string | null;
+};
+
+export type AppliedListing = {
+  id: number;
+  title: string;
+  status: ListingStatus;
+  location_name: string | null;
+};
+
+export type Traffic = {
+  visitors: number;
+  sessions: number;
+  pageviews: number;
+  avg_session_sec: number;
+  bounces: number;
+  viewed_job: number;
+  opened: number;
+  sent: number;
+};
+
+type Counted<K extends string> = Record<K, string> & { count: number };
+
+export type DashboardListing = {
+  id: number;
+  status: ListingStatus;
+  title: string | null;
+  views: number;
+  applications: number;
+  no_salary: boolean;
+};
+
+export type AdminDashboard = {
+  days: 1 | 7 | 30 | 90;
+  start: string;
+  end: string;
+  traffic: Traffic;
+  traffic_prev: Traffic;
+  daily: { day: string; visitors: number; applications: number }[];
+  sources: { source: string; visitors: number; applications: number }[];
+  campaigns: {
+    id: number;
+    code: string;
+    name: string;
+    channel: string;
+    cost: string | null;
+    is_active: boolean;
+    clicks: number;
+    visitors: number;
+    applications: number;
+  }[];
+  devices: { key: string; visitors: number }[];
+  langs: { key: string; visitors: number }[];
+  landing: { path: string; sessions: number }[];
+  exits: { path: string; sessions: number }[];
+  top_listings: DashboardListing[];
+  unanswered_listings: DashboardListing[];
+  searches: Counted<"q">[];
+  misses: { q: string; lang: string; hits: number }[];
+  work: {
+    new: number;
+    in_progress: number;
+    stale: number;
+    period: number;
+    period_prev: number;
+    responses: number;
+    callbacks: number;
+    done: number;
+    rejected: number;
+  };
+  stale: { id: number; name: string; status: ApplicationStatus; updated_at: string }[];
+  by_category: Counted<"name">[];
+  by_city: Counted<"name">[];
+  listings: {
+    active: number;
+    active_no_salary: number;
+    expiring: number;
+    drafts: number;
+    active_no_uk: number;
+    active_no_ru: number;
+  };
+};
+
+export type LinkChannel =
+  | "blogger"
+  | "instagram"
+  | "tiktok"
+  | "facebook"
+  | "telegram"
+  | "youtube"
+  | "google"
+  | "partner"
+  | "other";
+
+export type TrackedLink = {
+  id: number;
+  code: string;
+  name: string;
+  channel: LinkChannel;
+  target_path: string;
+  cost: string | null;
+  notes: string | null;
+  /** false: closed, shown in the history tab */
+  is_active: boolean;
+  closed_at: string | null;
+  created_at: string;
+  clicks: number;
+  visitors: number;
+  applications: number;
+  last_click_at: string | null;
+};
+
+export type AdminApplicationDetail =AdminApplication & {
+  utm: Record<string, string>;
+  /** other applications from the same phone */
+  history: AdminApplication[];
+  notes: { id: number; text: string; created_at: string }[];
+  /** the conversation: site chat (the orange window) or the Telegram bot */
+  messages: AdminChatMessage[];
+  /** an application from the Telegram bot */
+  bot: BotInfo | null;
+  consent_at: string;
+  consent_version: string;
+  /** personal data erased (GDPR) */
+  anonymized_at: string | null;
+  /** applications of this person (same phone), this one included */
+  person_applications: number;
+};
+
+export type AdminStats = {
+  sections: number;
+  categories: number;
+  attributes: number;
+  comunidades: number;
+  provincias: number;
+  municipios: number;
+  localidades: number;
+  applications_new: number;
+  listings_active: number;
+};
+
+export type AdminAttribute = {
+  id: number;
+  key: string;
+  type: "bool" | "enum" | "multi_enum" | "int_range";
+  label: Localized;
+  options: { value: string; label: Localized }[];
+  filterable: boolean;
+  facet_order: number;
+  required: boolean;
+  seo_indexable: boolean;
+};
+
+export type AdminCategory = {
+  id: number;
+  parent_id: number | null;
+  slug: Localized;
+  name: Localized;
+  synonyms: Partial<Record<keyof Localized, string[]>>;
+  icon: string | null;
+  sort: number;
+  is_enabled: boolean;
+  attributes: AdminAttribute[];
+  children: AdminCategory[];
+};
+
+export type AdminSection = {
+  id: number;
+  key: string;
+  slug: Localized;
+  name: Localized;
+  is_enabled: boolean;
+  kind: "listings" | "services";
+  sort: number;
+  /** listing tags of the whole section (for students, documents, languages...) */
+  attributes: AdminAttribute[];
+  categories: AdminCategory[];
+};
+
+export type LocationLevel = "comunidad" | "provincia" | "municipio" | "localidad";
+
+export type AdminLocation = {
+  id: number;
+  level: LocationLevel;
+  slug: string;
+  ine_code: string;
+  names: Partial<Localized> & { es: string };
+  aliases: string[];
+  population: number | null;
+  lat: number | null;
+  lon: number | null;
+  parent_name: string | null;
+};

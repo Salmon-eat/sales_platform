@@ -1,0 +1,163 @@
+{
+  "status": {
+    "draft": "Draft",
+    "pending": "In review",
+    "active": "Active",
+    "paused": "Paused",
+    "expired": "Expired",
+    "closed": "Closed",
+    "rejected": "Rejected"
+  },
+  "period": {
+    "hour": "per hour",
+    "day": "per day",
+    "week": "per week",
+    "month": "per month"
+  },
+  "periodShort": {
+    "hour": "/h",
+    "day": "/day",
+    "week": "/wk",
+    "month": "/mo"
+  },
+  "schedule": {
+    "full": "Full-time",
+    "part": "Part-time",
+    "weekends": "Weekends",
+    "shifts": "Shifts"
+  },
+  "contract": {
+    "indefinido": "Permanent",
+    "temporal": "Temporary",
+    "fijo_discontinuo": "Permanent seasonal"
+  },
+  "source": {
+    "agency": "Agency",
+    "partner": "Partner",
+    "employer": "Employer"
+  },
+  "langLower": {
+    "es": "Spanish",
+    "en": "English",
+    "uk": "Ukrainian",
+    "ru": "Russian"
+  },
+  "actions": {
+    "publish": "Publish",
+    "pause": "Pause",
+    "resume": "Resume",
+    "extend": "Extend by 30 days",
+    "extendShort": "+30 days",
+    "close": "Close",
+    "delete": "Delete draft"
+  },
+  "list": {
+    "title": "Jobs",
+    "new": "New job",
+    "mine": "Mine",
+    "searchPlaceholder": "Title, company or No.",
+    "colListing": "Job",
+    "colCategory": "Category",
+    "colCity": "City",
+    "colSalary": "Salary",
+    "colStatus": "Status",
+    "colUntil": "Until",
+    "colAuthor": "Author",
+    "pinned": "pinned",
+    "spainWide": "All of Spain"
+  },
+  "edit": {
+    "breadcrumbNew": "New",
+    "created": "Job created.",
+    "readOnly": "This job was created by {email}. Only the author or an administrator can edit it.",
+    "publishedAt": "Published",
+    "expiresAt": "Valid until",
+    "closedAt": "Closed",
+    "author": "Author"
+  },
+  "form": {
+    "errCategory": "Choose a category",
+    "errLocation": "Choose a city or “All of Spain”",
+    "errText": "Fill in the job text in at least one language",
+    "errPublishEs": "Publishing requires the Spanish version: fill in the ES tab. A draft can be saved without it.",
+    "placeTitle": "Category and location",
+    "profession": "Profession",
+    "scopeLocal": "City / village",
+    "scopeSpain": "All of Spain / several cities",
+    "spainHint": "Shown in the results of any city after the local jobs (travelling work).",
+    "textTitle": "Job text — separately for each language",
+    "textHint": "The text has to be translated separately for each language.",
+    "tabFilled": "filled in",
+    "tabEmpty": "empty",
+    "copyFrom": "Copy the {from, select, es {Spanish} en {English} uk {Ukrainian} other {Russian}} text to rewrite it in {to, select, es {Spanish} en {English} uk {Ukrainian} other {Russian}}",
+    "fieldTitle": "Title · {lang}",
+    "fieldDescription": "Description · {lang}",
+    "fieldRequirements": "Requirements · {lang}",
+    "fieldConditions": "Conditions · {lang}",
+    "salaryTitle": "Salary and conditions",
+    "salaryFrom": "From, €",
+    "salaryTo": "To, €",
+    "salaryPeriod": "Period",
+    "salaryMonthly": "≈ {amount} per month — the “salary from” filter uses this amount",
+    "salaryWarn": "You can publish without a salary, but such jobs get noticeably fewer applications. The site will show “Salary not specified”.",
+    "housing": "Housing",
+    "noLanguage": "No language needed",
+    "noExperience": "No experience needed",
+    "schedule": "Schedule",
+    "contract": "Contract",
+    "tagsTitle": "Job tags",
+    "tagsHint": "They become filters on the site across the whole “Jobs” section.",
+    "hiringTitle": "Hiring",
+    "vacancies": "Number of places",
+    "startDate": "Start date",
+    "duration": "Duration, months (seasonal / temporary)",
+    "urgent": "Urgent (“Urgent” badge on the card)",
+    "attributesTitle": "Attributes: {category}",
+    "rangeFrom": "from",
+    "rangeTo": "to",
+    "sourceTitle": "Source and contacts",
+    "source": "Source",
+    "company": "Company",
+    "contactName": "Contact person",
+    "contactPhone": "Phone",
+    "contactWhatsapp": "WhatsApp",
+    "contactTelegram": "Telegram (@username)",
+    "contactEmail": "Email",
+    "pinned": "Pin to the top of the results",
+    "saving": "Saving…",
+    "saveDraft": "Save draft",
+    "saveAndPublish": "Save and publish"
+  },
+  "preview": {
+    "caption": "Card preview (as in the list on the site)",
+    "untitled": "Job title",
+    "noSalary": "Salary not specified",
+    "perPeriod": "{period, select, hour {per hour} day {per day} week {per week} other {per month}}",
+    "urgent": "Urgent",
+    "agency": "Bazarcito agency",
+    "company": "Company",
+    "city": "City",
+    "spainWide": "All of Spain",
+    "justNow": "just now",
+    "tagHousing": "housing",
+    "tagNoLanguage": "no language needed",
+    "tagNoExperience": "no experience needed",
+    "apply": "Apply",
+    "langs": "Languages:",
+    "needsEs": "ES is required to publish"
+  },
+  "category": {
+    "placeholder": "Start typing a profession: waiter, host, CE driver, programmer…",
+    "change": "Change category",
+    "noMatches": "Nothing found. Try another name or “Other”.",
+    "sector": "sector",
+    "sectionOff": "{section} (section disabled)"
+  },
+  "location": {
+    "placeholder": "Start typing: Madrid, Torrevieja, Covadonga…",
+    "change": "Change city",
+    "village": "village",
+    "villageMark": "(village)",
+    "municipality": "municipality"
+  }
+}

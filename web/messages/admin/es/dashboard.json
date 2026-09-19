@@ -1,0 +1,130 @@
+{
+  "period": {
+    "d1": "Hoy",
+    "d7": "7 días",
+    "d30": "30 días",
+    "d90": "90 días"
+  },
+  "insights": "Qué requiere atención",
+  "insight": {
+    "stale": "{count, plural, one {# solicitud lleva} other {# solicitudes llevan}} más de 48 h sin movimiento — la persona puede irse a la competencia",
+    "new": "{count, plural, one {# solicitud nueva espera} other {# solicitudes nuevas esperan}} una llamada",
+    "noResponses": "«{title}»: {views} visitas y ninguna solicitud — revise el salario, las condiciones y el texto",
+    "formDropoff": "El {percent} de las personas empezó el formulario y no lo envió — quizá es largo o poco claro",
+    "bounce": "El {percent} de los visitantes se va tras la primera página — vea las páginas de entrada abajo",
+    "noSalary": "{count, plural, one {# oferta activa} other {# ofertas activas}} sin salario — reciben bastantes menos candidaturas",
+    "noUk": "{count, plural, one {# oferta activa} other {# ofertas activas}} sin texto en ucraniano",
+    "noRu": "{count, plural, one {# oferta activa} other {# ofertas activas}} sin texto en ruso",
+    "expiring": "{count, plural, one {# oferta caduca} other {# ofertas caducan}} en 3 días — prorrogue si la selección sigue",
+    "searchMiss": "Buscan y no encuentran: «{q}» ({count, plural, one {# vez} other {# veces}}) — añada un sinónimo o una oferta",
+    "bestLink": "Mejor enlace: {name} — {count, plural, one {# solicitud} other {# solicitudes}}",
+    "bestSource": "Mejor conversión desde {source}: el {percent} de los visitantes envía una solicitud",
+    "mobile": "El {percent} de los visitantes usa el móvil — revise las ofertas y el formulario en el móvil"
+  },
+  "work": {
+    "title": "Gestión de solicitudes",
+    "new": "Nuevas",
+    "inProgress": "En curso",
+    "stale": "Sin movimiento 48 h",
+    "period": "Solicitudes del periodo",
+    "split": "candidaturas: {responses} · llamadas: {callbacks}",
+    "closed": "Cerradas / rechazadas",
+    "closedHint": "de las solicitudes del periodo",
+    "drafts": "borradores: {count}",
+    "hoursAgo": "{hours} h sin movimiento"
+  },
+  "traffic": {
+    "title": "Tráfico del sitio",
+    "visitors": "Visitantes",
+    "sessions": "Visitas",
+    "pageviews": "páginas vistas: {count}",
+    "avgTime": "Tiempo medio en el sitio",
+    "bounce": "Rebote",
+    "bounceHint": "se fueron tras una página",
+    "applications": "Solicitudes del sitio",
+    "conversion": "Conversión",
+    "conversionHint": "de las visitas terminaron en solicitud"
+  },
+  "chart": {
+    "title": "Por días",
+    "visitors": "Visitantes",
+    "applications": "Solicitudes"
+  },
+  "funnel": {
+    "title": "Dónde se pierde la gente",
+    "visits": "Entraron en el sitio",
+    "viewedJob": "Abrieron una oferta",
+    "opened": "Empezaron la solicitud",
+    "sent": "Enviaron la solicitud",
+    "lost": "−{percent} en este paso"
+  },
+  "sources": {
+    "title": "De dónde vienen",
+    "source": "Origen"
+  },
+  "col": {
+    "visitors": "Visitantes",
+    "applications": "Solicitudes",
+    "conversion": "Conversión",
+    "clicks": "Clics",
+    "perApplication": "Coste por solicitud",
+    "views": "Visitas"
+  },
+  "links": {
+    "title": "Enlaces publicitarios",
+    "all": "Todos →",
+    "empty": "Aún no hay enlaces.",
+    "create": "Crear un enlace para un bloguero",
+    "name": "Enlace"
+  },
+  "listings": {
+    "top": "Ofertas más vistas",
+    "listing": "Oferta",
+    "noSalary": "sin salario",
+    "unanswered": "Las ven, pero nadie se apunta",
+    "unansweredHint": "5+ visitas y ninguna solicitud en el periodo",
+    "allGood": "No hay ofertas así."
+  },
+  "demand": {
+    "categories": "Solicitudes por sector",
+    "cities": "Solicitudes por ciudad"
+  },
+  "search": {
+    "top": "Qué buscan",
+    "misses": "Buscaron y no encontraron",
+    "missesHint": "Pista de qué ofertas o sinónimos añadir"
+  },
+  "pages": {
+    "landing": "Páginas de entrada",
+    "landingHint": "Páginas donde empiezan las visitas",
+    "exits": "Dónde se van sin solicitud",
+    "exitsHint": "Última página de las visitas que terminaron sin solicitud"
+  },
+  "audience": {
+    "devices": "Dispositivos",
+    "langs": "Idioma del sitio"
+  },
+  "device": {
+    "mobile": "Móvil",
+    "desktop": "Ordenador",
+    "tablet": "Tableta"
+  },
+  "source": {
+    "google": "Google",
+    "bing": "Bing",
+    "yandex": "Yandex",
+    "duckduckgo": "DuckDuckGo",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "telegram": "Telegram",
+    "tiktok": "TikTok",
+    "youtube": "YouTube",
+    "whatsapp": "WhatsApp",
+    "viber": "Viber",
+    "direct": "Directo",
+    "blogger": "Blogueros",
+    "partner": "Socios",
+    "other": "Otros"
+  },
+  "empty": "Aún no hay datos de este periodo."
+}

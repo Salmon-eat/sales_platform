@@ -1,0 +1,292 @@
+{
+  "_comment": "Static page texts (content_blocks). Missing languages fall back to Spanish. Body: paragraphs separated by blank lines, '## ' = heading, '- ' = bullet. Agency services: service_<category es slug> with data.summary (catalog card) and data.points. The privacy policy must be reviewed by a lawyer.",
+  "blocks": {
+    "faq": {
+      "uk": {
+        "title": "Питання та відповіді",
+        "data": {
+          "items": [
+            {
+              "q": "Скільки коштує пошук роботи через Bazarcito?",
+              "a": "Для кандидатів — безкоштовно. Ми отримуємо оплату від роботодавців і партнерів."
+            },
+            {
+              "q": "Чи потрібна реєстрація, щоб відгукнутися?",
+              "a": "Ні. Залиште ім'я й телефон у формі — менеджер передзвонить. Вхід через Google чи Telegram лише зберігає обране та історію відгуків."
+            },
+            {
+              "q": "Чи можна знайти роботу без іспанської?",
+              "a": "Так. Скористайтеся фільтром «Без мови» — це вакансії, де мова не потрібна на старті."
+            },
+            {
+              "q": "Які документи потрібні для роботи в Іспанії?",
+              "a": "Здебільшого NIE/TIE та номер соціального страхування. Для водіїв — права CE і код 95. Допомагаємо з обміном прав і оформленням."
+            },
+            {
+              "q": "Що означає «Вся Іспанія» у вакансії?",
+              "a": "Робота в роз'їздах без прив'язки до одного міста, наприклад міжнародні або внутрішні рейси водіїв."
+            }
+          ]
+        }
+      },
+      "es": {
+        "title": "Preguntas frecuentes",
+        "data": {
+          "items": [
+            {
+              "q": "¿Cuánto cuesta buscar empleo en Bazarcito?",
+              "a": "Para los candidatos es gratis. Nos pagan las empresas y los colaboradores."
+            },
+            {
+              "q": "¿Necesito registrarme para inscribirme en una oferta?",
+              "a": "No. Deja tu nombre y teléfono en el formulario y un gestor te llamará. Entrar con Google o Telegram solo guarda tus favoritos e historial."
+            },
+            {
+              "q": "¿Puedo encontrar trabajo sin hablar español?",
+              "a": "Sí. Usa el filtro «Sin idioma»: son ofertas en las que no se exige el idioma al empezar."
+            },
+            {
+              "q": "¿Qué documentos necesito para trabajar en España?",
+              "a": "Normalmente NIE/TIE y número de la Seguridad Social. Para conductores, carnet CE y CAP. Ayudamos con el canje del permiso y los trámites."
+            },
+            {
+              "q": "¿Qué significa «Toda España» en una oferta?",
+              "a": "Trabajo en ruta sin una ciudad fija, por ejemplo rutas nacionales o internacionales de conductores."
+            }
+          ]
+        }
+      }
+    },
+    "contact": {
+      "uk": {
+        "title": "Контакти",
+        "body": "Пишіть нам у Telegram — це найшвидший спосіб. Менеджери відповідають щодня з 9:00 до 20:00 за мадридським часом.\n\nРоботодавцям: розмістити вакансію можна через форму «Розмістити оголошення» або в Telegram.",
+        "data": {
+          "telegram": "https://t.me/DalnoboySpainCE_bot",
+          "whatsapp": "+34 600 000 000",
+          "viber": "+34 600 000 000",
+          "email": "hola@bazarcito.example",
+          "phone": "+34 600 000 000",
+          "hours": "9:00–20:00"
+        }
+      },
+      "es": {
+        "title": "Contacto",
+        "body": "Escríbenos por Telegram: es la forma más rápida. Los gestores responden todos los días de 9:00 a 20:00 (hora de Madrid).\n\nEmpresas: podéis publicar una oferta con el formulario «Publicar oferta» o por Telegram.",
+        "data": {
+          "telegram": "https://t.me/DalnoboySpainCE_bot",
+          "whatsapp": "+34 600 000 000",
+          "viber": "+34 600 000 000",
+          "email": "hola@bazarcito.example",
+          "phone": "+34 600 000 000",
+          "hours": "9:00–20:00"
+        }
+      }
+    },
+    "privacy": {
+      "uk": {
+        "title": "Політика конфіденційності",
+        "body": "## Хто відповідає за ваші дані\n\nВідповідальний за обробку персональних даних: [EMPRESA], NIF [NIF], адреса: [DIRECCIÓN]. Питання щодо ваших даних надсилайте на [EMAIL].\n\n## Які дані ми збираємо\n\n- з форми заявки: ім'я, телефон, зручний спосіб зв'язку, сфера роботи й місто, чи ви вже в Іспанії, коментар;\n- з чату на сайті: ваші повідомлення, ім'я і, за бажанням, телефон;\n- якщо ви пишете нам у Telegram, WhatsApp чи Viber: ім'я або нік, номер телефону й листування;\n- від роботодавців: назва компанії, контактна особа, телефон, опис вакансії;\n- технічні дані: IP-адреса (для захисту від спаму), мова сайту, звідки ви прийшли (рекламне посилання, UTM-мітки);\n- анонімна статистика відвідувань: випадковий ідентифікатор браузера, переглянуті сторінки, час на сайті. Вона не містить імені, телефону чи IP-адреси.\n\n## Навіщо і на якій підставі\n\n- зв'язатися з вами й підібрати вакансію чи послугу — ваша згода, яку ви даєте у формі (ст. 6.1.a RGPD);\n- передати вашу кандидатуру роботодавцю — лише за вашою згодою, яку менеджер попросить окремо;\n- захист сайту від спаму й зловживань — наш законний інтерес (ст. 6.1.f RGPD);\n- анонімна статистика для покращення сайту — наш законний інтерес;\n- виконання вимог закону — юридичний обов'язок (ст. 6.1.c RGPD).\n\n## Чи обов'язково давати дані\n\nДля заявки потрібні ім'я й телефон, щоб менеджер міг з вами зв'язатися; без них заявку не буде оброблено. У чаті на сайті телефон необов'язковий — відповідь прийде у віконце чату. Решта полів необов'язкові.\n\n## Кому ми передаємо дані\n\n- роботодавцям — лише за вашою згодою і лише те, що потрібно для відбору;\n- постачальникам, які обробляють дані за нашим дорученням: хостинг [PROVEEDOR DE HOSTING] (сервери в ЄС);\n- месенджерам Telegram, WhatsApp (Meta) і Viber — якщо ви самі обираєте спілкування через них. Ці компанії можуть обробляти дані за межами ЄС на умовах власних політик і стандартних договірних положень ЄС;\n- державним органам — лише коли цього вимагає закон.\n\nМи не продаємо ваші дані.\n\n## Скільки ми зберігаємо дані\n\n- заявки й листування — до 24 місяців після останнього звернення, потім дані знеособлюються;\n- статистика відвідувань — до 13 місяців;\n- дані у вашому браузері (обране, збережені ім'я й телефон) — доки ви їх не видалите.\n\n## Ваші права\n\nВи можете будь-коли отримати доступ до своїх даних, виправити їх, видалити, обмежити обробку, заперечити проти неї, отримати дані у зручному форматі та відкликати згоду (це не впливає на законність обробки до відкликання). Напишіть на [EMAIL] — відповімо протягом місяця.\n\nЯкщо ви вважаєте, що ваші права порушено, можете подати скаргу до Іспанського агентства захисту даних (AEPD): www.aepd.es.\n\n## Неповнолітні\n\nСайт призначений для осіб від 16 років. Ми свідомо не збираємо дані молодших осіб.\n\n## Автоматизовані рішення\n\nМи не ухвалюємо щодо вас рішень автоматично й не складаємо профілів.\n\n## Cookies і дані в браузері\n\nДокладно — у розділі «Політика cookies».\n\n## Зміни політики\n\nРедакція від [FECHA]. Разом із кожною заявкою зберігається версія політики, з якою ви погодились."
+      },
+      "ru": {
+        "title": "Политика конфиденциальности",
+        "body": "## Кто отвечает за ваши данные\n\nОтветственный за обработку персональных данных: [EMPRESA], NIF [NIF], адрес: [DIRECCIÓN]. Вопросы о ваших данных отправляйте на [EMAIL].\n\n## Какие данные мы собираем\n\n- из формы заявки: имя, телефон, удобный способ связи, сфера работы и город, находитесь ли вы уже в Испании, комментарий;\n- из чата на сайте: ваши сообщения, имя и, по желанию, телефон;\n- если вы пишете нам в Telegram, WhatsApp или Viber: имя или ник, номер телефона и переписку;\n- от работодателей: название компании, контактное лицо, телефон, описание вакансии;\n- технические данные: IP-адрес (для защиты от спама), язык сайта, откуда вы пришли (рекламная ссылка, UTM-метки);\n- анонимная статистика посещений: случайный идентификатор браузера, просмотренные страницы, время на сайте. Она не содержит имени, телефона или IP-адреса.\n\n## Зачем и на каком основании\n\n- связаться с вами и подобрать вакансию или услугу — ваше согласие, которое вы даёте в форме (ст. 6.1.a RGPD);\n- передать вашу кандидатуру работодателю — только с вашего согласия, которое менеджер попросит отдельно;\n- защита сайта от спама и злоупотреблений — наш законный интерес (ст. 6.1.f RGPD);\n- анонимная статистика для улучшения сайта — наш законный интерес;\n- выполнение требований закона — юридическая обязанность (ст. 6.1.c RGPD).\n\n## Обязательно ли давать данные\n\nДля заявки нужны имя и телефон, чтобы менеджер мог с вами связаться; без них заявка не будет обработана. В чате на сайте телефон необязателен — ответ придёт в окошко чата. Остальные поля необязательны.\n\n## Кому мы передаём данные\n\n- работодателям — только с вашего согласия и только то, что нужно для отбора;\n- поставщикам, которые обрабатывают данные по нашему поручению: хостинг [PROVEEDOR DE HOSTING] (серверы в ЕС);\n- мессенджерам Telegram, WhatsApp (Meta) и Viber — если вы сами выбираете общение через них. Эти компании могут обрабатывать данные за пределами ЕС на условиях собственных политик и стандартных договорных положений ЕС;\n- государственным органам — только когда этого требует закон.\n\nМы не продаём ваши данные.\n\n## Сколько мы храним данные\n\n- заявки и переписку — до 24 месяцев после последнего обращения, затем данные обезличиваются;\n- статистику посещений — до 13 месяцев;\n- данные в вашем браузере (избранное, сохранённые имя и телефон) — пока вы их не удалите.\n\n## Ваши права\n\nВы можете в любой момент получить доступ к своим данным, исправить их, удалить, ограничить обработку, возразить против неё, получить данные в удобном формате и отозвать согласие (это не влияет на законность обработки до отзыва). Напишите на [EMAIL] — ответим в течение месяца.\n\nЕсли вы считаете, что ваши права нарушены, можете подать жалобу в Испанское агентство по защите данных (AEPD): www.aepd.es.\n\n## Несовершеннолетние\n\nСайт предназначен для лиц от 16 лет. Мы сознательно не собираем данные младших.\n\n## Автоматизированные решения\n\nМы не принимаем решений о вас автоматически и не составляем профилей.\n\n## Cookies и данные в браузере\n\nПодробно — в разделе «Политика cookies».\n\n## Изменения политики\n\nРедакция от [FECHA]. Вместе с каждой заявкой сохраняется версия политики, с которой вы согласились."
+      },
+      "en": {
+        "title": "Privacy policy",
+        "body": "## Who is responsible for your data\n\nData controller: [EMPRESA], NIF [NIF], address: [DIRECCIÓN]. Send questions about your data to [EMAIL].\n\n## What data we collect\n\n- from the request form: name, phone, preferred way of contact, field of work and city, whether you are already in Spain, comment;\n- from the site chat: your messages, your name and, if you wish, your phone;\n- if you write to us on Telegram, WhatsApp or Viber: your name or username, phone number and the conversation;\n- from employers: company name, contact person, phone, job description;\n- technical data: IP address (spam protection), site language, where you came from (ad link, UTM tags);\n- anonymous visit statistics: a random browser identifier, pages viewed, time on the site. They contain no name, phone or IP address.\n\n## Why and on what legal basis\n\n- to contact you and find a job or service for you — your consent given in the form (art. 6.1.a GDPR);\n- to pass your application to an employer — only with your consent, which the manager will ask for separately;\n- to protect the site from spam and abuse — our legitimate interest (art. 6.1.f GDPR);\n- anonymous statistics to improve the site — our legitimate interest;\n- to comply with the law — legal obligation (art. 6.1.c GDPR).\n\n## Do you have to give us data\n\nA request needs your name and phone so a manager can contact you; without them it cannot be handled. In the site chat the phone is optional — the reply comes to the chat window. Other fields are optional.\n\n## Who we share data with\n\n- employers — only with your consent and only what is needed for the selection;\n- providers processing data on our behalf: hosting [PROVEEDOR DE HOSTING] (servers in the EU);\n- Telegram, WhatsApp (Meta) and Viber — if you choose to talk to us there. These companies may process data outside the EU under their own policies and the EU standard contractual clauses;\n- public authorities — only when required by law.\n\nWe do not sell your data.\n\n## How long we keep data\n\n- requests and conversations — up to 24 months after your last contact, then the data is anonymised;\n- visit statistics — up to 13 months;\n- data in your browser (saved jobs, saved name and phone) — until you delete it.\n\n## Your rights\n\nYou can at any time access your data, correct it, delete it, restrict or object to its processing, receive it in a portable format and withdraw your consent (this does not affect processing before the withdrawal). Write to [EMAIL] — we reply within one month.\n\nIf you believe your rights have been violated, you can complain to the Spanish Data Protection Agency (AEPD): www.aepd.es.\n\n## Minors\n\nThe site is intended for people aged 16 and over. We do not knowingly collect data of younger people.\n\n## Automated decisions\n\nWe do not make automated decisions about you or build profiles.\n\n## Cookies and browser data\n\nSee the \"Cookie policy\" page.\n\n## Changes\n\nVersion of [FECHA]. Each request is stored together with the policy version you agreed to."
+      },
+      "es": {
+        "title": "Política de privacidad",
+        "body": "## Responsable del tratamiento\n\nResponsable: [EMPRESA], NIF [NIF], domicilio: [DIRECCIÓN]. Para cualquier cuestión sobre tus datos escribe a [EMAIL].\n\n## Qué datos tratamos\n\n- del formulario de solicitud: nombre, teléfono, forma de contacto preferida, sector y ciudad, si ya estás en España, comentario;\n- del chat de la web: tus mensajes, tu nombre y, si quieres, tu teléfono;\n- si nos escribes por Telegram, WhatsApp o Viber: tu nombre o alias, número de teléfono y la conversación;\n- de las empresas: nombre de la empresa, persona de contacto, teléfono, descripción de la oferta;\n- datos técnicos: dirección IP (protección contra spam), idioma del sitio, de dónde llegas (enlace publicitario, etiquetas UTM);\n- estadística anónima de visitas: un identificador aleatorio del navegador, páginas vistas y tiempo en el sitio. No incluye nombre, teléfono ni IP.\n\n## Finalidad y base jurídica\n\n- contactarte y buscarte una oferta o servicio — tu consentimiento en el formulario (art. 6.1.a RGPD);\n- enviar tu candidatura a una empresa — solo con tu consentimiento, que el gestor te pedirá aparte;\n- proteger el sitio contra spam y abusos — interés legítimo (art. 6.1.f RGPD);\n- estadística anónima para mejorar el sitio — interés legítimo;\n- cumplir obligaciones legales — obligación legal (art. 6.1.c RGPD).\n\n## ¿Es obligatorio facilitar los datos?\n\nPara una solicitud necesitamos tu nombre y teléfono, para que un gestor pueda contactarte; sin ellos no podemos atenderla. En el chat de la web el teléfono es opcional: la respuesta llegará a la ventana del chat. El resto de campos son opcionales.\n\n## Destinatarios\n\n- empresas — solo con tu consentimiento y solo los datos necesarios para la selección;\n- encargados del tratamiento que actúan por nuestra cuenta: alojamiento [PROVEEDOR DE HOSTING] (servidores en la UE);\n- Telegram, WhatsApp (Meta) y Viber — si eliges hablar con nosotros por ellos. Estas empresas pueden tratar datos fuera de la UE según sus propias políticas y las cláusulas contractuales tipo de la UE;\n- autoridades públicas — solo cuando lo exija la ley.\n\nNo vendemos tus datos.\n\n## Plazo de conservación\n\n- solicitudes y conversaciones — hasta 24 meses desde el último contacto; después se anonimizan;\n- estadística de visitas — hasta 13 meses;\n- datos en tu navegador (ofertas guardadas, nombre y teléfono guardados) — hasta que los borres.\n\n## Tus derechos\n\nPuedes en cualquier momento acceder a tus datos, rectificarlos, suprimirlos, limitar u oponerte a su tratamiento, solicitar su portabilidad y retirar tu consentimiento (sin que afecte a la licitud del tratamiento anterior). Escríbenos a [EMAIL]; respondemos en el plazo de un mes.\n\nSi consideras que no hemos atendido tus derechos, puedes reclamar ante la Agencia Española de Protección de Datos (AEPD): www.aepd.es.\n\n## Menores\n\nEl sitio está dirigido a personas de 16 años o más. No recogemos conscientemente datos de menores de esa edad.\n\n## Decisiones automatizadas\n\nNo tomamos decisiones automatizadas ni elaboramos perfiles.\n\n## Cookies y datos en el navegador\n\nConsulta la «Política de cookies».\n\n## Cambios\n\nVersión de [FECHA]. Cada solicitud se guarda junto con la versión de la política que aceptaste."
+      }
+    },
+    "publish": {
+      "uk": {
+        "title": "Розмістити вакансію",
+        "body": "Розкажіть про вакансію — менеджер уточнить деталі й опублікує оголошення чотирма мовами. Для роботодавців в Іспанії розміщення безкоштовне на старті платформи."
+      },
+      "es": {
+        "title": "Publicar oferta",
+        "body": "Cuéntanos la oferta: un gestor aclarará los detalles y la publicará en cuatro idiomas. Para empresas en España la publicación es gratuita durante el lanzamiento."
+      }
+    },
+    "service_cap-95": {
+      "uk": {
+        "title": "Курси коду 95 (CAP)",
+        "body": "Код 95 обов'язковий для водіїв C і CE в ЄС. Допомагаємо пройти короткий (35 год) або довгий (140 год) курс і отримати картку, яку визнають в Іспанії.",
+        "data": {
+          "points": [
+            "Короткий курс для продовження — 35 годин",
+            "Початкова кваліфікація — 140 годин",
+            "Навчання в Литві з груповими виїздами",
+            "Після курсу — працевлаштування в партнерів"
+          ],
+          "summary": "Короткий і довгий курс, картка, яку визнають в Іспанії."
+        }
+      },
+      "es": {
+        "title": "Cursos CAP (código 95)",
+        "body": "El CAP es obligatorio para conductores C y CE en la UE. Te ayudamos a hacer el curso de formación continua (35 h) o la cualificación inicial (140 h) y obtener la tarjeta válida en España.",
+        "data": {
+          "points": [
+            "Formación continua — 35 horas",
+            "Cualificación inicial — 140 horas",
+            "Formación en Lituania con salidas en grupo",
+            "Después del curso — empleo con nuestros colaboradores"
+          ],
+          "summary": "Formación continua e inicial, tarjeta válida en España."
+        }
+      }
+    },
+    "service_canje-permiso": {
+      "uk": {
+        "title": "Обмін водійських прав на іспанські",
+        "body": "Українські права категорій B, C і CE можна обміняти на іспанські без іспитів. Готуємо документи, записуємо в DGT і супроводжуємо до отримання посвідчення.",
+        "data": {
+          "points": [
+            "Консультація і перевірка документів — безкоштовно",
+            "Запис у DGT (cita previa)",
+            "Присяжний переклад і медична довідка",
+            "Код 95 на іспанських правах"
+          ],
+          "summary": "Права B, C і CE на іспанські без іспитів."
+        }
+      },
+      "es": {
+        "title": "Canje del permiso de conducir",
+        "body": "Los permisos ucranianos B, C y CE se pueden canjear por el español sin examen. Preparamos los documentos, pedimos cita en la DGT y te acompañamos hasta tener el permiso.",
+        "data": {
+          "points": [
+            "Consulta y revisión de documentos gratis",
+            "Cita previa en la DGT",
+            "Traducción jurada y certificado médico",
+            "Código 95 en el permiso español"
+          ],
+          "summary": "Permisos B, C y CE por el español sin examen."
+        }
+      }
+    },
+    "service_nie-tie": {
+      "uk": {
+        "title": "NIE і TIE",
+        "body": "Допомагаємо отримати NIE (номер іноземця) і TIE (картку резидента), зокрема з тимчасовим захистом. Записуємо на прийом, готуємо анкети й пояснюємо, які документи взяти.",
+        "data": {
+          "summary": "Номер іноземця й картка резидента, запис на прийом.",
+          "points": [
+            "Запис на прийом (cita previa) у поліцію",
+            "Заповнення анкет EX і сплата мита",
+            "Тимчасовий захист: перше оформлення і продовження",
+            "Супровід на прийомі за потреби"
+          ]
+        }
+      },
+      "es": {
+        "title": "NIE y TIE",
+        "body": "Te ayudamos a obtener el NIE y la TIE, también con protección temporal. Pedimos la cita, preparamos los formularios y te explicamos qué documentos llevar.",
+        "data": {
+          "summary": "Número de extranjero y tarjeta de residente, cita previa.",
+          "points": [
+            "Cita previa en la policía",
+            "Formularios EX y pago de tasas",
+            "Protección temporal: primera solicitud y renovación",
+            "Acompañamiento a la cita si hace falta"
+          ]
+        }
+      }
+    },
+    "service_empadronamiento": {
+      "uk": {
+        "title": "Реєстрація за адресою (падрон)",
+        "body": "Падрон потрібен для медичної картки, школи, банку й більшості документів. Підкажемо, як зареєструватися в мерії, і допоможемо з документами на житло.",
+        "data": {
+          "summary": "Реєстрація в мерії для медицини, школи й документів.",
+          "points": [
+            "Які документи потрібні для вашої мерії",
+            "Запис на прийом",
+            "Допомога, якщо немає договору оренди",
+            "Довідка (volante) про падрон"
+          ]
+        }
+      },
+      "es": {
+        "title": "Empadronamiento",
+        "body": "El padrón es necesario para la tarjeta sanitaria, el colegio, el banco y la mayoría de trámites. Te indicamos cómo empadronarte en tu ayuntamiento y te ayudamos con la documentación de la vivienda.",
+        "data": {
+          "summary": "Alta en el ayuntamiento para sanidad, colegio y trámites.",
+          "points": [
+            "Qué documentos pide tu ayuntamiento",
+            "Cita previa",
+            "Ayuda si no tienes contrato de alquiler",
+            "Volante de empadronamiento"
+          ]
+        }
+      }
+    },
+    "service_carnet-c-ce": {
+      "uk": {
+        "title": "Права категорій C і CE",
+        "body": "Навчання на категорії C і CE в іспанській автошколі: теорія, практика й іспит у DGT. Після навчання допомагаємо з кодом 95 і працевлаштуванням водієм.",
+        "data": {
+          "summary": "Автошкола, іспит у DGT і працевлаштування водієм.",
+          "points": [
+            "Теорія українською або російською з перекладачем",
+            "Практика на вантажівці й автопоїзді",
+            "Запис на іспит у DGT",
+            "Робота водієм у партнерів після навчання"
+          ]
+        }
+      },
+      "es": {
+        "title": "Carné C y C+E",
+        "body": "Formación para los permisos C y C+E en una autoescuela española: teórica, práctica y examen en la DGT. Después te ayudamos con el CAP y con trabajo como conductor.",
+        "data": {
+          "summary": "Autoescuela, examen en la DGT y trabajo como conductor.",
+          "points": [
+            "Teórica con apoyo en ucraniano o ruso",
+            "Prácticas en camión y tráiler",
+            "Cita para el examen en la DGT",
+            "Trabajo como conductor con nuestros colaboradores"
+          ]
+        }
+      }
+    },
+    "legal": {
+      "uk": {
+        "title": "Правова інформація",
+        "body": "## Власник сайту\n\nВідповідно до ст. 10 Закону 34/2002 (LSSI-CE):\n\n- компанія: [EMPRESA];\n- NIF: [NIF];\n- адреса: [DIRECCIÓN];\n- email: [EMAIL];\n- телефон: [TELÉFONO];\n- реєстраційні дані: [DATOS REGISTRALES];\n- агенція з працевлаштування, номер: [Nº AGENCIA DE COLOCACIÓN].\n\n## Призначення сайту\n\nBazarcito — платформа вакансій і послуг агенції для людей, які шукають роботу в Іспанії. Для кандидатів сайт і послуги з підбору роботи безкоштовні.\n\n## Умови користування\n\nКористуючись сайтом, ви погоджуєтесь не використовувати його з незаконною метою, не вводити неправдиві дані й не заважати його роботі. Інформацію про вакансії надають роботодавці; ми перевіряємо її, але не можемо гарантувати, що умови не зміняться.\n\n## Інтелектуальна власність\n\nТексти, дизайн, логотип та ілюстрації сайту належать [EMPRESA] або використовуються з дозволу власників. Копіювати їх без дозволу заборонено.\n\n## Відповідальність\n\nМи докладаємо зусиль, щоб сайт працював без перерв і помилок, але не відповідаємо за тимчасову недоступність чи зміст сайтів, на які ведуть посилання.\n\n## Застосовне право\n\nВідносини з користувачами регулюються законодавством Іспанії."
+      },
+      "ru": {
+        "title": "Правовая информация",
+        "body": "## Владелец сайта\n\nВ соответствии со ст. 10 Закона 34/2002 (LSSI-CE):\n\n- компания: [EMPRESA];\n- NIF: [NIF];\n- адрес: [DIRECCIÓN];\n- email: [EMAIL];\n- телефон: [TELÉFONO];\n- регистрационные данные: [DATOS REGISTRALES];\n- агентство по трудоустройству, номер: [Nº AGENCIA DE COLOCACIÓN].\n\n## Назначение сайта\n\nBazarcito — платформа вакансий и услуг агентства для людей, которые ищут работу в Испании. Для кандидатов сайт и услуги по подбору работы бесплатны.\n\n## Условия использования\n\nПользуясь сайтом, вы соглашаетесь не использовать его в незаконных целях, не вводить ложные данные и не мешать его работе. Информацию о вакансиях предоставляют работодатели; мы её проверяем, но не можем гарантировать, что условия не изменятся.\n\n## Интеллектуальная собственность\n\nТексты, дизайн, логотип и иллюстрации сайта принадлежат [EMPRESA] или используются с разрешения владельцев. Копировать их без разрешения запрещено.\n\n## Ответственность\n\nМы стараемся, чтобы сайт работал без перерывов и ошибок, но не отвечаем за временную недоступность или содержание сайтов, на которые ведут ссылки.\n\n## Применимое право\n\nОтношения с пользователями регулируются законодательством Испании."
+      },
+      "en": {
+        "title": "Legal notice",
+        "body": "## Site owner\n\nIn accordance with art. 10 of Law 34/2002 (LSSI-CE):\n\n- company: [EMPRESA];\n- NIF: [NIF];\n- address: [DIRECCIÓN];\n- email: [EMAIL];\n- phone: [TELÉFONO];\n- registration details: [DATOS REGISTRALES];\n- employment agency number: [Nº AGENCIA DE COLOCACIÓN].\n\n## Purpose of the site\n\nBazarcito is a platform of jobs and agency services for people looking for work in Spain. The site and job-finding services are free for candidates.\n\n## Terms of use\n\nBy using the site you agree not to use it for unlawful purposes, not to enter false data and not to disrupt its operation. Job information is provided by employers; we check it but cannot guarantee that conditions will not change.\n\n## Intellectual property\n\nThe texts, design, logo and illustrations belong to [EMPRESA] or are used with their owners' permission. Copying them without permission is not allowed.\n\n## Liability\n\nWe do our best to keep the site running without interruptions or errors, but we are not liable for temporary unavailability or for the content of linked sites.\n\n## Applicable law\n\nRelations with users are governed by Spanish law."
+      },
+      "es": {
+        "title": "Aviso legal",
+        "body": "## Titular del sitio\n\nEn cumplimiento del art. 10 de la Ley 34/2002 (LSSI-CE):\n\n- titular: [EMPRESA];\n- NIF: [NIF];\n- domicilio: [DIRECCIÓN];\n- email: [EMAIL];\n- teléfono: [TELÉFONO];\n- datos registrales: [DATOS REGISTRALES];\n- agencia de colocación nº: [Nº AGENCIA DE COLOCACIÓN].\n\n## Objeto\n\nBazarcito es una plataforma de ofertas de empleo y servicios de agencia para personas que buscan trabajo en España. El sitio y los servicios de búsqueda de empleo son gratuitos para los candidatos.\n\n## Condiciones de uso\n\nAl usar el sitio te comprometes a no utilizarlo con fines ilícitos, no introducir datos falsos y no perjudicar su funcionamiento. La información de las ofertas la facilitan las empresas; la revisamos, pero no podemos garantizar que las condiciones no cambien.\n\n## Propiedad intelectual\n\nLos textos, el diseño, el logotipo y las ilustraciones pertenecen a [EMPRESA] o se usan con autorización de sus titulares. No está permitida su reproducción sin permiso.\n\n## Responsabilidad\n\nProcuramos que el sitio funcione sin interrupciones ni errores, pero no respondemos de su falta de disponibilidad temporal ni del contenido de sitios enlazados.\n\n## Legislación aplicable\n\nLas relaciones con los usuarios se rigen por la legislación española."
+      }
+    },
+    "cookies": {
+      "uk": {
+        "title": "Політика cookies",
+        "body": "## Що це\n\nCookies і сховище браузера — невеликі записи, які сайт зберігає на вашому пристрої, щоб пам'ятати налаштування.\n\n## Що використовує Bazarcito\n\n- NEXT_LOCALE (cookie) — пам'ятає мову сайту; 1 рік; технічна;\n- bz_v, bz_s, bz_attr (сховище браузера) — анонімна статистика відвідувань і те, з якого посилання ви прийшли; до 30 днів для джерела переходу;\n- bazarcito:favorites, bazarcito:applied (сховище браузера) — обрані вакансії й позначки «відгук надіслано»; доки ви їх не видалите;\n- bazarcito:contact (сховище браузера) — ваші ім'я й телефон, щоб наступну заявку подати в один клік; кнопка «Це не я» у формі видаляє їх.\n- bazarcito:chat, bazarcito:chat-seen (сховище браузера) — ваша розмова з менеджером у чаті на сайті, щоб відповіді приходили саме вам; доки ви їх не видалите.\n\nМи не використовуємо рекламні cookies сторонніх компаній і не передаємо статистику Google чи іншим сервісам аналітики.\n\n## Як керувати\n\nВи можете видалити cookies і дані сайту в налаштуваннях браузера. Сайт продовжить працювати, але забуде мову, обране й збережені дані."
+      },
+      "ru": {
+        "title": "Политика cookies",
+        "body": "## Что это\n\nCookies и хранилище браузера — небольшие записи, которые сайт сохраняет на вашем устройстве, чтобы помнить настройки.\n\n## Что использует Bazarcito\n\n- NEXT_LOCALE (cookie) — помнит язык сайта; 1 год; техническая;\n- bz_v, bz_s, bz_attr (хранилище браузера) — анонимная статистика посещений и то, по какой ссылке вы пришли; до 30 дней для источника перехода;\n- bazarcito:favorites, bazarcito:applied (хранилище браузера) — избранные вакансии и отметки «отклик отправлен»; пока вы их не удалите;\n- bazarcito:contact (хранилище браузера) — ваши имя и телефон, чтобы следующую заявку отправить в один клик; кнопка «Это не я» в форме удаляет их.\n- bazarcito:chat, bazarcito:chat-seen (хранилище браузера) — ваша переписка с менеджером в чате на сайте, чтобы ответы приходили именно вам; пока вы их не удалите.\n\nМы не используем рекламные cookies сторонних компаний и не передаём статистику Google или другим сервисам аналитики.\n\n## Как управлять\n\nВы можете удалить cookies и данные сайта в настройках браузера. Сайт продолжит работать, но забудет язык, избранное и сохранённые данные."
+      },
+      "en": {
+        "title": "Cookie policy",
+        "body": "## What they are\n\nCookies and browser storage are small records the site keeps on your device to remember settings.\n\n## What Bazarcito uses\n\n- NEXT_LOCALE (cookie) — remembers the site language; 1 year; technical;\n- bz_v, bz_s, bz_attr (browser storage) — anonymous visit statistics and which link you came from; up to 30 days for the traffic source;\n- bazarcito:favorites, bazarcito:applied (browser storage) — saved jobs and \"applied\" marks; until you delete them;\n- bazarcito:contact (browser storage) — your name and phone so the next request takes one click; the \"Not me\" button in the form deletes them.\n- bazarcito:chat, bazarcito:chat-seen (browser storage) — your conversation with a manager in the site chat, so the replies reach you; until you delete them.\n\nWe do not use third-party advertising cookies and do not share statistics with Google or other analytics services.\n\n## How to manage them\n\nYou can delete cookies and site data in your browser settings. The site keeps working but forgets the language, saved jobs and saved details."
+      },
+      "es": {
+        "title": "Política de cookies",
+        "body": "## Qué son\n\nLas cookies y el almacenamiento del navegador son pequeños registros que el sitio guarda en tu dispositivo para recordar ajustes.\n\n## Qué usa Bazarcito\n\n- NEXT_LOCALE (cookie) — recuerda el idioma del sitio; 1 año; técnica;\n- bz_v, bz_s, bz_attr (almacenamiento del navegador) — estadística anónima de visitas y el enlace por el que llegaste; hasta 30 días para el origen;\n- bazarcito:favorites, bazarcito:applied (almacenamiento del navegador) — ofertas guardadas y marcas de «solicitud enviada»; hasta que las borres;\n- bazarcito:contact (almacenamiento del navegador) — tu nombre y teléfono para enviar la siguiente solicitud en un clic; el botón «No soy yo» del formulario los borra.\n- bazarcito:chat, bazarcito:chat-seen (almacenamiento del navegador) — tu conversación con un gestor en el chat de la web, para que las respuestas te lleguen a ti; hasta que las borres.\n\nNo usamos cookies publicitarias de terceros ni compartimos la estadística con Google u otros servicios de analítica.\n\n## Cómo gestionarlas\n\nPuedes borrar las cookies y los datos del sitio en los ajustes del navegador. El sitio seguirá funcionando, pero olvidará el idioma, las ofertas guardadas y los datos guardados."
+      }
+    }
+  },
+  "_legal": "privacy / legal / cookies are drafts for a Spanish lawyer's review. Replace every [BRACKET]: EMPRESA, NIF, DIRECCIÓN, EMAIL, TELÉFONO, DATOS REGISTRALES, Nº AGENCIA DE COLOCACIÓN, PROVEEDOR DE HOSTING, FECHA."
+}

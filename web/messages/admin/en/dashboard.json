@@ -1,0 +1,130 @@
+{
+  "period": {
+    "d1": "Today",
+    "d7": "7 days",
+    "d30": "30 days",
+    "d90": "90 days"
+  },
+  "insights": "What needs attention",
+  "insight": {
+    "stale": "{count, plural, one {# request has} other {# requests have}} had no activity for over 48 h — the person may go to a competitor",
+    "new": "{count, plural, one {# new request is} other {# new requests are}} waiting for a call",
+    "noResponses": "“{title}”: {views} views and no requests — check the salary, conditions and text",
+    "formDropoff": "{percent} of people started the request form and did not send it — the form may be too long or unclear",
+    "bounce": "{percent} of visitors leave after the first page — see the entry pages below",
+    "noSalary": "{count, plural, one {# active job has} other {# active jobs have}} no salary — such jobs get noticeably fewer responses",
+    "noUk": "{count, plural, one {# active job has} other {# active jobs have}} no Ukrainian text",
+    "noRu": "{count, plural, one {# active job has} other {# active jobs have}} no Russian text",
+    "expiring": "{count, plural, one {# job expires} other {# jobs expire}} within 3 days — extend if hiring continues",
+    "searchMiss": "Searched but not found: “{q}” ({count, plural, one {# time} other {# times}}) — add a synonym or a job",
+    "bestLink": "Best link: {name} — {count, plural, one {# request} other {# requests}}",
+    "bestSource": "Best conversion from {source}: {percent} of visitors send a request",
+    "mobile": "{percent} of visitors are on a phone — check jobs and the form on mobile first"
+  },
+  "work": {
+    "title": "Request handling",
+    "new": "New",
+    "inProgress": "In progress",
+    "stale": "No activity 48 h",
+    "period": "Requests in period",
+    "split": "job responses: {responses} · callbacks: {callbacks}",
+    "closed": "Closed / rejected",
+    "closedHint": "of the requests in the period",
+    "drafts": "drafts: {count}",
+    "hoursAgo": "{hours} h without activity"
+  },
+  "traffic": {
+    "title": "Site traffic",
+    "visitors": "Visitors",
+    "sessions": "Visits",
+    "pageviews": "page views: {count}",
+    "avgTime": "Average time on site",
+    "bounce": "Bounce rate",
+    "bounceHint": "left after one page",
+    "applications": "Requests from the site",
+    "conversion": "Conversion",
+    "conversionHint": "of visits ended with a request"
+  },
+  "chart": {
+    "title": "By day",
+    "visitors": "Visitors",
+    "applications": "Requests"
+  },
+  "funnel": {
+    "title": "Where people drop off",
+    "visits": "Visited the site",
+    "viewedJob": "Opened a job",
+    "opened": "Started a request",
+    "sent": "Sent a request",
+    "lost": "−{percent} at this step"
+  },
+  "sources": {
+    "title": "Where visitors come from",
+    "source": "Source"
+  },
+  "col": {
+    "visitors": "Visitors",
+    "applications": "Requests",
+    "conversion": "Conversion",
+    "clicks": "Clicks",
+    "perApplication": "Cost per request",
+    "views": "Views"
+  },
+  "links": {
+    "title": "Ad links",
+    "all": "All →",
+    "empty": "No links yet.",
+    "create": "Create a link for a blogger",
+    "name": "Link"
+  },
+  "listings": {
+    "top": "Most viewed jobs",
+    "listing": "Job",
+    "noSalary": "no salary",
+    "unanswered": "Viewed but no responses",
+    "unansweredHint": "5+ views and no requests in the period",
+    "allGood": "No such jobs."
+  },
+  "demand": {
+    "categories": "Requests by field",
+    "cities": "Requests by city"
+  },
+  "search": {
+    "top": "What people search for",
+    "misses": "Searched but not found",
+    "missesHint": "A hint which jobs or synonyms to add"
+  },
+  "pages": {
+    "landing": "Entry pages",
+    "landingHint": "Pages where visits start",
+    "exits": "Where people leave without a request",
+    "exitsHint": "Last page of visits that ended without a request"
+  },
+  "audience": {
+    "devices": "Devices",
+    "langs": "Site language"
+  },
+  "device": {
+    "mobile": "Phone",
+    "desktop": "Computer",
+    "tablet": "Tablet"
+  },
+  "source": {
+    "google": "Google",
+    "bing": "Bing",
+    "yandex": "Yandex",
+    "duckduckgo": "DuckDuckGo",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "telegram": "Telegram",
+    "tiktok": "TikTok",
+    "youtube": "YouTube",
+    "whatsapp": "WhatsApp",
+    "viber": "Viber",
+    "direct": "Direct",
+    "blogger": "Bloggers",
+    "partner": "Partners",
+    "other": "Other"
+  },
+  "empty": "No data for this period yet."
+}

@@ -1,0 +1,94 @@
+{
+  "title": "Applications",
+  "intro": "Applications from the site: job responses, “get a call from a manager” requests, chat messages. Click a name to open the card.",
+  "empty": "No applications yet.",
+  "status": {
+    "new": "New",
+    "inProgress": "In progress",
+    "done": "Closed",
+    "rejected": "Rejected"
+  },
+  "messenger": {
+    "phone": "Phone call",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp",
+    "viber": "Viber"
+  },
+  "table": {
+    "date": "Date",
+    "candidate": "Candidate",
+    "contact": "Contact",
+    "inSpain": "In Spain",
+    "comment": "Comment",
+    "status": "Status",
+    "request": "Request",
+    "sector": "Sector",
+    "city": "City"
+  },
+  "row": {
+    "repeats": "{count, plural, one {# repeat request} other {# repeat requests}}",
+    "anyCategory": "any",
+    "noCity": "city not specified",
+    "unread": "{count, plural, one {# new message} other {# new messages}}",
+    "noPhone": "no phone"
+  },
+  "kind": {
+    "response": "Job response",
+    "callback": "Callback request",
+    "message": "Message from the site",
+    "telegram": "Telegram bot application"
+  },
+  "detail": {
+    "request": "Request",
+    "contact": "Contact",
+    "phone": "Phone",
+    "siteLang": "Site language",
+    "utm": "Ad source",
+    "notes": "Repeat requests",
+    "history": "Other requests from this number",
+    "noHistory": "No other requests.",
+    "lang": "Language"
+  },
+  "stale": "No activity 48 h",
+  "staleMark": "no activity",
+  "chat": {
+    "title": "Site chat",
+    "hint": "The person sees the reply in the chat window on the site, even without a phone.",
+    "manager": "Manager",
+    "placeholder": "Reply…",
+    "send": "Send",
+    "titleBot": "Telegram conversation",
+    "hintBot": "The reply goes to the person in Telegram from the bot, with a copy in their topic in the managers' group.",
+    "note": "Team note",
+    "attachment": "Attachment: {type}",
+    "delivery": {
+      "pending": "sending…",
+      "delivered": "delivered",
+      "failed": "not delivered"
+    }
+  },
+  "gdpr": {
+    "title": "Personal data (GDPR)",
+    "hint": "For the person's requests about their data. The action covers all requests from this number: {count}.",
+    "export": "Download the person's data",
+    "erase": "Erase the person's data",
+    "confirm": "Erase the name, phone, conversation and notes from all requests of this person ({count})? Statistics stay. This cannot be undone.",
+    "erased": "The person's data was erased from {count, plural, one {# request} other {# requests}}. Statistics are kept.",
+    "anonymizedAt": "Personal data of this request was erased on {date}.",
+    "consent": "Consent",
+    "consentValue": "{date}, policy of {version}"
+  },
+  "bot": {
+    "card": "Bot questionnaire",
+    "username": "Telegram username",
+    "topic": "Open the topic in the group",
+    "manager": "Manager in the bot",
+    "number": "Number in the bot",
+    "noManager": "not assigned yet"
+  },
+  "botIntro": "A copy of the Telegram bot's applications and conversations. You can read and reply here; the records belong to the bot and the site never deletes them.",
+  "tabs": {
+    "site": "From the site",
+    "bot": "From the Telegram bot"
+  }
+}

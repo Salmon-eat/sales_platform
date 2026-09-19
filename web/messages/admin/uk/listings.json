@@ -1,0 +1,163 @@
+{
+  "status": {
+    "draft": "Чернетка",
+    "pending": "На модерації",
+    "active": "Активна",
+    "paused": "Призупинена",
+    "expired": "Термін минув",
+    "closed": "Закрита",
+    "rejected": "Відхилена"
+  },
+  "period": {
+    "hour": "за годину",
+    "day": "за день",
+    "week": "за тиждень",
+    "month": "за місяць"
+  },
+  "periodShort": {
+    "hour": "/год",
+    "day": "/день",
+    "week": "/тиж",
+    "month": "/міс"
+  },
+  "schedule": {
+    "full": "Повний день",
+    "part": "Неповний",
+    "weekends": "Вихідні",
+    "shifts": "Зміни"
+  },
+  "contract": {
+    "indefinido": "Безстроковий",
+    "temporal": "Тимчасовий",
+    "fijo_discontinuo": "Сезонний постійний"
+  },
+  "source": {
+    "agency": "Агенція",
+    "partner": "Партнер",
+    "employer": "Роботодавець"
+  },
+  "langLower": {
+    "es": "іспанська",
+    "en": "англійська",
+    "uk": "українська",
+    "ru": "російська"
+  },
+  "actions": {
+    "publish": "Опублікувати",
+    "pause": "Призупинити",
+    "resume": "Відновити",
+    "extend": "Продовжити на 30 днів",
+    "extendShort": "+30 днів",
+    "close": "Закрити",
+    "delete": "Видалити чернетку"
+  },
+  "list": {
+    "title": "Вакансії",
+    "new": "Нова вакансія",
+    "mine": "Мої",
+    "searchPlaceholder": "Назва, компанія або №",
+    "colListing": "Вакансія",
+    "colCategory": "Категорія",
+    "colCity": "Місто",
+    "colSalary": "Зарплата",
+    "colStatus": "Статус",
+    "colUntil": "До",
+    "colAuthor": "Автор",
+    "pinned": "закріплена",
+    "spainWide": "Вся Іспанія"
+  },
+  "edit": {
+    "breadcrumbNew": "Нова",
+    "created": "Вакансію створено.",
+    "readOnly": "Цю вакансію створив {email}. Змінювати її може автор або адміністратор.",
+    "publishedAt": "Опубліковано",
+    "expiresAt": "Діє до",
+    "closedAt": "Закрито",
+    "author": "Автор"
+  },
+  "form": {
+    "errCategory": "Оберіть категорію",
+    "errLocation": "Оберіть місто або «Вся Іспанія»",
+    "errText": "Заповніть текст вакансії хоча б однією мовою",
+    "errPublishEs": "Для публікації потрібна іспанська версія: заповніть вкладку ES. Чернетку можна зберегти й без неї.",
+    "placeTitle": "Категорія і місце",
+    "profession": "Професія",
+    "scopeLocal": "Місто / село",
+    "scopeSpain": "Вся Іспанія / різні міста",
+    "spainHint": "Показується у видачі будь-якого міста після локальних вакансій (робота в роз'їздах).",
+    "textTitle": "Текст вакансії — окремо для кожної мови",
+    "textHint": "Для кожної мови текст потрібно перекласти окремо.",
+    "tabFilled": "заповнено",
+    "tabEmpty": "порожньо",
+    "copyFrom": "Скопіювати текст з {from, select, es {іспанської} en {англійської} uk {української} other {російської}}, щоб переписати його {to, select, es {іспанською} en {англійською} uk {українською} other {російською}}",
+    "fieldTitle": "Назва · {lang}",
+    "fieldDescription": "Опис · {lang}",
+    "fieldRequirements": "Вимоги · {lang}",
+    "fieldConditions": "Умови · {lang}",
+    "salaryTitle": "Зарплата й умови",
+    "salaryFrom": "Від, €",
+    "salaryTo": "До, €",
+    "salaryPeriod": "Період",
+    "salaryMonthly": "≈ {amount} на місяць — за цією сумою працює фільтр «зарплата від»",
+    "salaryWarn": "Без зарплати публікувати можна, але такі вакансії збирають помітно менше відгуків. На сайті буде «Зарплата не вказана».",
+    "housing": "Житло",
+    "noLanguage": "Без мови",
+    "noExperience": "Без досвіду",
+    "schedule": "Графік",
+    "contract": "Контракт",
+    "tagsTitle": "Теги вакансії",
+    "tagsHint": "Стають фільтрами на сайті в усьому розділі «Робота».",
+    "hiringTitle": "Набір",
+    "vacancies": "Кількість місць",
+    "startDate": "Старт роботи",
+    "duration": "Тривалість, міс. (сезон / тимчасова)",
+    "urgent": "Терміново (позначка «Терміново» на картці)",
+    "attributesTitle": "Атрибути: {category}",
+    "rangeFrom": "від",
+    "rangeTo": "до",
+    "sourceTitle": "Джерело і контакти",
+    "source": "Джерело",
+    "company": "Компанія",
+    "contactName": "Контактна особа",
+    "contactPhone": "Телефон",
+    "contactWhatsapp": "WhatsApp",
+    "contactTelegram": "Telegram (@username)",
+    "contactEmail": "Email",
+    "pinned": "Закріпити вгорі видачі",
+    "saving": "Зберігаємо…",
+    "saveDraft": "Зберегти чернетку",
+    "saveAndPublish": "Зберегти й опублікувати"
+  },
+  "preview": {
+    "caption": "Прев'ю картки (як у списку на сайті)",
+    "untitled": "Назва вакансії",
+    "noSalary": "Зарплата не вказана",
+    "perPeriod": "{period, select, hour {за годину} day {за день} week {за тиждень} other {на місяць}}",
+    "urgent": "Терміново",
+    "agency": "Агенція Bazarcito",
+    "company": "Компанія",
+    "city": "Місто",
+    "spainWide": "Вся Іспанія",
+    "justNow": "щойно",
+    "tagHousing": "житло",
+    "tagNoLanguage": "без мови",
+    "tagNoExperience": "без досвіду",
+    "apply": "Відгукнутися",
+    "langs": "Мови:",
+    "needsEs": "для публікації потрібна ES"
+  },
+  "category": {
+    "placeholder": "Почніть вводити професію: офіціант, хостес, водій CE, програміст…",
+    "change": "Змінити категорію",
+    "noMatches": "Нічого не знайдено. Спробуйте іншу назву або «Інше».",
+    "sector": "сфера",
+    "sectionOff": "{section} (розділ вимкнено)"
+  },
+  "location": {
+    "placeholder": "Почніть вводити: Мадрид, Torrevieja, Covadonga…",
+    "change": "Змінити місто",
+    "village": "село",
+    "villageMark": "(село)",
+    "municipality": "муніципій"
+  }
+}

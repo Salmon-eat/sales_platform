@@ -1,0 +1,163 @@
+{
+  "status": {
+    "draft": "Borrador",
+    "pending": "En revisión",
+    "active": "Activa",
+    "paused": "Pausada",
+    "expired": "Caducada",
+    "closed": "Cerrada",
+    "rejected": "Rechazada"
+  },
+  "period": {
+    "hour": "por hora",
+    "day": "por día",
+    "week": "por semana",
+    "month": "al mes"
+  },
+  "periodShort": {
+    "hour": "/h",
+    "day": "/día",
+    "week": "/sem",
+    "month": "/mes"
+  },
+  "schedule": {
+    "full": "Jornada completa",
+    "part": "Media jornada",
+    "weekends": "Fines de semana",
+    "shifts": "Turnos"
+  },
+  "contract": {
+    "indefinido": "Indefinido",
+    "temporal": "Temporal",
+    "fijo_discontinuo": "Fijo discontinuo"
+  },
+  "source": {
+    "agency": "Agencia",
+    "partner": "Socio",
+    "employer": "Empleador"
+  },
+  "langLower": {
+    "es": "español",
+    "en": "inglés",
+    "uk": "ucraniano",
+    "ru": "ruso"
+  },
+  "actions": {
+    "publish": "Publicar",
+    "pause": "Pausar",
+    "resume": "Reanudar",
+    "extend": "Prorrogar 30 días",
+    "extendShort": "+30 días",
+    "close": "Cerrar",
+    "delete": "Eliminar borrador"
+  },
+  "list": {
+    "title": "Ofertas",
+    "new": "Nueva oferta",
+    "mine": "Mías",
+    "searchPlaceholder": "Título, empresa o n.º",
+    "colListing": "Oferta",
+    "colCategory": "Categoría",
+    "colCity": "Ciudad",
+    "colSalary": "Salario",
+    "colStatus": "Estado",
+    "colUntil": "Hasta",
+    "colAuthor": "Autor",
+    "pinned": "fijada",
+    "spainWide": "Toda España"
+  },
+  "edit": {
+    "breadcrumbNew": "Nueva",
+    "created": "Oferta creada.",
+    "readOnly": "Esta oferta la creó {email}. Solo el autor o un administrador pueden modificarla.",
+    "publishedAt": "Publicada",
+    "expiresAt": "Válida hasta",
+    "closedAt": "Cerrada",
+    "author": "Autor"
+  },
+  "form": {
+    "errCategory": "Elige una categoría",
+    "errLocation": "Elige una ciudad o «Toda España»",
+    "errText": "Rellena el texto de la oferta al menos en un idioma",
+    "errPublishEs": "Para publicar hace falta la versión en español: rellena la pestaña ES. El borrador se puede guardar sin ella.",
+    "placeTitle": "Categoría y lugar",
+    "profession": "Profesión",
+    "scopeLocal": "Ciudad / pueblo",
+    "scopeSpain": "Toda España / varias ciudades",
+    "spainHint": "Se muestra en los resultados de cualquier ciudad, después de las ofertas locales (trabajo con desplazamientos).",
+    "textTitle": "Texto de la oferta, por separado para cada idioma",
+    "textHint": "El texto hay que traducirlo por separado para cada idioma.",
+    "tabFilled": "rellenado",
+    "tabEmpty": "vacío",
+    "copyFrom": "Copiar el texto en {from, select, es {español} en {inglés} uk {ucraniano} other {ruso}} para reescribirlo en {to, select, es {español} en {inglés} uk {ucraniano} other {ruso}}",
+    "fieldTitle": "Título · {lang}",
+    "fieldDescription": "Descripción · {lang}",
+    "fieldRequirements": "Requisitos · {lang}",
+    "fieldConditions": "Condiciones · {lang}",
+    "salaryTitle": "Salario y condiciones",
+    "salaryFrom": "Desde, €",
+    "salaryTo": "Hasta, €",
+    "salaryPeriod": "Periodo",
+    "salaryMonthly": "≈ {amount} al mes: el filtro «salario desde» usa esta cantidad",
+    "salaryWarn": "Se puede publicar sin salario, pero estas ofertas reciben bastantes menos solicitudes. En la web aparecerá «Salario no indicado».",
+    "housing": "Alojamiento",
+    "noLanguage": "Sin idioma",
+    "noExperience": "Sin experiencia",
+    "schedule": "Horario",
+    "contract": "Contrato",
+    "tagsTitle": "Etiquetas de la oferta",
+    "tagsHint": "Se convierten en filtros de la web en toda la sección «Empleo».",
+    "hiringTitle": "Contratación",
+    "vacancies": "Número de plazas",
+    "startDate": "Inicio del trabajo",
+    "duration": "Duración, meses (temporada / temporal)",
+    "urgent": "Urgente (distintivo «Urgente» en la tarjeta)",
+    "attributesTitle": "Atributos: {category}",
+    "rangeFrom": "desde",
+    "rangeTo": "hasta",
+    "sourceTitle": "Origen y contactos",
+    "source": "Origen",
+    "company": "Empresa",
+    "contactName": "Persona de contacto",
+    "contactPhone": "Teléfono",
+    "contactWhatsapp": "WhatsApp",
+    "contactTelegram": "Telegram (@usuario)",
+    "contactEmail": "Correo electrónico",
+    "pinned": "Fijar arriba en los resultados",
+    "saving": "Guardando…",
+    "saveDraft": "Guardar borrador",
+    "saveAndPublish": "Guardar y publicar"
+  },
+  "preview": {
+    "caption": "Vista previa de la tarjeta (como en el listado de la web)",
+    "untitled": "Título de la oferta",
+    "noSalary": "Salario no indicado",
+    "perPeriod": "{period, select, hour {por hora} day {por día} week {por semana} other {al mes}}",
+    "urgent": "Urgente",
+    "agency": "Agencia Bazarcito",
+    "company": "Empresa",
+    "city": "Ciudad",
+    "spainWide": "Toda España",
+    "justNow": "ahora mismo",
+    "tagHousing": "alojamiento",
+    "tagNoLanguage": "sin idioma",
+    "tagNoExperience": "sin experiencia",
+    "apply": "Inscribirme",
+    "langs": "Idiomas:",
+    "needsEs": "para publicar hace falta ES"
+  },
+  "category": {
+    "placeholder": "Empieza a escribir una profesión: camarero, azafata, conductor CE, programador…",
+    "change": "Cambiar categoría",
+    "noMatches": "No se ha encontrado nada. Prueba con otro nombre o «Otros».",
+    "sector": "sector",
+    "sectionOff": "{section} (sección desactivada)"
+  },
+  "location": {
+    "placeholder": "Empieza a escribir: Madrid, Torrevieja, Covadonga…",
+    "change": "Cambiar ciudad",
+    "village": "pueblo",
+    "villageMark": "(pueblo)",
+    "municipality": "municipio"
+  }
+}

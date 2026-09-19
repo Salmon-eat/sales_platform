@@ -1,0 +1,94 @@
+{
+  "title": "Solicitudes",
+  "intro": "Solicitudes del sitio: respuestas a ofertas, peticiones de «llamada de un gestor», mensajes del chat. Pulsa un nombre para abrir la ficha.",
+  "empty": "Todavía no hay solicitudes.",
+  "status": {
+    "new": "Nueva",
+    "inProgress": "En curso",
+    "done": "Cerrada",
+    "rejected": "Rechazada"
+  },
+  "messenger": {
+    "phone": "Llamada",
+    "telegram": "Telegram",
+    "whatsapp": "WhatsApp",
+    "viber": "Viber"
+  },
+  "table": {
+    "date": "Fecha",
+    "candidate": "Candidato",
+    "contact": "Contacto",
+    "inSpain": "En España",
+    "comment": "Comentario",
+    "status": "Estado",
+    "request": "Solicitud",
+    "sector": "Sector",
+    "city": "Ciudad"
+  },
+  "row": {
+    "repeats": "{count, plural, one {# solicitud repetida} other {# solicitudes repetidas}}",
+    "anyCategory": "cualquiera",
+    "noCity": "ciudad no indicada",
+    "unread": "{count, plural, one {# mensaje nuevo} other {# mensajes nuevos}}",
+    "noPhone": "sin teléfono"
+  },
+  "kind": {
+    "response": "Candidatura a oferta",
+    "callback": "Petición de llamada",
+    "message": "Mensaje desde la web",
+    "telegram": "Solicitud del bot de Telegram"
+  },
+  "detail": {
+    "request": "Solicitud",
+    "contact": "Contacto",
+    "phone": "Teléfono",
+    "siteLang": "Idioma del sitio",
+    "utm": "Origen del anuncio",
+    "notes": "Solicitudes repetidas",
+    "history": "Otras solicitudes de este número",
+    "noHistory": "No hay otras solicitudes.",
+    "lang": "Idioma"
+  },
+  "stale": "Sin movimiento 48 h",
+  "staleMark": "sin movimiento",
+  "chat": {
+    "title": "Chat de la web",
+    "hint": "La persona ve la respuesta en la ventana del chat de la web, aunque no haya dejado teléfono.",
+    "manager": "Gestor",
+    "placeholder": "Respuesta…",
+    "send": "Enviar",
+    "titleBot": "Conversación en Telegram",
+    "hintBot": "La respuesta llega a la persona por Telegram desde el bot, con una copia en su tema del grupo de gestores.",
+    "note": "Nota del equipo",
+    "attachment": "Adjunto: {type}",
+    "delivery": {
+      "pending": "enviando…",
+      "delivered": "entregado",
+      "failed": "no entregado"
+    }
+  },
+  "gdpr": {
+    "title": "Datos personales (RGPD)",
+    "hint": "Para las solicitudes de la persona sobre sus datos. La acción afecta a todas las solicitudes de este número: {count}.",
+    "export": "Descargar los datos de la persona",
+    "erase": "Borrar los datos de la persona",
+    "confirm": "¿Borrar el nombre, el teléfono, la conversación y las notas de todas las solicitudes de esta persona ({count})? La estadística se mantiene. No se puede deshacer.",
+    "erased": "Se han borrado los datos de la persona de {count, plural, one {# solicitud} other {# solicitudes}}. La estadística se mantiene.",
+    "anonymizedAt": "Los datos personales de esta solicitud se borraron el {date}.",
+    "consent": "Consentimiento",
+    "consentValue": "{date}, política de {version}"
+  },
+  "bot": {
+    "card": "Cuestionario del bot",
+    "username": "Usuario de Telegram",
+    "topic": "Abrir el tema en el grupo",
+    "manager": "Gestor en el bot",
+    "number": "Número en el bot",
+    "noManager": "sin asignar"
+  },
+  "botIntro": "Copia de las solicitudes y conversaciones del bot de Telegram. Aquí puedes leer y responder; los registros pertenecen al bot y el sitio no los borra.",
+  "tabs": {
+    "site": "Del sitio",
+    "bot": "Del bot de Telegram"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Acceso a la administración",
+  "checking": "Comprobando el acceso…",
+  "unavailable": "El acceso no está disponible ahora. Inténtalo más tarde.",
+  "email": "Tu correo",
+  "byEmail": "Entrar con el correo",
+  "signingIn": "Entrando…",
+  "error_401": "Google no confirmó el acceso. Inténtalo de nuevo.",
+  "error_403": "Este correo no está en la lista de acceso. Pide a un administrador que lo añada.",
+  "error_429": "Demasiados intentos. Inténtalo dentro de 10 minutos.",
+  "error_503": "El acceso con Google no está disponible ahora.",
+  "error_other": "El servicio no está disponible temporalmente"
+}

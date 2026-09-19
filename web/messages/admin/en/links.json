@@ -1,0 +1,59 @@
+{
+  "title": "Ad links",
+  "intro": "A separate link for each blogger or channel: see how many people it brought, how many sent a request and what one request cost.",
+  "new": "+ New link",
+  "empty": "No links yet.",
+  "created": "The link is ready: {url} — send it to the blogger.",
+  "copy": "Copy",
+  "copied": "Copied",
+  "lastClick": "last click {date}",
+  "edit": "Edit",
+  "form": {
+    "name": "Blogger's nickname or channel name",
+    "namePlaceholder": "@olena_travel",
+    "channel": "Channel",
+    "target": "Leads to",
+    "targetHint": "Site page address without the domain, e.g. /en/jobs",
+    "cost": "Cost, €",
+    "costHint": "What you paid — to calculate the cost of one request",
+    "notes": "Note",
+    "notesPlaceholder": "Stories on 12.10, no promo code",
+    "create": "Create link",
+    "nameHint": "A short link is made automatically, e.g. {base}/go/olen27"
+  },
+  "channel": {
+    "blogger": "Blogger",
+    "instagram": "Instagram",
+    "tiktok": "TikTok",
+    "facebook": "Facebook",
+    "telegram": "Telegram",
+    "youtube": "YouTube",
+    "google": "Google Ads",
+    "partner": "Partner",
+    "other": "Other"
+  },
+  "col": {
+    "link": "Link",
+    "clicks": "Clicks",
+    "visitors": "Visitors",
+    "applications": "Requests",
+    "conversion": "Conversion",
+    "cost": "Cost",
+    "perApplication": "Cost per request"
+  },
+  "error": {
+    "generic": "Could not save the link",
+    "link_code_taken": "This code already exists — choose another one",
+    "link_code_fixed": "The link code cannot be changed",
+    "link_code_format": "Code: Latin letters, digits and hyphens only, at least 3 characters",
+    "link_bad_target": "“Leads to” must be a page address of this site starting with /",
+    "link_closed": "The link is closed and can no longer be changed"
+  },
+  "tabActive": "Active ({count})",
+  "tabHistory": "History ({count})",
+  "historyEmpty": "No closed links yet.",
+  "close": "Close",
+  "closeConfirm": "Close the link “{name}”? It will stop counting visits and move to the history. It cannot be reopened.",
+  "closedNotice": "The link is closed and moved to the history.",
+  "period": "ran {from} – {to}"
+}

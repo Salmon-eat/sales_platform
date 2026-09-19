@@ -1,0 +1,13 @@
+{
+  "title": "Admin sign-in",
+  "checking": "Checking access…",
+  "unavailable": "Sign-in is temporarily unavailable. Please try later.",
+  "email": "Your email",
+  "byEmail": "Sign in with email",
+  "signingIn": "Signing in…",
+  "error_401": "Google did not confirm the sign-in. Try again.",
+  "error_403": "This email is not on the access list. Ask an administrator to add it.",
+  "error_429": "Too many sign-in attempts. Try again in 10 minutes.",
+  "error_503": "Google sign-in is unavailable right now.",
+  "error_other": "The service is temporarily unavailable"
+}

@@ -1,0 +1,600 @@
+From dccccac4df57f8d526d33295176f63947b41163e Mon Sep 17 00:00:00 2001
+From: Vadym Vizirov <vadimplus57@gmail.com>
+Date: Sat, 19 Sep 2026 13:25:35 +0300
+Subject: [PATCH] Mirror applications and conversations on the website admin;
+ replies from the site
+
+Off unless SITE_API_URL and SITE_API_TOKEN are set. A background task reads new applications and messages, sends them to the site and queues replies and status changes written there (outbox kind site_reply), so Telegram works as before.
+---
+ .env.example            |   5 +
+ bot/__main__.py         |   5 +
+ bot/config.py           |   4 +
+ bot/db.py               |   3 +-
+ bot/outbox.py           |  39 +++++++-
+ bot/site_sync.py        | 191 +++++++++++++++++++++++++++++++++++++
+ docs/DEPLOY.md          |  16 ++++
+ tests/test_site_sync.py | 205 ++++++++++++++++++++++++++++++++++++++++
+ 8 files changed, 466 insertions(+), 2 deletions(-)
+ create mode 100644 bot/site_sync.py
+ create mode 100644 tests/test_site_sync.py
+
+diff --git a/.env.example b/.env.example
+index 4aeb112..90fb8eb 100644
+--- a/.env.example
++++ b/.env.example
+@@ -22,4 +22,9 @@ NOTIFY_MANAGERS=1
+ DRAFT_REMINDER_HOURS=24
+ LOG_LEVEL=INFO
+ 
++# Website admin (Bazarcito): applications and conversations are mirrored there, and managers can answer from the
++# site. Both empty = off, the bot works exactly as without it. SITE_API_TOKEN = BOT_SYNC_TOKEN of the site.
++SITE_API_URL=
++SITE_API_TOKEN=
++
+ # Database copies are made on the server by cron: see deploy/crontab (python -m bot.backup).
+diff --git a/bot/__main__.py b/bot/__main__.py
+index e4bc0f6..1602572 100644
+--- a/bot/__main__.py
++++ b/bot/__main__.py
+@@ -21,6 +21,7 @@ from .outbox import Outbox
+ from .maintenance import Maintenance
+ from .reminders import DraftReminders
+ from .repo import Repo
++from .site_sync import SiteSync
+ 
+ log = logging.getLogger("bot")
+ 
+@@ -162,6 +163,10 @@ async def main() -> None:
+         asyncio.create_task(DraftReminders(bot, repo, config.draft_reminder_hours).run()),
+         asyncio.create_task(Maintenance(bot, repo).run()),
+     ]
++    if config.site_api_url and config.site_api_token:
++        workers.append(asyncio.create_task(
++            SiteSync(repo, config.site_api_url, config.site_api_token, config.timezone).run()))
++        log.info("Site sync is on: %s", config.site_api_url)
+     try:
+         await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
+     finally:
+diff --git a/bot/config.py b/bot/config.py
+index 0080b17..156ac99 100644
+--- a/bot/config.py
++++ b/bot/config.py
+@@ -22,6 +22,8 @@ class Config:
+     log_level: str
+     draft_reminder_hours: float
+     notify_managers: bool
++    site_api_url: str = ""
++    site_api_token: str = ""
+ 
+ 
+ def _flag(name: str, default: str) -> bool:
+@@ -50,4 +52,6 @@ def load_config() -> Config:
+         log_level=os.getenv("LOG_LEVEL", "INFO").upper(),
+         draft_reminder_hours=float(os.getenv("DRAFT_REMINDER_HOURS", "24") or 0),
+         notify_managers=_flag("NOTIFY_MANAGERS", "1"),
++        site_api_url=os.getenv("SITE_API_URL", "").strip(),
++        site_api_token=os.getenv("SITE_API_TOKEN", "").strip(),
+     )
+diff --git a/bot/db.py b/bot/db.py
+index 4a391d2..92920da 100644
+--- a/bot/db.py
++++ b/bot/db.py
+@@ -228,7 +228,8 @@ class Database:
+         for table, column in (("drafts", "reminded_at"), ("clients", "screen"), ("messages", "sender_name"),
+                               ("managers", "panel_lang"), ("clients", "last_notice_at"),
+                               ("managers", "display_name"), ("managers", "photo_file_id"),
+-                              ("managers", "chat_app_id"), ("clients", "seen_message_id")):
++                              ("managers", "chat_app_id"), ("clients", "seen_message_id"),
++                              ("messages", "site_message_id")):
+             async with self._conn.execute(f"PRAGMA table_info({table})") as cur:
+                 columns = {row[1] for row in await cur.fetchall()}
+             if column not in columns:
+diff --git a/bot/outbox.py b/bot/outbox.py
+index a237a9c..ba2b35b 100644
+--- a/bot/outbox.py
++++ b/bot/outbox.py
+@@ -40,7 +40,7 @@ class PermanentFailure(Exception):
+ 
+ MAX_ATTEMPTS = 30  # about 4 hours of retries; then the job is marked failed instead of retrying forever
+ # Jobs whose order matters per client: posts in the client's topic, and messages to the client.
+-ORDERED_KINDS = (GROUP_JOBS, {"to_client"})
++ORDERED_KINDS = (GROUP_JOBS, {"to_client", "site_reply"})
+ 
+ 
+ def _backoff(attempts: int) -> float:
+@@ -122,6 +122,9 @@ class Outbox:
+ 
+     async def _report_given_up(self, job: dict[str, Any], error: Exception) -> None:
+         """A manager's message that could not be delivered after all retries: say so, don't leave it pending."""
++        if job["kind"] == "site_reply":
++            await self._site_reply_failed(job["client_id"], job["payload"], str(error)[:200])
++            return
+         if job["kind"] != "to_client":
+             return
+         payload = job["payload"]
+@@ -149,6 +152,7 @@ class Outbox:
+             "review_notice": self._review_notice,
+             "app_files": self._send_files,
+             "client_notice": self._client_notice,
++            "site_reply": self._site_reply,
+         }[job["kind"]]
+         client_id = job["client_id"] if job["client_id"] is not None else payload.get("client_id")
+         await handler(client_id, payload)
+@@ -461,6 +465,39 @@ class Outbox:
+         except TelegramBadRequest:
+             pass
+ 
++    async def _site_reply(self, client_id: int, payload: dict) -> None:
++        """A manager answered in the website admin: the client gets it here, the team sees it in the topic."""
++        app = await self.repo.get_application(payload["app_id"])
++        client = await self.repo.get_client(client_id)
++        name = payload.get("sender_name") or None
++        text = render.esc(payload["text"])
++        try:
++            sent = await self.bot.send_message(chat_id=client["private_chat_id"], text=text)
++        except (TelegramForbiddenError, TelegramBadRequest) as error:
++            if isinstance(error, TelegramForbiddenError):
++                await self.repo.update_client(client_id, blocked=1)
++            raw = getattr(error, "message", None) or str(error)
++            await self._site_reply_failed(client_id, payload, raw)
++            await self._report_not_delivered(client, app, {}, raw, isinstance(error, TelegramForbiddenError))
++            raise PermanentFailure(f"site reply: {raw}") from error
++        if client["blocked"]:
++            await self.repo.update_client(client_id, blocked=0)
++        log_id = await self.repo.log_message(client_id, app["id"], "manager", None, client["private_chat_id"],
++                                             sent.message_id, "text", payload["text"], "delivered", sender_name=name)
++        await self.repo.db.execute("UPDATE messages SET site_message_id = ? WHERE id = ?",
++                                   (payload["site_message_id"], log_id))
++        header = f"🌐 <b>{render.esc(name)}</b>" if name else "🌐"
++        await self.repo.enqueue("group_note", client_id, {"text": f"{header}\n{text}"})
++
++    async def _site_reply_failed(self, client_id: int, payload: dict, raw: str) -> None:
++        """Logged as failed, so the site shows the manager the message did not arrive."""
++        client = await self.repo.get_client(client_id)
++        log_id = await self.repo.log_message(client_id, payload["app_id"], "manager", None, client["private_chat_id"],
++                                             0, "text", payload["text"], "failed",
++                                             sender_name=payload.get("sender_name") or None)
++        await self.repo.db.execute("UPDATE messages SET site_message_id = ?, error = ? WHERE id = ?",
++                                   (payload["site_message_id"], raw[:500], log_id))
++
+     async def _client_unreachable(self, client: dict, app: dict, payload: dict, error: Exception,
+                                   what_key: str = "what_message") -> None:
+         blocked = isinstance(error, TelegramForbiddenError)
+diff --git a/bot/site_sync.py b/bot/site_sync.py
+new file mode 100644
+index 0000000..2b7103e
+--- /dev/null
++++ b/bot/site_sync.py
+@@ -0,0 +1,191 @@
++"""Mirror of applications and conversations on the website admin, and replies written there.
++
++Off unless SITE_API_URL and SITE_API_TOKEN are set. The bot itself works exactly as without it: this task only
++reads the database, sends new rows to the site and puts replies from the site into the outbox, where they go
++to the client like any other manager message. The bot opens no port: it always calls the site, never the other
++way round. Cursors live in the settings table, so after a restart or a site outage nothing is lost or repeated.
++"""
++
++import asyncio
++import html
++import logging
++import re
++from typing import Any
++
++import aiohttp
++
++from . import render
++from .db import loads, now_iso
++from .repo import Repo
++
++log = logging.getLogger(__name__)
++
++POLL_SECONDS = 5
++BATCH = 100
++TIMEOUT = aiohttp.ClientTimeout(total=20)
++
++APPS_CURSOR = "site_sync_apps"  # "updated_at|id" of the last application sent
++MESSAGES_CURSOR = "site_sync_messages"  # id of the last message sent
++OUTGOING_CURSOR = "site_sync_outgoing"  # id of the last reply or status taken from the site
++
++# Statuses the site can set; "rejected" has no match in the bot, so it closes the application.
++FROM_SITE = {"new": "new", "in_progress": "in_work", "done": "done", "rejected": "done"}
++
++
++def plain(text: str) -> str:
++    """Telegram HTML (b, i, a) as plain text for the site."""
++    return html.unescape(re.sub(r"<[^>]+>", "", text))
++
++
++class SiteSync:
++    def __init__(self, repo: Repo, url: str, token: str, tz: str):
++        self.repo = repo
++        self.url = url.rstrip("/")
++        self.headers = {"Authorization": f"Bearer {token}"}
++        self.tz = tz
++        self._failing = False
++
++    async def run(self) -> None:
++        async with aiohttp.ClientSession(timeout=TIMEOUT, headers=self.headers) as http:
++            while True:
++                try:
++                    busy = await self.cycle(http)
++                    if self._failing:
++                        log.info("Site sync is working again")
++                        self._failing = False
++                except asyncio.CancelledError:
++                    raise
++                except Exception as error:
++                    busy = False
++                    if not self._failing:  # one line per outage, not one every few seconds
++                        log.warning("Site sync failed, will retry: %r", error)
++                        self._failing = True
++                if not busy:
++                    await asyncio.sleep(POLL_SECONDS)
++
++    async def cycle(self, http: aiohttp.ClientSession) -> bool:
++        """One round; True while there is more to send right away."""
++        pushed = await self.push(http)
++        pulled = await self.pull(http)
++        return pushed or pulled
++
++    # --- bot -> site ----------------------------------------------------
++
++    async def push(self, http: aiohttp.ClientSession) -> bool:
++        apps, apps_cursor = await self._changed_applications()
++        messages = await self._new_messages()
++        if not apps and not messages:
++            return False
++        clients = {a["client_id"] for a in apps} | {m["client_id"] for m in messages}
++        body = {
++            "applications": apps,
++            "messages": [self._message(m) for m in messages],
++            "topics": await self._topics(clients),
++        }
++        async with http.post(f"{self.url}/v1/internal/bot/sync", json=body) as response:
++            response.raise_for_status()
++        # Only after the site has stored everything: a failed request is simply sent again.
++        if apps:
++            await self.repo.set_setting(APPS_CURSOR, apps_cursor)
++        if messages:
++            await self.repo.set_setting(MESSAGES_CURSOR, str(messages[-1]["id"]))
++        return len(apps) == BATCH or len(messages) == BATCH
++
++    async def _changed_applications(self) -> tuple[list[dict[str, Any]], str]:
++        stamp, _, last_id = (await self.repo.get_setting(APPS_CURSOR) or "|0").partition("|")
++        # Times have whole seconds: the current second is left for the next round, otherwise a change made
++        # later within it would carry the cursor's own time and never be sent.
++        rows = await self.repo.db.fetchall(
++            "SELECT a.*, c.username, c.telegram_user_id, c.lang AS client_lang FROM applications a "
++            "JOIN clients c ON c.id = a.client_id "
++            "WHERE (a.updated_at > ? OR (a.updated_at = ? AND a.id > ?)) AND a.updated_at < ? "
++            "ORDER BY a.updated_at, a.id LIMIT ?",
++            (stamp, stamp, int(last_id or 0), now_iso(), BATCH),
++        )
++        lang = self.repo.group_lang
++        apps = []
++        for row in rows:
++            row["answers"] = loads(row["answers"]) or {}
++            client = {"id": row["client_id"], "username": row["username"], "lang": row["client_lang"],
++                      "telegram_user_id": row["telegram_user_id"]}
++            apps.append({
++                "id": row["id"],
++                "client_id": row["client_id"],
++                "title": plain(render.app_title(lang, row)),
++                "card": plain(render.card_text(row, client, self.tz, lang, hint=False)),
++                "name": row["name"],
++                "phone": row["phone"] or None,
++                "username": row["username"],
++                "lang": row["lang"],
++                "status": row["status"],
++                "manager_name": row["manager_name"],
++                "created_at": row["created_at"],
++                "updated_at": row["updated_at"],
++            })
++        cursor = f"{rows[-1]['updated_at']}|{rows[-1]['id']}" if rows else ""
++        return apps, cursor
++
++    async def _new_messages(self) -> list[dict[str, Any]]:
++        last = int(await self.repo.get_setting(MESSAGES_CURSOR) or 0)
++        return await self.repo.db.fetchall(
++            "SELECT m.*, (SELECT MAX(a.id) FROM applications a WHERE a.client_id = m.client_id) AS latest_app "
++            "FROM messages m WHERE m.id > ? ORDER BY m.id LIMIT ?",
++            (last, BATCH),
++        )
++
++    @staticmethod
++    def _message(row: dict[str, Any]) -> dict[str, Any]:
++        return {
++            "id": row["id"],
++            "client_id": row["client_id"],
++            # a message written between applications belongs to the client's latest one
++            "app_id": row["application_id"] or row["latest_app"],
++            "direction": row["direction"],
++            "sender_name": row["sender_name"],
++            "content_type": row["content_type"],
++            "text": row["text"],
++            "delivery": row["delivery_status"],
++            "created_at": row["created_at"],
++            "site_message_id": int(row["site_message_id"]) if row.get("site_message_id") else None,
++        }
++
++    async def _topics(self, client_ids: set[int]) -> dict[str, str]:
++        topics = {}
++        for client_id in client_ids:
++            topic = await self.repo.get_topic(client_id)
++            if topic:
++                topics[str(client_id)] = render.topic_link(topic["manager_group_id"], topic["message_thread_id"])
++        return topics
++
++    # --- site -> bot ----------------------------------------------------
++
++    async def pull(self, http: aiohttp.ClientSession) -> bool:
++        after = int(await self.repo.get_setting(OUTGOING_CURSOR) or 0)
++        async with http.get(f"{self.url}/v1/internal/bot/outgoing", params={"after": after}) as response:
++            response.raise_for_status()
++            items = await response.json()
++        for item in items:
++            await self._take(item)
++        return len(items) == BATCH
++
++    async def _take(self, item: dict[str, Any]) -> None:
++        """Queue one reply or status change; the cursor moves in the same transaction, so it is taken once."""
++        async with self.repo.db.tx() as tx:
++            row = await tx.fetchone("SELECT value FROM settings WHERE key = ?", (OUTGOING_CURSOR,))
++            if row and int(row["value"]) >= item["id"]:
++                return
++            app = await tx.fetchone("SELECT id, client_id, status FROM applications WHERE id = ?", (item["app_id"],))
++            if app and item["kind"] == "message" and item.get("text"):
++                await self.repo._enqueue(tx, "site_reply", app["client_id"], {
++                    "app_id": app["id"], "text": item["text"][:4000], "sender_name": item.get("sender_name"),
++                    "site_message_id": item["message_id"],
++                })
++            elif app and item["kind"] == "status" and FROM_SITE.get(item.get("status")) not in (None, app["status"]):
++                await tx.execute("UPDATE applications SET status = ?, updated_at = ? WHERE id = ?",
++                                 (FROM_SITE[item["status"]], now_iso(), app["id"]))
++                await self.repo._enqueue(tx, "card_refresh", app["client_id"], {"app_id": app["id"]})
++            await tx.execute(
++                "INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value",
++                (OUTGOING_CURSOR, str(item["id"])),
++            )
++        self.repo._wake()
+diff --git a/docs/DEPLOY.md b/docs/DEPLOY.md
+index b99ad5b..e11f707 100644
+--- a/docs/DEPLOY.md
++++ b/docs/DEPLOY.md
+@@ -43,6 +43,22 @@ ssh root@SERVER bash /tmp/deploy.sh
+ Переїзд на інший сервер: зупинити бота на старому (`systemctl disable --now order-bot`), взяти свіжу копію бази
+ (`sqlite3 /opt/order_bot/data/bot.db ".backup /root/bot.db"`), встановити на новому з цією базою.
+ 
++## Зв'язок із сайтом
++
++Бот може дзеркалити заявки й листування в адмінку сайту, а менеджери — відповідати клієнтам просто з сайту.
++У Telegram нічого не змінюється. Вмикається двома рядками в `.env` на сервері, потім `systemctl restart order-bot`:
++
++```
++SITE_API_URL=https://ДОМЕН-САЙТУ
++SITE_API_TOKEN=той самий секрет, що BOT_SYNC_TOKEN на сайті
++```
++
++- Бот сам звертається до сайту кожні кілька секунд; на сервері бота не відкривається жоден порт.
++- Сайт недоступний — бот працює як звичайно, а все непередане надсилає, щойно сайт повернеться.
++- Під час першого запуску на сайт переходить уся наявна історія заявок і повідомлень.
++- Відповідь із сайту приходить клієнту від імені бота, а в тему клієнта в групі падає її копія з позначкою 🌐 та ім'ям.
++- Порожні рядки — зв'язок вимкнено.
++
+ ## Передача бота замовнику
+ 
+ 1. **Бот у Telegram.** @BotFather → `/mybots` → бот → *Bot Settings* → *Transfer Ownership* — передати акаунту замовника.
+diff --git a/tests/test_site_sync.py b/tests/test_site_sync.py
+new file mode 100644
+index 0000000..ced0e7e
+--- /dev/null
++++ b/tests/test_site_sync.py
+@@ -0,0 +1,205 @@
++"""The website mirror: applications and conversations go to the site, replies and statuses come back."""
++
++import pytest
++
++from bot import site_sync
++from bot.site_sync import SiteSync
++from tests.harness import GROUP_ID, Harness, run
++
++CLIENT = 9
++
++
++class _Response:
++    def __init__(self, status: int, data=None):
++        self.status, self.data = status, data
++
++    async def __aenter__(self):
++        return self
++
++    async def __aexit__(self, *exc):
++        return False
++
++    def raise_for_status(self):
++        if self.status >= 400:
++            raise RuntimeError(f"HTTP {self.status}")
++
++    async def json(self):
++        return self.data
++
++
++class FakeSite:
++    """Records what the bot sends; hands out replies and status changes written in the admin."""
++
++    def __init__(self):
++        self.pushed: list[dict] = []
++        self.outgoing: list[dict] = []
++        self.down = False
++        self.asked_after: list[int] = []
++
++    def post(self, url, json):
++        assert url.endswith("/v1/internal/bot/sync")
++        if self.down:
++            return _Response(503)
++        self.pushed.append(json)
++        return _Response(200, {"ok": True})
++
++    def get(self, url, params):
++        assert url.endswith("/v1/internal/bot/outgoing")
++        if self.down:
++            return _Response(503)
++        self.asked_after.append(params["after"])
++        return _Response(200, [item for item in self.outgoing if item["id"] > params["after"]])
++
++
++@pytest.fixture(autouse=True)
++def seconds_have_passed(monkeypatch):
++    """Rows of the current second wait for the next round; in these tests that second is long over."""
++    monkeypatch.setattr(site_sync, "now_iso", lambda delta=0: "2999-12-31T00:00:00")
++
++
++def test_a_change_within_the_current_second_waits_for_the_next_round(tmp_path, monkeypatch):
++    async def scenario(h: Harness):
++        site, s = FakeSite(), sync(h)
++        _, app_id = await client_with_application(h)
++        await h.db.execute("UPDATE applications SET updated_at = '2030-01-01T10:00:00' WHERE id = ?", (app_id,))
++        monkeypatch.setattr(site_sync, "now_iso", lambda delta=0: "2030-01-01T10:00:00")
++        await s.cycle(site)
++        assert not any(body["applications"] for body in site.pushed)
++        monkeypatch.setattr(site_sync, "now_iso", lambda delta=0: "2030-01-01T10:00:01")
++        await s.cycle(site)
++        assert [a["id"] for a in site.pushed[-1]["applications"]] == [app_id]
++
++    run(tmp_path, scenario, with_group=True)
++
++
++def sync(h: Harness) -> SiteSync:
++    return SiteSync(h.repo, "https://site.example/", "secret", "Europe/Madrid")
++
++
++async def client_with_application(h: Harness) -> tuple[object, int]:
++    client = h.user(CLIENT, "Ярослав", username="yarik")
++    await h.start_client(client)
++    app_id = await h.submit_code95(client)
++    await h.deliver()
++    return client, app_id
++
++
++def test_applications_and_messages_reach_the_site_once(tmp_path):
++    async def scenario(h: Harness):
++        site, s = FakeSite(), sync(h)
++        client, app_id = await client_with_application(h)
++        await h.say(client, "Коли можна почати?")
++        await h.deliver()
++
++        await s.cycle(site)
++        body = site.pushed[-1]
++        app = next(a for a in body["applications"] if a["id"] == app_id)
++        assert app["name"] == "Ярослав" and app["username"] == "yarik" and app["status"] == "new"
++        assert app["phone"].replace(" ", "").endswith("612345678")
++        assert "<" not in app["card"] and "Ярослав" in app["card"]
++        texts = [m["text"] for m in body["messages"] if m["direction"] == "client"]
++        assert "Коли можна почати?" in texts
++        assert all(m["app_id"] == app_id for m in body["messages"])
++        assert body["topics"][str(app["client_id"])].startswith("https://t.me/c/1234567890/")
++
++        before = len(site.pushed)
++        await s.cycle(site)
++        assert len(site.pushed) == before  # nothing new: nothing sent again
++
++        await h.repo.set_status(app_id, "done")
++        await h.db.execute("UPDATE applications SET updated_at = '2999-01-01T00:00:00' WHERE id = ?", (app_id,))
++        await s.cycle(site)
++        assert [a["status"] for a in site.pushed[-1]["applications"]] == ["done"]
++        assert site.pushed[-1]["messages"] == []
++
++    run(tmp_path, scenario, with_group=True)
++
++
++def test_nothing_is_lost_while_the_site_is_down(tmp_path):
++    async def scenario(h: Harness):
++        site, s = FakeSite(), sync(h)
++        _, app_id = await client_with_application(h)
++        site.down = True
++        try:
++            await s.cycle(site)
++        except RuntimeError:
++            pass
++        assert await h.repo.get_setting(site_sync.APPS_CURSOR) is None
++        site.down = False
++        await s.cycle(site)
++        assert [a["id"] for a in site.pushed[-1]["applications"]] == [app_id]
++
++    run(tmp_path, scenario, with_group=True)
++
++
++def test_reply_written_on_the_site_reaches_the_client_and_the_topic(tmp_path):
++    async def scenario(h: Harness):
++        site, s = FakeSite(), sync(h)
++        _, app_id = await client_with_application(h)
++        await s.cycle(site)
++        site.outgoing.append({"id": 1, "kind": "message", "app_id": app_id, "message_id": 55,
++                              "text": "Добрий день! <Передзвоню> завтра", "sender_name": "Olena"})
++        await s.cycle(site)
++        await s.cycle(site)  # asked again: the same reply is not queued twice
++        assert len(await h.db.fetchall("SELECT id FROM outbox WHERE kind = 'site_reply'")) == 1
++
++        mark = h.mark()
++        await h.deliver()
++        assert "Добрий день! &lt;Передзвоню&gt; завтра" in h.texts(CLIENT, since=mark)
++        topic_notes = [c.text for c in h.calls(GROUP_ID, since=mark) if c.text]
++        assert any("Olena" in text and "Передзвоню" in text for text in topic_notes)
++
++        await s.cycle(site)
++        mirrored = [m for m in site.pushed[-1]["messages"] if m["site_message_id"] == 55]
++        assert len(mirrored) == 1
++        assert mirrored[0]["delivery"] == "delivered" and mirrored[0]["direction"] == "manager"
++        assert await h.repo.manager_on_it(app_id)
++
++    run(tmp_path, scenario, with_group=True)
++
++
++def test_reply_to_a_client_who_blocked_the_bot_is_reported(tmp_path):
++    async def scenario(h: Harness):
++        site, s = FakeSite(), sync(h)
++        _, app_id = await client_with_application(h)
++        site.outgoing.append({"id": 1, "kind": "message", "app_id": app_id, "message_id": 56,
++                              "text": "Алло?", "sender_name": "Olena"})
++        await s.cycle(site)
++        h.tg.fail("SendMessage", kind="forbidden", message="Forbidden: bot was blocked by the user")
++        await h.deliver()
++        job = (await h.db.fetchall("SELECT status FROM outbox WHERE kind = 'site_reply'"))[0]
++        assert job["status"] == "failed"
++        row = await h.db.fetchone("SELECT delivery_status FROM messages WHERE site_message_id = 56")
++        assert row["delivery_status"] == "failed"
++        assert (await h.repo.get_client((await h.repo.get_application(app_id))["client_id"]))["blocked"] == 1
++
++    run(tmp_path, scenario, with_group=True)
++
++
++def test_status_changed_on_the_site_updates_the_card(tmp_path):
++    async def scenario(h: Harness):
++        site, s = FakeSite(), sync(h)
++        _, app_id = await client_with_application(h)
++        site.outgoing += [
++            {"id": 3, "kind": "status", "app_id": app_id, "status": "in_progress"},
++            {"id": 4, "kind": "status", "app_id": 999999, "status": "done"},  # unknown here: skipped
++        ]
++        await s.cycle(site)
++        assert (await h.repo.get_application(app_id))["status"] == "in_work"
++        assert await h.repo.get_setting(site_sync.OUTGOING_CURSOR) == "4"
++        mark = h.mark()
++        await h.deliver()
++        assert h.calls(GROUP_ID, method="EditMessageText", since=mark)
++
++    run(tmp_path, scenario, with_group=True)
++
++
++def test_sync_is_off_without_settings(monkeypatch, tmp_path):
++    from bot import config as config_module
++
++    monkeypatch.setenv("BOT_TOKEN", "1:x")
++    monkeypatch.delenv("SITE_API_URL", raising=False)
++    monkeypatch.delenv("SITE_API_TOKEN", raising=False)
++    monkeypatch.setattr(config_module, "load_dotenv", lambda *a, **k: None)
++    config = config_module.load_config()
++    assert config.site_api_url == "" and config.site_api_token == ""
+-- 
+2.49.0.windows.1
+
