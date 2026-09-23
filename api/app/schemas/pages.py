@@ -50,8 +50,18 @@ class AttributeValue(BaseModel):
     group: Literal["tags", "category"] = Field(description="section tags or category-specific attribute")
 
 
+class ListingPhotoOut(BaseModel):
+    """A photo of the ad: the big one and the card-sized copy next to it."""
+
+    path: str
+    thumb: str
+    width: int
+    height: int
+
+
 class ListingDetail(ListingCard):
     description: str
+    photos: list[ListingPhotoOut] = Field(default_factory=list)
     requirements: str | None
     conditions: str | None
     original_lang: str

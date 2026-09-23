@@ -29,7 +29,7 @@ async def popular(
         .order_by(Location.population.desc().nulls_last())
         .limit(limit)
     )
-    return [LocationRef(level=r.level, slug=r.slug, name=tr(r.names, lang)) for r in rows]
+    return [LocationRef(id=r.id, level=r.level, slug=r.slug, name=tr(r.names, lang)) for r in rows]
 
 
 @router.get("/{slug}", response_model=LocationOut)

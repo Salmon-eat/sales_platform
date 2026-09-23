@@ -6,21 +6,25 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const apiUrl = process.env.API_INTERNAL_URL ?? "http://localhost:8000";
 const dev = process.env.NODE_ENV !== "production";
 
-// Google sign-in (admin) and Cloudflare Turnstile (anti-bot check on forms) are the only third parties.
+// Google sign-in, Telegram sign-in and Cloudflare Turnstile (anti-bot check on forms): the only third
+// parties. Telegram serves the button script from telegram.org and opens the login in a frame/window
+// on oauth.telegram.org.
 const GOOGLE = "https://accounts.google.com";
 const TURNSTILE = "https://challenges.cloudflare.com";
+const TELEGRAM = "https://telegram.org";
+const TELEGRAM_OAUTH = "https://oauth.telegram.org";
 
 /** What the browser may load and run. Blocks injected scripts from other sites, framing (clickjacking),
  * plugins, <base> hijacking and forms posting elsewhere. Inline scripts stay allowed: Next.js needs them
  * on static pages; every piece of user text is escaped by React. */
 const CSP = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' ${GOOGLE}/gsi/client ${TURNSTILE}${dev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' ${GOOGLE}/gsi/client ${TELEGRAM} ${TURNSTILE}${dev ? " 'unsafe-eval'" : ""}`,
   `style-src 'self' 'unsafe-inline' ${GOOGLE}/gsi/style`,
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
   `connect-src 'self' ${GOOGLE}/gsi/${dev ? " ws: wss:" : ""}`,
-  `frame-src ${GOOGLE} ${TURNSTILE}`,
+  `frame-src ${GOOGLE} ${TELEGRAM_OAUTH} ${TURNSTILE}`,
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",
@@ -54,7 +58,11 @@ const nextConfig: NextConfig = {
   // In production Caddy routes /v1/* to FastAPI before it reaches Next.js;
   // this rewrite makes the same relative URLs work in local dev without Caddy.
   async rewrites() {
-    return [{ source: "/v1/:path*", destination: `${apiUrl}/v1/:path*` }];
+    return [
+      { source: "/v1/:path*", destination: `${apiUrl}/v1/:path*` },
+      // photos of ads: Caddy serves them from disk in production, the API does it in local dev
+      { source: "/media/:path*", destination: `${apiUrl}/media/:path*` },
+    ];
   },
 };
 

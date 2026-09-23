@@ -94,8 +94,16 @@ export default async function ResolvedPage(props: Props) {
   if (route.type === "search") return <SearchAll locale={locale} searchParams={await props.searchParams} />;
   if (route.type === "agency") return <DriversPage locale={locale} />;
   if (route.type === "static") {
-    const { tab } = await props.searchParams;
-    return <StaticPage locale={locale} page={route.key} title={await routeTitle(locale, route)} tab={typeof tab === "string" ? tab : undefined} />;
+    const { tab, edit } = await props.searchParams;
+    return (
+      <StaticPage
+        locale={locale}
+        page={route.key}
+        title={await routeTitle(locale, route)}
+        tab={typeof tab === "string" ? tab : undefined}
+        edit={typeof edit === "string" ? edit : undefined}
+      />
+    );
   }
   notFound();
 }

@@ -23,13 +23,21 @@
 		-X-Powered-By
 	}
 
-	# A huge body is an attack on memory: 1 MB everywhere, except a CV attached to an application (5 MB + slack).
+	# A huge body is an attack on memory: 1 MB everywhere, except the two places that carry a file —
+	# a CV attached to an application (5 MB + slack) and a photo of an ad (8 MB + slack).
 	@cv path_regexp ^/v1/applications/cv/[A-Za-z0-9_-]+$
-	@not_cv not path_regexp ^/v1/applications/cv/[A-Za-z0-9_-]+$
+	@photo path_regexp ^/v1/my/listings/[0-9]+/photos$
+	@small {
+		not path_regexp ^/v1/applications/cv/[A-Za-z0-9_-]+$
+		not path_regexp ^/v1/my/listings/[0-9]+/photos$
+	}
 	request_body @cv {
 		max_size 6MB
 	}
-	request_body @not_cv {
+	request_body @photo {
+		max_size 9MB
+	}
+	request_body @small {
 		max_size 1MB
 	}
 
@@ -39,6 +47,15 @@
 	}
 	respond @probes 404 {
 		close
+	}
+
+	# Photos of ads: files with random names, written once and never changed, so they may be cached for
+	# a long time. Caddy serves them straight from the disk the API writes to.
+	handle /media/* {
+		root * /srv
+		header Cache-Control "public, max-age=31536000, immutable"
+		header X-Content-Type-Options "nosniff"
+		file_server
 	}
 
 	handle /v1/* {

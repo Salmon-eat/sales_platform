@@ -1424,10 +1424,16 @@
 .sign-in h1 {
   font-size: 26px;
 }
-.sign-in__google {
+.sign-in__google,
+.sign-in__telegram {
   display: flex;
   justify-content: center;
   min-height: 44px;
+}
+/* a provider that did not load leaves no empty gap and no lonely "or" line */
+.sign-in__google[hidden],
+.sign-in__telegram[hidden] {
+  display: none;
 }
 .sign-in__or {
   position: relative;

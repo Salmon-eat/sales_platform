@@ -18,6 +18,9 @@ out/
 next-env.d.ts
 *.tsbuildinfo
 
+# photos of ads (in production they live in a docker volume, in dev in this folder)
+api/media/
+
 # os / editors
 .DS_Store
 Thumbs.db

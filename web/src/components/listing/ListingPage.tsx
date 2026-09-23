@@ -7,6 +7,7 @@ import { getTranslations } from "next-intl/server";
 import { TrackListingView } from "@/components/Analytics";
 import { ApplicationForm } from "@/components/apply/ApplicationForm";
 import { ListingCard } from "@/components/home/ListingCard";
+import { PhotoGallery } from "@/components/listing/PhotoGallery";
 import { AppliedNotice } from "@/components/saved/AppliedNotice";
 import { FavoriteButton } from "@/components/saved/FavoriteButton";
 import type { Locale } from "@/i18n/routing";
@@ -20,6 +21,7 @@ import type { ListingDetail, ResolveOut } from "@/lib/types";
 const TELEGRAM_BOT = process.env.NEXT_PUBLIC_TELEGRAM_BOT_URL ?? "https://t.me/";
 const LANG_LABEL: Record<string, string> = { es: "ES", en: "EN", uk: "UA", ru: "RU" };
 const UNIT: Record<string, string> = { hour: "HOUR", day: "DAY", week: "WEEK", month: "MONTH" };
+const PRICE_PERIOD = { month: "perMonth", week: "perWeek", day: "perDay", hour: "perHour" } as const;
 
 async function load(id: number, locale: Locale): Promise<ListingDetail> {
   try {
@@ -69,6 +71,15 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
   const closed = listing.state !== "active";
   const where = place(listing, t("spainWide"));
   const salary = salaryText(listing, locale, tl);
+  // outside jobs the number people look for is the price, not a salary
+  const price =
+    listing.price_kind === "free"
+      ? tl("priceFree")
+      : listing.price != null
+        ? `${formatEuro(listing.price, locale)}${listing.price_period ? tl(PRICE_PERIOD[listing.price_period]) : ""}`
+        : listing.price_kind === "negotiable"
+          ? tl("priceAsk")
+          : null;
   const date = new Intl.DateTimeFormat(locale, { dateStyle: "long", timeZone: "Europe/Madrid" });
   // "5 places", "start 1 October", "3 months": set by the manager in the "Набір" block
   const facts = [
@@ -199,9 +210,11 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
             <p className="notice">{t("originalText", { lang: LANG_LABEL[listing.lang] })}</p>
           )}
 
+          {listing.photos?.length > 0 && <PhotoGallery photos={listing.photos} alt={listing.title} />}
+
           <div className="listing-facts">
             <div className="listing-salary-big">
-              {salary ?? <span className="job-card-nosalary">{tl("salaryNone")}</span>}
+              {salary ?? price ?? <span className="job-card-nosalary">{tl("salaryNone")}</span>}
               {listing.salary_period && listing.salary_period !== "month" && listing.salary_monthly_min && (
                 <small>{t("perMonth", { amount: formatEuro(listing.salary_monthly_min, locale) })}</small>
               )}

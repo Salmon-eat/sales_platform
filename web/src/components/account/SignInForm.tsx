@@ -37,6 +37,10 @@ export function SignInForm({ next }: { next?: string }) {
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // a widget can be switched on and still not appear (Google offline, a bot without its domain set):
+  // we only show the button's place, and the "or" line, once it is really there
+  const [googleShown, setGoogleShown] = useState(false);
+  const [telegramShown, setTelegramShown] = useState(false);
   const googleBox = useRef<HTMLDivElement>(null);
   const telegramBox = useRef<HTMLDivElement>(null);
 
@@ -62,6 +66,7 @@ export function SignInForm({ next }: { next?: string }) {
         },
       });
       id.renderButton(googleBox.current, { theme: "outline", size: "large", width: 320, locale });
+      setGoogleShown(googleBox.current.childElementCount > 0);
     };
     document.head.appendChild(script);
     return () => script.remove();
@@ -88,8 +93,13 @@ export function SignInForm({ next }: { next?: string }) {
     script.setAttribute("data-userpic", "false");
     script.setAttribute("data-onauth", "onTelegramAuth(user)");
     box.appendChild(script);
+    // Telegram replaces the script with an iframe; if the bot has no domain set, nothing ever appears
+    const watch = new MutationObserver(() => setTelegramShown(box.querySelector("iframe") !== null));
+    watch.observe(box, { childList: true });
     return () => {
+      watch.disconnect();
       box.innerHTML = "";
+      setTelegramShown(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locale]);
@@ -120,13 +130,9 @@ export function SignInForm({ next }: { next?: string }) {
       <h1>{t("title")}</h1>
       <p className="muted">{t("subtitle")}</p>
 
-      {(GOOGLE_CLIENT_ID || TELEGRAM_BOT) && (
-        <>
-          {GOOGLE_CLIENT_ID && <div ref={googleBox} className="sign-in__google" />}
-          {TELEGRAM_BOT && <div ref={telegramBox} className="sign-in__telegram" />}
-          <div className="sign-in__or">{t("or")}</div>
-        </>
-      )}
+      {GOOGLE_CLIENT_ID && <div ref={googleBox} className="sign-in__google" hidden={!googleShown} />}
+      {TELEGRAM_BOT && <div ref={telegramBox} className="sign-in__telegram" hidden={!telegramShown} />}
+      {(googleShown || telegramShown) && <div className="sign-in__or">{t("or")}</div>}
 
       {step === "email" ? (
         <form className="sign-in__form" onSubmit={askCode}>

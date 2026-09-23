@@ -281,7 +281,9 @@ async def _resolve_listing(
     )
     by_lang = {t.lang: t for t in listing.translations}
     text = by_lang.get(lang) or by_lang[listing.original_lang]
-    canonical = listing_path(listing_section.slug[lang], lang, text.slug, listing.id)
+    canonical = listing_path(
+        listing_section.slug[lang], lang, text.slug, listing.id, listing_section.key
+    )
     if canonical != path.strip("/").lower():
         return Resolved(type="redirect", redirect=canonical)
 
@@ -299,7 +301,9 @@ async def _resolve_listing(
         listing_state=state,
         indexable=translated and state in {"active", "closed"},
         alternates={
-            code: listing_path(listing_section.slug[code], code, by_lang[code].slug, listing.id)
+            code: listing_path(
+                listing_section.slug[code], code, by_lang[code].slug, listing.id, listing_section.key
+            )
             for code in LANGS
             if code in by_lang
         },

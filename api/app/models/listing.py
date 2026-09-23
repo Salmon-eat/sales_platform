@@ -17,7 +17,8 @@ PRICE_KINDS = ("fixed", "negotiable", "free", "from")
 MAX_PHOTOS = 10
 SCHEDULES = ("full", "part", "weekends", "shifts")
 CONTRACTS = ("indefinido", "temporal", "fijo_discontinuo")
-SOURCES = ("agency", "partner", "employer")
+# private: posted by a visitor about their own thing, not by a company
+SOURCES = ("agency", "partner", "employer", "private")
 LOCATION_SCOPES = ("local", "spain_wide")
 
 
@@ -72,6 +73,8 @@ class Listing(TimestampMixin, Base):
     created_by: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
     # posted by a visitor (null = by the team); every visitor's ad is checked before it appears
     owner_id: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), index=True)
+    # what the automatic check noticed when the ad was sent in: the moderator sees it first
+    flags: Mapped[list[str]] = mapped_column(JSONB, default=list, server_default="[]")
     moderated_by: Mapped[int | None]
     moderated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     reject_reason: Mapped[str | None] = mapped_column(String(40))

@@ -27,6 +27,13 @@ class Settings(BaseSettings):
     # GDPR (admin spec §9): closed applications lose their personal data after this many months
     anonymize_after_months: int = 24
 
+    # Photos of ads: where the files live. Caddy serves this folder at /media/*, so the address of a
+    # photo on the site is exactly its place here.
+    media_root: str = "/app/media"
+    # a person may post this many ads; a limit keeps one account from flooding a section
+    listings_per_user: int = 30
+    listing_days: int = 30
+
     # Telegram bot sync: the bot pushes its applications and conversations and picks up replies written
     # in the admin. A shared secret of at least 32 chars; empty = the bot endpoints are closed.
     bot_sync_token: str = ""

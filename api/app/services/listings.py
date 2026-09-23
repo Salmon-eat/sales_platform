@@ -391,7 +391,13 @@ async def public_cards(session: AsyncSession, listings: list[Listing], lang: str
             ListingCard(
                 id=item.id,
                 slug=text.slug,
-                path=listing_path(sections[item.section_id].slug[lang], lang, text.slug, item.id),
+                path=listing_path(
+                    sections[item.section_id].slug[lang],
+                    lang,
+                    text.slug,
+                    item.id,
+                    sections[item.section_id].key,
+                ),
                 lang=text.lang,
                 is_translated=text.lang == lang,
                 title=text.title,

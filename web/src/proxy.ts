@@ -22,7 +22,9 @@ function pickLocale(request: NextRequest): Locale {
 }
 
 const API_URL = process.env.API_INTERNAL_URL ?? "http://localhost:8000";
-const CARD_RE = /^\/(?:es|en|ua|ru)\/[^/]+\/(?:oferta|job|vakansiia|vakansiya)\/[^/]*-(\d+)\/?$/;
+// the word before the slug: a job ("oferta") or an ad of any other kind ("anuncio")
+const CARD_RE =
+  /^\/(?:es|en|ua|ru)\/[^/]+\/(?:oferta|job|vakansiia|vakansiya|anuncio|ad|oholoshennia|obyavlenie)\/[^/]*-(\d+)\/?$/;
 
 /** spec §6: a card closed more than 90 days ago answers 410 Gone (earlier: 200 + badge, then noindex). */
 async function goneResponse(pathname: string): Promise<NextResponse | null> {
@@ -93,6 +95,6 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Everything except the API, Next internals and files with an extension.
-  matcher: ["/((?!v1|_next|_vercel|.*\\..*).*)"],
+  // Everything except the API (ours and the site's own route handlers), Next internals and files.
+  matcher: ["/((?!v1|api|_next|_vercel|.*\\..*).*)"],
 };

@@ -191,7 +191,7 @@ async def _listings_sitemap(session, lang: str, page: int) -> SitemapPage:  # no
         texts = {t.lang: t for t in listing.translations}
         section = sections[listing.section_id]
         alternates = {
-            code: listing_path(section.slug[code], code, texts[code].slug, listing.id)
+            code: listing_path(section.slug[code], code, texts[code].slug, listing.id, section.key)
             for code in LANGS
             if code in texts
         }

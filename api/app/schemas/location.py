@@ -5,6 +5,8 @@ class LocationRef(BaseModel):
     level: str
     slug: str
     name: str
+    # the posting form picks a town by id; filters and links use the slug
+    id: int | None = None
 
 
 class LocationOut(BaseModel):

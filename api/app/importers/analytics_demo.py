@@ -93,7 +93,9 @@ async def _paths(session: AsyncSession) -> tuple[dict, list[tuple[int, dict[str,
             (
                 x.id,
                 {
-                    lang: listing_path(section.slug[lang], lang, (texts.get(lang) or fallback).slug, x.id)
+                    lang: listing_path(
+                        section.slug[lang], lang, (texts.get(lang) or fallback).slug, x.id, section.key
+                    )
                     for lang in URL_PREFIX
                 },
             )

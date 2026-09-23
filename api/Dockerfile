@@ -14,7 +14,8 @@ RUN uv pip install --system --no-cache --require-hashes -r requirements.lock
 
 COPY . .
 
-RUN useradd --create-home --uid 1000 app && chown -R app:app /app
+# the photos volume is mounted here; a named volume starts with this folder's owner, so create it first
+RUN useradd --create-home --uid 1000 app && mkdir -p /app/media && chown -R app:app /app
 USER app
 
 EXPOSE 8000

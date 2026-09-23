@@ -12,6 +12,7 @@ import type errors from "./uk/errors.json";
 import type links from "./uk/links.json";
 import type listings from "./uk/listings.json";
 import type login from "./uk/login.json";
+import type moderation from "./uk/moderation.json";
 import type shell from "./uk/shell.json";
 import type users from "./uk/users.json";
 
@@ -22,6 +23,7 @@ export const ADMIN_NAMESPACES = [
   "errors",
   "users",
   "listings",
+  "moderation",
   "applications",
   "dashboard",
   "links",
@@ -34,6 +36,7 @@ export type AdminMessages = {
   errors: typeof errors;
   users: typeof users;
   listings: typeof listings;
+  moderation: typeof moderation;
   applications: typeof applications;
   dashboard: typeof dashboard;
   links: typeof links;

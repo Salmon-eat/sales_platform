@@ -35,6 +35,21 @@ export type Localized = Record<"es" | "en" | "uk" | "ru", string>;
 
 // ---------- public taxonomy / locations (one language) ----------
 
+export type AttributeOption = { value: string; label: string };
+
+/** A field of a category or a tag of a whole section, already in the page language. */
+export type AttributeDef = {
+  key: string;
+  type: "bool" | "enum" | "multi_enum" | "int_range";
+  label: string;
+  options: AttributeOption[];
+  filterable: boolean;
+  facet_order: number;
+  required: boolean;
+  seo_indexable: boolean;
+  defined_on: number | null;
+};
+
 export type CategoryNode = {
   id: number;
   slug: string;
@@ -42,6 +57,7 @@ export type CategoryNode = {
   name: string;
   icon: string | null;
   synonyms: string[];
+  attributes?: AttributeDef[];
   children: CategoryNode[];
 };
 
@@ -54,11 +70,12 @@ export type Taxonomy = {
     is_enabled: boolean;
     /** listings: vacancies and ads; services: permanent agency services (catalog + service pages) */
     kind: "listings" | "services";
+    attributes?: AttributeDef[];
     categories: CategoryNode[];
   }[];
 };
 
-export type LocationRef = { level: string; slug: string; name: string };
+export type LocationRef = { level: string; slug: string; name: string; id?: number | null };
 
 /** Option lists for the application form, prepared on the server. */
 export type ApplicationOptions = {
@@ -104,7 +121,8 @@ export type ListingCard = {
   housing: boolean;
   no_language: boolean;
   no_experience: boolean;
-  source: "agency" | "partner" | "employer";
+  /** "private" = posted by a person about their own thing */
+  source: "agency" | "partner" | "employer" | "private";
   /** null for agency listings */
   employer_name: string | null;
   is_urgent: boolean;
@@ -204,6 +222,43 @@ export type Home = {
   fresh: ListingCard[];
 };
 
+export type ListingPhoto = { path: string; thumb: string; width: number; height: number };
+
+/** An ad of the signed-in visitor, in their own area. */
+export type MyListingStatus = "draft" | "pending" | "active" | "paused" | "expired" | "closed" | "rejected";
+
+export type MyListing = {
+  id: number;
+  status: MyListingStatus;
+  title: string;
+  lang: Lang;
+  /** address on the site; only once it is published */
+  path: string | null;
+  photo: string | null;
+  price: number | null;
+  price_period: SalaryPeriod | null;
+  price_kind: "fixed" | "negotiable" | "free" | "from";
+  category_name: string;
+  location_name: string | null;
+  published_at: string | null;
+  expires_at: string | null;
+  reject_reason: string | null;
+  reject_note: string | null;
+  photos_count: number;
+  updated_at: string;
+};
+
+export type MyListingDetail = MyListing & {
+  category_id: number;
+  location_id: number | null;
+  description: string;
+  attributes: Record<string, unknown>;
+  contact: Record<string, string>;
+  photos: (ListingPhoto & { id: number })[];
+};
+
+export type MyLimits = { open: number; max_listings: number; max_photos: number; days: number };
+
 export type ListingQuestionSetting = { key: string; text?: Partial<Record<"es" | "en" | "uk" | "ru", string>> };
 
 /** A ready-made question the manager can tick, in the admin language. */
@@ -216,6 +271,7 @@ export type ListingDetail = ListingCard & {
   /** optional questions to the candidate, answered in the application form */
   questions: ListingQuestion[];
   description: string;
+  photos: ListingPhoto[];
   requirements: string | null;
   conditions: string | null;
   original_lang: Lang;

@@ -6,6 +6,7 @@ from app.api.routes import (
     admin,
     admin_analytics,
     admin_listings,
+    admin_moderation,
     admin_users,
     analytics,
     applications,
@@ -15,6 +16,7 @@ from app.api.routes import (
     home,
     listings,
     locations,
+    my,
     pages,
     taxonomy,
 )
@@ -30,6 +32,7 @@ api_router.include_router(applications.router)
 api_router.include_router(applications.chat_router)
 api_router.include_router(auth.router)
 api_router.include_router(account.router)
+api_router.include_router(my.router)
 api_router.include_router(analytics.router)
 api_router.include_router(bot_sync.router)
 
@@ -38,6 +41,7 @@ api_router.include_router(bot_sync.router)
 admin_router = APIRouter(dependencies=[Depends(require_staff)])
 admin_router.include_router(admin.router)
 admin_router.include_router(admin_listings.router)
+admin_router.include_router(admin_moderation.router)
 admin_router.include_router(admin_analytics.router)
 admin_router.include_router(admin_users.router)
 api_router.include_router(admin_router)

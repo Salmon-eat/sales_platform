@@ -9,8 +9,9 @@ from sqlalchemy.orm import selectinload
 
 from app.models import Category, Listing, Location, Section
 from app.models.i18n import tr
-from app.schemas.pages import AttributeValue, ListingDetail, NamedSlug, PlaceRef
+from app.schemas.pages import AttributeValue, ListingDetail, ListingPhotoOut, NamedSlug, PlaceRef
 from app.seo.rules import closed_state
+from app.services import photos as photo_files
 from app.services import questions
 from app.services.attributes import attribute_definitions
 from app.services.listings import public_cards
@@ -27,7 +28,9 @@ def listing_state(listing: Listing, now: datetime) -> str:
 
 async def get_public_listing(session: AsyncSession, listing_id: int) -> Listing:
     listing = await session.scalar(
-        select(Listing).where(Listing.id == listing_id).options(selectinload(Listing.translations))
+        select(Listing)
+        .where(Listing.id == listing_id)
+        .options(selectinload(Listing.translations), selectinload(Listing.photos))
     )
     if listing is None or listing.status not in PUBLIC_STATUSES:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Listing not found")
@@ -116,6 +119,15 @@ async def build_listing_detail(session: AsyncSession, listing: Listing, lang: st
     return ListingDetail(
         **card.model_dump(),
         description=text.description,
+        photos=[
+            ListingPhotoOut(
+                path=photo.path,
+                thumb=photo_files.thumb_path(photo.path),
+                width=photo.width,
+                height=photo.height,
+            )
+            for photo in listing.photos
+        ],
         requirements=text.requirements,
         conditions=text.conditions,
         original_lang=listing.original_lang,

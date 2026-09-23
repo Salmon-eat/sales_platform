@@ -5,8 +5,10 @@ import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 
 import { AccountPanel } from "@/components/account/AccountPanel";
+import { MyAds } from "@/components/account/MyAds";
 import { SignInForm } from "@/components/account/SignInForm";
 import { ApplicationSection } from "@/components/apply/ApplicationSection";
+import { PostPage } from "@/components/post/PostPage";
 import { AccountTabs } from "@/components/saved/AccountTabs";
 import type { Locale } from "@/i18n/routing";
 import { getAccount } from "@/lib/account";
@@ -21,9 +23,9 @@ import { RichText } from "./RichText";
 
 type FaqItem = { q: string; a: string };
 
-type Props = { locale: Locale; page: StaticKey; title: string; tab?: string };
+type Props = { locale: Locale; page: StaticKey; title: string; tab?: string; edit?: string };
 
-export async function StaticPage({ locale, page, title, tab }: Props) {
+export async function StaticPage({ locale, page, title, tab, edit }: Props) {
   const crumbs = [{ name: "Citobazar", href: localizedPath(locale, { type: "home" }) }];
   if (page === "account") {
     // signed in: the profile is on top; saved listings and applications still come from this browser
@@ -33,6 +35,7 @@ export async function StaticPage({ locale, page, title, tab }: Props) {
         <PageHero crumbs={crumbs} title={title} />
         <div className="container static-page">
           <AccountPanel account={account} locale={locale} />
+          {account && <MyAds locale={locale} />}
           <AccountTabs key={tab} initialTab={tab === "applied" ? "applied" : "saved"} />
         </div>
       </>
@@ -90,11 +93,10 @@ export async function StaticPage({ locale, page, title, tab }: Props) {
   }
 
   if (page === "publish") {
+    // the board's own form; a company that wants us to post a job for them writes below it
     return (
       <>
-        <PageHero crumbs={crumbs} title={content.title}>
-          <p>{content.body}</p>
-        </PageHero>
+        <PostPage locale={locale} title={content.title} editId={/^\d+$/.test(edit ?? "") ? Number(edit) : undefined} />
         <div className="container static-page static-page--narrow">
           <EmployerRequestForm />
         </div>

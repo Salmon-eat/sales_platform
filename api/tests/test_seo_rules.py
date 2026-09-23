@@ -54,3 +54,9 @@ def test_paths() -> None:
     assert parse_listing_tail("no-id-here") is None
     assert feature_by_slug("z-zhytlom") == ("housing", "uk")
     assert offer_word_lang("vakansiia") == "uk"
+    # outside jobs a card is an "ad", not a vacancy
+    assert listing_path("rechi", "uk", "dyvan-madrid", 42, "articulos") == "rechi/oholoshennia/dyvan-madrid-42"
+    assert listing_path("motor", "es", "ford-transit", 7, "motor") == "motor/anuncio/ford-transit-7"
+    assert offer_word_lang("anuncio") == "es"
+    assert offer_word_lang("oholoshennia") == "uk"
+    assert offer_word_lang("something-else") is None

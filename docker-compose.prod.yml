@@ -27,6 +27,8 @@ services:
       - "443:443/udp"
     volumes:
       - ./infra/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      # photos of ads: Caddy hands out the files itself, read-only, without waking Python
+      - media:/srv/media:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
@@ -75,6 +77,8 @@ services:
       RESEND_API_KEY: ${RESEND_API_KEY:-}
       MAIL_FROM: ${MAIL_FROM:-Citobazar <no-reply@citobazar.com>}
       PUBLIC_SITE_URL: https://${DOMAIN}
+    volumes:
+      - media:/app/media
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/v1/health')"]
       interval: 10s
@@ -96,6 +100,9 @@ services:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       REDIS_URL: redis://redis:6379/0
       SECRET_KEY: ${SECRET_KEY:?SECRET_KEY is required}
+    volumes:
+      # the cleanup of expired ads deletes their photos too
+      - media:/app/media
     depends_on:
       api:
         condition: service_healthy
@@ -132,5 +139,6 @@ services:
 volumes:
   pgdata:
   redisdata:
+  media:
   caddy_data:
   caddy_config:
