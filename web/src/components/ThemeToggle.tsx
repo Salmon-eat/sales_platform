@@ -17,25 +17,8 @@ export function ThemeToggle() {
   const t = useTranslations("header");
   const [theme, setTheme] = useState<Theme | null>(null);
 
-  useEffect(() => {
-    setTheme(current());
-    // until the person picks a theme, follow the device (e.g. dark at night)
-    const media = matchMedia("(prefers-color-scheme: dark)");
-    const follow = (event: MediaQueryListEvent) => {
-      let saved: string | null = null;
-      try {
-        saved = localStorage.getItem(THEME_KEY);
-      } catch {
-        /* storage blocked */
-      }
-      if (saved) return;
-      const next: Theme = event.matches ? "dark" : "light";
-      document.documentElement.dataset.theme = next;
-      setTheme(next);
-    };
-    media.addEventListener("change", follow);
-    return () => media.removeEventListener("change", follow);
-  }, []);
+  // the light theme is the default for everyone; the device setting is not followed
+  useEffect(() => setTheme(current()), []);
 
   function toggle() {
     const next: Theme = current() === "dark" ? "light" : "dark";

@@ -12,13 +12,16 @@ import type {
   AdminListingDetail,
   AdminSection,
   Lang,
+  ListingQuestionSetting,
   LocationBrief,
+  QuestionPreset,
   SalaryPeriod,
 } from "@/lib/types";
 
 import { saveListing } from "../../listing-actions";
 import { CategoryPicker } from "./CategoryPicker";
 import { LocationPicker } from "./LocationPicker";
+import { QuestionsFieldset } from "./QuestionsFieldset";
 
 type Text = { title: string; description: string; requirements: string; conditions: string };
 const LANGS: Lang[] = ["es", "en", "uk", "ru"];
@@ -31,6 +34,8 @@ const EMPTY_TEXT: Text = { title: "", description: "", requirements: "", conditi
 
 type Props = {
   sections: AdminSection[];
+  /** ready-made questions to the candidate, in the admin language */
+  presets: QuestionPreset[];
   listing?: AdminListingDetail;
   readOnly?: boolean;
 };
@@ -51,7 +56,7 @@ function initialTexts(listing?: AdminListingDetail): Record<Lang, Text> {
 const isFilled = (t: Text) => Boolean(t.title.trim() || t.description.trim());
 const toInt = (v: string) => (v.trim() === "" ? null : Math.round(Number(v)));
 
-export function ListingForm({ sections, listing, readOnly = false }: Props) {
+export function ListingForm({ sections, presets, listing, readOnly = false }: Props) {
   const t = useTranslations("admin.listings");
   const tc = useTranslations("admin.common");
   const locale = useLocale();
@@ -83,6 +88,7 @@ export function ListingForm({ sections, listing, readOnly = false }: Props) {
     duration_months: listing?.duration_months?.toString() ?? "",
   });
   const [attributes, setAttributes] = useState<Record<string, unknown>>(listing?.attributes ?? {});
+  const [questions, setQuestions] = useState<ListingQuestionSetting[]>(listing?.questions ?? []);
   const [source, setSource] = useState(listing?.source ?? "agency");
   const [employer, setEmployer] = useState(listing?.employer_name ?? "");
   const [contact, setContact] = useState({
@@ -193,6 +199,7 @@ export function ListingForm({ sections, listing, readOnly = false }: Props) {
       // answers hidden by another answer are not sent (e.g. Spanish level for "no language")
       attributes: Object.fromEntries(Object.entries(attributes).filter(([k]) => !tagHidden(k))),
       contact: Object.fromEntries(Object.entries(contact).filter(([, v]) => v.trim())),
+      questions,
       source,
       employer_name: source === "agency" ? null : employer || null,
       translations,
@@ -441,6 +448,8 @@ export function ListingForm({ sections, listing, readOnly = false }: Props) {
             {t("form.urgent")}
           </label>
         </fieldset>
+
+        <QuestionsFieldset presets={presets} value={questions} onChange={setQuestions} disabled={readOnly} />
 
         {attributeDefs.length > 0 && (
           <fieldset className="panel" disabled={readOnly}>

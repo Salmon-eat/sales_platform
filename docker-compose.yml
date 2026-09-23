@@ -44,6 +44,11 @@ services:
       ADMIN_DEV_LOGIN: ${ADMIN_DEV_LOGIN:-true}
       # shared secret for the Telegram bot sync (empty = off)
       BOT_SYNC_TOKEN: ${BOT_SYNC_TOKEN:-}
+      # sign-in with Telegram (a bot used only for that), search engines, email
+      TELEGRAM_LOGIN_BOT: ${TELEGRAM_LOGIN_BOT:-}
+      TELEGRAM_LOGIN_TOKEN: ${TELEGRAM_LOGIN_TOKEN:-}
+      INDEXNOW_KEY: ${INDEXNOW_KEY:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
       PUBLIC_SITE_URL: http://localhost:3000
     ports:
       - "8000:8000"

@@ -101,6 +101,60 @@
   color: #c0392b;
   font-size: 13.5px;
 }
+/* the job's optional questions and the CV */
+.apply-questions {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 12px;
+}
+.apply-questions__title {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+.apply-questions legend {
+  font-weight: 500;
+}
+.apply-cv {
+  display: grid;
+  gap: 4px;
+  font-size: 13.5px;
+}
+.apply-cv__pick {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: start;
+  padding: 8px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  font-weight: 600;
+  cursor: pointer;
+}
+.apply-cv__pick:hover {
+  border-color: var(--ink);
+}
+.apply-cv__pick:focus-within {
+  outline: 2px solid var(--accent);
+}
+.apply-cv__pick input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.apply-cv__file {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
 /* anti-bot: the honeypot is off-screen (not display:none, which smarter bots skip) */
 .hp-field {
   position: absolute;

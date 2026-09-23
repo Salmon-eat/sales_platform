@@ -126,7 +126,11 @@
     "pinned": "Закріпити вгорі видачі",
     "saving": "Зберігаємо…",
     "saveDraft": "Зберегти чернетку",
-    "saveAndPublish": "Зберегти й опублікувати"
+    "saveAndPublish": "Зберегти й опублікувати",
+    "questionsTitle": "Питання кандидату (необов'язково)",
+    "questionsHint": "Кандидат відповідає кліком у формі відгуку, може й пропустити. До {max} питань.",
+    "questionOwn": "Своє питання «так / ні» {n}",
+    "questionOwnPlaceholder": "Напр.: Можете почати в понеділок?"
   },
   "preview": {
     "caption": "Прев'ю картки (як у списку на сайті)",
@@ -134,7 +138,7 @@
     "noSalary": "Зарплата не вказана",
     "perPeriod": "{period, select, hour {за годину} day {за день} week {за тиждень} other {на місяць}}",
     "urgent": "Терміново",
-    "agency": "Агенція Bazarcito",
+    "agency": "Агенція Citobazar",
     "company": "Компанія",
     "city": "Місто",
     "spainWide": "Вся Іспанія",

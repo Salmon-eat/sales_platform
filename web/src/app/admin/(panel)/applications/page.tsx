@@ -95,6 +95,7 @@ export default async function ApplicationsPage({ searchParams }: Props) {
                       <strong>{a.name}</strong>
                     </Link>
                     {a.unread > 0 && <div className="badge badge--chat">{t("row.unread", { count: a.unread })}</div>}
+                    {a.has_cv && <div className="badge badge--muted">📎 {t("row.cv")}</div>}
                     <div>{a.phone ? <a href={`tel:${a.phone}`}>{a.phone}</a> : <span className="muted small">{t("row.noPhone")}</span>}</div>
                   </td>
                   <td>

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import DateTime, ForeignKey, String, func
+from sqlalchemy import BigInteger, DateTime, ForeignKey, String, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.models.base import Base, TimestampMixin, str_enum
@@ -22,13 +22,30 @@ class User(TimestampMixin, Base):
     )
     # Google account bound on the first sign-in: a re-created account with the same email is refused.
     google_sub: Mapped[str | None] = mapped_column(String(64), unique=True)
+    phone: Mapped[str | None] = mapped_column(String(20))
+    # signed in with Telegram: there is no email there, the account is keyed by the Telegram id
+    telegram_id: Mapped[int | None] = mapped_column(BigInteger, unique=True)
+    telegram_username: Mapped[str | None] = mapped_column(String(64))
     # Access is switched off, never deleted, so the name stays in notes and history (admin spec §1).
     is_active: Mapped[bool] = mapped_column(default=True, server_default="true")
     last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # the visitor deleted their account: contacts wiped, the row stays for the statistics
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     @property
     def is_staff(self) -> bool:
         return self.role in (UserRole.MANAGER, UserRole.ADMIN)
+
+
+class Favorite(Base):
+    """A listing saved by a signed-in visitor (guests keep them in the browser until they sign in)."""
+
+    __tablename__ = "favorites"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    listing_id: Mapped[int]
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
 class UserSession(Base):

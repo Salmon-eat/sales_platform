@@ -1,7 +1,7 @@
 {
   "meta": {
-    "siteName": "Bazarcito",
-    "title": "Bazarcito — jobs, services and paperwork in Spain",
+    "siteName": "Citobazar",
+    "title": "Citobazar — jobs, services and paperwork in Spain",
     "description": "Jobs, services and help with documents in Spain. Search or post a listing in a minute."
   },
   "header": {
@@ -12,7 +12,9 @@
     "post": "Post",
     "language": "Language",
     "themeDark": "Dark theme",
-    "themeLight": "Light theme"
+    "themeLight": "Light theme",
+    "signIn": "Sign in",
+    "account": "Account"
   },
   "sections": {
     "work": "Jobs",
@@ -22,7 +24,8 @@
     "housingJobs": "Jobs with housing",
     "request": "Didn't find a vacancy?",
     "training": "Training",
-    "documentsShort": "Documents"
+    "documentsShort": "Documents",
+    "all": "All"
   },
   "static": {
     "publish": "Post a job",
@@ -32,7 +35,8 @@
     "account": "Account",
     "request": "Didn't find a vacancy?",
     "legal": "Legal notice",
-    "cookies": "Cookie policy"
+    "cookies": "Cookie policy",
+    "login": "Sign in"
   },
   "home": {
     "stats": "{total, plural, one {# listing} other {# listings}} · {today, plural, one {# new today} other {# new today}}",
@@ -73,7 +77,24 @@
       "job2Salary": "€1,900 / mo",
       "job3Title": "Builder",
       "job3Salary": "€2,300 / mo"
-    }
+    },
+    "searchTitle": "What are you looking for in Spain?",
+    "searchPlaceholder": "Job, car, flat…",
+    "allSectionsOption": "All sections",
+    "searchButton": "Search",
+    "statsListings": "listings",
+    "statsToday": "new today",
+    "statsSections": "sections",
+    "allSections": "All sections",
+    "seeAll": "See all",
+    "topTitle": "Top listings",
+    "topBadge": "paid placement",
+    "howToTop": "How to get here",
+    "freshAds": "Newest listings",
+    "allAds": "All {count}",
+    "ctaTitle": "Post your listing for free",
+    "ctaText": "Sign in with Google or an email code · up to 10 photos · checked by a moderator",
+    "ctaButton": "Post a listing"
   },
   "sectors": {
     "transport": "Transport",
@@ -97,11 +118,15 @@
     "unitHour": "per hour",
     "unitDay": "per day",
     "unitWeek": "per week",
-    "agencyName": "Bazarcito agency",
+    "agencyName": "Citobazar agency",
     "saved": "Remove from saved",
     "applied": "Applied",
     "urgent": "Urgent",
-    "viewed": "Viewed"
+    "viewed": "Viewed",
+    "top": "TOP",
+    "priceFree": "Free",
+    "priceAsk": "Negotiable",
+    "perMonth": "/mo"
   },
   "apply": {
     "badge": "Free",
@@ -151,7 +176,14 @@
     "savedNote": "Your name and phone are remembered only in this browser, so the next request takes one click.",
     "pageSubtitle": "Leave a request: a manager will call you back, ask what you need and find a job in Spain. We can also help with housing, documents or moving — just write it in the comment.",
     "pageCommentPlaceholder": "What are you looking for or need help with: job, housing, documents…",
-    "errorCaptcha": "We could not confirm you are not a robot. Reload the page and try again."
+    "errorCaptcha": "We could not confirm you are not a robot. Reload the page and try again.",
+    "questionsTitle": "A few questions from the employer",
+    "cvAdd": "Add your CV",
+    "cvRemove": "remove",
+    "cvHint": "PDF, Word or a photo, up to 5 MB. A CV is not required.",
+    "cvErrorType": "Please use PDF, Word (DOC, DOCX), JPG or PNG.",
+    "cvErrorSize": "The file is larger than 5 MB.",
+    "cvFailed": "We received your application, but the CV did not upload. The manager will ask for it when they call."
   },
   "drivers": {
     "title": "CE driver jobs in Spain",
@@ -182,10 +214,13 @@
     "back": "Go home"
   },
   "footer": {
-    "rights": "© {year} Bazarcito"
+    "rights": "© {year} Citobazar",
+    "agency": "Our services"
   },
   "search": {
     "found": "{count, plural, one {# job} other {# jobs}}",
+    "everywhere": "Search the whole site",
+    "foundAds": "{count, plural, one {# ad} other {# ads}}",
     "filters": "Filters",
     "moreFilters": "More filters",
     "reset": "Clear all",
@@ -324,7 +359,17 @@
     "localNote": "Saved jobs and applications are kept in this browser.",
     "findJobs": "Find jobs",
     "loading": "Loading…",
-    "error": "Could not load the jobs. Try reloading the page."
+    "error": "Could not load the jobs. Try reloading the page.",
+    "guestTitle": "You are not signed in",
+    "guestText": "Sign in to save listings, post your own and write to people.",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "name": "Name",
+    "namePlaceholder": "How should we call you",
+    "phone": "Phone",
+    "save": "Save",
+    "delete": "Delete the account",
+    "deleteConfirm": "Delete the account? Your data will be erased and this cannot be undone."
   },
   "services": {
     "catalogTitle": "Agency services",
@@ -345,7 +390,7 @@
     "viber": "Viber",
     "site": "Leave a request on the site",
     "close": "Close",
-    "hello": "Hi! I'm writing from the Bazarcito website.",
+    "hello": "Hi! I'm writing from the Citobazar website.",
     "chat": "Write here, on the site",
     "messagePlaceholder": "Your message: what you're looking for or what we can help with…",
     "name": "Name",
@@ -360,5 +405,35 @@
     "manager": "Manager",
     "waiting": "Message received. A manager will reply here — you can close the page, the reply will wait for you.",
     "reply": "Write…"
+  },
+  "signIn": {
+    "title": "Sign in",
+    "subtitle": "No passwords: we send a code to your email, or use Google.",
+    "or": "or",
+    "email": "Email",
+    "emailPlaceholder": "you@email.com",
+    "sendCode": "Send the code",
+    "sending": "Sending…",
+    "code": "Code from the email",
+    "sentTo": "We sent a code to {email}. It expires in 10 minutes.",
+    "signIn": "Sign in",
+    "checking": "Checking…",
+    "changeEmail": "Change the address",
+    "legal": "By signing in you accept the privacy policy.",
+    "errors": {
+      "wrong_code": "That code does not match. Check the email and try again.",
+      "code_expired": "The code has expired. Ask for a new one.",
+      "too_many_tries": "Too many tries. Ask for a new code.",
+      "too_many_codes": "Too many codes for this address today. Try tomorrow.",
+      "wait_before_resend": "The code has just been sent. Wait a minute.",
+      "too_many": "Too many requests. Try again in a minute.",
+      "unavailable": "The service is temporarily unavailable. Try later.",
+      "try_again_later": "The service is temporarily unavailable. Try later.",
+      "google_not_configured": "Google sign-in is not set up yet.",
+      "invalid_token": "Google sign-in failed. Try again.",
+      "not_allowed": "This account is blocked.",
+      "signed_out": "Your session ended. Sign in again.",
+      "generic": "Something went wrong. Try again."
+    }
   }
 }

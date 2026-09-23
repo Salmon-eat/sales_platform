@@ -5,22 +5,66 @@
       "key": "empleo",
       "is_enabled": true,
       "sort": 1,
-      "slug": { "es": "empleo", "en": "jobs", "uk": "robota", "ru": "rabota" },
-      "name": { "es": "Empleo", "en": "Jobs", "uk": "Робота", "ru": "Работа" },
+      "slug": {
+        "es": "empleo",
+        "en": "jobs",
+        "uk": "robota",
+        "ru": "rabota"
+      },
+      "name": {
+        "es": "Empleo",
+        "en": "Jobs",
+        "uk": "Робота",
+        "ru": "Работа"
+      },
       "_attributes": "Listing tags of the whole section: filters everywhere in Empleo. Keys must not repeat category attribute keys.",
       "attributes": [
         {
           "key": "suitable_for",
           "type": "multi_enum",
           "facet_order": 10,
-          "label": { "es": "Adecuado para", "en": "Suitable for", "uk": "Підходить для", "ru": "Подходит для" },
+          "label": {
+            "es": "Adecuado para",
+            "en": "Suitable for",
+            "uk": "Підходить для",
+            "ru": "Подходит для"
+          },
           "options": [
-            { "value": "students", "label": {"es": "Estudiantes", "en": "Students", "uk": "Студентам", "ru": "Студентам"} },
-            { "value": "pensioners", "label": {"es": "Jubilados", "en": "Pensioners", "uk": "Пенсіонерам", "ru": "Пенсионерам"} },
-            { "value": "couples", "label": {"es": "Parejas y familias", "en": "Couples and families", "uk": "Парам і сім'ям", "ru": "Парам и семьям"} },
+            {
+              "value": "students",
+              "label": {
+                "es": "Estudiantes",
+                "en": "Students",
+                "uk": "Студентам",
+                "ru": "Студентам"
+              }
+            },
+            {
+              "value": "pensioners",
+              "label": {
+                "es": "Jubilados",
+                "en": "Pensioners",
+                "uk": "Пенсіонерам",
+                "ru": "Пенсионерам"
+              }
+            },
+            {
+              "value": "couples",
+              "label": {
+                "es": "Parejas y familias",
+                "en": "Couples and families",
+                "uk": "Парам і сім'ям",
+                "ru": "Парам и семьям"
+              }
+            },
             {
               "value": "disability",
-              "label": { "es": "Personas con discapacidad", "en": "People with disabilities", "uk": "Людям з інвалідністю", "ru": "Людям с инвалидностью" }
+              "label": {
+                "es": "Personas con discapacidad",
+                "en": "People with disabilities",
+                "uk": "Людям з інвалідністю",
+                "ru": "Людям с инвалидностью"
+              }
             }
           ]
         },
@@ -28,12 +72,49 @@
           "key": "team_language",
           "type": "multi_enum",
           "facet_order": 20,
-          "label": { "es": "Hablamos", "en": "We speak", "uk": "Говоримо", "ru": "Говорим" },
+          "label": {
+            "es": "Hablamos",
+            "en": "We speak",
+            "uk": "Говоримо",
+            "ru": "Говорим"
+          },
           "options": [
-            { "value": "es", "label": {"es": "Español", "en": "Spanish", "uk": "Іспанською", "ru": "По-испански"} },
-            { "value": "en", "label": {"es": "Inglés", "en": "English", "uk": "Англійською", "ru": "По-английски"} },
-            { "value": "ru", "label": {"es": "Ruso", "en": "Russian", "uk": "Російською", "ru": "По-русски"} },
-            { "value": "uk", "label": {"es": "Ucraniano", "en": "Ukrainian", "uk": "Українською", "ru": "По-украински"} }
+            {
+              "value": "es",
+              "label": {
+                "es": "Español",
+                "en": "Spanish",
+                "uk": "Іспанською",
+                "ru": "По-испански"
+              }
+            },
+            {
+              "value": "en",
+              "label": {
+                "es": "Inglés",
+                "en": "English",
+                "uk": "Англійською",
+                "ru": "По-английски"
+              }
+            },
+            {
+              "value": "ru",
+              "label": {
+                "es": "Ruso",
+                "en": "Russian",
+                "uk": "Російською",
+                "ru": "По-русски"
+              }
+            },
+            {
+              "value": "uk",
+              "label": {
+                "es": "Ucraniano",
+                "en": "Ukrainian",
+                "uk": "Українською",
+                "ru": "По-украински"
+              }
+            }
           ]
         },
         {
@@ -41,14 +122,67 @@
           "type": "enum",
           "facet_order": 21,
           "filterable": false,
-          "label": { "es": "Nivel de español", "en": "Spanish level", "uk": "Рівень іспанської", "ru": "Уровень испанского" },
+          "label": {
+            "es": "Nivel de español",
+            "en": "Spanish level",
+            "uk": "Рівень іспанської",
+            "ru": "Уровень испанского"
+          },
           "options": [
-            { "value": "a1", "label": {"es": "A1 — inicial", "en": "A1 — beginner", "uk": "A1 — початковий", "ru": "A1 — начальный"} },
-            { "value": "a2", "label": {"es": "A2 — básico", "en": "A2 — elementary", "uk": "A2 — елементарний", "ru": "A2 — элементарный"} },
-            { "value": "b1", "label": {"es": "B1 — intermedio", "en": "B1 — intermediate", "uk": "B1 — середній", "ru": "B1 — средний"} },
-            { "value": "b2", "label": {"es": "B2 — intermedio alto", "en": "B2 — upper intermediate", "uk": "B2 — вище середнього", "ru": "B2 — выше среднего"} },
-            { "value": "c1", "label": {"es": "C1 — avanzado", "en": "C1 — advanced", "uk": "C1 — просунутий", "ru": "C1 — продвинутый"} },
-            { "value": "c2", "label": {"es": "C2 — nativo / bilingüe", "en": "C2 — proficient", "uk": "C2 — вільний", "ru": "C2 — свободный"} }
+            {
+              "value": "a1",
+              "label": {
+                "es": "A1 — inicial",
+                "en": "A1 — beginner",
+                "uk": "A1 — початковий",
+                "ru": "A1 — начальный"
+              }
+            },
+            {
+              "value": "a2",
+              "label": {
+                "es": "A2 — básico",
+                "en": "A2 — elementary",
+                "uk": "A2 — елементарний",
+                "ru": "A2 — элементарный"
+              }
+            },
+            {
+              "value": "b1",
+              "label": {
+                "es": "B1 — intermedio",
+                "en": "B1 — intermediate",
+                "uk": "B1 — середній",
+                "ru": "B1 — средний"
+              }
+            },
+            {
+              "value": "b2",
+              "label": {
+                "es": "B2 — intermedio alto",
+                "en": "B2 — upper intermediate",
+                "uk": "B2 — вище середнього",
+                "ru": "B2 — выше среднего"
+              }
+            },
+            {
+              "value": "c1",
+              "label": {
+                "es": "C1 — avanzado",
+                "en": "C1 — advanced",
+                "uk": "C1 — просунутий",
+                "ru": "C1 — продвинутый"
+              }
+            },
+            {
+              "value": "c2",
+              "label": {
+                "es": "C2 — nativo / bilingüe",
+                "en": "C2 — proficient",
+                "uk": "C2 — вільний",
+                "ru": "C2 — свободный"
+              }
+            }
           ],
           "_levels": "Minimum level (CEFR). Old values basic/fluent were migrated to a2/c1."
         },
@@ -57,14 +191,67 @@
           "type": "enum",
           "facet_order": 22,
           "filterable": false,
-          "label": { "es": "Nivel de inglés", "en": "English level", "uk": "Рівень англійської", "ru": "Уровень английского" },
+          "label": {
+            "es": "Nivel de inglés",
+            "en": "English level",
+            "uk": "Рівень англійської",
+            "ru": "Уровень английского"
+          },
           "options": [
-            { "value": "a1", "label": {"es": "A1 — inicial", "en": "A1 — beginner", "uk": "A1 — початковий", "ru": "A1 — начальный"} },
-            { "value": "a2", "label": {"es": "A2 — básico", "en": "A2 — elementary", "uk": "A2 — елементарний", "ru": "A2 — элементарный"} },
-            { "value": "b1", "label": {"es": "B1 — intermedio", "en": "B1 — intermediate", "uk": "B1 — середній", "ru": "B1 — средний"} },
-            { "value": "b2", "label": {"es": "B2 — intermedio alto", "en": "B2 — upper intermediate", "uk": "B2 — вище середнього", "ru": "B2 — выше среднего"} },
-            { "value": "c1", "label": {"es": "C1 — avanzado", "en": "C1 — advanced", "uk": "C1 — просунутий", "ru": "C1 — продвинутый"} },
-            { "value": "c2", "label": {"es": "C2 — nativo / bilingüe", "en": "C2 — proficient", "uk": "C2 — вільний", "ru": "C2 — свободный"} }
+            {
+              "value": "a1",
+              "label": {
+                "es": "A1 — inicial",
+                "en": "A1 — beginner",
+                "uk": "A1 — початковий",
+                "ru": "A1 — начальный"
+              }
+            },
+            {
+              "value": "a2",
+              "label": {
+                "es": "A2 — básico",
+                "en": "A2 — elementary",
+                "uk": "A2 — елементарний",
+                "ru": "A2 — элементарный"
+              }
+            },
+            {
+              "value": "b1",
+              "label": {
+                "es": "B1 — intermedio",
+                "en": "B1 — intermediate",
+                "uk": "B1 — середній",
+                "ru": "B1 — средний"
+              }
+            },
+            {
+              "value": "b2",
+              "label": {
+                "es": "B2 — intermedio alto",
+                "en": "B2 — upper intermediate",
+                "uk": "B2 — вище середнього",
+                "ru": "B2 — выше среднего"
+              }
+            },
+            {
+              "value": "c1",
+              "label": {
+                "es": "C1 — avanzado",
+                "en": "C1 — advanced",
+                "uk": "C1 — просунутий",
+                "ru": "C1 — продвинутый"
+              }
+            },
+            {
+              "value": "c2",
+              "label": {
+                "es": "C2 — nativo / bilingüe",
+                "en": "C2 — proficient",
+                "uk": "C2 — вільний",
+                "ru": "C2 — свободный"
+              }
+            }
           ],
           "_levels": "Minimum level (CEFR). Old values basic/fluent were migrated to a2/c1."
         },
@@ -72,16 +259,39 @@
           "key": "documents",
           "type": "multi_enum",
           "facet_order": 30,
-          "label": { "es": "Documentos", "en": "Documents", "uk": "Документи", "ru": "Документы" },
+          "label": {
+            "es": "Documentos",
+            "en": "Documents",
+            "uk": "Документи",
+            "ru": "Документы"
+          },
           "options": [
             {
               "value": "temporary_protection",
-              "label": { "es": "Con protección temporal", "en": "With temporary protection", "uk": "З тимчасовим захистом", "ru": "С временной защитой" }
+              "label": {
+                "es": "Con protección temporal",
+                "en": "With temporary protection",
+                "uk": "З тимчасовим захистом",
+                "ru": "С временной защитой"
+              }
             },
-            { "value": "nie_help", "label": {"es": "Ayuda con NIE/TIE", "en": "Help with NIE/TIE", "uk": "Допомога з NIE/TIE", "ru": "Помощь с NIE/TIE"} },
+            {
+              "value": "nie_help",
+              "label": {
+                "es": "Ayuda con NIE/TIE",
+                "en": "Help with NIE/TIE",
+                "uk": "Допомога з NIE/TIE",
+                "ru": "Помощь с NIE/TIE"
+              }
+            },
             {
               "value": "work_permit",
-              "label": { "es": "Permiso de trabajo necesario", "en": "Work permit required", "uk": "Потрібен дозвіл на роботу", "ru": "Нужно разрешение на работу" }
+              "label": {
+                "es": "Permiso de trabajo necesario",
+                "en": "Work permit required",
+                "uk": "Потрібен дозвіл на роботу",
+                "ru": "Нужно разрешение на работу"
+              }
             }
           ]
         },
@@ -89,600 +299,3167 @@
           "key": "housing_cost",
           "type": "enum",
           "facet_order": 40,
-          "label": { "es": "Alojamiento", "en": "Housing", "uk": "Житло", "ru": "Жильё" },
+          "label": {
+            "es": "Alojamiento",
+            "en": "Housing",
+            "uk": "Житло",
+            "ru": "Жильё"
+          },
           "options": [
-            { "value": "free", "label": {"es": "Gratuito", "en": "Free", "uk": "Безкоштовне", "ru": "Бесплатное"} },
-            { "value": "paid", "label": {"es": "De pago", "en": "Paid", "uk": "Платне", "ru": "Платное"} }
+            {
+              "value": "free",
+              "label": {
+                "es": "Gratuito",
+                "en": "Free",
+                "uk": "Безкоштовне",
+                "ru": "Бесплатное"
+              }
+            },
+            {
+              "value": "paid",
+              "label": {
+                "es": "De pago",
+                "en": "Paid",
+                "uk": "Платне",
+                "ru": "Платное"
+              }
+            }
           ]
         },
         {
           "key": "benefits",
           "type": "multi_enum",
           "facet_order": 41,
-          "label": { "es": "La empresa ofrece", "en": "The employer provides", "uk": "Роботодавець забезпечує", "ru": "Работодатель обеспечивает" },
+          "label": {
+            "es": "La empresa ofrece",
+            "en": "The employer provides",
+            "uk": "Роботодавець забезпечує",
+            "ru": "Работодатель обеспечивает"
+          },
           "options": [
-            { "value": "meals", "label": {"es": "Comida", "en": "Meals", "uk": "Харчування", "ru": "Питание"} },
-            { "value": "transport", "label": {"es": "Transporte al trabajo", "en": "Transport to work", "uk": "Транспорт до роботи", "ru": "Транспорт до работы"} },
-            { "value": "travel", "label": {"es": "Billetes de viaje", "en": "Travel tickets", "uk": "Оплата дороги", "ru": "Оплата дороги"} },
-            { "value": "workwear", "label": {"es": "Ropa de trabajo", "en": "Workwear", "uk": "Спецодяг", "ru": "Спецодежда"} }
+            {
+              "value": "meals",
+              "label": {
+                "es": "Comida",
+                "en": "Meals",
+                "uk": "Харчування",
+                "ru": "Питание"
+              }
+            },
+            {
+              "value": "transport",
+              "label": {
+                "es": "Transporte al trabajo",
+                "en": "Transport to work",
+                "uk": "Транспорт до роботи",
+                "ru": "Транспорт до работы"
+              }
+            },
+            {
+              "value": "travel",
+              "label": {
+                "es": "Billetes de viaje",
+                "en": "Travel tickets",
+                "uk": "Оплата дороги",
+                "ru": "Оплата дороги"
+              }
+            },
+            {
+              "value": "workwear",
+              "label": {
+                "es": "Ropa de trabajo",
+                "en": "Workwear",
+                "uk": "Спецодяг",
+                "ru": "Спецодежда"
+              }
+            }
           ]
         },
         {
           "key": "official",
           "type": "bool",
           "facet_order": 50,
-          "label": { "es": "Alta en la Seguridad Social", "en": "Official contract (social security)", "uk": "Офіційне оформлення", "ru": "Официальное оформление" }
+          "label": {
+            "es": "Alta en la Seguridad Social",
+            "en": "Official contract (social security)",
+            "uk": "Офіційне оформлення",
+            "ru": "Официальное оформление"
+          }
         },
         {
           "key": "no_education",
           "type": "bool",
           "facet_order": 60,
-          "label": { "es": "Sin estudios", "en": "No education required", "uk": "Без освіти", "ru": "Без образования" }
+          "label": {
+            "es": "Sin estudios",
+            "en": "No education required",
+            "uk": "Без освіти",
+            "ru": "Без образования"
+          }
         },
         {
           "key": "license_b",
           "type": "bool",
           "facet_order": 61,
           "filterable": false,
-          "label": { "es": "Carné de conducir B", "en": "B driving licence", "uk": "Потрібні права B", "ru": "Нужны права B" }
+          "label": {
+            "es": "Carné de conducir B",
+            "en": "B driving licence",
+            "uk": "Потрібні права B",
+            "ru": "Нужны права B"
+          }
         },
         {
           "key": "own_car",
           "type": "bool",
           "facet_order": 62,
           "filterable": false,
-          "label": { "es": "Vehículo propio", "en": "Own car", "uk": "Потрібне власне авто", "ru": "Нужен свой автомобиль" }
+          "label": {
+            "es": "Vehículo propio",
+            "en": "Own car",
+            "uk": "Потрібне власне авто",
+            "ru": "Нужен свой автомобиль"
+          }
         }
       ],
       "categories": [
         {
-          "slug": { "es": "transporte", "en": "transport", "uk": "transport", "ru": "transport" },
-          "name": { "es": "Transporte", "en": "Transport", "uk": "Транспорт", "ru": "Транспорт" },
+          "slug": {
+            "es": "transporte",
+            "en": "transport",
+            "uk": "transport",
+            "ru": "transport"
+          },
+          "name": {
+            "es": "Transporte",
+            "en": "Transport",
+            "uk": "Транспорт",
+            "ru": "Транспорт"
+          },
           "icon": "truck",
           "children": [
             {
-              "slug": { "es": "conductor-ce", "en": "truck-driver-ce", "uk": "vodii-ce", "ru": "voditeli-ce" },
-              "name": { "es": "Conductor CE", "en": "CE truck driver", "uk": "Водій CE", "ru": "Водитель CE" },
+              "slug": {
+                "es": "conductor-ce",
+                "en": "truck-driver-ce",
+                "uk": "vodii-ce",
+                "ru": "voditeli-ce"
+              },
+              "name": {
+                "es": "Conductor CE",
+                "en": "CE truck driver",
+                "uk": "Водій CE",
+                "ru": "Водитель CE"
+              },
               "icon": "truck",
               "synonyms": {
-                "es": ["chófer", "camionero", "conductor tráiler", "conductor de camión"],
-                "en": ["truck driver", "HGV driver", "lorry driver"],
-                "uk": ["водій", "дальнобійник", "фура", "водій фури"],
-                "ru": ["водитель", "дальнобойщик", "фура", "водитель фуры"]
+                "es": [
+                  "chófer",
+                  "camionero",
+                  "conductor tráiler",
+                  "conductor de camión"
+                ],
+                "en": [
+                  "truck driver",
+                  "HGV driver",
+                  "lorry driver"
+                ],
+                "uk": [
+                  "водій",
+                  "дальнобійник",
+                  "фура",
+                  "водій фури"
+                ],
+                "ru": [
+                  "водитель",
+                  "дальнобойщик",
+                  "фура",
+                  "водитель фуры"
+                ]
               },
               "attributes": [
                 {
                   "key": "trailer_type",
                   "type": "multi_enum",
                   "facet_order": 1,
-                  "label": { "es": "Tipo de remolque", "en": "Trailer type", "uk": "Тип причепа", "ru": "Тип прицепа" },
+                  "label": {
+                    "es": "Tipo de remolque",
+                    "en": "Trailer type",
+                    "uk": "Тип причепа",
+                    "ru": "Тип прицепа"
+                  },
                   "options": [
-                    { "value": "lona", "label": {"es": "Lona", "en": "Curtainsider", "uk": "Тент", "ru": "Тент"} },
-                    { "value": "frigorifico", "label": {"es": "Frigorífico", "en": "Reefer", "uk": "Рефрижератор", "ru": "Рефрижератор"} },
-                    { "value": "portacoches", "label": {"es": "Portacoches", "en": "Car transporter", "uk": "Автовоз", "ru": "Автовоз"} },
-                    { "value": "cisterna", "label": {"es": "Cisterna", "en": "Tanker", "uk": "Цистерна", "ru": "Цистерна"} }
+                    {
+                      "value": "lona",
+                      "label": {
+                        "es": "Lona",
+                        "en": "Curtainsider",
+                        "uk": "Тент",
+                        "ru": "Тент"
+                      }
+                    },
+                    {
+                      "value": "frigorifico",
+                      "label": {
+                        "es": "Frigorífico",
+                        "en": "Reefer",
+                        "uk": "Рефрижератор",
+                        "ru": "Рефрижератор"
+                      }
+                    },
+                    {
+                      "value": "portacoches",
+                      "label": {
+                        "es": "Portacoches",
+                        "en": "Car transporter",
+                        "uk": "Автовоз",
+                        "ru": "Автовоз"
+                      }
+                    },
+                    {
+                      "value": "cisterna",
+                      "label": {
+                        "es": "Cisterna",
+                        "en": "Tanker",
+                        "uk": "Цистерна",
+                        "ru": "Цистерна"
+                      }
+                    }
                   ]
                 },
                 {
                   "key": "adr",
                   "type": "bool",
                   "facet_order": 2,
-                  "label": { "es": "ADR (mercancías peligrosas)", "en": "ADR (dangerous goods)", "uk": "ADR (небезпечні вантажі)", "ru": "ADR (опасные грузы)" }
+                  "label": {
+                    "es": "ADR (mercancías peligrosas)",
+                    "en": "ADR (dangerous goods)",
+                    "uk": "ADR (небезпечні вантажі)",
+                    "ru": "ADR (опасные грузы)"
+                  }
                 },
-                { "key": "cap_95", "type": "bool", "facet_order": 3, "label": {"es": "CAP (código 95)", "en": "Code 95", "uk": "Код 95", "ru": "Код 95"} },
+                {
+                  "key": "cap_95",
+                  "type": "bool",
+                  "facet_order": 3,
+                  "label": {
+                    "es": "CAP (código 95)",
+                    "en": "Code 95",
+                    "uk": "Код 95",
+                    "ru": "Код 95"
+                  }
+                },
                 {
                   "key": "route_scope",
                   "type": "enum",
                   "facet_order": 4,
-                  "label": { "es": "Rutas", "en": "Routes", "uk": "Маршрути", "ru": "Маршруты" },
+                  "label": {
+                    "es": "Rutas",
+                    "en": "Routes",
+                    "uk": "Маршрути",
+                    "ru": "Маршруты"
+                  },
                   "options": [
-                    { "value": "nacional", "label": {"es": "Nacional", "en": "Domestic", "uk": "По Іспанії", "ru": "По Испании"} },
-                    { "value": "internacional", "label": {"es": "Internacional", "en": "International", "uk": "Міжнародні", "ru": "Международные"} }
+                    {
+                      "value": "nacional",
+                      "label": {
+                        "es": "Nacional",
+                        "en": "Domestic",
+                        "uk": "По Іспанії",
+                        "ru": "По Испании"
+                      }
+                    },
+                    {
+                      "value": "internacional",
+                      "label": {
+                        "es": "Internacional",
+                        "en": "International",
+                        "uk": "Міжнародні",
+                        "ru": "Международные"
+                      }
+                    }
                   ]
                 },
                 {
                   "key": "route_countries",
                   "type": "multi_enum",
                   "facet_order": 4,
-                  "label": { "es": "Países de las rutas", "en": "Route countries", "uk": "Країни рейсів", "ru": "Страны рейсов" },
+                  "label": {
+                    "es": "Países de las rutas",
+                    "en": "Route countries",
+                    "uk": "Країни рейсів",
+                    "ru": "Страны рейсов"
+                  },
                   "options": [
-                    { "value": "francia", "label": {"es": "Francia", "en": "France", "uk": "Франція", "ru": "Франция"} },
-                    { "value": "portugal", "label": {"es": "Portugal", "en": "Portugal", "uk": "Португалія", "ru": "Португалия"} },
-                    { "value": "italia", "label": {"es": "Italia", "en": "Italy", "uk": "Італія", "ru": "Италия"} },
-                    { "value": "alemania", "label": {"es": "Alemania", "en": "Germany", "uk": "Німеччина", "ru": "Германия"} },
-                    { "value": "benelux", "label": {"es": "Benelux", "en": "Benelux", "uk": "Бенілюкс", "ru": "Бенилюкс"} },
-                    { "value": "suiza", "label": {"es": "Suiza", "en": "Switzerland", "uk": "Швейцарія", "ru": "Швейцария"} },
-                    { "value": "austria", "label": {"es": "Austria", "en": "Austria", "uk": "Австрія", "ru": "Австрия"} },
-                    { "value": "polonia", "label": {"es": "Polonia", "en": "Poland", "uk": "Польща", "ru": "Польша"} },
-                    { "value": "chequia", "label": {"es": "Chequia", "en": "Czechia", "uk": "Чехія", "ru": "Чехия"} },
-                    { "value": "reino-unido", "label": {"es": "Reino Unido", "en": "United Kingdom", "uk": "Велика Британія", "ru": "Великобритания"} },
-                    { "value": "escandinavia", "label": {"es": "Escandinavia", "en": "Scandinavia", "uk": "Скандинавія", "ru": "Скандинавия"} },
-                    { "value": "marruecos", "label": {"es": "Marruecos", "en": "Morocco", "uk": "Марокко", "ru": "Марокко"} }
+                    {
+                      "value": "francia",
+                      "label": {
+                        "es": "Francia",
+                        "en": "France",
+                        "uk": "Франція",
+                        "ru": "Франция"
+                      }
+                    },
+                    {
+                      "value": "portugal",
+                      "label": {
+                        "es": "Portugal",
+                        "en": "Portugal",
+                        "uk": "Португалія",
+                        "ru": "Португалия"
+                      }
+                    },
+                    {
+                      "value": "italia",
+                      "label": {
+                        "es": "Italia",
+                        "en": "Italy",
+                        "uk": "Італія",
+                        "ru": "Италия"
+                      }
+                    },
+                    {
+                      "value": "alemania",
+                      "label": {
+                        "es": "Alemania",
+                        "en": "Germany",
+                        "uk": "Німеччина",
+                        "ru": "Германия"
+                      }
+                    },
+                    {
+                      "value": "benelux",
+                      "label": {
+                        "es": "Benelux",
+                        "en": "Benelux",
+                        "uk": "Бенілюкс",
+                        "ru": "Бенилюкс"
+                      }
+                    },
+                    {
+                      "value": "suiza",
+                      "label": {
+                        "es": "Suiza",
+                        "en": "Switzerland",
+                        "uk": "Швейцарія",
+                        "ru": "Швейцария"
+                      }
+                    },
+                    {
+                      "value": "austria",
+                      "label": {
+                        "es": "Austria",
+                        "en": "Austria",
+                        "uk": "Австрія",
+                        "ru": "Австрия"
+                      }
+                    },
+                    {
+                      "value": "polonia",
+                      "label": {
+                        "es": "Polonia",
+                        "en": "Poland",
+                        "uk": "Польща",
+                        "ru": "Польша"
+                      }
+                    },
+                    {
+                      "value": "chequia",
+                      "label": {
+                        "es": "Chequia",
+                        "en": "Czechia",
+                        "uk": "Чехія",
+                        "ru": "Чехия"
+                      }
+                    },
+                    {
+                      "value": "reino-unido",
+                      "label": {
+                        "es": "Reino Unido",
+                        "en": "United Kingdom",
+                        "uk": "Велика Британія",
+                        "ru": "Великобритания"
+                      }
+                    },
+                    {
+                      "value": "escandinavia",
+                      "label": {
+                        "es": "Escandinavia",
+                        "en": "Scandinavia",
+                        "uk": "Скандинавія",
+                        "ru": "Скандинавия"
+                      }
+                    },
+                    {
+                      "value": "marruecos",
+                      "label": {
+                        "es": "Marruecos",
+                        "en": "Morocco",
+                        "uk": "Марокко",
+                        "ru": "Марокко"
+                      }
+                    }
                   ]
                 },
                 {
                   "key": "weeks_on_off",
                   "type": "enum",
                   "facet_order": 6,
-                  "label": { "es": "Semanas de trabajo / descanso", "en": "Weeks on / off", "uk": "Тижні роботи / відпочинку", "ru": "Недели работы / отдыха" },
+                  "label": {
+                    "es": "Semanas de trabajo / descanso",
+                    "en": "Weeks on / off",
+                    "uk": "Тижні роботи / відпочинку",
+                    "ru": "Недели работы / отдыха"
+                  },
                   "options": [
-                    { "value": "2-1", "label": {"es": "2/1", "en": "2/1", "uk": "2/1", "ru": "2/1"} },
-                    { "value": "3-1", "label": {"es": "3/1", "en": "3/1", "uk": "3/1", "ru": "3/1"} },
-                    { "value": "4-2", "label": {"es": "4/2", "en": "4/2", "uk": "4/2", "ru": "4/2"} }
+                    {
+                      "value": "2-1",
+                      "label": {
+                        "es": "2/1",
+                        "en": "2/1",
+                        "uk": "2/1",
+                        "ru": "2/1"
+                      }
+                    },
+                    {
+                      "value": "3-1",
+                      "label": {
+                        "es": "3/1",
+                        "en": "3/1",
+                        "uk": "3/1",
+                        "ru": "3/1"
+                      }
+                    },
+                    {
+                      "value": "4-2",
+                      "label": {
+                        "es": "4/2",
+                        "en": "4/2",
+                        "uk": "4/2",
+                        "ru": "4/2"
+                      }
+                    }
                   ]
                 }
               ]
             },
             {
-              "slug": { "es": "conductor-c", "en": "truck-driver-c", "uk": "vodii-c", "ru": "voditeli-c" },
-              "name": { "es": "Conductor C", "en": "C truck driver", "uk": "Водій C", "ru": "Водитель C" },
-              "synonyms": { "es": ["camionero rígido"], "en": ["rigid truck driver"], "uk": ["водій вантажівки"], "ru": ["водитель грузовика"] }
+              "slug": {
+                "es": "conductor-c",
+                "en": "truck-driver-c",
+                "uk": "vodii-c",
+                "ru": "voditeli-c"
+              },
+              "name": {
+                "es": "Conductor C",
+                "en": "C truck driver",
+                "uk": "Водій C",
+                "ru": "Водитель C"
+              },
+              "synonyms": {
+                "es": [
+                  "camionero rígido"
+                ],
+                "en": [
+                  "rigid truck driver"
+                ],
+                "uk": [
+                  "водій вантажівки"
+                ],
+                "ru": [
+                  "водитель грузовика"
+                ]
+              }
             },
             {
-              "slug": { "es": "repartidor", "en": "delivery-driver", "uk": "kurier", "ru": "kurer" },
-              "name": { "es": "Repartidor", "en": "Delivery driver", "uk": "Кур'єр", "ru": "Курьер" },
-              "synonyms": { "es": ["mensajero", "reparto"], "en": ["courier"], "uk": ["доставка", "доставник"], "ru": ["доставка", "доставщик"] }
+              "slug": {
+                "es": "repartidor",
+                "en": "delivery-driver",
+                "uk": "kurier",
+                "ru": "kurer"
+              },
+              "name": {
+                "es": "Repartidor",
+                "en": "Delivery driver",
+                "uk": "Кур'єр",
+                "ru": "Курьер"
+              },
+              "synonyms": {
+                "es": [
+                  "mensajero",
+                  "reparto"
+                ],
+                "en": [
+                  "courier"
+                ],
+                "uk": [
+                  "доставка",
+                  "доставник"
+                ],
+                "ru": [
+                  "доставка",
+                  "доставщик"
+                ]
+              }
             },
             {
-              "slug": { "es": "carretillero", "en": "forklift-operator", "uk": "vodii-navantazhuvacha", "ru": "voditel-pogruzchika" },
-              "name": { "es": "Carretillero", "en": "Forklift operator", "uk": "Водій навантажувача", "ru": "Водитель погрузчика" },
-              "synonyms": { "es": ["operador de carretilla"], "en": ["forklift driver"], "uk": ["карщик", "навантажувач"], "ru": ["карщик", "погрузчик"] }
+              "slug": {
+                "es": "carretillero",
+                "en": "forklift-operator",
+                "uk": "vodii-navantazhuvacha",
+                "ru": "voditel-pogruzchika"
+              },
+              "name": {
+                "es": "Carretillero",
+                "en": "Forklift operator",
+                "uk": "Водій навантажувача",
+                "ru": "Водитель погрузчика"
+              },
+              "synonyms": {
+                "es": [
+                  "operador de carretilla"
+                ],
+                "en": [
+                  "forklift driver"
+                ],
+                "uk": [
+                  "карщик",
+                  "навантажувач"
+                ],
+                "ru": [
+                  "карщик",
+                  "погрузчик"
+                ]
+              }
             },
             {
-              "slug": { "es": "conductor-b", "en": "van-driver", "uk": "vodii-b", "ru": "voditel-b" },
-              "name": { "es": "Conductor B (furgoneta)", "en": "Van driver (B)", "uk": "Водій B (бус)", "ru": "Водитель B (бус)" },
-              "synonyms": { "es": ["conductor de furgoneta", "repartidor furgoneta"], "en": ["van driver"], "uk": ["водій буса", "водій легкового"], "ru": ["водитель буса"] }
+              "slug": {
+                "es": "conductor-b",
+                "en": "van-driver",
+                "uk": "vodii-b",
+                "ru": "voditel-b"
+              },
+              "name": {
+                "es": "Conductor B (furgoneta)",
+                "en": "Van driver (B)",
+                "uk": "Водій B (бус)",
+                "ru": "Водитель B (бус)"
+              },
+              "synonyms": {
+                "es": [
+                  "conductor de furgoneta",
+                  "repartidor furgoneta"
+                ],
+                "en": [
+                  "van driver"
+                ],
+                "uk": [
+                  "водій буса",
+                  "водій легкового"
+                ],
+                "ru": [
+                  "водитель буса"
+                ]
+              }
             },
             {
-              "slug": { "es": "conductor-autobus", "en": "bus-driver", "uk": "vodii-avtobusa", "ru": "voditel-avtobusa" },
-              "name": { "es": "Conductor de autobús", "en": "Bus driver", "uk": "Водій автобуса", "ru": "Водитель автобуса" },
-              "synonyms": { "es": ["chófer de autobús"], "en": ["coach driver"], "uk": ["водій D"], "ru": ["водитель D"] }
+              "slug": {
+                "es": "conductor-autobus",
+                "en": "bus-driver",
+                "uk": "vodii-avtobusa",
+                "ru": "voditel-avtobusa"
+              },
+              "name": {
+                "es": "Conductor de autobús",
+                "en": "Bus driver",
+                "uk": "Водій автобуса",
+                "ru": "Водитель автобуса"
+              },
+              "synonyms": {
+                "es": [
+                  "chófer de autobús"
+                ],
+                "en": [
+                  "coach driver"
+                ],
+                "uk": [
+                  "водій D"
+                ],
+                "ru": [
+                  "водитель D"
+                ]
+              }
             },
             {
-              "slug": { "es": "mudanzas", "en": "movers", "uk": "vantazhnyk", "ru": "gruzchik" },
-              "name": { "es": "Mozo de mudanzas", "en": "Mover", "uk": "Вантажник, переїзди", "ru": "Грузчик, переезды" },
-              "synonyms": { "es": ["mudanzas", "cargador"], "en": ["removals", "loader"], "uk": ["вантажник", "мувінг"], "ru": ["грузчик", "мувинг"] }
+              "slug": {
+                "es": "mudanzas",
+                "en": "movers",
+                "uk": "vantazhnyk",
+                "ru": "gruzchik"
+              },
+              "name": {
+                "es": "Mozo de mudanzas",
+                "en": "Mover",
+                "uk": "Вантажник, переїзди",
+                "ru": "Грузчик, переезды"
+              },
+              "synonyms": {
+                "es": [
+                  "mudanzas",
+                  "cargador"
+                ],
+                "en": [
+                  "removals",
+                  "loader"
+                ],
+                "uk": [
+                  "вантажник",
+                  "мувінг"
+                ],
+                "ru": [
+                  "грузчик",
+                  "мувинг"
+                ]
+              }
             },
             {
-              "slug": { "es": "trafico-logistica", "en": "dispatcher", "uk": "dyspetcher", "ru": "dispetcher" },
-              "name": { "es": "Jefe de tráfico / logística", "en": "Dispatcher / logistics", "uk": "Диспетчер / логіст", "ru": "Диспетчер / логист" },
-              "synonyms": { "es": ["gestor de tráfico", "logística"], "en": ["logistics coordinator"], "uk": ["логіст", "диспетчер"], "ru": ["логист"] }
+              "slug": {
+                "es": "trafico-logistica",
+                "en": "dispatcher",
+                "uk": "dyspetcher",
+                "ru": "dispetcher"
+              },
+              "name": {
+                "es": "Jefe de tráfico / logística",
+                "en": "Dispatcher / logistics",
+                "uk": "Диспетчер / логіст",
+                "ru": "Диспетчер / логист"
+              },
+              "synonyms": {
+                "es": [
+                  "gestor de tráfico",
+                  "logística"
+                ],
+                "en": [
+                  "logistics coordinator"
+                ],
+                "uk": [
+                  "логіст",
+                  "диспетчер"
+                ],
+                "ru": [
+                  "логист"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "construccion", "en": "construction", "uk": "budivnytstvo", "ru": "stroitelstvo" },
-          "name": { "es": "Construcción", "en": "Construction", "uk": "Будівництво", "ru": "Строительство" },
+          "slug": {
+            "es": "construccion",
+            "en": "construction",
+            "uk": "budivnytstvo",
+            "ru": "stroitelstvo"
+          },
+          "name": {
+            "es": "Construcción",
+            "en": "Construction",
+            "uk": "Будівництво",
+            "ru": "Строительство"
+          },
           "icon": "building",
           "children": [
             {
-              "slug": { "es": "albanil", "en": "bricklayer", "uk": "muliar", "ru": "kamenshchik" },
-              "name": { "es": "Albañil", "en": "Bricklayer", "uk": "Муляр", "ru": "Каменщик" },
-              "synonyms": { "es": ["peón de obra"], "en": ["mason"], "uk": ["будівельник"], "ru": ["строитель"] }
+              "slug": {
+                "es": "albanil",
+                "en": "bricklayer",
+                "uk": "muliar",
+                "ru": "kamenshchik"
+              },
+              "name": {
+                "es": "Albañil",
+                "en": "Bricklayer",
+                "uk": "Муляр",
+                "ru": "Каменщик"
+              },
+              "synonyms": {
+                "es": [
+                  "peón de obra"
+                ],
+                "en": [
+                  "mason"
+                ],
+                "uk": [
+                  "будівельник"
+                ],
+                "ru": [
+                  "строитель"
+                ]
+              }
             },
             {
-              "slug": { "es": "solador", "en": "tiler", "uk": "plytochnyk", "ru": "plitochnik" },
-              "name": { "es": "Solador", "en": "Tiler", "uk": "Плиточник", "ru": "Плиточник" },
-              "synonyms": { "es": ["azulejero"], "en": ["tile setter"], "uk": ["плитка"], "ru": ["плитка"] }
+              "slug": {
+                "es": "solador",
+                "en": "tiler",
+                "uk": "plytochnyk",
+                "ru": "plitochnik"
+              },
+              "name": {
+                "es": "Solador",
+                "en": "Tiler",
+                "uk": "Плиточник",
+                "ru": "Плиточник"
+              },
+              "synonyms": {
+                "es": [
+                  "azulejero"
+                ],
+                "en": [
+                  "tile setter"
+                ],
+                "uk": [
+                  "плитка"
+                ],
+                "ru": [
+                  "плитка"
+                ]
+              }
             },
             {
-              "slug": { "es": "electricista", "en": "electrician", "uk": "elektryk", "ru": "elektrik" },
-              "name": { "es": "Electricista", "en": "Electrician", "uk": "Електрик", "ru": "Электрик" }
+              "slug": {
+                "es": "electricista",
+                "en": "electrician",
+                "uk": "elektryk",
+                "ru": "elektrik"
+              },
+              "name": {
+                "es": "Electricista",
+                "en": "Electrician",
+                "uk": "Електрик",
+                "ru": "Электрик"
+              }
             },
             {
-              "slug": { "es": "fontanero", "en": "plumber", "uk": "santekhnik", "ru": "santekhnik" },
-              "name": { "es": "Fontanero", "en": "Plumber", "uk": "Сантехнік", "ru": "Сантехник" }
-            },
-            { "slug": {"es": "pintor", "en": "painter", "uk": "maliar", "ru": "malyar"}, "name": {"es": "Pintor", "en": "Painter", "uk": "Маляр", "ru": "Маляр"} },
-            {
-              "slug": { "es": "soldador", "en": "welder", "uk": "zvariuvalnyk", "ru": "svarshchik" },
-              "name": { "es": "Soldador", "en": "Welder", "uk": "Зварювальник", "ru": "Сварщик" }
-            },
-            {
-              "slug": { "es": "peon", "en": "labourer", "uk": "riznorobochyi", "ru": "raznorabochiy" },
-              "name": { "es": "Peón", "en": "Labourer", "uk": "Різноробочий", "ru": "Разнорабочий" },
-              "synonyms": { "es": ["peón de obra", "ayudante de obra"], "en": ["construction labourer", "helper"], "uk": ["підсобник", "помічник на будові"], "ru": ["подсобник"] }
-            },
-            {
-              "slug": { "es": "pladurista", "en": "drywall-installer", "uk": "hipsokartonnyk", "ru": "gipsokartonshchik" },
-              "name": { "es": "Pladurista", "en": "Drywall installer", "uk": "Гіпсокартонник, штукатур", "ru": "Гипсокартонщик, штукатур" },
-              "synonyms": { "es": ["yesero", "escayolista"], "en": ["plasterer"], "uk": ["штукатур"], "ru": ["штукатур"] }
+              "slug": {
+                "es": "fontanero",
+                "en": "plumber",
+                "uk": "santekhnik",
+                "ru": "santekhnik"
+              },
+              "name": {
+                "es": "Fontanero",
+                "en": "Plumber",
+                "uk": "Сантехнік",
+                "ru": "Сантехник"
+              }
             },
             {
-              "slug": { "es": "carpintero", "en": "carpenter", "uk": "stoliar", "ru": "stolyar" },
-              "name": { "es": "Carpintero", "en": "Carpenter", "uk": "Столяр, тесля", "ru": "Столяр, плотник" },
-              "synonyms": { "es": ["carpintero de obra", "ebanista"], "en": ["joiner"], "uk": ["тесля"], "ru": ["плотник"] }
+              "slug": {
+                "es": "pintor",
+                "en": "painter",
+                "uk": "maliar",
+                "ru": "malyar"
+              },
+              "name": {
+                "es": "Pintor",
+                "en": "Painter",
+                "uk": "Маляр",
+                "ru": "Маляр"
+              }
             },
             {
-              "slug": { "es": "climatizacion", "en": "hvac-technician", "uk": "montazhnyk-kondytsioneriv", "ru": "montazhnik-konditsionerov" },
-              "name": { "es": "Técnico de climatización", "en": "HVAC technician", "uk": "Монтажник кондиціонерів", "ru": "Монтажник кондиционеров" },
-              "synonyms": { "es": ["frigorista", "aire acondicionado"], "en": ["air conditioning"], "uk": ["кондиціонери", "HVAC"], "ru": ["кондиционеры", "HVAC"] }
+              "slug": {
+                "es": "soldador",
+                "en": "welder",
+                "uk": "zvariuvalnyk",
+                "ru": "svarshchik"
+              },
+              "name": {
+                "es": "Soldador",
+                "en": "Welder",
+                "uk": "Зварювальник",
+                "ru": "Сварщик"
+              }
+            },
+            {
+              "slug": {
+                "es": "peon",
+                "en": "labourer",
+                "uk": "riznorobochyi",
+                "ru": "raznorabochiy"
+              },
+              "name": {
+                "es": "Peón",
+                "en": "Labourer",
+                "uk": "Різноробочий",
+                "ru": "Разнорабочий"
+              },
+              "synonyms": {
+                "es": [
+                  "peón de obra",
+                  "ayudante de obra"
+                ],
+                "en": [
+                  "construction labourer",
+                  "helper"
+                ],
+                "uk": [
+                  "підсобник",
+                  "помічник на будові"
+                ],
+                "ru": [
+                  "подсобник"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "pladurista",
+                "en": "drywall-installer",
+                "uk": "hipsokartonnyk",
+                "ru": "gipsokartonshchik"
+              },
+              "name": {
+                "es": "Pladurista",
+                "en": "Drywall installer",
+                "uk": "Гіпсокартонник, штукатур",
+                "ru": "Гипсокартонщик, штукатур"
+              },
+              "synonyms": {
+                "es": [
+                  "yesero",
+                  "escayolista"
+                ],
+                "en": [
+                  "plasterer"
+                ],
+                "uk": [
+                  "штукатур"
+                ],
+                "ru": [
+                  "штукатур"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "carpintero",
+                "en": "carpenter",
+                "uk": "stoliar",
+                "ru": "stolyar"
+              },
+              "name": {
+                "es": "Carpintero",
+                "en": "Carpenter",
+                "uk": "Столяр, тесля",
+                "ru": "Столяр, плотник"
+              },
+              "synonyms": {
+                "es": [
+                  "carpintero de obra",
+                  "ebanista"
+                ],
+                "en": [
+                  "joiner"
+                ],
+                "uk": [
+                  "тесля"
+                ],
+                "ru": [
+                  "плотник"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "climatizacion",
+                "en": "hvac-technician",
+                "uk": "montazhnyk-kondytsioneriv",
+                "ru": "montazhnik-konditsionerov"
+              },
+              "name": {
+                "es": "Técnico de climatización",
+                "en": "HVAC technician",
+                "uk": "Монтажник кондиціонерів",
+                "ru": "Монтажник кондиционеров"
+              },
+              "synonyms": {
+                "es": [
+                  "frigorista",
+                  "aire acondicionado"
+                ],
+                "en": [
+                  "air conditioning"
+                ],
+                "uk": [
+                  "кондиціонери",
+                  "HVAC"
+                ],
+                "ru": [
+                  "кондиционеры",
+                  "HVAC"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "hosteleria", "en": "hospitality", "uk": "horeca", "ru": "horeca" },
-          "name": { "es": "Hostelería", "en": "Hospitality", "uk": "HoReCa", "ru": "HoReCa" },
+          "slug": {
+            "es": "hosteleria",
+            "en": "hospitality",
+            "uk": "horeca",
+            "ru": "horeca"
+          },
+          "name": {
+            "es": "Hostelería",
+            "en": "Hospitality",
+            "uk": "HoReCa",
+            "ru": "HoReCa"
+          },
           "icon": "chef",
           "children": [
             {
-              "slug": { "es": "camarero", "en": "waiter", "uk": "ofitsiant", "ru": "ofitsiant" },
-              "name": { "es": "Camarero", "en": "Waiter", "uk": "Офіціант", "ru": "Официант" },
-              "synonyms": { "es": ["mesero"], "en": ["waitress", "server"], "uk": ["бармен"], "ru": ["бармен"] }
-            },
-            {
-              "slug": { "es": "cocinero", "en": "cook", "uk": "kukhar", "ru": "povar" },
-              "name": { "es": "Cocinero", "en": "Cook", "uk": "Кухар", "ru": "Повар" },
-              "synonyms": { "es": ["chef"], "en": ["chef"], "uk": ["шеф-кухар", "повар"], "ru": ["шеф-повар", "кухарь"] }
-            },
-            {
-              "slug": { "es": "ayudante-cocina", "en": "kitchen-assistant", "uk": "pomichnyk-kukharia", "ru": "pomoshchnik-povara" },
-              "name": { "es": "Ayudante de cocina", "en": "Kitchen assistant", "uk": "Помічник кухаря", "ru": "Помощник повара" }
-            },
-            {
-              "slug": { "es": "friegaplatos", "en": "dishwasher", "uk": "posudomyinyk", "ru": "posudomoyshchik" },
-              "name": { "es": "Friegaplatos", "en": "Dishwasher", "uk": "Посудомийник", "ru": "Посудомойщик" }
-            },
-            {
-              "slug": { "es": "barman", "en": "bartender", "uk": "barmen", "ru": "barmen" },
-              "name": { "es": "Barman", "en": "Bartender", "uk": "Бармен", "ru": "Бармен" },
-              "synonyms": { "es": ["camarero de barra", "coctelero", "barista"], "en": ["barman", "barista"], "uk": ["бариста"], "ru": ["бариста"] }
-            },
-            {
-              "slug": { "es": "hostess", "en": "restaurant-host", "uk": "khostes", "ru": "khostes" },
-              "name": { "es": "Hostess / recepción de sala", "en": "Restaurant host", "uk": "Хостес / адміністратор залу", "ru": "Хостес / администратор зала" },
+              "slug": {
+                "es": "camarero",
+                "en": "waiter",
+                "uk": "ofitsiant",
+                "ru": "ofitsiant"
+              },
+              "name": {
+                "es": "Camarero",
+                "en": "Waiter",
+                "uk": "Офіціант",
+                "ru": "Официант"
+              },
               "synonyms": {
-                "es": ["recepcionista de restaurante", "jefe de sala"],
-                "en": ["hostess", "maitre"],
-                "uk": ["адміністратор ресторану", "метрдотель"],
-                "ru": ["администратор ресторана", "метрдотель"]
+                "es": [
+                  "mesero"
+                ],
+                "en": [
+                  "waitress",
+                  "server"
+                ],
+                "uk": [
+                  "бармен"
+                ],
+                "ru": [
+                  "бармен"
+                ]
               }
             },
             {
-              "slug": { "es": "recepcionista-hotel", "en": "hotel-receptionist", "uk": "administrator-hotelu", "ru": "administrator-gostinitsy" },
-              "name": { "es": "Recepcionista de hotel", "en": "Hotel receptionist", "uk": "Адміністратор готелю", "ru": "Администратор гостиницы" },
-              "synonyms": { "es": ["recepción de hotel"], "en": ["front desk"], "uk": ["рецепція", "ресепшн"], "ru": ["ресепшн"] }
+              "slug": {
+                "es": "cocinero",
+                "en": "cook",
+                "uk": "kukhar",
+                "ru": "povar"
+              },
+              "name": {
+                "es": "Cocinero",
+                "en": "Cook",
+                "uk": "Кухар",
+                "ru": "Повар"
+              },
+              "synonyms": {
+                "es": [
+                  "chef"
+                ],
+                "en": [
+                  "chef"
+                ],
+                "uk": [
+                  "шеф-кухар",
+                  "повар"
+                ],
+                "ru": [
+                  "шеф-повар",
+                  "кухарь"
+                ]
+              }
             },
             {
-              "slug": { "es": "pizzero", "en": "pizza-chef", "uk": "pitsaiolo", "ru": "pitstsayolo" },
-              "name": { "es": "Pizzero", "en": "Pizza chef", "uk": "Піцайоло", "ru": "Пиццайоло" },
-              "synonyms": { "es": ["pizzería"], "en": ["pizzaiolo"], "uk": ["піца"], "ru": ["пицца"] }
+              "slug": {
+                "es": "ayudante-cocina",
+                "en": "kitchen-assistant",
+                "uk": "pomichnyk-kukharia",
+                "ru": "pomoshchnik-povara"
+              },
+              "name": {
+                "es": "Ayudante de cocina",
+                "en": "Kitchen assistant",
+                "uk": "Помічник кухаря",
+                "ru": "Помощник повара"
+              }
             },
             {
-              "slug": { "es": "panadero-pastelero", "en": "baker", "uk": "pekar-kondyter", "ru": "pekar-konditer" },
-              "name": { "es": "Panadero y pastelero", "en": "Baker and pastry cook", "uk": "Пекар, кондитер", "ru": "Пекарь, кондитер" },
-              "synonyms": { "es": ["panadería", "pastelería"], "en": ["pastry chef"], "uk": ["пекар", "кондитер"], "ru": ["пекарь", "кондитер"] }
+              "slug": {
+                "es": "friegaplatos",
+                "en": "dishwasher",
+                "uk": "posudomyinyk",
+                "ru": "posudomoyshchik"
+              },
+              "name": {
+                "es": "Friegaplatos",
+                "en": "Dishwasher",
+                "uk": "Посудомийник",
+                "ru": "Посудомойщик"
+              }
+            },
+            {
+              "slug": {
+                "es": "barman",
+                "en": "bartender",
+                "uk": "barmen",
+                "ru": "barmen"
+              },
+              "name": {
+                "es": "Barman",
+                "en": "Bartender",
+                "uk": "Бармен",
+                "ru": "Бармен"
+              },
+              "synonyms": {
+                "es": [
+                  "camarero de barra",
+                  "coctelero",
+                  "barista"
+                ],
+                "en": [
+                  "barman",
+                  "barista"
+                ],
+                "uk": [
+                  "бариста"
+                ],
+                "ru": [
+                  "бариста"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "hostess",
+                "en": "restaurant-host",
+                "uk": "khostes",
+                "ru": "khostes"
+              },
+              "name": {
+                "es": "Hostess / recepción de sala",
+                "en": "Restaurant host",
+                "uk": "Хостес / адміністратор залу",
+                "ru": "Хостес / администратор зала"
+              },
+              "synonyms": {
+                "es": [
+                  "recepcionista de restaurante",
+                  "jefe de sala"
+                ],
+                "en": [
+                  "hostess",
+                  "maitre"
+                ],
+                "uk": [
+                  "адміністратор ресторану",
+                  "метрдотель"
+                ],
+                "ru": [
+                  "администратор ресторана",
+                  "метрдотель"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "recepcionista-hotel",
+                "en": "hotel-receptionist",
+                "uk": "administrator-hotelu",
+                "ru": "administrator-gostinitsy"
+              },
+              "name": {
+                "es": "Recepcionista de hotel",
+                "en": "Hotel receptionist",
+                "uk": "Адміністратор готелю",
+                "ru": "Администратор гостиницы"
+              },
+              "synonyms": {
+                "es": [
+                  "recepción de hotel"
+                ],
+                "en": [
+                  "front desk"
+                ],
+                "uk": [
+                  "рецепція",
+                  "ресепшн"
+                ],
+                "ru": [
+                  "ресепшн"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "pizzero",
+                "en": "pizza-chef",
+                "uk": "pitsaiolo",
+                "ru": "pitstsayolo"
+              },
+              "name": {
+                "es": "Pizzero",
+                "en": "Pizza chef",
+                "uk": "Піцайоло",
+                "ru": "Пиццайоло"
+              },
+              "synonyms": {
+                "es": [
+                  "pizzería"
+                ],
+                "en": [
+                  "pizzaiolo"
+                ],
+                "uk": [
+                  "піца"
+                ],
+                "ru": [
+                  "пицца"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "panadero-pastelero",
+                "en": "baker",
+                "uk": "pekar-kondyter",
+                "ru": "pekar-konditer"
+              },
+              "name": {
+                "es": "Panadero y pastelero",
+                "en": "Baker and pastry cook",
+                "uk": "Пекар, кондитер",
+                "ru": "Пекарь, кондитер"
+              },
+              "synonyms": {
+                "es": [
+                  "panadería",
+                  "pastelería"
+                ],
+                "en": [
+                  "pastry chef"
+                ],
+                "uk": [
+                  "пекар",
+                  "кондитер"
+                ],
+                "ru": [
+                  "пекарь",
+                  "кондитер"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "limpieza", "en": "cleaning", "uk": "prybyrannia", "ru": "uborka" },
-          "name": { "es": "Limpieza", "en": "Cleaning", "uk": "Прибирання", "ru": "Уборка" },
+          "slug": {
+            "es": "limpieza",
+            "en": "cleaning",
+            "uk": "prybyrannia",
+            "ru": "uborka"
+          },
+          "name": {
+            "es": "Limpieza",
+            "en": "Cleaning",
+            "uk": "Прибирання",
+            "ru": "Уборка"
+          },
           "icon": "sparkles",
           "children": [
             {
-              "slug": { "es": "limpieza-hogar", "en": "house-cleaning", "uk": "prybyrannia-kvartyr", "ru": "uborka-kvartir" },
-              "name": { "es": "Limpieza de hogares", "en": "House cleaning", "uk": "Прибирання квартир", "ru": "Уборка квартир" },
-              "synonyms": { "es": ["empleada de hogar"], "en": ["housekeeper"], "uk": ["прибиральниця"], "ru": ["уборщица", "домработница"] }
+              "slug": {
+                "es": "limpieza-hogar",
+                "en": "house-cleaning",
+                "uk": "prybyrannia-kvartyr",
+                "ru": "uborka-kvartir"
+              },
+              "name": {
+                "es": "Limpieza de hogares",
+                "en": "House cleaning",
+                "uk": "Прибирання квартир",
+                "ru": "Уборка квартир"
+              },
+              "synonyms": {
+                "es": [
+                  "empleada de hogar"
+                ],
+                "en": [
+                  "housekeeper"
+                ],
+                "uk": [
+                  "прибиральниця"
+                ],
+                "ru": [
+                  "уборщица",
+                  "домработница"
+                ]
+              }
             },
             {
-              "slug": { "es": "limpieza-oficinas", "en": "office-cleaning", "uk": "prybyrannia-ofisiv", "ru": "uborka-ofisov" },
-              "name": { "es": "Limpieza de oficinas", "en": "Office cleaning", "uk": "Прибирання офісів", "ru": "Уборка офисов" }
+              "slug": {
+                "es": "limpieza-oficinas",
+                "en": "office-cleaning",
+                "uk": "prybyrannia-ofisiv",
+                "ru": "uborka-ofisov"
+              },
+              "name": {
+                "es": "Limpieza de oficinas",
+                "en": "Office cleaning",
+                "uk": "Прибирання офісів",
+                "ru": "Уборка офисов"
+              }
             },
             {
-              "slug": { "es": "limpieza-hoteles", "en": "hotel-cleaning", "uk": "prybyrannia-hoteliv", "ru": "uborka-oteley" },
-              "name": { "es": "Limpieza de hoteles", "en": "Hotel cleaning", "uk": "Прибирання готелів", "ru": "Уборка отелей" },
-              "synonyms": { "es": ["camarera de pisos"], "en": ["room attendant"], "uk": ["покоївка"], "ru": ["горничная"] }
+              "slug": {
+                "es": "limpieza-hoteles",
+                "en": "hotel-cleaning",
+                "uk": "prybyrannia-hoteliv",
+                "ru": "uborka-oteley"
+              },
+              "name": {
+                "es": "Limpieza de hoteles",
+                "en": "Hotel cleaning",
+                "uk": "Прибирання готелів",
+                "ru": "Уборка отелей"
+              },
+              "synonyms": {
+                "es": [
+                  "camarera de pisos"
+                ],
+                "en": [
+                  "room attendant"
+                ],
+                "uk": [
+                  "покоївка"
+                ],
+                "ru": [
+                  "горничная"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "agricultura", "en": "agriculture", "uk": "silske-hospodarstvo", "ru": "selskoe-khozyaystvo" },
-          "name": { "es": "Agricultura", "en": "Agriculture", "uk": "Сільське господарство", "ru": "Сельское хозяйство" },
+          "slug": {
+            "es": "agricultura",
+            "en": "agriculture",
+            "uk": "silske-hospodarstvo",
+            "ru": "selskoe-khozyaystvo"
+          },
+          "name": {
+            "es": "Agricultura",
+            "en": "Agriculture",
+            "uk": "Сільське господарство",
+            "ru": "Сельское хозяйство"
+          },
           "icon": "sprout",
           "children": [
             {
-              "slug": { "es": "recogida-fruta", "en": "fruit-picking", "uk": "zbir-fruktiv", "ru": "sbor-fruktov" },
-              "name": { "es": "Recogida de fruta", "en": "Fruit picking", "uk": "Збір фруктів", "ru": "Сбор фруктов" },
-              "synonyms": { "es": ["temporero", "campaña"], "en": ["seasonal farm work"], "uk": ["сезонна робота", "ягоди"], "ru": ["сезонная работа", "ягоды"] }
+              "slug": {
+                "es": "recogida-fruta",
+                "en": "fruit-picking",
+                "uk": "zbir-fruktiv",
+                "ru": "sbor-fruktov"
+              },
+              "name": {
+                "es": "Recogida de fruta",
+                "en": "Fruit picking",
+                "uk": "Збір фруктів",
+                "ru": "Сбор фруктов"
+              },
+              "synonyms": {
+                "es": [
+                  "temporero",
+                  "campaña"
+                ],
+                "en": [
+                  "seasonal farm work"
+                ],
+                "uk": [
+                  "сезонна робота",
+                  "ягоди"
+                ],
+                "ru": [
+                  "сезонная работа",
+                  "ягоды"
+                ]
+              }
             },
             {
-              "slug": { "es": "invernadero", "en": "greenhouse-work", "uk": "robota-v-teplytsiakh", "ru": "rabota-v-teplitsakh" },
-              "name": { "es": "Invernadero", "en": "Greenhouse work", "uk": "Робота в теплицях", "ru": "Работа в теплицах" }
+              "slug": {
+                "es": "invernadero",
+                "en": "greenhouse-work",
+                "uk": "robota-v-teplytsiakh",
+                "ru": "rabota-v-teplitsakh"
+              },
+              "name": {
+                "es": "Invernadero",
+                "en": "Greenhouse work",
+                "uk": "Робота в теплицях",
+                "ru": "Работа в теплицах"
+              }
             },
             {
-              "slug": { "es": "ganaderia", "en": "livestock-farming", "uk": "tvarynnytstvo", "ru": "zhivotnovodstvo" },
-              "name": { "es": "Ganadería", "en": "Livestock farming", "uk": "Тваринництво", "ru": "Животноводство" }
+              "slug": {
+                "es": "ganaderia",
+                "en": "livestock-farming",
+                "uk": "tvarynnytstvo",
+                "ru": "zhivotnovodstvo"
+              },
+              "name": {
+                "es": "Ganadería",
+                "en": "Livestock farming",
+                "uk": "Тваринництво",
+                "ru": "Животноводство"
+              }
             },
             {
-              "slug": { "es": "tractorista", "en": "tractor-driver", "uk": "traktoryst", "ru": "traktorist" },
-              "name": { "es": "Tractorista", "en": "Tractor driver", "uk": "Тракторист", "ru": "Тракторист" },
-              "synonyms": { "es": ["maquinista agrícola"], "en": ["farm machinery operator"], "uk": ["механізатор"], "ru": ["механизатор"] }
+              "slug": {
+                "es": "tractorista",
+                "en": "tractor-driver",
+                "uk": "traktoryst",
+                "ru": "traktorist"
+              },
+              "name": {
+                "es": "Tractorista",
+                "en": "Tractor driver",
+                "uk": "Тракторист",
+                "ru": "Тракторист"
+              },
+              "synonyms": {
+                "es": [
+                  "maquinista agrícola"
+                ],
+                "en": [
+                  "farm machinery operator"
+                ],
+                "uk": [
+                  "механізатор"
+                ],
+                "ru": [
+                  "механизатор"
+                ]
+              }
             },
             {
-              "slug": { "es": "jardinero", "en": "gardener", "uk": "sadivnyk", "ru": "sadovnik" },
-              "name": { "es": "Jardinero", "en": "Gardener", "uk": "Садівник", "ru": "Садовник" },
-              "synonyms": { "es": ["jardinería"], "en": ["landscaper"], "uk": ["озеленення"], "ru": ["озеленение"] }
+              "slug": {
+                "es": "jardinero",
+                "en": "gardener",
+                "uk": "sadivnyk",
+                "ru": "sadovnik"
+              },
+              "name": {
+                "es": "Jardinero",
+                "en": "Gardener",
+                "uk": "Садівник",
+                "ru": "Садовник"
+              },
+              "synonyms": {
+                "es": [
+                  "jardinería"
+                ],
+                "en": [
+                  "landscaper"
+                ],
+                "uk": [
+                  "озеленення"
+                ],
+                "ru": [
+                  "озеленение"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "cuidados", "en": "care", "uk": "dohliad", "ru": "ukhod" },
-          "name": { "es": "Cuidados", "en": "Care", "uk": "Догляд", "ru": "Уход" },
+          "slug": {
+            "es": "cuidados",
+            "en": "care",
+            "uk": "dohliad",
+            "ru": "ukhod"
+          },
+          "name": {
+            "es": "Cuidados",
+            "en": "Care",
+            "uk": "Догляд",
+            "ru": "Уход"
+          },
           "icon": "heart-handshake",
           "children": [
             {
-              "slug": { "es": "cuidado-mayores", "en": "elderly-care", "uk": "dohliad-za-litnimy", "ru": "ukhod-za-pozhilymi" },
-              "name": { "es": "Cuidado de mayores", "en": "Elderly care", "uk": "Догляд за літніми людьми", "ru": "Уход за пожилыми" },
-              "synonyms": { "es": ["interna", "cuidadora"], "en": ["caregiver"], "uk": ["доглядальниця", "сиділка"], "ru": ["сиделка"] }
+              "slug": {
+                "es": "cuidado-mayores",
+                "en": "elderly-care",
+                "uk": "dohliad-za-litnimy",
+                "ru": "ukhod-za-pozhilymi"
+              },
+              "name": {
+                "es": "Cuidado de mayores",
+                "en": "Elderly care",
+                "uk": "Догляд за літніми людьми",
+                "ru": "Уход за пожилыми"
+              },
+              "synonyms": {
+                "es": [
+                  "interna",
+                  "cuidadora"
+                ],
+                "en": [
+                  "caregiver"
+                ],
+                "uk": [
+                  "доглядальниця",
+                  "сиділка"
+                ],
+                "ru": [
+                  "сиделка"
+                ]
+              }
             },
-            { "slug": {"es": "ninera", "en": "nanny", "uk": "niania", "ru": "nyanya"}, "name": {"es": "Niñera", "en": "Nanny", "uk": "Няня", "ru": "Няня"} },
             {
-              "slug": { "es": "auxiliar", "en": "care-assistant", "uk": "sotsialnyi-pratsivnyk", "ru": "sotsialnyy-rabotnik" },
-              "name": { "es": "Auxiliar sociosanitario", "en": "Care assistant", "uk": "Соціальний працівник", "ru": "Социальный работник" }
+              "slug": {
+                "es": "ninera",
+                "en": "nanny",
+                "uk": "niania",
+                "ru": "nyanya"
+              },
+              "name": {
+                "es": "Niñera",
+                "en": "Nanny",
+                "uk": "Няня",
+                "ru": "Няня"
+              }
             },
             {
-              "slug": { "es": "cuidadora-interna", "en": "live-in-carer", "uk": "dohliadalnytsia-z-prozhyvanniam", "ru": "sidelka-s-prozhivaniem" },
-              "name": { "es": "Cuidadora interna", "en": "Live-in carer", "uk": "Доглядальниця з проживанням", "ru": "Сиделка с проживанием" },
-              "synonyms": { "es": ["interna", "interna cuidado mayores"], "en": ["live-in caregiver"], "uk": ["інтерна", "сиділка"], "ru": ["интерна", "сиделка"] }
+              "slug": {
+                "es": "auxiliar",
+                "en": "care-assistant",
+                "uk": "sotsialnyi-pratsivnyk",
+                "ru": "sotsialnyy-rabotnik"
+              },
+              "name": {
+                "es": "Auxiliar sociosanitario",
+                "en": "Care assistant",
+                "uk": "Соціальний працівник",
+                "ru": "Социальный работник"
+              }
+            },
+            {
+              "slug": {
+                "es": "cuidadora-interna",
+                "en": "live-in-carer",
+                "uk": "dohliadalnytsia-z-prozhyvanniam",
+                "ru": "sidelka-s-prozhivaniem"
+              },
+              "name": {
+                "es": "Cuidadora interna",
+                "en": "Live-in carer",
+                "uk": "Доглядальниця з проживанням",
+                "ru": "Сиделка с проживанием"
+              },
+              "synonyms": {
+                "es": [
+                  "interna",
+                  "interna cuidado mayores"
+                ],
+                "en": [
+                  "live-in caregiver"
+                ],
+                "uk": [
+                  "інтерна",
+                  "сиділка"
+                ],
+                "ru": [
+                  "интерна",
+                  "сиделка"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "industria-almacen", "en": "industry-warehouse", "uk": "vyrobnytstvo-sklad", "ru": "proizvodstvo-sklad" },
-          "name": { "es": "Industria y almacén", "en": "Industry and warehouse", "uk": "Виробництво і склад", "ru": "Производство и склад" },
+          "slug": {
+            "es": "industria-almacen",
+            "en": "industry-warehouse",
+            "uk": "vyrobnytstvo-sklad",
+            "ru": "proizvodstvo-sklad"
+          },
+          "name": {
+            "es": "Industria y almacén",
+            "en": "Industry and warehouse",
+            "uk": "Виробництво і склад",
+            "ru": "Производство и склад"
+          },
           "icon": "factory",
           "children": [
             {
-              "slug": { "es": "mozo-almacen", "en": "warehouse-worker", "uk": "robitnyk-skladu", "ru": "rabotnik-sklada" },
-              "name": { "es": "Mozo de almacén", "en": "Warehouse worker", "uk": "Робітник складу", "ru": "Работник склада" },
+              "slug": {
+                "es": "mozo-almacen",
+                "en": "warehouse-worker",
+                "uk": "robitnyk-skladu",
+                "ru": "rabotnik-sklada"
+              },
+              "name": {
+                "es": "Mozo de almacén",
+                "en": "Warehouse worker",
+                "uk": "Робітник складу",
+                "ru": "Работник склада"
+              },
               "synonyms": {
-                "es": ["preparador de pedidos", "picking"],
-                "en": ["picker", "order picker"],
-                "uk": ["комплектувальник", "вантажник"],
-                "ru": ["комплектовщик", "грузчик"]
+                "es": [
+                  "preparador de pedidos",
+                  "picking"
+                ],
+                "en": [
+                  "picker",
+                  "order picker"
+                ],
+                "uk": [
+                  "комплектувальник",
+                  "вантажник"
+                ],
+                "ru": [
+                  "комплектовщик",
+                  "грузчик"
+                ]
               }
             },
             {
-              "slug": { "es": "operario", "en": "production-operator", "uk": "operator-vyrobnytstva", "ru": "operator-proizvodstva" },
-              "name": { "es": "Operario de producción", "en": "Production operator", "uk": "Оператор виробництва", "ru": "Оператор производства" }
+              "slug": {
+                "es": "operario",
+                "en": "production-operator",
+                "uk": "operator-vyrobnytstva",
+                "ru": "operator-proizvodstva"
+              },
+              "name": {
+                "es": "Operario de producción",
+                "en": "Production operator",
+                "uk": "Оператор виробництва",
+                "ru": "Оператор производства"
+              }
             },
             {
-              "slug": { "es": "empaquetado", "en": "packer", "uk": "pakuvalnyk", "ru": "upakovshchik" },
-              "name": { "es": "Empaquetado", "en": "Packer", "uk": "Пакувальник", "ru": "Упаковщик" }
+              "slug": {
+                "es": "empaquetado",
+                "en": "packer",
+                "uk": "pakuvalnyk",
+                "ru": "upakovshchik"
+              },
+              "name": {
+                "es": "Empaquetado",
+                "en": "Packer",
+                "uk": "Пакувальник",
+                "ru": "Упаковщик"
+              }
             },
             {
-              "slug": { "es": "preparador-pedidos", "en": "order-picker", "uk": "komplektuvalnyk", "ru": "komplektovshchik" },
-              "name": { "es": "Preparador de pedidos", "en": "Order picker", "uk": "Комплектувальник замовлень", "ru": "Комплектовщик заказов" },
-              "synonyms": { "es": ["picking", "preparación de pedidos"], "en": ["picker"], "uk": ["пікінг"], "ru": ["пикинг"] }
+              "slug": {
+                "es": "preparador-pedidos",
+                "en": "order-picker",
+                "uk": "komplektuvalnyk",
+                "ru": "komplektovshchik"
+              },
+              "name": {
+                "es": "Preparador de pedidos",
+                "en": "Order picker",
+                "uk": "Комплектувальник замовлень",
+                "ru": "Комплектовщик заказов"
+              },
+              "synonyms": {
+                "es": [
+                  "picking",
+                  "preparación de pedidos"
+                ],
+                "en": [
+                  "picker"
+                ],
+                "uk": [
+                  "пікінг"
+                ],
+                "ru": [
+                  "пикинг"
+                ]
+              }
             },
             {
-              "slug": { "es": "costurera", "en": "seamstress", "uk": "shvachka", "ru": "shveya" },
-              "name": { "es": "Costurera", "en": "Seamstress", "uk": "Швачка", "ru": "Швея" },
-              "synonyms": { "es": ["modista", "confección"], "en": ["sewing machinist", "tailor"], "uk": ["кравчиня"], "ru": ["портниха"] }
+              "slug": {
+                "es": "costurera",
+                "en": "seamstress",
+                "uk": "shvachka",
+                "ru": "shveya"
+              },
+              "name": {
+                "es": "Costurera",
+                "en": "Seamstress",
+                "uk": "Швачка",
+                "ru": "Швея"
+              },
+              "synonyms": {
+                "es": [
+                  "modista",
+                  "confección"
+                ],
+                "en": [
+                  "sewing machinist",
+                  "tailor"
+                ],
+                "uk": [
+                  "кравчиня"
+                ],
+                "ru": [
+                  "портниха"
+                ]
+              }
             },
             {
-              "slug": { "es": "mecanico-mantenimiento", "en": "maintenance-technician", "uk": "slusar-remontnyk", "ru": "slesar-remontnik" },
-              "name": { "es": "Mecánico de mantenimiento", "en": "Maintenance technician", "uk": "Слюсар-ремонтник", "ru": "Слесарь-ремонтник" },
-              "synonyms": { "es": ["técnico de mantenimiento"], "en": ["maintenance mechanic"], "uk": ["слюсар"], "ru": ["слесарь"] }
+              "slug": {
+                "es": "mecanico-mantenimiento",
+                "en": "maintenance-technician",
+                "uk": "slusar-remontnyk",
+                "ru": "slesar-remontnik"
+              },
+              "name": {
+                "es": "Mecánico de mantenimiento",
+                "en": "Maintenance technician",
+                "uk": "Слюсар-ремонтник",
+                "ru": "Слесарь-ремонтник"
+              },
+              "synonyms": {
+                "es": [
+                  "técnico de mantenimiento"
+                ],
+                "en": [
+                  "maintenance mechanic"
+                ],
+                "uk": [
+                  "слюсар"
+                ],
+                "ru": [
+                  "слесарь"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "automocion", "en": "automotive", "uk": "avtoservis", "ru": "avtoservis" },
-          "name": { "es": "Automoción", "en": "Car repair and service", "uk": "Автосервіс", "ru": "Автосервис" },
+          "slug": {
+            "es": "automocion",
+            "en": "automotive",
+            "uk": "avtoservis",
+            "ru": "avtoservis"
+          },
+          "name": {
+            "es": "Automoción",
+            "en": "Car repair and service",
+            "uk": "Автосервіс",
+            "ru": "Автосервис"
+          },
           "icon": "wrench",
           "children": [
             {
-              "slug": { "es": "mecanico", "en": "car-mechanic", "uk": "avtomekhanik", "ru": "avtomekhanik" },
-              "name": { "es": "Mecánico", "en": "Car mechanic", "uk": "Автомеханік", "ru": "Автомеханик" },
-              "synonyms": { "es": ["mecánico de coches", "mecánico de camiones"], "en": ["mechanic"], "uk": ["механік"], "ru": ["механик"] }
-            },
-            {
-              "slug": { "es": "chapista", "en": "panel-beater", "uk": "kuzovnyk", "ru": "kuzovshchik" },
-              "name": { "es": "Chapista y pintor", "en": "Panel beater and painter", "uk": "Кузовник-маляр", "ru": "Кузовщик-маляр" },
-              "synonyms": { "es": ["pintor de coches"], "en": ["car body repair"], "uk": ["рихтувальник"], "ru": ["рихтовщик"] }
-            },
-            {
-              "slug": { "es": "neumaticos", "en": "tyre-fitter", "uk": "shynomontazhnyk", "ru": "shinomontazhnik" },
-              "name": { "es": "Montador de neumáticos", "en": "Tyre fitter", "uk": "Шиномонтажник", "ru": "Шиномонтажник" },
-              "synonyms": { "es": ["neumáticos"], "en": ["tire technician"], "uk": ["шиномонтаж"], "ru": ["шиномонтаж"] }
-            },
-            {
-              "slug": { "es": "lavado-coches", "en": "car-washer", "uk": "myinyk-avto", "ru": "moyshchik-avto" },
-              "name": { "es": "Lavador de coches", "en": "Car washer", "uk": "Мийник авто", "ru": "Мойщик авто" },
-              "synonyms": { "es": ["lavacoches"], "en": ["car wash"], "uk": ["автомийка"], "ru": ["автомойка"] }
-            }
-          ]
-        },
-        {
-          "slug": { "es": "comercio", "en": "retail", "uk": "torhivlia", "ru": "torgovlya" },
-          "name": { "es": "Comercio y ventas", "en": "Retail and sales", "uk": "Торгівля і продажі", "ru": "Торговля и продажи" },
-          "icon": "shopping-bag",
-          "children": [
-            {
-              "slug": { "es": "dependiente", "en": "shop-assistant", "uk": "prodavets", "ru": "prodavets" },
-              "name": { "es": "Dependiente", "en": "Shop assistant", "uk": "Продавець-консультант", "ru": "Продавец-консультант" },
-              "synonyms": { "es": ["vendedor", "dependienta"], "en": ["sales assistant"], "uk": ["продавець"], "ru": ["продавец"] }
-            },
-            {
-              "slug": { "es": "cajero", "en": "cashier", "uk": "kasyr", "ru": "kassir" },
-              "name": { "es": "Cajero", "en": "Cashier", "uk": "Касир", "ru": "Кассир" },
-              "synonyms": { "es": ["cajera"], "en": ["checkout operator"], "uk": ["касирка"], "ru": ["кассирша"] }
-            },
-            {
-              "slug": { "es": "reponedor", "en": "shelf-stacker", "uk": "vykladalnyk-tovaru", "ru": "vykladchik-tovara" },
-              "name": { "es": "Reponedor", "en": "Shelf stacker", "uk": "Викладальник товару", "ru": "Выкладчик товара" },
-              "synonyms": { "es": ["reposición"], "en": ["merchandiser"], "uk": ["мерчендайзер"], "ru": ["мерчендайзер"] }
-            },
-            {
-              "slug": { "es": "comercial", "en": "sales-representative", "uk": "menedzher-z-prodazhu", "ru": "menedzher-po-prodazham" },
-              "name": { "es": "Comercial", "en": "Sales representative", "uk": "Менеджер з продажу", "ru": "Менеджер по продажам" },
-              "synonyms": { "es": ["agente comercial", "vendedor comercial"], "en": ["sales manager"], "uk": ["продажі"], "ru": ["продажи"] }
-            }
-          ]
-        },
-        {
-          "slug": { "es": "oficina", "en": "office", "uk": "ofis", "ru": "ofis" },
-          "name": { "es": "Oficina y administración", "en": "Office and administration", "uk": "Офіс і адміністрування", "ru": "Офис и администрирование" },
-          "icon": "briefcase",
-          "children": [
-            {
-              "slug": { "es": "administrativo", "en": "administrative-assistant", "uk": "administrator", "ru": "administrator" },
-              "name": { "es": "Administrativo", "en": "Administrative assistant", "uk": "Адміністратор", "ru": "Администратор" },
+              "slug": {
+                "es": "mecanico",
+                "en": "car-mechanic",
+                "uk": "avtomekhanik",
+                "ru": "avtomekhanik"
+              },
+              "name": {
+                "es": "Mecánico",
+                "en": "Car mechanic",
+                "uk": "Автомеханік",
+                "ru": "Автомеханик"
+              },
               "synonyms": {
-                "es": ["auxiliar administrativo", "administrativa"],
-                "en": ["office administrator"],
-                "uk": ["офіс-менеджер", "адміністративний працівник"],
-                "ru": ["офис-менеджер"]
+                "es": [
+                  "mecánico de coches",
+                  "mecánico de camiones"
+                ],
+                "en": [
+                  "mechanic"
+                ],
+                "uk": [
+                  "механік"
+                ],
+                "ru": [
+                  "механик"
+                ]
               }
             },
             {
-              "slug": { "es": "contable", "en": "accountant", "uk": "bukhhalter", "ru": "bukhgalter" },
-              "name": { "es": "Contable", "en": "Accountant", "uk": "Бухгалтер", "ru": "Бухгалтер" },
-              "synonyms": { "es": ["contabilidad"], "en": ["bookkeeper"], "uk": ["бухгалтерія"], "ru": ["бухгалтерия"] }
+              "slug": {
+                "es": "chapista",
+                "en": "panel-beater",
+                "uk": "kuzovnyk",
+                "ru": "kuzovshchik"
+              },
+              "name": {
+                "es": "Chapista y pintor",
+                "en": "Panel beater and painter",
+                "uk": "Кузовник-маляр",
+                "ru": "Кузовщик-маляр"
+              },
+              "synonyms": {
+                "es": [
+                  "pintor de coches"
+                ],
+                "en": [
+                  "car body repair"
+                ],
+                "uk": [
+                  "рихтувальник"
+                ],
+                "ru": [
+                  "рихтовщик"
+                ]
+              }
             },
             {
-              "slug": { "es": "recepcionista", "en": "receptionist", "uk": "resepshionist", "ru": "resepshionist" },
-              "name": { "es": "Recepcionista", "en": "Receptionist", "uk": "Рецепціоніст", "ru": "Ресепшионист" },
-              "synonyms": { "es": ["recepción"], "en": ["front desk"], "uk": ["ресепшн"], "ru": ["ресепшн"] }
+              "slug": {
+                "es": "neumaticos",
+                "en": "tyre-fitter",
+                "uk": "shynomontazhnyk",
+                "ru": "shinomontazhnik"
+              },
+              "name": {
+                "es": "Montador de neumáticos",
+                "en": "Tyre fitter",
+                "uk": "Шиномонтажник",
+                "ru": "Шиномонтажник"
+              },
+              "synonyms": {
+                "es": [
+                  "neumáticos"
+                ],
+                "en": [
+                  "tire technician"
+                ],
+                "uk": [
+                  "шиномонтаж"
+                ],
+                "ru": [
+                  "шиномонтаж"
+                ]
+              }
             },
             {
-              "slug": { "es": "teleoperador", "en": "call-centre-agent", "uk": "operator-kol-tsentru", "ru": "operator-koll-tsentra" },
-              "name": { "es": "Teleoperador", "en": "Call centre agent", "uk": "Оператор колл-центру", "ru": "Оператор колл-центра" },
-              "synonyms": { "es": ["atención al cliente", "call center"], "en": ["customer service"], "uk": ["підтримка клієнтів"], "ru": ["поддержка клиентов"] }
+              "slug": {
+                "es": "lavado-coches",
+                "en": "car-washer",
+                "uk": "myinyk-avto",
+                "ru": "moyshchik-avto"
+              },
+              "name": {
+                "es": "Lavador de coches",
+                "en": "Car washer",
+                "uk": "Мийник авто",
+                "ru": "Мойщик авто"
+              },
+              "synonyms": {
+                "es": [
+                  "lavacoches"
+                ],
+                "en": [
+                  "car wash"
+                ],
+                "uk": [
+                  "автомийка"
+                ],
+                "ru": [
+                  "автомойка"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "informatica", "en": "it", "uk": "it", "ru": "it" },
-          "name": { "es": "Informática y marketing", "en": "IT and marketing", "uk": "IT і маркетинг", "ru": "IT и маркетинг" },
+          "slug": {
+            "es": "comercio",
+            "en": "retail",
+            "uk": "torhivlia",
+            "ru": "torgovlya"
+          },
+          "name": {
+            "es": "Comercio y ventas",
+            "en": "Retail and sales",
+            "uk": "Торгівля і продажі",
+            "ru": "Торговля и продажи"
+          },
+          "icon": "shopping-bag",
+          "children": [
+            {
+              "slug": {
+                "es": "dependiente",
+                "en": "shop-assistant",
+                "uk": "prodavets",
+                "ru": "prodavets"
+              },
+              "name": {
+                "es": "Dependiente",
+                "en": "Shop assistant",
+                "uk": "Продавець-консультант",
+                "ru": "Продавец-консультант"
+              },
+              "synonyms": {
+                "es": [
+                  "vendedor",
+                  "dependienta"
+                ],
+                "en": [
+                  "sales assistant"
+                ],
+                "uk": [
+                  "продавець"
+                ],
+                "ru": [
+                  "продавец"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "cajero",
+                "en": "cashier",
+                "uk": "kasyr",
+                "ru": "kassir"
+              },
+              "name": {
+                "es": "Cajero",
+                "en": "Cashier",
+                "uk": "Касир",
+                "ru": "Кассир"
+              },
+              "synonyms": {
+                "es": [
+                  "cajera"
+                ],
+                "en": [
+                  "checkout operator"
+                ],
+                "uk": [
+                  "касирка"
+                ],
+                "ru": [
+                  "кассирша"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "reponedor",
+                "en": "shelf-stacker",
+                "uk": "vykladalnyk-tovaru",
+                "ru": "vykladchik-tovara"
+              },
+              "name": {
+                "es": "Reponedor",
+                "en": "Shelf stacker",
+                "uk": "Викладальник товару",
+                "ru": "Выкладчик товара"
+              },
+              "synonyms": {
+                "es": [
+                  "reposición"
+                ],
+                "en": [
+                  "merchandiser"
+                ],
+                "uk": [
+                  "мерчендайзер"
+                ],
+                "ru": [
+                  "мерчендайзер"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "comercial",
+                "en": "sales-representative",
+                "uk": "menedzher-z-prodazhu",
+                "ru": "menedzher-po-prodazham"
+              },
+              "name": {
+                "es": "Comercial",
+                "en": "Sales representative",
+                "uk": "Менеджер з продажу",
+                "ru": "Менеджер по продажам"
+              },
+              "synonyms": {
+                "es": [
+                  "agente comercial",
+                  "vendedor comercial"
+                ],
+                "en": [
+                  "sales manager"
+                ],
+                "uk": [
+                  "продажі"
+                ],
+                "ru": [
+                  "продажи"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "slug": {
+            "es": "oficina",
+            "en": "office",
+            "uk": "ofis",
+            "ru": "ofis"
+          },
+          "name": {
+            "es": "Oficina y administración",
+            "en": "Office and administration",
+            "uk": "Офіс і адміністрування",
+            "ru": "Офис и администрирование"
+          },
+          "icon": "briefcase",
+          "children": [
+            {
+              "slug": {
+                "es": "administrativo",
+                "en": "administrative-assistant",
+                "uk": "administrator",
+                "ru": "administrator"
+              },
+              "name": {
+                "es": "Administrativo",
+                "en": "Administrative assistant",
+                "uk": "Адміністратор",
+                "ru": "Администратор"
+              },
+              "synonyms": {
+                "es": [
+                  "auxiliar administrativo",
+                  "administrativa"
+                ],
+                "en": [
+                  "office administrator"
+                ],
+                "uk": [
+                  "офіс-менеджер",
+                  "адміністративний працівник"
+                ],
+                "ru": [
+                  "офис-менеджер"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "contable",
+                "en": "accountant",
+                "uk": "bukhhalter",
+                "ru": "bukhgalter"
+              },
+              "name": {
+                "es": "Contable",
+                "en": "Accountant",
+                "uk": "Бухгалтер",
+                "ru": "Бухгалтер"
+              },
+              "synonyms": {
+                "es": [
+                  "contabilidad"
+                ],
+                "en": [
+                  "bookkeeper"
+                ],
+                "uk": [
+                  "бухгалтерія"
+                ],
+                "ru": [
+                  "бухгалтерия"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "recepcionista",
+                "en": "receptionist",
+                "uk": "resepshionist",
+                "ru": "resepshionist"
+              },
+              "name": {
+                "es": "Recepcionista",
+                "en": "Receptionist",
+                "uk": "Рецепціоніст",
+                "ru": "Ресепшионист"
+              },
+              "synonyms": {
+                "es": [
+                  "recepción"
+                ],
+                "en": [
+                  "front desk"
+                ],
+                "uk": [
+                  "ресепшн"
+                ],
+                "ru": [
+                  "ресепшн"
+                ]
+              }
+            },
+            {
+              "slug": {
+                "es": "teleoperador",
+                "en": "call-centre-agent",
+                "uk": "operator-kol-tsentru",
+                "ru": "operator-koll-tsentra"
+              },
+              "name": {
+                "es": "Teleoperador",
+                "en": "Call centre agent",
+                "uk": "Оператор колл-центру",
+                "ru": "Оператор колл-центра"
+              },
+              "synonyms": {
+                "es": [
+                  "atención al cliente",
+                  "call center"
+                ],
+                "en": [
+                  "customer service"
+                ],
+                "uk": [
+                  "підтримка клієнтів"
+                ],
+                "ru": [
+                  "поддержка клиентов"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "slug": {
+            "es": "informatica",
+            "en": "it",
+            "uk": "it",
+            "ru": "it"
+          },
+          "name": {
+            "es": "Informática y marketing",
+            "en": "IT and marketing",
+            "uk": "IT і маркетинг",
+            "ru": "IT и маркетинг"
+          },
           "icon": "laptop",
           "children": [
             {
-              "slug": { "es": "programador", "en": "developer", "uk": "prohramist", "ru": "programmist" },
-              "name": { "es": "Programador", "en": "Developer", "uk": "Програміст", "ru": "Программист" },
-              "synonyms": { "es": ["desarrollador", "developer"], "en": ["programmer", "software engineer"], "uk": ["розробник"], "ru": ["разработчик"] }
+              "slug": {
+                "es": "programador",
+                "en": "developer",
+                "uk": "prohramist",
+                "ru": "programmist"
+              },
+              "name": {
+                "es": "Programador",
+                "en": "Developer",
+                "uk": "Програміст",
+                "ru": "Программист"
+              },
+              "synonyms": {
+                "es": [
+                  "desarrollador",
+                  "developer"
+                ],
+                "en": [
+                  "programmer",
+                  "software engineer"
+                ],
+                "uk": [
+                  "розробник"
+                ],
+                "ru": [
+                  "разработчик"
+                ]
+              }
             },
             {
-              "slug": { "es": "tester-qa", "en": "qa-tester", "uk": "testuvalnyk", "ru": "testirovshchik" },
-              "name": { "es": "Tester QA", "en": "QA tester", "uk": "Тестувальник QA", "ru": "Тестировщик QA" },
-              "synonyms": { "es": ["QA"], "en": ["QA engineer"], "uk": ["QA"], "ru": ["QA"] }
+              "slug": {
+                "es": "tester-qa",
+                "en": "qa-tester",
+                "uk": "testuvalnyk",
+                "ru": "testirovshchik"
+              },
+              "name": {
+                "es": "Tester QA",
+                "en": "QA tester",
+                "uk": "Тестувальник QA",
+                "ru": "Тестировщик QA"
+              },
+              "synonyms": {
+                "es": [
+                  "QA"
+                ],
+                "en": [
+                  "QA engineer"
+                ],
+                "uk": [
+                  "QA"
+                ],
+                "ru": [
+                  "QA"
+                ]
+              }
             },
             {
-              "slug": { "es": "disenador", "en": "designer", "uk": "dyzainer", "ru": "dizayner" },
-              "name": { "es": "Diseñador", "en": "Designer", "uk": "Дизайнер", "ru": "Дизайнер" },
-              "synonyms": { "es": ["diseño gráfico", "diseñador web"], "en": ["graphic designer", "UI designer"], "uk": ["графічний дизайнер"], "ru": ["графический дизайнер"] }
+              "slug": {
+                "es": "disenador",
+                "en": "designer",
+                "uk": "dyzainer",
+                "ru": "dizayner"
+              },
+              "name": {
+                "es": "Diseñador",
+                "en": "Designer",
+                "uk": "Дизайнер",
+                "ru": "Дизайнер"
+              },
+              "synonyms": {
+                "es": [
+                  "diseño gráfico",
+                  "diseñador web"
+                ],
+                "en": [
+                  "graphic designer",
+                  "UI designer"
+                ],
+                "uk": [
+                  "графічний дизайнер"
+                ],
+                "ru": [
+                  "графический дизайнер"
+                ]
+              }
             },
             {
-              "slug": { "es": "marketing", "en": "marketing", "uk": "marketoloh", "ru": "marketolog" },
-              "name": { "es": "Marketing y redes sociales", "en": "Marketing and social media", "uk": "Маркетолог, SMM", "ru": "Маркетолог, SMM" },
-              "synonyms": { "es": ["community manager", "SMM"], "en": ["SMM", "social media"], "uk": ["SMM", "таргетолог"], "ru": ["SMM", "таргетолог"] }
+              "slug": {
+                "es": "marketing",
+                "en": "marketing",
+                "uk": "marketoloh",
+                "ru": "marketolog"
+              },
+              "name": {
+                "es": "Marketing y redes sociales",
+                "en": "Marketing and social media",
+                "uk": "Маркетолог, SMM",
+                "ru": "Маркетолог, SMM"
+              },
+              "synonyms": {
+                "es": [
+                  "community manager",
+                  "SMM"
+                ],
+                "en": [
+                  "SMM",
+                  "social media"
+                ],
+                "uk": [
+                  "SMM",
+                  "таргетолог"
+                ],
+                "ru": [
+                  "SMM",
+                  "таргетолог"
+                ]
+              }
             },
             {
-              "slug": { "es": "soporte-tecnico", "en": "it-support", "uk": "tekhpidtrymka", "ru": "tekhpodderzhka" },
-              "name": { "es": "Soporte técnico", "en": "IT support", "uk": "Техпідтримка", "ru": "Техподдержка" },
-              "synonyms": { "es": ["helpdesk"], "en": ["helpdesk"], "uk": ["сисадмін"], "ru": ["сисадмин"] }
+              "slug": {
+                "es": "soporte-tecnico",
+                "en": "it-support",
+                "uk": "tekhpidtrymka",
+                "ru": "tekhpodderzhka"
+              },
+              "name": {
+                "es": "Soporte técnico",
+                "en": "IT support",
+                "uk": "Техпідтримка",
+                "ru": "Техподдержка"
+              },
+              "synonyms": {
+                "es": [
+                  "helpdesk"
+                ],
+                "en": [
+                  "helpdesk"
+                ],
+                "uk": [
+                  "сисадмін"
+                ],
+                "ru": [
+                  "сисадмин"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "belleza", "en": "beauty", "uk": "krasa", "ru": "krasota" },
-          "name": { "es": "Belleza", "en": "Beauty", "uk": "Краса", "ru": "Красота" },
+          "slug": {
+            "es": "belleza",
+            "en": "beauty",
+            "uk": "krasa",
+            "ru": "krasota"
+          },
+          "name": {
+            "es": "Belleza",
+            "en": "Beauty",
+            "uk": "Краса",
+            "ru": "Красота"
+          },
           "icon": "scissors",
           "children": [
             {
-              "slug": { "es": "peluquero", "en": "hairdresser", "uk": "perukar", "ru": "parikmakher" },
-              "name": { "es": "Peluquero", "en": "Hairdresser", "uk": "Перукар", "ru": "Парикмахер" },
-              "synonyms": { "es": ["peluquera", "barbero"], "en": ["barber", "stylist"], "uk": ["барбер"], "ru": ["барбер"] }
+              "slug": {
+                "es": "peluquero",
+                "en": "hairdresser",
+                "uk": "perukar",
+                "ru": "parikmakher"
+              },
+              "name": {
+                "es": "Peluquero",
+                "en": "Hairdresser",
+                "uk": "Перукар",
+                "ru": "Парикмахер"
+              },
+              "synonyms": {
+                "es": [
+                  "peluquera",
+                  "barbero"
+                ],
+                "en": [
+                  "barber",
+                  "stylist"
+                ],
+                "uk": [
+                  "барбер"
+                ],
+                "ru": [
+                  "барбер"
+                ]
+              }
             },
             {
-              "slug": { "es": "manicura", "en": "nail-technician", "uk": "maister-manikiuru", "ru": "master-manikyura" },
-              "name": { "es": "Manicurista", "en": "Nail technician", "uk": "Майстер манікюру", "ru": "Мастер маникюра" },
-              "synonyms": { "es": ["uñas", "manicura"], "en": ["manicurist"], "uk": ["манікюр", "нігті"], "ru": ["маникюр", "ногти"] }
+              "slug": {
+                "es": "manicura",
+                "en": "nail-technician",
+                "uk": "maister-manikiuru",
+                "ru": "master-manikyura"
+              },
+              "name": {
+                "es": "Manicurista",
+                "en": "Nail technician",
+                "uk": "Майстер манікюру",
+                "ru": "Мастер маникюра"
+              },
+              "synonyms": {
+                "es": [
+                  "uñas",
+                  "manicura"
+                ],
+                "en": [
+                  "manicurist"
+                ],
+                "uk": [
+                  "манікюр",
+                  "нігті"
+                ],
+                "ru": [
+                  "маникюр",
+                  "ногти"
+                ]
+              }
             },
             {
-              "slug": { "es": "esteticista", "en": "beautician", "uk": "kosmetoloh", "ru": "kosmetolog" },
-              "name": { "es": "Esteticista", "en": "Beautician", "uk": "Косметолог", "ru": "Косметолог" },
-              "synonyms": { "es": ["estética"], "en": ["esthetician"], "uk": ["косметологія"], "ru": ["косметология"] }
+              "slug": {
+                "es": "esteticista",
+                "en": "beautician",
+                "uk": "kosmetoloh",
+                "ru": "kosmetolog"
+              },
+              "name": {
+                "es": "Esteticista",
+                "en": "Beautician",
+                "uk": "Косметолог",
+                "ru": "Косметолог"
+              },
+              "synonyms": {
+                "es": [
+                  "estética"
+                ],
+                "en": [
+                  "esthetician"
+                ],
+                "uk": [
+                  "косметологія"
+                ],
+                "ru": [
+                  "косметология"
+                ]
+              }
             },
             {
-              "slug": { "es": "masajista", "en": "massage-therapist", "uk": "masazhyst", "ru": "massazhist" },
-              "name": { "es": "Masajista", "en": "Massage therapist", "uk": "Масажист", "ru": "Массажист" },
-              "synonyms": { "es": ["quiromasajista"], "en": ["masseur"], "uk": ["масаж"], "ru": ["массаж"] }
+              "slug": {
+                "es": "masajista",
+                "en": "massage-therapist",
+                "uk": "masazhyst",
+                "ru": "massazhist"
+              },
+              "name": {
+                "es": "Masajista",
+                "en": "Massage therapist",
+                "uk": "Масажист",
+                "ru": "Массажист"
+              },
+              "synonyms": {
+                "es": [
+                  "quiromasajista"
+                ],
+                "en": [
+                  "masseur"
+                ],
+                "uk": [
+                  "масаж"
+                ],
+                "ru": [
+                  "массаж"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "sanidad", "en": "healthcare", "uk": "medytsyna", "ru": "meditsina" },
-          "name": { "es": "Sanidad", "en": "Healthcare", "uk": "Медицина", "ru": "Медицина" },
+          "slug": {
+            "es": "sanidad",
+            "en": "healthcare",
+            "uk": "medytsyna",
+            "ru": "meditsina"
+          },
+          "name": {
+            "es": "Sanidad",
+            "en": "Healthcare",
+            "uk": "Медицина",
+            "ru": "Медицина"
+          },
           "icon": "stethoscope",
           "children": [
             {
-              "slug": { "es": "enfermero", "en": "nurse", "uk": "medsestra", "ru": "medsestra" },
-              "name": { "es": "Enfermero", "en": "Nurse", "uk": "Медсестра, медбрат", "ru": "Медсестра, медбрат" },
-              "synonyms": { "es": ["enfermera"], "en": ["registered nurse"], "uk": ["медбрат"], "ru": ["медбрат"] }
+              "slug": {
+                "es": "enfermero",
+                "en": "nurse",
+                "uk": "medsestra",
+                "ru": "medsestra"
+              },
+              "name": {
+                "es": "Enfermero",
+                "en": "Nurse",
+                "uk": "Медсестра, медбрат",
+                "ru": "Медсестра, медбрат"
+              },
+              "synonyms": {
+                "es": [
+                  "enfermera"
+                ],
+                "en": [
+                  "registered nurse"
+                ],
+                "uk": [
+                  "медбрат"
+                ],
+                "ru": [
+                  "медбрат"
+                ]
+              }
             },
             {
-              "slug": { "es": "auxiliar-enfermeria", "en": "nursing-assistant", "uk": "molodshyi-medpersonal", "ru": "mladshiy-medpersonal" },
-              "name": { "es": "Auxiliar de enfermería", "en": "Nursing assistant", "uk": "Молодша медсестра, санітар", "ru": "Младшая медсестра, санитар" },
-              "synonyms": { "es": ["TCAE", "celador"], "en": ["care assistant"], "uk": ["санітар"], "ru": ["санитар"] }
+              "slug": {
+                "es": "auxiliar-enfermeria",
+                "en": "nursing-assistant",
+                "uk": "molodshyi-medpersonal",
+                "ru": "mladshiy-medpersonal"
+              },
+              "name": {
+                "es": "Auxiliar de enfermería",
+                "en": "Nursing assistant",
+                "uk": "Молодша медсестра, санітар",
+                "ru": "Младшая медсестра, санитар"
+              },
+              "synonyms": {
+                "es": [
+                  "TCAE",
+                  "celador"
+                ],
+                "en": [
+                  "care assistant"
+                ],
+                "uk": [
+                  "санітар"
+                ],
+                "ru": [
+                  "санитар"
+                ]
+              }
             },
             {
-              "slug": { "es": "medico", "en": "doctor", "uk": "likar", "ru": "vrach" },
-              "name": { "es": "Médico", "en": "Doctor", "uk": "Лікар", "ru": "Врач" },
-              "synonyms": { "es": ["médica"], "en": ["physician"], "uk": ["лікарка"], "ru": ["доктор"] }
+              "slug": {
+                "es": "medico",
+                "en": "doctor",
+                "uk": "likar",
+                "ru": "vrach"
+              },
+              "name": {
+                "es": "Médico",
+                "en": "Doctor",
+                "uk": "Лікар",
+                "ru": "Врач"
+              },
+              "synonyms": {
+                "es": [
+                  "médica"
+                ],
+                "en": [
+                  "physician"
+                ],
+                "uk": [
+                  "лікарка"
+                ],
+                "ru": [
+                  "доктор"
+                ]
+              }
             },
             {
-              "slug": { "es": "farmaceutico", "en": "pharmacist", "uk": "farmatsevt", "ru": "farmatsevt" },
-              "name": { "es": "Farmacéutico", "en": "Pharmacist", "uk": "Фармацевт", "ru": "Фармацевт" },
-              "synonyms": { "es": ["farmacia", "auxiliar de farmacia"], "en": ["pharmacy assistant"], "uk": ["аптека"], "ru": ["аптека"] }
+              "slug": {
+                "es": "farmaceutico",
+                "en": "pharmacist",
+                "uk": "farmatsevt",
+                "ru": "farmatsevt"
+              },
+              "name": {
+                "es": "Farmacéutico",
+                "en": "Pharmacist",
+                "uk": "Фармацевт",
+                "ru": "Фармацевт"
+              },
+              "synonyms": {
+                "es": [
+                  "farmacia",
+                  "auxiliar de farmacia"
+                ],
+                "en": [
+                  "pharmacy assistant"
+                ],
+                "uk": [
+                  "аптека"
+                ],
+                "ru": [
+                  "аптека"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "educacion", "en": "education", "uk": "osvita", "ru": "obrazovanie" },
-          "name": { "es": "Educación", "en": "Education", "uk": "Освіта", "ru": "Образование" },
+          "slug": {
+            "es": "educacion",
+            "en": "education",
+            "uk": "osvita",
+            "ru": "obrazovanie"
+          },
+          "name": {
+            "es": "Educación",
+            "en": "Education",
+            "uk": "Освіта",
+            "ru": "Образование"
+          },
           "icon": "graduation-cap",
           "children": [
             {
-              "slug": { "es": "profesor", "en": "teacher", "uk": "vykladach", "ru": "prepodavatel" },
-              "name": { "es": "Profesor", "en": "Teacher", "uk": "Викладач, репетитор", "ru": "Преподаватель, репетитор" },
-              "synonyms": { "es": ["profesora", "tutor"], "en": ["tutor"], "uk": ["вчитель", "репетитор"], "ru": ["учитель", "репетитор"] }
+              "slug": {
+                "es": "profesor",
+                "en": "teacher",
+                "uk": "vykladach",
+                "ru": "prepodavatel"
+              },
+              "name": {
+                "es": "Profesor",
+                "en": "Teacher",
+                "uk": "Викладач, репетитор",
+                "ru": "Преподаватель, репетитор"
+              },
+              "synonyms": {
+                "es": [
+                  "profesora",
+                  "tutor"
+                ],
+                "en": [
+                  "tutor"
+                ],
+                "uk": [
+                  "вчитель",
+                  "репетитор"
+                ],
+                "ru": [
+                  "учитель",
+                  "репетитор"
+                ]
+              }
             },
             {
-              "slug": { "es": "educador-infantil", "en": "early-years-educator", "uk": "vykhovatel", "ru": "vospitatel" },
-              "name": { "es": "Educador infantil", "en": "Early years educator", "uk": "Вихователь", "ru": "Воспитатель" },
-              "synonyms": { "es": ["guardería"], "en": ["nursery teacher"], "uk": ["дитсадок"], "ru": ["детский сад"] }
+              "slug": {
+                "es": "educador-infantil",
+                "en": "early-years-educator",
+                "uk": "vykhovatel",
+                "ru": "vospitatel"
+              },
+              "name": {
+                "es": "Educador infantil",
+                "en": "Early years educator",
+                "uk": "Вихователь",
+                "ru": "Воспитатель"
+              },
+              "synonyms": {
+                "es": [
+                  "guardería"
+                ],
+                "en": [
+                  "nursery teacher"
+                ],
+                "uk": [
+                  "дитсадок"
+                ],
+                "ru": [
+                  "детский сад"
+                ]
+              }
             },
             {
-              "slug": { "es": "entrenador", "en": "coach", "uk": "trener", "ru": "trener" },
-              "name": { "es": "Entrenador", "en": "Coach, trainer", "uk": "Тренер", "ru": "Тренер" },
-              "synonyms": { "es": ["monitor deportivo"], "en": ["fitness instructor"], "uk": ["інструктор"], "ru": ["инструктор"] }
+              "slug": {
+                "es": "entrenador",
+                "en": "coach",
+                "uk": "trener",
+                "ru": "trener"
+              },
+              "name": {
+                "es": "Entrenador",
+                "en": "Coach, trainer",
+                "uk": "Тренер",
+                "ru": "Тренер"
+              },
+              "synonyms": {
+                "es": [
+                  "monitor deportivo"
+                ],
+                "en": [
+                  "fitness instructor"
+                ],
+                "uk": [
+                  "інструктор"
+                ],
+                "ru": [
+                  "инструктор"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "seguridad", "en": "security", "uk": "okhorona", "ru": "okhrana" },
-          "name": { "es": "Seguridad", "en": "Security", "uk": "Охорона", "ru": "Охрана" },
+          "slug": {
+            "es": "seguridad",
+            "en": "security",
+            "uk": "okhorona",
+            "ru": "okhrana"
+          },
+          "name": {
+            "es": "Seguridad",
+            "en": "Security",
+            "uk": "Охорона",
+            "ru": "Охрана"
+          },
           "icon": "shield",
           "children": [
             {
-              "slug": { "es": "vigilante", "en": "security-guard", "uk": "okhoronets", "ru": "okhrannik" },
-              "name": { "es": "Vigilante de seguridad", "en": "Security guard", "uk": "Охоронець", "ru": "Охранник" },
-              "synonyms": { "es": ["guardia de seguridad"], "en": ["guard"], "uk": ["охорона"], "ru": ["охрана"] }
+              "slug": {
+                "es": "vigilante",
+                "en": "security-guard",
+                "uk": "okhoronets",
+                "ru": "okhrannik"
+              },
+              "name": {
+                "es": "Vigilante de seguridad",
+                "en": "Security guard",
+                "uk": "Охоронець",
+                "ru": "Охранник"
+              },
+              "synonyms": {
+                "es": [
+                  "guardia de seguridad"
+                ],
+                "en": [
+                  "guard"
+                ],
+                "uk": [
+                  "охорона"
+                ],
+                "ru": [
+                  "охрана"
+                ]
+              }
             },
             {
-              "slug": { "es": "conserje", "en": "caretaker", "uk": "konsierzh", "ru": "konserzh" },
-              "name": { "es": "Conserje", "en": "Caretaker", "uk": "Консьєрж, сторож", "ru": "Консьерж, сторож" },
-              "synonyms": { "es": ["portero"], "en": ["porter", "concierge"], "uk": ["сторож", "вахтер"], "ru": ["сторож", "вахтер"] }
+              "slug": {
+                "es": "conserje",
+                "en": "caretaker",
+                "uk": "konsierzh",
+                "ru": "konserzh"
+              },
+              "name": {
+                "es": "Conserje",
+                "en": "Caretaker",
+                "uk": "Консьєрж, сторож",
+                "ru": "Консьерж, сторож"
+              },
+              "synonyms": {
+                "es": [
+                  "portero"
+                ],
+                "en": [
+                  "porter",
+                  "concierge"
+                ],
+                "uk": [
+                  "сторож",
+                  "вахтер"
+                ],
+                "ru": [
+                  "сторож",
+                  "вахтер"
+                ]
+              }
             }
           ]
         },
         {
-          "slug": { "es": "otros", "en": "other", "uk": "inshe", "ru": "drugoe" },
-          "name": { "es": "Otros", "en": "Other", "uk": "Інше", "ru": "Другое" },
+          "slug": {
+            "es": "otros",
+            "en": "other",
+            "uk": "inshe",
+            "ru": "drugoe"
+          },
+          "name": {
+            "es": "Otros",
+            "en": "Other",
+            "uk": "Інше",
+            "ru": "Другое"
+          },
           "icon": "ellipsis"
+        }
+      ]
+    },
+    {
+      "key": "inmobiliaria",
+      "is_enabled": true,
+      "sort": 2,
+      "slug": {
+        "es": "inmobiliaria",
+        "en": "real-estate",
+        "uk": "neruhomist",
+        "ru": "nedvizhimost"
+      },
+      "name": {
+        "es": "Inmobiliaria",
+        "en": "Real estate",
+        "uk": "Нерухомість",
+        "ru": "Недвижимость"
+      },
+      "attributes": [
+        {
+          "key": "operation",
+          "type": "enum",
+          "facet_order": 1,
+          "label": {
+            "es": "Operación",
+            "en": "Operation",
+            "uk": "Операція",
+            "ru": "Операция"
+          },
+          "options": [
+            {
+              "value": "rent",
+              "label": {
+                "es": "Alquiler",
+                "en": "Rent",
+                "uk": "Оренда",
+                "ru": "Аренда"
+              }
+            },
+            {
+              "value": "sale",
+              "label": {
+                "es": "Venta",
+                "en": "Sale",
+                "uk": "Продаж",
+                "ru": "Продажа"
+              }
+            },
+            {
+              "value": "share",
+              "label": {
+                "es": "Compartir",
+                "en": "Share",
+                "uk": "Підселення",
+                "ru": "Подселение"
+              }
+            }
+          ]
+        },
+        {
+          "key": "rooms",
+          "type": "enum",
+          "facet_order": 2,
+          "label": {
+            "es": "Habitaciones",
+            "en": "Rooms",
+            "uk": "Кімнати",
+            "ru": "Комнаты"
+          },
+          "options": [
+            {
+              "value": "1",
+              "label": {
+                "es": "1",
+                "en": "1",
+                "uk": "1",
+                "ru": "1"
+              }
+            },
+            {
+              "value": "2",
+              "label": {
+                "es": "2",
+                "en": "2",
+                "uk": "2",
+                "ru": "2"
+              }
+            },
+            {
+              "value": "3",
+              "label": {
+                "es": "3",
+                "en": "3",
+                "uk": "3",
+                "ru": "3"
+              }
+            },
+            {
+              "value": "4+",
+              "label": {
+                "es": "4 o más",
+                "en": "4 or more",
+                "uk": "4 і більше",
+                "ru": "4 и больше"
+              }
+            }
+          ]
+        },
+        {
+          "key": "furnished",
+          "type": "bool",
+          "facet_order": 3,
+          "label": {
+            "es": "Amueblado",
+            "en": "Furnished",
+            "uk": "З меблями",
+            "ru": "С мебелью"
+          }
+        },
+        {
+          "key": "bills_included",
+          "type": "bool",
+          "facet_order": 4,
+          "label": {
+            "es": "Gastos incluidos",
+            "en": "Bills included",
+            "uk": "Комуналка включена",
+            "ru": "Коммуналка включена"
+          }
+        },
+        {
+          "key": "pets_allowed",
+          "type": "bool",
+          "facet_order": 5,
+          "label": {
+            "es": "Se admiten mascotas",
+            "en": "Pets allowed",
+            "uk": "Можна з тваринами",
+            "ru": "Можно с животными"
+          }
+        },
+        {
+          "key": "empadronamiento",
+          "type": "bool",
+          "facet_order": 6,
+          "label": {
+            "es": "Con empadronamiento",
+            "en": "With registration",
+            "uk": "З пропискою",
+            "ru": "С пропиской"
+          }
+        }
+      ],
+      "categories": [
+        {
+          "slug": {
+            "es": "habitaciones",
+            "en": "rooms",
+            "uk": "kimnaty",
+            "ru": "komnaty"
+          },
+          "name": {
+            "es": "Habitaciones",
+            "en": "Rooms",
+            "uk": "Кімнати",
+            "ru": "Комнаты"
+          },
+          "icon": "bed-double"
+        },
+        {
+          "slug": {
+            "es": "pisos",
+            "en": "flats",
+            "uk": "kvartyry",
+            "ru": "kvartiry"
+          },
+          "name": {
+            "es": "Pisos y apartamentos",
+            "en": "Flats",
+            "uk": "Квартири",
+            "ru": "Квартиры"
+          },
+          "icon": "building-2"
+        },
+        {
+          "slug": {
+            "es": "casas",
+            "en": "houses",
+            "uk": "budynky",
+            "ru": "doma"
+          },
+          "name": {
+            "es": "Casas y chalets",
+            "en": "Houses",
+            "uk": "Будинки",
+            "ru": "Дома"
+          },
+          "icon": "home"
+        },
+        {
+          "slug": {
+            "es": "garajes",
+            "en": "garages",
+            "uk": "harazhi",
+            "ru": "garazhi"
+          },
+          "name": {
+            "es": "Garajes y trasteros",
+            "en": "Garages and storage",
+            "uk": "Гаражі та комори",
+            "ru": "Гаражи и кладовые"
+          },
+          "icon": "car-front"
+        },
+        {
+          "slug": {
+            "es": "locales",
+            "en": "commercial",
+            "uk": "komertsiina",
+            "ru": "kommercheskaya"
+          },
+          "name": {
+            "es": "Locales y naves",
+            "en": "Commercial",
+            "uk": "Комерційна",
+            "ru": "Коммерческая"
+          },
+          "icon": "store"
+        },
+        {
+          "slug": {
+            "es": "terrenos",
+            "en": "land",
+            "uk": "zemlia",
+            "ru": "zemlya"
+          },
+          "name": {
+            "es": "Terrenos",
+            "en": "Land",
+            "uk": "Земля",
+            "ru": "Земля"
+          },
+          "icon": "map"
+        }
+      ]
+    },
+    {
+      "key": "motor",
+      "is_enabled": true,
+      "sort": 3,
+      "slug": {
+        "es": "motor",
+        "en": "motor",
+        "uk": "transport",
+        "ru": "transport"
+      },
+      "name": {
+        "es": "Motor",
+        "en": "Motor",
+        "uk": "Транспорт",
+        "ru": "Транспорт"
+      },
+      "attributes": [
+        {
+          "key": "fuel",
+          "type": "enum",
+          "facet_order": 1,
+          "label": {
+            "es": "Combustible",
+            "en": "Fuel",
+            "uk": "Паливо",
+            "ru": "Топливо"
+          },
+          "options": [
+            {
+              "value": "gasolina",
+              "label": {
+                "es": "Gasolina",
+                "en": "Petrol",
+                "uk": "Бензин",
+                "ru": "Бензин"
+              }
+            },
+            {
+              "value": "diesel",
+              "label": {
+                "es": "Diésel",
+                "en": "Diesel",
+                "uk": "Дизель",
+                "ru": "Дизель"
+              }
+            },
+            {
+              "value": "hibrido",
+              "label": {
+                "es": "Híbrido",
+                "en": "Hybrid",
+                "uk": "Гібрид",
+                "ru": "Гибрид"
+              }
+            },
+            {
+              "value": "electrico",
+              "label": {
+                "es": "Eléctrico",
+                "en": "Electric",
+                "uk": "Електро",
+                "ru": "Электро"
+              }
+            },
+            {
+              "value": "gas",
+              "label": {
+                "es": "GLP/GNC",
+                "en": "LPG/CNG",
+                "uk": "Газ",
+                "ru": "Газ"
+              }
+            }
+          ]
+        },
+        {
+          "key": "gearbox",
+          "type": "enum",
+          "facet_order": 2,
+          "label": {
+            "es": "Cambio",
+            "en": "Gearbox",
+            "uk": "Коробка",
+            "ru": "Коробка"
+          },
+          "options": [
+            {
+              "value": "manual",
+              "label": {
+                "es": "Manual",
+                "en": "Manual",
+                "uk": "Механіка",
+                "ru": "Механика"
+              }
+            },
+            {
+              "value": "automatico",
+              "label": {
+                "es": "Automático",
+                "en": "Automatic",
+                "uk": "Автомат",
+                "ru": "Автомат"
+              }
+            }
+          ]
+        },
+        {
+          "key": "vehicle_age",
+          "type": "enum",
+          "facet_order": 3,
+          "label": {
+            "es": "Antigüedad",
+            "en": "Age",
+            "uk": "Вік",
+            "ru": "Возраст"
+          },
+          "options": [
+            {
+              "value": "lt3",
+              "label": {
+                "es": "Hasta 3 años",
+                "en": "Up to 3 years",
+                "uk": "До 3 років",
+                "ru": "До 3 лет"
+              }
+            },
+            {
+              "value": "3to10",
+              "label": {
+                "es": "3–10 años",
+                "en": "3–10 years",
+                "uk": "3–10 років",
+                "ru": "3–10 лет"
+              }
+            },
+            {
+              "value": "gt10",
+              "label": {
+                "es": "Más de 10 años",
+                "en": "Over 10 years",
+                "uk": "Понад 10 років",
+                "ru": "Больше 10 лет"
+              }
+            }
+          ]
+        },
+        {
+          "key": "itv",
+          "type": "bool",
+          "facet_order": 4,
+          "label": {
+            "es": "ITV al día",
+            "en": "MOT valid",
+            "uk": "ITV дійсна",
+            "ru": "ITV действует"
+          }
+        }
+      ],
+      "categories": [
+        {
+          "slug": {
+            "es": "coches",
+            "en": "cars",
+            "uk": "avto",
+            "ru": "avto"
+          },
+          "name": {
+            "es": "Coches",
+            "en": "Cars",
+            "uk": "Авто",
+            "ru": "Авто"
+          },
+          "icon": "car"
+        },
+        {
+          "slug": {
+            "es": "furgonetas",
+            "en": "vans",
+            "uk": "furhony",
+            "ru": "furgony"
+          },
+          "name": {
+            "es": "Furgonetas",
+            "en": "Vans",
+            "uk": "Фургони",
+            "ru": "Фургоны"
+          },
+          "icon": "truck"
+        },
+        {
+          "slug": {
+            "es": "camiones",
+            "en": "trucks",
+            "uk": "vantazhivky",
+            "ru": "gruzoviki"
+          },
+          "name": {
+            "es": "Camiones",
+            "en": "Trucks",
+            "uk": "Вантажівки",
+            "ru": "Грузовики"
+          },
+          "icon": "truck"
+        },
+        {
+          "slug": {
+            "es": "motos",
+            "en": "motorbikes",
+            "uk": "moto",
+            "ru": "moto"
+          },
+          "name": {
+            "es": "Motos",
+            "en": "Motorbikes",
+            "uk": "Мото",
+            "ru": "Мото"
+          },
+          "icon": "bike"
+        },
+        {
+          "slug": {
+            "es": "remolques",
+            "en": "trailers",
+            "uk": "prychepy",
+            "ru": "pricepy"
+          },
+          "name": {
+            "es": "Remolques y caravanas",
+            "en": "Trailers and campers",
+            "uk": "Причепи та автодоми",
+            "ru": "Прицепы и автодома"
+          },
+          "icon": "caravan"
+        },
+        {
+          "slug": {
+            "es": "recambios",
+            "en": "spare-parts",
+            "uk": "zapchastyny",
+            "ru": "zapchasti"
+          },
+          "name": {
+            "es": "Recambios",
+            "en": "Spare parts",
+            "uk": "Запчастини",
+            "ru": "Запчасти"
+          },
+          "icon": "wrench"
         }
       ]
     },
@@ -691,112 +3468,1028 @@
       "kind": "services",
       "_kind": "Permanent agency services (documents, training): catalog and service pages with an application form, never listings.",
       "is_enabled": true,
-      "sort": 2,
-      "slug": { "es": "servicios", "en": "services", "uk": "posluhy", "ru": "uslugi" },
-      "name": { "es": "Servicios", "en": "Services", "uk": "Послуги", "ru": "Услуги" },
+      "sort": 10,
+      "slug": {
+        "es": "nuestros-servicios",
+        "en": "our-services",
+        "uk": "nashi-posluhy",
+        "ru": "nashi-uslugi"
+      },
+      "name": {
+        "es": "Nuestros servicios",
+        "en": "Our services",
+        "uk": "Наші послуги",
+        "ru": "Наши услуги"
+      },
       "categories": [
         {
-          "slug": { "es": "documentos", "en": "documents", "uk": "dokumenty", "ru": "dokumenty" },
-          "name": { "es": "Documentos", "en": "Documents", "uk": "Документи", "ru": "Документы" },
+          "slug": {
+            "es": "documentos",
+            "en": "documents",
+            "uk": "dokumenty",
+            "ru": "dokumenty"
+          },
+          "name": {
+            "es": "Documentos",
+            "en": "Documents",
+            "uk": "Документи",
+            "ru": "Документы"
+          },
           "icon": "file-text",
           "children": [
             {
-              "slug": { "es": "canje-permiso", "en": "licence-exchange", "uk": "obmin-prav", "ru": "obmen-prav" },
-              "name": { "es": "Canje del permiso de conducir", "en": "Driving licence exchange", "uk": "Обмін водійських прав", "ru": "Обмен водительских прав" },
-              "synonyms": { "es": ["canje carnet"], "en": ["exchange driving licence"], "uk": ["обмін прав", "іспанські права"], "ru": ["обмен прав", "испанские права"] }
+              "slug": {
+                "es": "canje-permiso",
+                "en": "licence-exchange",
+                "uk": "obmin-prav",
+                "ru": "obmen-prav"
+              },
+              "name": {
+                "es": "Canje del permiso de conducir",
+                "en": "Driving licence exchange",
+                "uk": "Обмін водійських прав",
+                "ru": "Обмен водительских прав"
+              },
+              "synonyms": {
+                "es": [
+                  "canje carnet"
+                ],
+                "en": [
+                  "exchange driving licence"
+                ],
+                "uk": [
+                  "обмін прав",
+                  "іспанські права"
+                ],
+                "ru": [
+                  "обмен прав",
+                  "испанские права"
+                ]
+              }
             },
             {
-              "slug": { "es": "nie-tie", "en": "nie-tie", "uk": "nie-tie", "ru": "nie-tie" },
-              "name": { "es": "NIE y TIE", "en": "NIE and TIE", "uk": "NIE і TIE", "ru": "NIE и TIE" },
-              "synonyms": { "es": ["número de identidad de extranjero"], "en": ["foreigner id"], "uk": ["ідентифікаційний номер"], "ru": ["идентификационный номер"] }
+              "slug": {
+                "es": "nie-tie",
+                "en": "nie-tie",
+                "uk": "nie-tie",
+                "ru": "nie-tie"
+              },
+              "name": {
+                "es": "NIE y TIE",
+                "en": "NIE and TIE",
+                "uk": "NIE і TIE",
+                "ru": "NIE и TIE"
+              },
+              "synonyms": {
+                "es": [
+                  "número de identidad de extranjero"
+                ],
+                "en": [
+                  "foreigner id"
+                ],
+                "uk": [
+                  "ідентифікаційний номер"
+                ],
+                "ru": [
+                  "идентификационный номер"
+                ]
+              }
             },
             {
-              "slug": { "es": "empadronamiento", "en": "padron-registration", "uk": "padron", "ru": "padron" },
-              "name": { "es": "Empadronamiento", "en": "Padrón registration", "uk": "Реєстрація за адресою (падрон)", "ru": "Регистрация по адресу (падрон)" }
+              "slug": {
+                "es": "empadronamiento",
+                "en": "padron-registration",
+                "uk": "padron",
+                "ru": "padron"
+              },
+              "name": {
+                "es": "Empadronamiento",
+                "en": "Padrón registration",
+                "uk": "Реєстрація за адресою (падрон)",
+                "ru": "Регистрация по адресу (падрон)"
+              }
             }
           ]
         },
         {
-          "slug": { "es": "formacion", "en": "training", "uk": "navchannia", "ru": "obuchenie" },
-          "name": { "es": "Formación", "en": "Training", "uk": "Навчання", "ru": "Обучение" },
+          "slug": {
+            "es": "formacion",
+            "en": "training",
+            "uk": "navchannia",
+            "ru": "obuchenie"
+          },
+          "name": {
+            "es": "Formación",
+            "en": "Training",
+            "uk": "Навчання",
+            "ru": "Обучение"
+          },
           "icon": "graduation-cap",
           "children": [
             {
-              "slug": { "es": "cap-95", "en": "code-95", "uk": "kod-95", "ru": "kod-95" },
-              "name": { "es": "CAP (código 95)", "en": "Code 95 course", "uk": "Курси коду 95", "ru": "Курсы кода 95" }
+              "slug": {
+                "es": "cap-95",
+                "en": "code-95",
+                "uk": "kod-95",
+                "ru": "kod-95"
+              },
+              "name": {
+                "es": "CAP (código 95)",
+                "en": "Code 95 course",
+                "uk": "Курси коду 95",
+                "ru": "Курсы кода 95"
+              }
             },
             {
-              "slug": { "es": "carnet-c-ce", "en": "c-ce-licence", "uk": "prava-c-ce", "ru": "prava-c-ce" },
-              "name": { "es": "Carnet C y CE", "en": "C and CE licence", "uk": "Права категорій C і CE", "ru": "Права категорий C и CE" }
+              "slug": {
+                "es": "carnet-c-ce",
+                "en": "c-ce-licence",
+                "uk": "prava-c-ce",
+                "ru": "prava-c-ce"
+              },
+              "name": {
+                "es": "Carnet C y CE",
+                "en": "C and CE licence",
+                "uk": "Права категорій C і CE",
+                "ru": "Права категорий C и CE"
+              }
             }
           ]
+        },
+        {
+          "slug": {
+            "es": "reformas",
+            "en": "renovations",
+            "uk": "remont",
+            "ru": "remont"
+          },
+          "name": {
+            "es": "Reformas y obras",
+            "en": "Renovations",
+            "uk": "Ремонт і будівництво",
+            "ru": "Ремонт и строительство"
+          },
+          "icon": "hammer",
+          "is_enabled": false
+        },
+        {
+          "slug": {
+            "es": "mudanzas",
+            "en": "moving",
+            "uk": "perevezennia",
+            "ru": "perevozki"
+          },
+          "name": {
+            "es": "Mudanzas y transporte",
+            "en": "Moving and transport",
+            "uk": "Перевезення",
+            "ru": "Перевозки"
+          },
+          "icon": "truck",
+          "is_enabled": false
+        },
+        {
+          "slug": {
+            "es": "limpieza",
+            "en": "cleaning",
+            "uk": "prybyrannia",
+            "ru": "uborka"
+          },
+          "name": {
+            "es": "Limpieza",
+            "en": "Cleaning",
+            "uk": "Прибирання",
+            "ru": "Уборка"
+          },
+          "icon": "sparkles",
+          "is_enabled": false
+        },
+        {
+          "slug": {
+            "es": "traducciones",
+            "en": "translations",
+            "uk": "pereklady",
+            "ru": "perevody"
+          },
+          "name": {
+            "es": "Traducciones",
+            "en": "Translations",
+            "uk": "Переклади",
+            "ru": "Переводы"
+          },
+          "icon": "languages",
+          "is_enabled": false
+        },
+        {
+          "slug": {
+            "es": "belleza",
+            "en": "beauty",
+            "uk": "krasa",
+            "ru": "krasota"
+          },
+          "name": {
+            "es": "Belleza",
+            "en": "Beauty",
+            "uk": "Краса",
+            "ru": "Красота"
+          },
+          "icon": "scissors",
+          "is_enabled": false
+        },
+        {
+          "slug": {
+            "es": "salud",
+            "en": "health",
+            "uk": "zdorovia",
+            "ru": "zdorove"
+          },
+          "name": {
+            "es": "Salud",
+            "en": "Health",
+            "uk": "Здоров'я",
+            "ru": "Здоровье"
+          },
+          "icon": "stethoscope",
+          "is_enabled": false
+        },
+        {
+          "slug": {
+            "es": "juridico",
+            "en": "legal",
+            "uk": "yurydychni",
+            "ru": "yuridicheskie"
+          },
+          "name": {
+            "es": "Abogados y gestoría",
+            "en": "Legal and paperwork",
+            "uk": "Юристи та гестор",
+            "ru": "Юристы и гестор"
+          },
+          "icon": "scale",
+          "is_enabled": false
+        }
+      ],
+      "_retired": "moved to the 'servicios-sec' section; kept here switched off, not deleted"
+    },
+    {
+      "key": "servicios-sec",
+      "_key": "the marketplace section; the agency's own services keep the key 'servicios'",
+      "is_enabled": true,
+      "sort": 4,
+      "slug": {
+        "es": "servicios",
+        "en": "services",
+        "uk": "posluhy",
+        "ru": "uslugi"
+      },
+      "name": {
+        "es": "Servicios",
+        "en": "Services",
+        "uk": "Послуги",
+        "ru": "Услуги"
+      },
+      "attributes": [
+        {
+          "key": "service_format",
+          "type": "multi_enum",
+          "label": {
+            "es": "Cómo se presta",
+            "en": "How it is provided",
+            "uk": "Як надається",
+            "ru": "Как оказывается"
+          },
+          "facet_order": 1,
+          "options": [
+            {
+              "value": "at_home",
+              "label": {
+                "es": "A domicilio",
+                "en": "At your place",
+                "uk": "З виїздом",
+                "ru": "С выездом"
+              }
+            },
+            {
+              "value": "in_place",
+              "label": {
+                "es": "En el local",
+                "en": "At the provider's place",
+                "uk": "У майстра",
+                "ru": "У мастера"
+              }
+            },
+            {
+              "value": "online",
+              "label": {
+                "es": "Online",
+                "en": "Online",
+                "uk": "Онлайн",
+                "ru": "Онлайн"
+              }
+            }
+          ]
+        },
+        {
+          "key": "invoice",
+          "type": "bool",
+          "label": {
+            "es": "Con factura",
+            "en": "Invoice available",
+            "uk": "З рахунком (factura)",
+            "ru": "Со счётом (factura)"
+          },
+          "facet_order": 2
+        }
+      ],
+      "categories": [
+        {
+          "slug": {
+            "es": "reformas",
+            "en": "renovations",
+            "uk": "remont",
+            "ru": "remont"
+          },
+          "name": {
+            "es": "Reformas y obras",
+            "en": "Renovations",
+            "uk": "Ремонт і будівництво",
+            "ru": "Ремонт и строительство"
+          },
+          "icon": "hammer"
+        },
+        {
+          "slug": {
+            "es": "mudanzas",
+            "en": "moving",
+            "uk": "perevezennia",
+            "ru": "perevozki"
+          },
+          "name": {
+            "es": "Mudanzas y transporte",
+            "en": "Moving and transport",
+            "uk": "Перевезення",
+            "ru": "Перевозки"
+          },
+          "icon": "truck"
+        },
+        {
+          "slug": {
+            "es": "limpieza",
+            "en": "cleaning",
+            "uk": "prybyrannia",
+            "ru": "uborka"
+          },
+          "name": {
+            "es": "Limpieza",
+            "en": "Cleaning",
+            "uk": "Прибирання",
+            "ru": "Уборка"
+          },
+          "icon": "sparkles"
+        },
+        {
+          "slug": {
+            "es": "traducciones",
+            "en": "translations",
+            "uk": "pereklady",
+            "ru": "perevody"
+          },
+          "name": {
+            "es": "Traducciones",
+            "en": "Translations",
+            "uk": "Переклади",
+            "ru": "Переводы"
+          },
+          "icon": "languages"
+        },
+        {
+          "slug": {
+            "es": "belleza",
+            "en": "beauty",
+            "uk": "krasa",
+            "ru": "krasota"
+          },
+          "name": {
+            "es": "Belleza",
+            "en": "Beauty",
+            "uk": "Краса",
+            "ru": "Красота"
+          },
+          "icon": "scissors"
+        },
+        {
+          "slug": {
+            "es": "salud",
+            "en": "health",
+            "uk": "zdorovia",
+            "ru": "zdorove"
+          },
+          "name": {
+            "es": "Salud",
+            "en": "Health",
+            "uk": "Здоров'я",
+            "ru": "Здоровье"
+          },
+          "icon": "stethoscope"
+        },
+        {
+          "slug": {
+            "es": "juridico",
+            "en": "legal",
+            "uk": "yurydychni",
+            "ru": "yuridicheskie"
+          },
+          "name": {
+            "es": "Abogados y gestoría",
+            "en": "Legal and paperwork",
+            "uk": "Юристи та гестор",
+            "ru": "Юристы и гестор"
+          },
+          "icon": "scale"
         }
       ]
     },
     {
-      "key": "vivienda",
-      "is_enabled": false,
-      "sort": 3,
-      "slug": { "es": "vivienda", "en": "housing", "uk": "zhytlo", "ru": "zhile" },
-      "name": { "es": "Vivienda", "en": "Housing", "uk": "Житло", "ru": "Жильё" },
-      "categories": [
+      "key": "articulos",
+      "is_enabled": true,
+      "sort": 5,
+      "slug": {
+        "es": "articulos",
+        "en": "items",
+        "uk": "rechi",
+        "ru": "veshchi"
+      },
+      "name": {
+        "es": "Artículos",
+        "en": "Items",
+        "uk": "Речі",
+        "ru": "Вещи"
+      },
+      "attributes": [
         {
-          "slug": { "es": "alquiler", "en": "rent", "uk": "orenda", "ru": "arenda" },
-          "name": { "es": "Alquiler", "en": "Rent", "uk": "Оренда", "ru": "Аренда" },
-          "icon": "house",
-          "attributes": [
-            { "key": "amueblado", "type": "bool", "facet_order": 1, "label": {"es": "Amueblado", "en": "Furnished", "uk": "З меблями", "ru": "С мебелью"} },
+          "key": "condition",
+          "type": "enum",
+          "facet_order": 1,
+          "label": {
+            "es": "Estado",
+            "en": "Condition",
+            "uk": "Стан",
+            "ru": "Состояние"
+          },
+          "options": [
             {
-              "key": "gastos_incluidos",
-              "type": "bool",
-              "facet_order": 2,
-              "label": { "es": "Gastos incluidos", "en": "Bills included", "uk": "Комунальні включені", "ru": "Коммунальные включены" }
+              "value": "new",
+              "label": {
+                "es": "Nuevo",
+                "en": "New",
+                "uk": "Новий",
+                "ru": "Новый"
+              }
             },
             {
-              "key": "empadronamiento",
-              "type": "bool",
-              "facet_order": 3,
-              "label": { "es": "Posibilidad de empadronarse", "en": "Padrón registration possible", "uk": "Можна зробити падрон", "ru": "Можно сделать падрон" }
+              "value": "like_new",
+              "label": {
+                "es": "Como nuevo",
+                "en": "Like new",
+                "uk": "Як новий",
+                "ru": "Как новый"
+              }
             },
             {
-              "key": "mascotas",
-              "type": "bool",
-              "facet_order": 4,
-              "label": { "es": "Se admiten mascotas", "en": "Pets allowed", "uk": "Можна з тваринами", "ru": "Можно с животными" }
-            }
-          ],
-          "children": [
-            {
-              "slug": { "es": "habitaciones", "en": "rooms", "uk": "kimnaty", "ru": "komnaty" },
-              "name": { "es": "Habitaciones", "en": "Rooms", "uk": "Кімнати", "ru": "Комнаты" },
-              "synonyms": { "es": ["cuarto", "habitación compartida"], "en": ["room share", "flatshare"], "uk": ["кімната", "ліжко-місце"], "ru": ["комната", "койко-место"] }
+              "value": "used",
+              "label": {
+                "es": "Usado",
+                "en": "Used",
+                "uk": "Вживаний",
+                "ru": "Б/у"
+              }
             },
             {
-              "slug": { "es": "pisos", "en": "apartments", "uk": "kvartyry", "ru": "kvartiry" },
-              "name": { "es": "Pisos", "en": "Apartments", "uk": "Квартири", "ru": "Квартиры" },
-              "synonyms": { "es": ["apartamento", "estudio"], "en": ["flat", "studio"], "uk": ["квартира", "студія"], "ru": ["квартира", "студия"] }
-            },
-            {
-              "slug": { "es": "casas-y-chalets", "en": "houses", "uk": "budynky", "ru": "doma" },
-              "name": { "es": "Casas y chalets", "en": "Houses", "uk": "Будинки", "ru": "Дома" }
+              "value": "for_parts",
+              "label": {
+                "es": "Para piezas",
+                "en": "For parts",
+                "uk": "На запчастини",
+                "ru": "На запчасти"
+              }
             }
           ]
         },
         {
-          "slug": { "es": "alojamiento-temporal", "en": "short-term-housing", "uk": "tymchasove-zhytlo", "ru": "vremennoe-zhile" },
-          "name": { "es": "Alojamiento temporal", "en": "Short-term housing", "uk": "Тимчасове житло", "ru": "Временное жильё" },
-          "icon": "bed",
-          "children": [
+          "key": "delivery",
+          "type": "multi_enum",
+          "facet_order": 2,
+          "label": {
+            "es": "Entrega",
+            "en": "Delivery",
+            "uk": "Отримання",
+            "ru": "Получение"
+          },
+          "options": [
             {
-              "slug": { "es": "alojamiento-trabajadores", "en": "worker-housing", "uk": "zhytlo-dlia-pratsivnykiv", "ru": "zhile-dlya-rabotnikov" },
-              "name": { "es": "Alojamiento para trabajadores", "en": "Worker housing", "uk": "Житло для працівників", "ru": "Жильё для работников" },
-              "synonyms": { "es": ["alojamiento de temporada"], "en": ["seasonal housing"], "uk": ["гуртожиток"], "ru": ["общежитие"] }
+              "value": "pickup",
+              "label": {
+                "es": "En mano",
+                "en": "In person",
+                "uk": "Самовивіз",
+                "ru": "Самовывоз"
+              }
             },
             {
-              "slug": { "es": "hostales", "en": "hostels", "uk": "hostely", "ru": "hostely" },
-              "name": { "es": "Hostales y pensiones", "en": "Hostels and guesthouses", "uk": "Хостели", "ru": "Хостелы" }
+              "value": "shipping",
+              "label": {
+                "es": "Envío",
+                "en": "Shipping",
+                "uk": "Відправка поштою",
+                "ru": "Отправка почтой"
+              }
             }
           ]
+        }
+      ],
+      "categories": [
+        {
+          "slug": {
+            "es": "electronica",
+            "en": "electronics",
+            "uk": "elektronika",
+            "ru": "elektronika"
+          },
+          "name": {
+            "es": "Electrónica",
+            "en": "Electronics",
+            "uk": "Електроніка",
+            "ru": "Электроника"
+          },
+          "icon": "smartphone"
+        },
+        {
+          "slug": {
+            "es": "casa-y-jardin",
+            "en": "home-and-garden",
+            "uk": "dim-i-sad",
+            "ru": "dom-i-sad"
+          },
+          "name": {
+            "es": "Casa y jardín",
+            "en": "Home and garden",
+            "uk": "Дім і сад",
+            "ru": "Дом и сад"
+          },
+          "icon": "sofa"
+        },
+        {
+          "slug": {
+            "es": "moda",
+            "en": "fashion",
+            "uk": "odiah",
+            "ru": "odezhda"
+          },
+          "name": {
+            "es": "Moda",
+            "en": "Fashion",
+            "uk": "Одяг",
+            "ru": "Одежда"
+          },
+          "icon": "shirt"
+        },
+        {
+          "slug": {
+            "es": "bebes",
+            "en": "babies",
+            "uk": "dytiache",
+            "ru": "detskoe"
+          },
+          "name": {
+            "es": "Bebés y niños",
+            "en": "Babies and kids",
+            "uk": "Дитяче",
+            "ru": "Детское"
+          },
+          "icon": "baby"
+        },
+        {
+          "slug": {
+            "es": "deportes",
+            "en": "sports",
+            "uk": "sport",
+            "ru": "sport"
+          },
+          "name": {
+            "es": "Deportes",
+            "en": "Sports",
+            "uk": "Спорт",
+            "ru": "Спорт"
+          },
+          "icon": "dumbbell"
+        },
+        {
+          "slug": {
+            "es": "aficiones",
+            "en": "hobbies",
+            "uk": "hobi",
+            "ru": "hobbi"
+          },
+          "name": {
+            "es": "Aficiones",
+            "en": "Hobbies",
+            "uk": "Хобі",
+            "ru": "Хобби"
+          },
+          "icon": "puzzle"
+        },
+        {
+          "slug": {
+            "es": "herramientas",
+            "en": "tools",
+            "uk": "instrumenty",
+            "ru": "instrumenty"
+          },
+          "name": {
+            "es": "Herramientas",
+            "en": "Tools",
+            "uk": "Інструменти",
+            "ru": "Инструменты"
+          },
+          "icon": "hammer"
+        }
+      ]
+    },
+    {
+      "key": "animales",
+      "is_enabled": true,
+      "sort": 7,
+      "slug": {
+        "es": "animales",
+        "en": "pets",
+        "uk": "tvaryny",
+        "ru": "zhivotnye"
+      },
+      "name": {
+        "es": "Animales",
+        "en": "Pets",
+        "uk": "Тварини",
+        "ru": "Животные"
+      },
+      "attributes": [
+        {
+          "key": "pet_offer",
+          "type": "enum",
+          "facet_order": 1,
+          "label": {
+            "es": "Tipo de anuncio",
+            "en": "Kind of ad",
+            "uk": "Тип оголошення",
+            "ru": "Тип объявления"
+          },
+          "options": [
+            {
+              "value": "sale",
+              "label": {
+                "es": "Venta",
+                "en": "For sale",
+                "uk": "Продаж",
+                "ru": "Продажа"
+              }
+            },
+            {
+              "value": "adoption",
+              "label": {
+                "es": "Adopción",
+                "en": "Adoption",
+                "uk": "Віддам",
+                "ru": "Отдам"
+              }
+            },
+            {
+              "value": "service",
+              "label": {
+                "es": "Servicios",
+                "en": "Services",
+                "uk": "Послуги",
+                "ru": "Услуги"
+              }
+            }
+          ]
+        }
+      ],
+      "categories": [
+        {
+          "slug": {
+            "es": "perros",
+            "en": "dogs",
+            "uk": "sobaky",
+            "ru": "sobaki"
+          },
+          "name": {
+            "es": "Perros",
+            "en": "Dogs",
+            "uk": "Собаки",
+            "ru": "Собаки"
+          },
+          "icon": "dog"
+        },
+        {
+          "slug": {
+            "es": "gatos",
+            "en": "cats",
+            "uk": "koty",
+            "ru": "koshki"
+          },
+          "name": {
+            "es": "Gatos",
+            "en": "Cats",
+            "uk": "Коти",
+            "ru": "Кошки"
+          },
+          "icon": "cat"
+        },
+        {
+          "slug": {
+            "es": "otros-animales",
+            "en": "other-pets",
+            "uk": "inshi-tvaryny",
+            "ru": "drugie-zhivotnye"
+          },
+          "name": {
+            "es": "Otros animales",
+            "en": "Other pets",
+            "uk": "Інші тварини",
+            "ru": "Другие животные"
+          },
+          "icon": "bird"
+        },
+        {
+          "slug": {
+            "es": "cuidado-animales",
+            "en": "pet-care",
+            "uk": "dohliad-za-tvarynamy",
+            "ru": "uhod-za-zhivotnymi"
+          },
+          "name": {
+            "es": "Cuidado y veterinarios",
+            "en": "Care and vets",
+            "uk": "Догляд і ветеринари",
+            "ru": "Уход и ветеринары"
+          },
+          "icon": "stethoscope"
+        }
+      ]
+    },
+    {
+      "key": "negocios",
+      "is_enabled": true,
+      "sort": 6,
+      "slug": {
+        "es": "negocios",
+        "en": "business",
+        "uk": "biznes",
+        "ru": "biznes"
+      },
+      "name": {
+        "es": "Negocios",
+        "en": "Business",
+        "uk": "Бізнес",
+        "ru": "Бизнес"
+      },
+      "attributes": [],
+      "categories": [
+        {
+          "slug": {
+            "es": "empresas",
+            "en": "companies",
+            "uk": "kataloh-firm",
+            "ru": "katalog-firm"
+          },
+          "name": {
+            "es": "Catálogo de empresas",
+            "en": "Company directory",
+            "uk": "Каталог фірм",
+            "ru": "Каталог фирм"
+          },
+          "icon": "building"
+        },
+        {
+          "slug": {
+            "es": "maquinaria",
+            "en": "equipment",
+            "uk": "obladnannia",
+            "ru": "oborudovanie"
+          },
+          "name": {
+            "es": "Maquinaria y equipos",
+            "en": "Machinery and equipment",
+            "uk": "Обладнання",
+            "ru": "Оборудование"
+          },
+          "icon": "factory"
+        },
+        {
+          "slug": {
+            "es": "traspasos",
+            "en": "businesses-for-sale",
+            "uk": "hotovyi-biznes",
+            "ru": "gotovyi-biznes"
+          },
+          "name": {
+            "es": "Traspasos",
+            "en": "Businesses for sale",
+            "uk": "Готовий бізнес",
+            "ru": "Готовый бизнес"
+          },
+          "icon": "handshake"
+        }
+      ]
+    },
+    {
+      "key": "formacion-sec",
+      "is_enabled": true,
+      "sort": 8,
+      "slug": {
+        "es": "formacion",
+        "en": "education",
+        "uk": "navchannia",
+        "ru": "obuchenie"
+      },
+      "name": {
+        "es": "Formación",
+        "en": "Education",
+        "uk": "Навчання",
+        "ru": "Обучение"
+      },
+      "attributes": [
+        {
+          "key": "study_format",
+          "type": "enum",
+          "facet_order": 1,
+          "label": {
+            "es": "Formato",
+            "en": "Format",
+            "uk": "Формат",
+            "ru": "Формат"
+          },
+          "options": [
+            {
+              "value": "online",
+              "label": {
+                "es": "Online",
+                "en": "Online",
+                "uk": "Онлайн",
+                "ru": "Онлайн"
+              }
+            },
+            {
+              "value": "presencial",
+              "label": {
+                "es": "Presencial",
+                "en": "In person",
+                "uk": "Очно",
+                "ru": "Очно"
+              }
+            }
+          ]
+        }
+      ],
+      "categories": [
+        {
+          "slug": {
+            "es": "cursos-profesionales",
+            "en": "professional-courses",
+            "uk": "profesiini-kursy",
+            "ru": "professionalnye-kursy"
+          },
+          "name": {
+            "es": "Cursos profesionales",
+            "en": "Professional courses",
+            "uk": "Професійні курси",
+            "ru": "Профессиональные курсы"
+          },
+          "icon": "graduation-cap"
+        },
+        {
+          "slug": {
+            "es": "idiomas",
+            "en": "languages",
+            "uk": "movy",
+            "ru": "yazyki"
+          },
+          "name": {
+            "es": "Idiomas",
+            "en": "Languages",
+            "uk": "Мови",
+            "ru": "Языки"
+          },
+          "icon": "languages"
+        },
+        {
+          "slug": {
+            "es": "autoescuelas",
+            "en": "driving-schools",
+            "uk": "avtoshkoly",
+            "ru": "avtoshkoly"
+          },
+          "name": {
+            "es": "Autoescuelas",
+            "en": "Driving schools",
+            "uk": "Автошколи",
+            "ru": "Автошколы"
+          },
+          "icon": "car-front"
+        },
+        {
+          "slug": {
+            "es": "profesores",
+            "en": "tutors",
+            "uk": "repetytory",
+            "ru": "repetitory"
+          },
+          "name": {
+            "es": "Profesores particulares",
+            "en": "Tutors",
+            "uk": "Репетитори",
+            "ru": "Репетиторы"
+          },
+          "icon": "book-open"
+        }
+      ]
+    },
+    {
+      "key": "comunidad",
+      "is_enabled": true,
+      "sort": 9,
+      "slug": {
+        "es": "comunidad",
+        "en": "community",
+        "uk": "spilnota",
+        "ru": "soobshchestvo"
+      },
+      "name": {
+        "es": "Comunidad",
+        "en": "Community",
+        "uk": "Спільнота",
+        "ru": "Сообщество"
+      },
+      "attributes": [],
+      "categories": [
+        {
+          "slug": {
+            "es": "anuncios",
+            "en": "notices",
+            "uk": "ogoloshennia",
+            "ru": "obyavleniya"
+          },
+          "name": {
+            "es": "Anuncios",
+            "en": "Notices",
+            "uk": "Оголошення",
+            "ru": "Объявления"
+          },
+          "icon": "megaphone"
+        },
+        {
+          "slug": {
+            "es": "eventos",
+            "en": "events",
+            "uk": "podii",
+            "ru": "sobytiya"
+          },
+          "name": {
+            "es": "Eventos",
+            "en": "Events",
+            "uk": "Події",
+            "ru": "События"
+          },
+          "icon": "calendar"
+        },
+        {
+          "slug": {
+            "es": "se-regala",
+            "en": "free-stuff",
+            "uk": "viddam",
+            "ru": "otdam"
+          },
+          "name": {
+            "es": "Se regala",
+            "en": "Free stuff",
+            "uk": "Віддам безкоштовно",
+            "ru": "Отдам бесплатно"
+          },
+          "icon": "gift"
+        },
+        {
+          "slug": {
+            "es": "perdidos",
+            "en": "lost-and-found",
+            "uk": "znahidky",
+            "ru": "nahodki"
+          },
+          "name": {
+            "es": "Perdidos y encontrados",
+            "en": "Lost and found",
+            "uk": "Загублене й знайдене",
+            "ru": "Потерянное и найденное"
+          },
+          "icon": "search"
         }
       ]
     }

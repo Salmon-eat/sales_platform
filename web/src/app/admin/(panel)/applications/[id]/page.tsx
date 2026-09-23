@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Fragment } from "react";
 
 import { adminT, getAdminLocale } from "@/lib/admin-locale";
 import { ApiError } from "@/lib/api";
@@ -103,6 +104,34 @@ export default async function ApplicationPage({ params, searchParams }: Props) {
             <>
               <h3>{t("table.comment")}</h3>
               <p className="app-detail__comment">{a.comment}</p>
+            </>
+          )}
+          {a.answers.length > 0 && (
+            <>
+              <h3>{t("detail.answers")}</h3>
+              <dl className="app-detail__dl app-detail__answers">
+                {a.answers.map((x) => (
+                  <Fragment key={x.question}>
+                    <dt>{x.question}</dt>
+                    <dd>{x.answer}</dd>
+                  </Fragment>
+                ))}
+              </dl>
+            </>
+          )}
+          {a.files.length > 0 && (
+            <>
+              <h3>{t("detail.cv")}</h3>
+              {a.files.map((f) => (
+                <p key={f.id} className="app-detail__file">
+                  <a href={`/admin/api/applications/${a.id}/files/${f.id}`} className="btn btn--ghost-dark btn--sm" download>
+                    {t("detail.cvDownload")}
+                  </a>{" "}
+                  <span className="muted small">
+                    {f.filename} · {Math.max(1, Math.round(f.size / 1024))} KB
+                  </span>
+                </p>
+              ))}
             </>
           )}
         </section>

@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 
 from app.api.deps import require_staff
 from app.api.routes import (
+    account,
     admin,
     admin_analytics,
     admin_listings,
@@ -11,6 +12,7 @@ from app.api.routes import (
     auth,
     bot_sync,
     health,
+    home,
     listings,
     locations,
     pages,
@@ -19,6 +21,7 @@ from app.api.routes import (
 
 api_router = APIRouter()
 api_router.include_router(health.router)
+api_router.include_router(home.router)
 api_router.include_router(taxonomy.router)
 api_router.include_router(locations.router)
 api_router.include_router(listings.router)
@@ -26,6 +29,7 @@ api_router.include_router(pages.router)
 api_router.include_router(applications.router)
 api_router.include_router(applications.chat_router)
 api_router.include_router(auth.router)
+api_router.include_router(account.router)
 api_router.include_router(analytics.router)
 api_router.include_router(bot_sync.router)
 

@@ -9,25 +9,16 @@ const intl = createMiddleware(routing);
 const LOCALE_COOKIE = "NEXT_LOCALE";
 const BOT_RE = /bot|crawl|spider|slurp|bingpreview|facebookexternalhit|embedly|lighthouse/i;
 
-/** "/" -> language cookie, then Accept-Language, then the default; crawlers always get es. */
+/**
+ * "/" -> the language the visitor chose before (cookie), otherwise the site's default: Spanish in
+ * production. The browser's own language is deliberately ignored: this is a Spanish site, and everybody
+ * starts on the Spanish version until they pick another language in the header.
+ */
 function pickLocale(request: NextRequest): Locale {
   if (BOT_RE.test(request.headers.get("user-agent") ?? "")) return X_DEFAULT_LOCALE;
 
   const cookie = request.cookies.get(LOCALE_COOKIE)?.value;
-  if (isLocale(cookie)) return cookie;
-
-  const ranked = (request.headers.get("accept-language") ?? "")
-    .split(",")
-    .map((part) => {
-      const [tag, q] = part.trim().split(";q=");
-      return { lang: tag.split("-")[0].toLowerCase(), q: q ? Number(q) : 1 };
-    })
-    .sort((a, b) => b.q - a.q);
-  for (const { lang } of ranked) {
-    const code = lang === "ua" ? "uk" : lang;
-    if (isLocale(code)) return code;
-  }
-  return routing.defaultLocale;
+  return isLocale(cookie) ? cookie : routing.defaultLocale;
 }
 
 const API_URL = process.env.API_INTERNAL_URL ?? "http://localhost:8000";
@@ -45,7 +36,7 @@ async function goneResponse(pathname: string): Promise<NextResponse | null> {
   } catch {
     return null; // the page itself handles API outages
   }
-  const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>410</title></head><body style="font-family:system-ui;padding:48px"><h1>410</h1><p>Esta oferta ya no está disponible · Ця вакансія більше не доступна</p><p><a href="/">Bazarcito</a></p></body></html>`;
+  const html = `<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>410</title></head><body style="font-family:system-ui;padding:48px"><h1>410</h1><p>Esta oferta ya no está disponible · Ця вакансія більше не доступна</p><p><a href="/">Citobazar</a></p></body></html>`;
   return new NextResponse(html, {
     status: 410,
     headers: { "Content-Type": "text/html; charset=utf-8", "X-Robots-Tag": "noindex" },
@@ -84,7 +75,7 @@ export default async function proxy(request: NextRequest) {
 
   if (pathname === "/") {
     const response = NextResponse.redirect(new URL(localePrefix(pickLocale(request)), request.url), 302);
-    response.headers.set("Vary", "Cookie, Accept-Language, User-Agent");
+    response.headers.set("Vary", "Cookie, User-Agent");
     return response;
   }
 

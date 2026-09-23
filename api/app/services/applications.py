@@ -14,8 +14,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.models import Application, ApplicationMessage, ApplicationNote, Category, Location
+from app.models import Application, ApplicationMessage, ApplicationNote, Category, Listing, Location
 from app.schemas.application import ApplicationCreated, ApplicationIn
+from app.services import cv, questions
 
 DUPLICATE_WINDOW = timedelta(hours=24)
 CHAT_MESSAGES_PER_HOUR = 40
@@ -46,7 +47,13 @@ async def create_application(
     if data.location_slug:
         location_id = await session.scalar(select(Location.id).where(Location.slug == data.location_slug))
 
-    answers = {"in_spain": data.in_spain, "comment": data.comment}
+    answers: dict = {"in_spain": data.in_spain, "comment": data.comment}
+    if data.listing_id is not None and data.questions:
+        listing_questions = await session.scalar(
+            select(Listing.questions).where(Listing.id == data.listing_id)
+        )
+        if listed := questions.answers_for(listing_questions or [], data.questions):
+            answers["questions"] = listed
     now = datetime.now(UTC)
 
     if data.channel == "chat":
@@ -66,12 +73,14 @@ async def create_application(
     if duplicate is not None:
         details = ", ".join(
             f"{k}: {v}"
-            for k, v in {"ім'я": data.name, "месенджер": data.messenger, **answers}.items()
+            for k, v in {"ім'я": data.name, "месенджер": data.messenger, **answers, "questions": None}.items()
             if v not in (None, "")
         )
         session.add(ApplicationNote(application_id=duplicate.id, text=f"Повторна заявка ({details})"))
         await session.commit()
-        return ApplicationCreated(id=duplicate.id, duplicate=True)
+        return ApplicationCreated(
+            id=duplicate.id, duplicate=True, cv_token=await cv.new_token(redis, duplicate.id)
+        )
 
     application = Application(
         listing_id=data.listing_id,
@@ -90,7 +99,9 @@ async def create_application(
     )
     session.add(application)
     await session.commit()
-    return ApplicationCreated(id=application.id, duplicate=False)
+    return ApplicationCreated(
+        id=application.id, duplicate=False, cv_token=await cv.new_token(redis, application.id)
+    )
 
 
 async def _start_chat(

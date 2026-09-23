@@ -12,6 +12,7 @@ from sqlalchemy import select
 
 from app.core.db import SessionLocal, engine
 from app.core.redis import redis
+from app.importers.ads_demo import delete_demo_ads, seed_demo_ads
 from app.importers.analytics_demo import delete_demo_analytics, seed_demo_analytics
 from app.importers.content import seed_content
 from app.importers.listings_demo import seed_demo_listings
@@ -82,6 +83,21 @@ async def seed_listings_cmd() -> None:
     print(f"demo listings: {created} created" if created else "listings already exist, skipping")
 
 
+async def seed_ads_cmd() -> None:
+    """Demo ads in the new sections (real estate, motor, items...), so the board looks alive."""
+    async with SessionLocal() as session:
+        created = await seed_demo_ads(session)
+    await bump_cache_version(redis)
+    print(f"demo ads: {created} created" if created else "demo ads already there, skipping")
+
+
+async def delete_ads_cmd() -> None:
+    async with SessionLocal() as session:
+        removed = await delete_demo_ads(session)
+    await bump_cache_version(redis)
+    print(f"demo ads removed: {removed}")
+
+
 async def expire_listings_cmd() -> None:
     async with SessionLocal() as session:
         count = await expire_listings(session)
@@ -138,6 +154,10 @@ async def run(args: argparse.Namespace) -> None:
                 await import_locations_cmd(args.download)
             case "seed-listings":
                 await seed_listings_cmd()
+            case "seed-demo-ads":
+                await seed_ads_cmd()
+            case "delete-demo-ads":
+                await delete_ads_cmd()
             case "expire-listings":
                 await expire_listings_cmd()
             case "seed-fake-listings":
@@ -171,6 +191,8 @@ def main() -> None:
     locations.add_argument("--download", action="store_true", help="download missing source files")
 
     sub.add_parser("seed-listings", help="create demo listings (only into an empty table)")
+    sub.add_parser("seed-demo-ads", help="demo ads for the classifieds sections (flats, cars, items...)")
+    sub.add_parser("delete-demo-ads", help="remove those demo ads")
     sub.add_parser(
         "expire-listings", help="mark listings past expires_at as expired (the worker does it every 10 min)"
     )

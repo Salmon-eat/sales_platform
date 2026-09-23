@@ -126,7 +126,11 @@
     "pinned": "Закрепить вверху выдачи",
     "saving": "Сохраняем…",
     "saveDraft": "Сохранить черновик",
-    "saveAndPublish": "Сохранить и опубликовать"
+    "saveAndPublish": "Сохранить и опубликовать",
+    "questionsTitle": "Вопросы кандидату (необязательно)",
+    "questionsHint": "Кандидат отвечает кликом в форме отклика, может и пропустить. До {max} вопросов.",
+    "questionOwn": "Свой вопрос «да / нет» {n}",
+    "questionOwnPlaceholder": "Напр.: Можете начать в понедельник?"
   },
   "preview": {
     "caption": "Превью карточки (как в списке на сайте)",
@@ -134,7 +138,7 @@
     "noSalary": "Зарплата не указана",
     "perPeriod": "{period, select, hour {в час} day {в день} week {в неделю} other {в месяц}}",
     "urgent": "Срочно",
-    "agency": "Агентство Bazarcito",
+    "agency": "Агентство Citobazar",
     "company": "Компания",
     "city": "Город",
     "spainWide": "Вся Испания",

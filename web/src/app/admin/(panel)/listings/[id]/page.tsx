@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { adminT, getAdminLocale } from "@/lib/admin-locale";
 import { ApiError } from "@/lib/api";
 import { adminFetch } from "@/lib/auth";
-import type { AdminListingDetail, AdminSection } from "@/lib/types";
+import type { AdminListingDetail, AdminSection, QuestionPreset } from "@/lib/types";
 
 import { runListingAction } from "../../../listing-actions";
 import { ListingForm } from "../ListingForm";
@@ -32,6 +32,7 @@ export default async function EditListingPage({ params, searchParams }: Props) {
     throw error;
   }
   const sections = await adminFetch<AdminSection[]>("/admin/taxonomy");
+  const presets = await adminFetch<QuestionPreset[]>("/admin/listing-questions");
   const s = listing.status;
   const byLang = (lang: string) => listing.translations.find((tr) => tr.lang === lang)?.title;
   const title = byLang(locale) ?? byLang(listing.original_lang) ?? listing.translations[0]?.title;
@@ -94,7 +95,7 @@ export default async function EditListingPage({ params, searchParams }: Props) {
         </form>
       </div>
 
-      <ListingForm sections={sections} listing={listing} readOnly={!listing.can_edit} />
+      <ListingForm sections={sections} presets={presets} listing={listing} readOnly={!listing.can_edit} />
     </>
   );
 }

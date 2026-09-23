@@ -11,6 +11,7 @@ SalaryPeriod = Literal["hour", "day", "week", "month"]
 Schedule = Literal["full", "part", "weekends", "shifts"]
 Contract = Literal["indefinido", "temporal", "fijo_discontinuo"]
 Source = Literal["agency", "partner", "employer"]
+PriceKind = Literal["fixed", "negotiable", "free", "from"]
 LocationScope = Literal["local", "spain_wide"]
 ListingAction = Literal["publish", "pause", "resume", "close", "extend"]
 
@@ -41,6 +42,13 @@ class ContactIn(BaseModel):
         return normalize_phone(value) if value else None
 
 
+class QuestionIn(BaseModel):
+    """A ready-made question by key, or an own yes/no question (custom1/2) with its text per language."""
+
+    key: str = Field(max_length=20)
+    text: dict[str, str] | None = Field(None, description="own question: lang -> text")
+
+
 class PointIn(BaseModel):
     lat: float = Field(ge=27, le=44)  # Spain incl. Canary Islands
     lon: float = Field(ge=-19, le=5)
@@ -54,6 +62,10 @@ class ListingIn(BaseModel):
     salary_min: int | None = Field(None, ge=0, le=1_000_000)
     salary_max: int | None = Field(None, ge=0, le=1_000_000)
     salary_period: SalaryPeriod | None = None
+    # outside the jobs section: what the thing costs
+    price: int | None = Field(None, ge=0, le=100_000_000)
+    price_period: SalaryPeriod | None = Field(None, description="null = one-off; month for rent, etc.")
+    price_kind: PriceKind = "fixed"
     housing: bool = False
     no_language: bool = False
     no_experience: bool = False
@@ -65,6 +77,9 @@ class ListingIn(BaseModel):
     duration_months: int | None = Field(None, ge=1, le=36, description="for seasonal/temporary work")
     attributes: dict[str, Any] = Field(default_factory=dict)
     contact: ContactIn = Field(default_factory=ContactIn)
+    questions: list[QuestionIn] = Field(
+        default_factory=list, max_length=6, description="optional, to the candidate"
+    )
     source: Source = "agency"
     employer_name: str | None = Field(None, max_length=200)
     is_pinned: bool = False
@@ -89,6 +104,10 @@ class ListingIn(BaseModel):
             raise ValueError("salary_range")
         if self.source != "agency" and not self.employer_name:
             raise ValueError("employer_required")
+        if self.price_kind == "free":
+            self.price, self.price_period = None, None
+        elif self.price is None and self.price_kind != "negotiable":
+            self.price_period = None
         self.schedule = sorted(set(self.schedule))
         return self
 
@@ -153,6 +172,9 @@ class AdminListingDetail(BaseModel):
     salary_max: int | None
     salary_period: SalaryPeriod | None
     salary_monthly_min: int | None
+    price: int | None = None
+    price_period: SalaryPeriod | None = None
+    price_kind: PriceKind = "fixed"
     housing: bool
     no_language: bool
     no_experience: bool
@@ -164,6 +186,7 @@ class AdminListingDetail(BaseModel):
     duration_months: int | None
     attributes: dict[str, Any]
     contact: dict[str, Any]
+    questions: list[dict[str, Any]] = Field(default_factory=list)
     source: Source
     employer_name: str | None
     is_pinned: bool
@@ -214,6 +237,12 @@ class ListingCard(BaseModel):
     salary_min: int | None
     salary_max: int | None
     salary_period: SalaryPeriod | None
+    # everything outside the jobs section: the price people see first on the card
+    price: int | None = None
+    price_period: SalaryPeriod | None = Field(None, description="null = one-off, else per month/day/hour")
+    price_kind: PriceKind = "fixed"
+    photo: str | None = Field(None, description="path of the first photo, e.g. /media/2026/09/ab12.jpg")
+    promoted: bool = Field(False, description="paid placement: shown in the top block")
     housing: bool
     no_language: bool
     no_experience: bool

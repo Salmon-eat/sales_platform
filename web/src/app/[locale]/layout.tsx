@@ -48,6 +48,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: { default: t("title"), template: `%s | ${t("siteName")}` },
     description: t("description"),
     openGraph: { siteName: t("siteName"), locale, type: "website" },
+    // proving the site belongs to us in Search Console / Bing Webmaster (empty = tag not rendered)
+    verification: {
+      ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+        ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+        : {}),
+      ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+        ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
+        : {}),
+    },
   };
 }
 

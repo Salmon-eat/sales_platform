@@ -1,14 +1,16 @@
 import logging
 from datetime import UTC, datetime
 from typing import Annotated, Literal
+from urllib.parse import quote
 
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
 from sqlalchemy import func, not_, select
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import selectinload, undefer
 
 from app.api.deps import AdminLang, CurrentUser, SessionDep, require_admin, require_staff
 from app.models import (
     Application,
+    ApplicationFile,
     ApplicationMessage,
     ApplicationNote,
     AttributeDefinition,
@@ -23,6 +25,7 @@ from app.schemas.application import (
     AdminApplicationDetail,
     AdminApplicationUpdate,
     AdminChatMessage,
+    ApplicationFileOut,
     ApplicationNoteOut,
     ApplicationStatus,
     AppliedListing,
@@ -32,7 +35,7 @@ from app.schemas.application import (
 from app.schemas.common import Page
 from app.schemas.location import AdminLocation
 from app.schemas.taxonomy import AdminSection
-from app.services import telegram
+from app.services import questions, telegram
 from app.services.applications import chat_messages
 from app.services.dashboard import STALE_AFTER
 from app.services.gdpr import anonymize, export_person, person_applications
@@ -214,6 +217,13 @@ async def application_detail(
         bot=BotInfo(app_id=application.bot_app_id, **_bot_fields(application.bot))
         if application.bot_app_id is not None
         else None,
+        answers=[questions.describe(a, lang) for a in (application.answers or {}).get("questions") or []],
+        files=[
+            ApplicationFileOut.model_validate(f, from_attributes=True)
+            for f in await session.scalars(
+                select(ApplicationFile).where(ApplicationFile.application_id == application_id)
+            )
+        ],
         consent_at=application.consent_at,
         consent_version=application.consent_version,
         anonymized_at=application.anonymized_at,
@@ -222,6 +232,37 @@ async def application_detail(
 
 
 # ---------- GDPR (admin only, admin spec §9): the person's data on request, erasure on request ----------
+
+
+@router.get("/listing-questions", dependencies=[Depends(require_staff)])
+async def listing_questions(lang: AdminLang) -> list[dict[str, str]]:
+    """Ready-made questions a manager can tick in the listing form, in the admin language."""
+    return [{"key": key, "text": questions._pick(text, lang)} for key, (text, _) in questions.PRESETS.items()]
+
+
+@router.get("/applications/{application_id}/files/{file_id}", dependencies=[Depends(require_staff)])
+async def download_file(application_id: int, file_id: int, session: SessionDep) -> Response:
+    """The candidate's CV, always as a download: a browser never opens an uploaded file inline."""
+    row = await session.scalar(
+        select(ApplicationFile)
+        .options(undefer(ApplicationFile.data))
+        .where(ApplicationFile.id == file_id, ApplicationFile.application_id == application_id)
+    )
+    if row is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "File not found")
+    logger.info("cv download application=%s file=%s", application_id, file_id)
+    ascii_name = f"cv-{application_id}.{row.filename.rsplit('.', 1)[-1]}"  # for old browsers
+    disposition = f"attachment; filename=\"{ascii_name}\"; filename*=UTF-8''{quote(row.filename)}"
+    return Response(
+        content=row.data,
+        media_type=row.content_type,
+        headers={
+            "Content-Disposition": disposition,
+            "X-Content-Type-Options": "nosniff",
+            "Content-Security-Policy": "default-src 'none'; sandbox",
+            "Cache-Control": "no-store",
+        },
+    )
 
 
 async def _site_application(session: SessionDep, application_id: int) -> Application:
@@ -313,9 +354,10 @@ async def _application_items(
         )
         .scalar_subquery()
     )
+    has_cv = select(ApplicationFile.id).where(ApplicationFile.application_id == Application.id).exists()
     rows = (
         await session.execute(
-            select(Application, Category.name, Location.names, notes, unread)
+            select(Application, Category.name, Location.names, notes, unread, has_cv)
             .outerjoin(Category, Category.id == Application.category_id)
             .outerjoin(Location, Location.id == Application.location_id)
             .where(*conds)
@@ -327,7 +369,7 @@ async def _application_items(
     applied = await _applied_listings(session, {a.listing_id for a, *_ in rows if a.listing_id}, lang)
     stale_before = datetime.now(UTC) - STALE_AFTER
     items = []
-    for a, category_name, location_names, notes_count, unread_count in rows:
+    for a, category_name, location_names, notes_count, unread_count, cv_attached in rows:
         job = applied.get(a.listing_id) if a.listing_id else None
         items.append(
             AdminApplication(
@@ -349,6 +391,7 @@ async def _application_items(
                 updated_at=a.updated_at,
                 stale=a.status in OPEN_STATUSES and a.updated_at < stale_before,
                 unread=unread_count,
+                has_cv=cv_attached,
             )
         )
     return items

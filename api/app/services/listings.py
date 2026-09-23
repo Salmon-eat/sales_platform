@@ -11,6 +11,7 @@ from app.models import (
     AttributeDefinition,
     Category,
     Listing,
+    ListingPhoto,
     ListingTranslation,
     Location,
     Section,
@@ -29,6 +30,7 @@ from app.schemas.listing import (
     TranslationOut,
 )
 from app.seo.paths import listing_path
+from app.services import questions
 from app.services.attributes import attribute_definitions
 from app.services.card_tags import card_tags
 from app.services.listing_rules import (
@@ -128,6 +130,7 @@ async def save_listing(
         data.salary_period,
     )
     listing.salary_monthly_min = monthly_min(data.salary_min, data.salary_max, data.salary_period)
+    listing.price, listing.price_period, listing.price_kind = data.price, data.price_period, data.price_kind
     listing.housing, listing.no_language, listing.no_experience = (
         data.housing,
         data.no_language,
@@ -139,6 +142,7 @@ async def save_listing(
     listing.is_urgent, listing.duration_months = data.is_urgent, data.duration_months
     listing.attributes = attributes
     listing.contact = data.contact.model_dump(exclude_none=True)
+    listing.questions = questions.clean([q.model_dump() for q in data.questions])
     listing.source = data.source
     listing.employer_name = data.employer_name if data.source != "agency" else None
     listing.is_pinned = data.is_pinned
@@ -327,6 +331,10 @@ async def admin_detail(
                 "duration_months",
                 "attributes",
                 "contact",
+                "questions",
+                "price",
+                "price_period",
+                "price_kind",
                 "source",
                 "employer_name",
                 "is_pinned",
@@ -345,6 +353,21 @@ async def admin_detail(
     )
 
 
+async def _first_photos(session: AsyncSession, ids: list[int]) -> dict[int, str]:
+    """The photo shown on the card: the first one of each listing."""
+    if not ids:
+        return {}
+    rows = await session.execute(
+        select(ListingPhoto.listing_id, ListingPhoto.path)
+        .where(ListingPhoto.listing_id.in_(ids))
+        .order_by(ListingPhoto.listing_id, ListingPhoto.sort, ListingPhoto.id)
+    )
+    first: dict[int, str] = {}
+    for listing_id, path in rows:
+        first.setdefault(listing_id, path)
+    return first
+
+
 async def public_cards(session: AsyncSession, listings: list[Listing], lang: str) -> list[ListingCard]:
     categories = await _categories(session, {item.category_id for item in listings})
     locations = await _location_briefs(
@@ -353,6 +376,8 @@ async def public_cards(session: AsyncSession, listings: list[Listing], lang: str
     sections = {s.id: s for s in (await session.scalars(select(Section))).all()}
     # the whole dictionary is small (tens of rows): one query for all cards
     definitions = (await session.scalars(select(AttributeDefinition))).all()
+    photos = await _first_photos(session, [item.id for item in listings])
+    now = datetime.now(UTC)
     cards = []
     for item in listings:
         text = _translation(item, lang)
@@ -389,6 +414,11 @@ async def public_cards(session: AsyncSession, listings: list[Listing], lang: str
                 schedule=item.schedule or [],
                 contract=item.contract,
                 vacancies=item.vacancies,
+                price=item.price,
+                price_period=item.price_period,
+                price_kind=item.price_kind,
+                photo=photos.get(item.id),
+                promoted=bool(item.promoted_until and item.promoted_until > now),
                 tags=card_tags(
                     item,
                     [

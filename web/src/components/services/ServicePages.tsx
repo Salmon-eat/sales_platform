@@ -56,7 +56,7 @@ export async function ServicesCatalog({ locale, resolved }: { locale: Locale; re
   let i = 0;
 
   const crumbs = [
-    { name: "Bazarcito", href: localizedPath(locale, { type: "home" }) },
+    { name: "Citobazar", href: localizedPath(locale, { type: "home" }) },
     ...(sector ? [{ name: t("catalogTitle"), href: servicePath(locale, section) }] : []),
   ];
 
@@ -120,7 +120,7 @@ export async function ServicePage({ locale, resolved }: { locale: Locale; resolv
   const others = sector.children.filter((c) => c.id !== service.id);
 
   const crumbs = [
-    { name: "Bazarcito", href: localizedPath(locale, { type: "home" }) },
+    { name: "Citobazar", href: localizedPath(locale, { type: "home" }) },
     { name: t("catalogTitle"), href: servicePath(locale, section) },
     { name: sector.name, href: servicePath(locale, section, sector) },
   ];
@@ -136,7 +136,7 @@ export async function ServicePage({ locale, resolved }: { locale: Locale; resolv
             name: title,
             description: intro,
             areaServed: { "@type": "Country", name: "ES" },
-            provider: { "@type": "Organization", name: "Bazarcito", url: absoluteUrl("/") },
+            provider: { "@type": "Organization", name: "Citobazar", url: absoluteUrl("/") },
           },
           {
             "@context": "https://schema.org",

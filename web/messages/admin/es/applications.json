@@ -30,7 +30,8 @@
     "anyCategory": "cualquiera",
     "noCity": "ciudad no indicada",
     "unread": "{count, plural, one {# mensaje nuevo} other {# mensajes nuevos}}",
-    "noPhone": "sin teléfono"
+    "noPhone": "sin teléfono",
+    "cv": "CV"
   },
   "kind": {
     "response": "Candidatura a oferta",
@@ -47,7 +48,10 @@
     "notes": "Solicitudes repetidas",
     "history": "Otras solicitudes de este número",
     "noHistory": "No hay otras solicitudes.",
-    "lang": "Idioma"
+    "lang": "Idioma",
+    "answers": "Respuestas del candidato",
+    "cv": "Currículum",
+    "cvDownload": "Descargar currículum"
   },
   "stale": "Sin movimiento 48 h",
   "staleMark": "sin movimiento",

@@ -2,9 +2,14 @@ import { Clock, Mail, Phone, Send } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
+import { redirect } from "next/navigation";
+
+import { AccountPanel } from "@/components/account/AccountPanel";
+import { SignInForm } from "@/components/account/SignInForm";
 import { ApplicationSection } from "@/components/apply/ApplicationSection";
 import { AccountTabs } from "@/components/saved/AccountTabs";
 import type { Locale } from "@/i18n/routing";
+import { getAccount } from "@/lib/account";
 import { getContent } from "@/lib/api";
 import { getApplicationOptions } from "@/lib/application-options";
 import { localizedPath, type StaticKey } from "@/lib/routes";
@@ -19,16 +24,26 @@ type FaqItem = { q: string; a: string };
 type Props = { locale: Locale; page: StaticKey; title: string; tab?: string };
 
 export async function StaticPage({ locale, page, title, tab }: Props) {
-  const crumbs = [{ name: "Bazarcito", href: localizedPath(locale, { type: "home" }) }];
+  const crumbs = [{ name: "Citobazar", href: localizedPath(locale, { type: "home" }) }];
   if (page === "account") {
-    // favourites and applications from this browser; Google/Telegram sign-in will move them to the account
+    // signed in: the profile is on top; saved listings and applications still come from this browser
+    const account = await getAccount();
     return (
       <>
         <PageHero crumbs={crumbs} title={title} />
         <div className="container static-page">
+          <AccountPanel account={account} locale={locale} />
           <AccountTabs key={tab} initialTab={tab === "applied" ? "applied" : "saved"} />
         </div>
       </>
+    );
+  }
+  if (page === "login") {
+    if (await getAccount()) redirect(localizedPath(locale, { type: "static", key: "account" }));
+    return (
+      <div className="container static-page static-page--narrow">
+        <SignInForm />
+      </div>
     );
   }
   if (page === "request") {

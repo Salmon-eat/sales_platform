@@ -3,7 +3,7 @@ import { type NextRequest, NextResponse } from "next/server";
 const API_URL = process.env.API_INTERNAL_URL ?? "http://localhost:8000";
 
 /**
- * Ad link for a blogger or a channel: bazarcito.es/go/<code> -> the chosen page with utm tags.
+ * Ad link for a blogger or a channel: citobazar.com/go/<code> -> the chosen page with utm tags.
  * The click is counted by the API; the site tracker then remembers the source for 30 days.
  */
 export async function GET(request: NextRequest, { params }: { params: Promise<{ code: string }> }) {

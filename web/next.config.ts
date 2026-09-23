@@ -27,7 +27,8 @@ const CSP = [
   "form-action 'self'",
   "worker-src 'self' blob:",
   "manifest-src 'self'",
-  ...(dev ? [] : ["upgrade-insecure-requests"]),
+  // no upgrade-insecure-requests: HSTS already keeps the domain on HTTPS, and the directive would break
+  // the plain-HTTP preview by IP (every stylesheet and script would be asked for over https)
 ].join("; ");
 
 const SECURITY_HEADERS = [

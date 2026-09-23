@@ -63,6 +63,10 @@ class ListingDetail(ListingCard):
     start_date: date | None
     duration_months: int | None
     attributes: list[AttributeValue]
+    questions: list[dict[str, Any]] = Field(
+        default_factory=list,
+        description="optional questions to the candidate: key, text, options[value, label]",
+    )
     expires_at: datetime | None
     closed_at: datetime | None
     state: Literal["active", "closed", "closed_noindex", "gone"]

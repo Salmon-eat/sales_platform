@@ -6,6 +6,7 @@ import { StaticPage } from "@/components/content/StaticPage";
 import { DriversPage } from "@/components/drivers/DriversPage";
 import { ListingPage, listingMetadata } from "@/components/listing/ListingPage";
 import { ListPage, listMetadata } from "@/components/search/ListPage";
+import { SearchAll, searchAllMetadata } from "@/components/search/SearchAll";
 import { ServicePage, ServicesCatalog, servicesMetadata } from "@/components/services/ServicePages";
 import { asLocale, type Locale } from "@/i18n/routing";
 import { resolvePath } from "@/lib/api";
@@ -67,6 +68,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     if (resolved.type === "services" || resolved.type === "service") return servicesMetadata(locale, resolved);
     return listMetadata(locale, resolved, await props.searchParams);
   }
+  if (target.route.type === "search") return searchAllMetadata(locale, await props.searchParams);
   const filtered = Object.keys(await props.searchParams).length > 0;
   return {
     title: await routeTitle(locale, target.route),
@@ -89,6 +91,7 @@ export default async function ResolvedPage(props: Props) {
   }
 
   const { route } = target;
+  if (route.type === "search") return <SearchAll locale={locale} searchParams={await props.searchParams} />;
   if (route.type === "agency") return <DriversPage locale={locale} />;
   if (route.type === "static") {
     const { tab } = await props.searchParams;

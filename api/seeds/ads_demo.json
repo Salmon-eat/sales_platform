@@ -1,0 +1,357 @@
+{
+  "_note": "Demo ads for the new sections, so the board looks alive before real people post. Removed with delete-demo-ads.",
+  "ads": [
+    {
+      "section": "inmobiliaria",
+      "category": "pisos",
+      "city": "valencia",
+      "price": 950,
+      "price_period": "month",
+      "attributes": {
+        "operation": "rent",
+        "rooms": "2",
+        "furnished": true,
+        "bills_included": false
+      },
+      "translations": {
+        "es": {
+          "title": "Piso de 2 habitaciones en Ruzafa",
+          "description": "Piso luminoso de 70 m² en Ruzafa, reformado, aire acondicionado, ascensor. Cerca del metro y del mercado."
+        },
+        "uk": {
+          "title": "2-кімнатна квартира в Русафі",
+          "description": "Світла квартира 70 м² у районі Русафа, після ремонту, кондиціонер, ліфт. Поруч метро і ринок."
+        }
+      }
+    },
+    {
+      "section": "inmobiliaria",
+      "category": "habitaciones",
+      "city": "madrid",
+      "price": 650,
+      "price_period": "month",
+      "attributes": {
+        "operation": "share",
+        "furnished": true,
+        "bills_included": true
+      },
+      "translations": {
+        "es": {
+          "title": "Habitación en Usera, gastos incluidos",
+          "description": "Habitación amueblada en piso compartido, gastos incluidos, sin comisión de agencia. Metro a 5 minutos."
+        },
+        "uk": {
+          "title": "Кімната в Усері, комуналка включена",
+          "description": "Мебльована кімната в спільній квартирі, комуналка включена, без комісії агенції. Метро за 5 хвилин."
+        }
+      }
+    },
+    {
+      "section": "inmobiliaria",
+      "category": "casas",
+      "city": "alicante",
+      "price": 235000,
+      "attributes": {
+        "operation": "sale",
+        "rooms": "4+"
+      },
+      "translations": {
+        "es": {
+          "title": "Casa con jardín a 10 min de la playa",
+          "description": "Casa de 140 m² con jardín y garaje, tres dormitorios, cocina reformada. Diez minutos en coche de la playa."
+        },
+        "uk": {
+          "title": "Будинок із садом за 10 хвилин від пляжу",
+          "description": "Будинок 140 м² із садом і гаражем, три спальні, кухня після ремонту. До пляжу 10 хвилин автомобілем."
+        }
+      }
+    },
+    {
+      "section": "motor",
+      "category": "coches",
+      "city": "valencia",
+      "price": 8900,
+      "attributes": {
+        "fuel": "diesel",
+        "gearbox": "manual",
+        "vehicle_age": "3to10",
+        "itv": true
+      },
+      "translations": {
+        "es": {
+          "title": "Ford Transit 2016, 189 000 km",
+          "description": "Furgoneta Ford Transit 2016, 189 000 km, ITV hasta junio, mantenimiento al día. Un solo dueño."
+        },
+        "uk": {
+          "title": "Ford Transit 2016, 189 000 км",
+          "description": "Фургон Ford Transit 2016, 189 000 км, ITV до червня, обслуговування вчасне. Один власник."
+        }
+      }
+    },
+    {
+      "section": "motor",
+      "category": "coches",
+      "city": "barcelona",
+      "price": 4500,
+      "price_kind": "negotiable",
+      "attributes": {
+        "fuel": "gasolina",
+        "gearbox": "automatico",
+        "vehicle_age": "gt10"
+      },
+      "translations": {
+        "es": {
+          "title": "Seat León automático, buen estado",
+          "description": "Seat León automático, 2012, 160 000 km. Ruedas nuevas, aire acondicionado. Precio negociable."
+        },
+        "uk": {
+          "title": "Seat León автомат, гарний стан",
+          "description": "Seat León автомат, 2012 рік, 160 000 км. Нова гума, кондиціонер. Ціна договірна."
+        }
+      }
+    },
+    {
+      "section": "motor",
+      "category": "motos",
+      "city": "malaga",
+      "price": 1800,
+      "attributes": {
+        "fuel": "gasolina",
+        "vehicle_age": "3to10"
+      },
+      "translations": {
+        "es": {
+          "title": "Honda PCX 125, ideal para repartidores",
+          "description": "Scooter Honda PCX 125, 2019, 21 000 km, revisión hecha. Perfecta para trabajar de repartidor."
+        },
+        "uk": {
+          "title": "Honda PCX 125, зручний для кур'єрів",
+          "description": "Скутер Honda PCX 125, 2019, 21 000 км, обслуговування зроблено. Ідеально для роботи кур'єром."
+        }
+      }
+    },
+    {
+      "section": "articulos",
+      "category": "electronica",
+      "city": "alicante",
+      "price": 180,
+      "attributes": {
+        "condition": "used",
+        "delivery": [
+          "pickup",
+          "shipping"
+        ]
+      },
+      "translations": {
+        "es": {
+          "title": "iPhone 12, 128 GB, batería 89 %",
+          "description": "iPhone 12 de 128 GB, libre, batería al 89 %, con funda y cargador. Sin golpes."
+        },
+        "uk": {
+          "title": "iPhone 12, 128 ГБ, батарея 89 %",
+          "description": "iPhone 12 на 128 ГБ, розблокований, батарея 89 %, з чохлом і зарядкою. Без пошкоджень."
+        }
+      }
+    },
+    {
+      "section": "articulos",
+      "category": "casa-y-jardin",
+      "city": "sevilla",
+      "price": 0,
+      "price_kind": "free",
+      "attributes": {
+        "condition": "used",
+        "delivery": [
+          "pickup"
+        ]
+      },
+      "translations": {
+        "es": {
+          "title": "Se regala cuna de bebé",
+          "description": "Cuna de madera en buen estado, con colchón. Se regala, hay que recogerla en Sevilla."
+        },
+        "uk": {
+          "title": "Віддам дитяче ліжечко",
+          "description": "Дерев'яне ліжечко в гарному стані, з матрацом. Віддам безкоштовно, самовивіз у Севільї."
+        }
+      }
+    },
+    {
+      "section": "articulos",
+      "category": "moda",
+      "city": "madrid",
+      "price": 45,
+      "attributes": {
+        "condition": "like_new",
+        "delivery": [
+          "shipping"
+        ]
+      },
+      "translations": {
+        "es": {
+          "title": "Botas de trabajo con puntera, talla 43",
+          "description": "Botas de seguridad con puntera de acero, talla 43, usadas dos veces. Envío incluido."
+        },
+        "uk": {
+          "title": "Робочі черевики з металевим носком, 43",
+          "description": "Захисні черевики зі сталевим носком, розмір 43, взуті двічі. Відправка включена."
+        }
+      }
+    },
+    {
+      "section": "servicios-sec",
+      "category": "reformas",
+      "city": "barcelona",
+      "price": 25,
+      "price_period": "hour",
+      "translations": {
+        "es": {
+          "title": "Reformas de pisos y baños",
+          "description": "Equipo con diez años de experiencia: alicatado, fontanería, pintura. Presupuesto gratis, factura incluida."
+        },
+        "uk": {
+          "title": "Ремонт квартир і ванних кімнат",
+          "description": "Бригада з десятирічним досвідом: плитка, сантехніка, фарбування. Кошторис безкоштовно, з рахунком."
+        }
+      }
+    },
+    {
+      "section": "servicios-sec",
+      "category": "mudanzas",
+      "city": "madrid",
+      "price": 40,
+      "translations": {
+        "es": {
+          "title": "Mudanzas y portes, furgoneta grande",
+          "description": "Portes y mudanzas por Madrid y alrededores, furgoneta grande, dos personas. Desde 40 € el servicio."
+        },
+        "uk": {
+          "title": "Перевезення речей, великий фургон",
+          "description": "Перевезення Мадридом і околицями, великий фургон, двоє вантажників. Від 40 € за виїзд."
+        }
+      }
+    },
+    {
+      "section": "servicios-sec",
+      "category": "limpieza",
+      "city": "valencia",
+      "price": 12,
+      "price_period": "hour",
+      "translations": {
+        "es": {
+          "title": "Limpieza de casas y oficinas",
+          "description": "Limpieza por horas, productos incluidos, referencias de clientes. Zona Valencia capital."
+        },
+        "uk": {
+          "title": "Прибирання квартир і офісів",
+          "description": "Прибирання погодинно, засоби свої, є рекомендації. Валенсія і найближчі райони."
+        }
+      }
+    },
+    {
+      "section": "animales",
+      "category": "perros",
+      "city": "zaragoza",
+      "price": 0,
+      "price_kind": "free",
+      "attributes": {
+        "pet_offer": "adoption"
+      },
+      "translations": {
+        "es": {
+          "title": "Cachorro en adopción responsable",
+          "description": "Cachorro de tres meses, vacunado y desparasitado. Adopción responsable, entrega con contrato."
+        },
+        "uk": {
+          "title": "Цуценя шукає дім",
+          "description": "Цуценя тримісячне, щеплене й оброблене від паразитів. Віддамо в добрі руки, з договором."
+        }
+      }
+    },
+    {
+      "section": "formacion-sec",
+      "category": "idiomas",
+      "city": "barcelona",
+      "price": 15,
+      "price_period": "hour",
+      "attributes": {
+        "study_format": "online"
+      },
+      "translations": {
+        "es": {
+          "title": "Clases de español para el trabajo",
+          "description": "Clases online de español práctico: entrevistas, documentos, vida diaria. Primera clase de prueba gratis."
+        },
+        "uk": {
+          "title": "Іспанська для роботи",
+          "description": "Онлайн-заняття практичною іспанською: співбесіди, документи, побут. Перше пробне заняття безкоштовне."
+        }
+      }
+    },
+    {
+      "section": "formacion-sec",
+      "category": "autoescuelas",
+      "city": "madrid",
+      "price": 690,
+      "translations": {
+        "es": {
+          "title": "Canje de carnet y clases prácticas",
+          "description": "Preparación para el canje del permiso de conducir, clases prácticas con instructor que habla ruso y ucraniano."
+        },
+        "uk": {
+          "title": "Обмін прав і практичні заняття",
+          "description": "Підготовка до обміну водійського посвідчення, практичні заняття з інструктором, який говорить українською."
+        }
+      }
+    },
+    {
+      "section": "negocios",
+      "category": "empresas",
+      "city": "valencia",
+      "price": 120,
+      "translations": {
+        "es": {
+          "title": "Gestoría: NIE, empadronamiento, autónomo",
+          "description": "Gestoría para trámites: NIE, empadronamiento, alta de autónomo, declaraciones. Atención en español y ucraniano."
+        },
+        "uk": {
+          "title": "Гестор: NIE, прописка, автономо",
+          "description": "Оформлення документів: NIE, прописка, реєстрація автономо, декларації. Консультації українською."
+        }
+      }
+    },
+    {
+      "section": "negocios",
+      "category": "maquinaria",
+      "city": "murcia",
+      "price": 3200,
+      "translations": {
+        "es": {
+          "title": "Hormigonera y andamios de obra",
+          "description": "Hormigonera eléctrica y diez módulos de andamio, usados pero en buen estado. Se vende todo junto."
+        },
+        "uk": {
+          "title": "Бетонозмішувач і будівельні риштування",
+          "description": "Електричний бетонозмішувач і десять секцій риштувань, вживані, у робочому стані. Продаж комплектом."
+        }
+      }
+    },
+    {
+      "section": "comunidad",
+      "category": "eventos",
+      "city": "barcelona",
+      "price": 0,
+      "price_kind": "free",
+      "translations": {
+        "es": {
+          "title": "Encuentro de la comunidad ucraniana",
+          "description": "Encuentro mensual: intercambio de idiomas, ayuda con trámites y café. Entrada libre, sábado por la tarde."
+        },
+        "uk": {
+          "title": "Зустріч української спільноти",
+          "description": "Щомісячна зустріч: мовний обмін, допомога з документами і кава. Вхід вільний, у суботу ввечері."
+        }
+      }
+    }
+  ]
+}

@@ -13,19 +13,23 @@
 	}
 }
 
-{$DOMAIN} {
+(site) {
 	encode zstd gzip
 
 	header {
-		Strict-Transport-Security "max-age=31536000; includeSubDomains"
 		X-Content-Type-Options "nosniff"
 		Referrer-Policy "strict-origin-when-cross-origin"
 		-Server
 		-X-Powered-By
 	}
 
-	# Nothing on this site takes large uploads: a huge body is an attack on memory.
-	request_body {
+	# A huge body is an attack on memory: 1 MB everywhere, except a CV attached to an application (5 MB + slack).
+	@cv path_regexp ^/v1/applications/cv/[A-Za-z0-9_-]+$
+	@not_cv not path_regexp ^/v1/applications/cv/[A-Za-z0-9_-]+$
+	request_body @cv {
+		max_size 6MB
+	}
+	request_body @not_cv {
 		max_size 1MB
 	}
 
@@ -46,6 +50,17 @@
 	}
 }
 
+{$DOMAIN} {
+	import site
+	header Strict-Transport-Security "max-age=31536000; includeSubDomains"
+}
+
 www.{$DOMAIN} {
 	redir https://{$DOMAIN}{uri} permanent
+}
+
+# Temporary: the client can click the site by IP while the domain's DNS is moving. Plain HTTP, no HSTS.
+http://{$SERVER_IP} {
+	import site
+	header X-Robots-Tag "noindex, nofollow"
 }

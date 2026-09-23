@@ -93,6 +93,14 @@ export type ListingCard = {
   salary_min: number | null;
   salary_max: number | null;
   salary_period: SalaryPeriod | null;
+  /** everything outside jobs: the price shown on the card */
+  price?: number | null;
+  price_period?: SalaryPeriod | null;
+  price_kind?: "fixed" | "negotiable" | "free" | "from";
+  /** path of the first photo, e.g. /media/2026/09/ab12.jpg */
+  photo?: string | null;
+  /** paid placement: shown in the top block */
+  promoted?: boolean;
   housing: boolean;
   no_language: boolean;
   no_experience: boolean;
@@ -179,7 +187,34 @@ export type ResolveOut = {
   description_override: string | null;
 };
 
+/** One section as the home page shows it: name, how many live ads, a few category names. */
+export type HomeSection = {
+  key: string;
+  slug: string;
+  name: string;
+  count: number;
+  categories: { slug: string; name: string }[];
+};
+
+export type Home = {
+  totals: { listings: number; today: number; sections: number };
+  sections: HomeSection[];
+  /** paid placement */
+  promoted: ListingCard[];
+  fresh: ListingCard[];
+};
+
+export type ListingQuestionSetting = { key: string; text?: Partial<Record<"es" | "en" | "uk" | "ru", string>> };
+
+/** A ready-made question the manager can tick, in the admin language. */
+export type QuestionPreset = { key: string; text: string };
+
+/** A question on the job page, in the visitor's language. */
+export type ListingQuestion = { key: string; text: string; options: { value: string; label: string }[] };
+
 export type ListingDetail = ListingCard & {
+  /** optional questions to the candidate, answered in the application form */
+  questions: ListingQuestion[];
   description: string;
   requirements: string | null;
   conditions: string | null;
@@ -273,6 +308,8 @@ export type AdminListingDetail = {
   duration_months: number | null;
   attributes: Record<string, unknown>;
   contact: { name?: string; phone?: string; whatsapp?: string; telegram?: string; email?: string };
+  /** optional questions to the candidate: a ready-made one by key, or an own one with its text per language */
+  questions: ListingQuestionSetting[];
   source: "agency" | "partner" | "employer";
   employer_name: string | null;
   is_pinned: boolean;
@@ -284,6 +321,18 @@ export type AdminListingDetail = {
   updated_at: string;
   translations: ListingTranslation[];
   can_edit: boolean;
+};
+
+/** A signed-in visitor (not the team: their area is /admin). */
+export type Account = {
+  id: number;
+  email: string | null;
+  name: string | null;
+  phone: string | null;
+  avatar: string | null;
+  lang: string;
+  role: string;
+  created_at: string;
 };
 
 export type ApplicationStatus = "new" | "in_progress" | "done" | "rejected";
@@ -310,6 +359,8 @@ export type AdminApplication = {
   stale: boolean;
   /** site chat / Telegram messages staff has not read yet */
   unread: number;
+  /** the candidate attached a CV */
+  has_cv: boolean;
 };
 
 export type ChatMessage = { id: number; author: "visitor" | "staff"; text: string; created_at: string };
@@ -457,6 +508,10 @@ export type AdminApplicationDetail =AdminApplication & {
   messages: AdminChatMessage[];
   /** an application from the Telegram bot */
   bot: BotInfo | null;
+  /** answers to the listing's questions, in the admin language */
+  answers: { question: string; answer: string }[];
+  /** the candidate's CV */
+  files: { id: number; filename: string; size: number; created_at: string }[];
   consent_at: string;
   consent_version: string;
   /** personal data erased (GDPR) */

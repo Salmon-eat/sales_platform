@@ -11,6 +11,7 @@ from app.models import Category, Listing, Location, Section
 from app.models.i18n import tr
 from app.schemas.pages import AttributeValue, ListingDetail, NamedSlug, PlaceRef
 from app.seo.rules import closed_state
+from app.services import questions
 from app.services.attributes import attribute_definitions
 from app.services.listings import public_cards
 
@@ -123,6 +124,7 @@ async def build_listing_detail(session: AsyncSession, listing: Listing, lang: st
         start_date=listing.start_date,
         duration_months=listing.duration_months,
         attributes=attributes,
+        questions=questions.public(listing.questions or [], lang),
         expires_at=listing.expires_at,
         closed_at=listing.closed_at,
         state=listing_state(listing, now),

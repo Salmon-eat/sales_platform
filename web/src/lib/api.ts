@@ -4,6 +4,7 @@ import { cache } from "react";
 
 import type {
   ContentBlock,
+  Home,
   Lang,
   ListingDetail,
   ListingStats,
@@ -71,6 +72,12 @@ export const searchListings = cache((lang: string, section: string, params: [str
   return apiFetch<SearchResponse>(`/listings?${qs}`, { revalidate });
 });
 
+/** The same search without a section: one query across the whole board. */
+export const searchEverything = cache((lang: string, params: [string, string][], perPage = 24) => {
+  const qs = new URLSearchParams([["lang", lang], ["per_page", String(perPage)], ...params]);
+  return apiFetch<SearchResponse>(`/listings?${qs}`, { revalidate: false });
+});
+
 /** Path without the language prefix -> what the page is. Memoized per request (metadata + page). */
 export const resolvePath = cache((lang: string, path: string) =>
   apiFetch<ResolveOut>(`/resolve?lang=${lang}&path=${encodeURIComponent(path)}`, { revalidate: 60 }),
@@ -92,6 +99,11 @@ export function getSitemapPage(lang: string, kind: "lists" | "listings", page = 
 export function getSitemapIndex() {
   return apiFetch<Record<Lang, { lists: number; listings: number }>>("/sitemaps/index", { revalidate: 3600 });
 }
+
+/** Everything the home page needs in one call (the API caches it for a minute). */
+export const getHome = cache((lang: string) =>
+  apiFetch<Home>(`/home?lang=${lang}`, { revalidate: 60 }),
+);
 
 export function getListingStats(category?: string) {
   return apiFetch<ListingStats>(`/listings/stats${category ? `?category=${category}` : ""}`, { revalidate: 60 });

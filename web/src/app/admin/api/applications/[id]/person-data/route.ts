@@ -14,7 +14,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
     return new NextResponse(JSON.stringify(data, null, 2), {
       headers: {
         "Content-Type": "application/json; charset=utf-8",
-        "Content-Disposition": `attachment; filename="bazarcito-person-data-${id}.json"`,
+        "Content-Disposition": `attachment; filename="citobazar-person-data-${id}.json"`,
         "Cache-Control": "no-store",
       },
     });

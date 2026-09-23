@@ -10,7 +10,7 @@ import { type Locale, LOCALES, localePrefix } from "@/i18n/routing";
 
 type Localized = Record<Locale, string>;
 
-export type StaticKey = "publish" | "contact" | "faq" | "privacy" | "legal" | "cookies" | "account" | "request";
+export type StaticKey = "publish" | "contact" | "faq" | "privacy" | "legal" | "cookies" | "account" | "request" | "login";
 /** Agency landing pages; the agency services themselves (code 95, licence exchange...) are service pages
  * resolved by the API from the services section. */
 export type AgencyKey = "drivers";
@@ -18,11 +18,19 @@ export type ListKey = "work" | "services" | "documents" | "training" | "housingJ
 
 export type AppRoute =
   | { type: "home" }
+  | { type: "search" }
   | { type: "static"; key: StaticKey }
   | { type: "agency"; key: AgencyKey }
   | { type: "list"; key: ListKey };
 
 type Entry<K> = { key: K; slug: Localized; indexable: boolean };
+
+/** Search across every section: what the home search falls back to when no section is chosen. */
+export const SEARCH_PAGE: Entry<"search"> = {
+  key: "search",
+  slug: { es: "buscar", en: "search", uk: "poshuk", ru: "poisk" },
+  indexable: false,
+};
 
 export const STATIC_PAGES: Entry<StaticKey>[] = [
   { key: "publish", slug: { es: "publicar-oferta", en: "post-a-job", uk: "rozmistyty-oholoshennia", ru: "razmestit-obyavlenie" }, indexable: true },
@@ -36,6 +44,7 @@ export const STATIC_PAGES: Entry<StaticKey>[] = [
   { key: "legal", slug: { es: "aviso-legal", en: "legal-notice", uk: "pravova-informatsiia", ru: "pravovaya-informatsiya" }, indexable: false },
   { key: "cookies", slug: { es: "politica-de-cookies", en: "cookie-policy", uk: "polityka-cookies", ru: "politika-cookies" }, indexable: false },
   { key: "account", slug: { es: "cuenta", en: "account", uk: "kabinet", ru: "kabinet" }, indexable: false },
+  { key: "login", slug: { es: "entrar", en: "sign-in", uk: "vhid", ru: "vhod" }, indexable: false },
 ];
 
 /** spec §6: /es/conductores-ce (the service pages /es/servicios/cap-95 etc. come from the API) */
@@ -46,13 +55,14 @@ export const AGENCY_PAGES: Entry<AgencyKey>[] = [
 /** List pages behind the header tabs; they match seeds/taxonomy.json, and old slugs are 301-ed by the API. */
 export const LIST_PAGES: (Entry<ListKey> & { section: string; category?: string; feature?: string })[] = [
   { key: "work", section: "empleo", slug: { es: "empleo", en: "jobs", uk: "robota", ru: "rabota" }, indexable: true },
-  { key: "services", section: "servicios", slug: { es: "servicios", en: "services", uk: "posluhy", ru: "uslugi" }, indexable: true },
-  { key: "documents", section: "servicios", category: "documentos", slug: { es: "servicios/documentos", en: "services/documents", uk: "posluhy/dokumenty", ru: "uslugi/dokumenty" }, indexable: true },
-  { key: "training", section: "servicios", category: "formacion", slug: { es: "servicios/formacion", en: "services/training", uk: "posluhy/navchannia", ru: "uslugi/obuchenie" }, indexable: true },
+  { key: "services", section: "servicios", slug: { es: "nuestros-servicios", en: "our-services", uk: "nashi-posluhy", ru: "nashi-uslugi" }, indexable: true },
+  { key: "documents", section: "servicios", category: "documentos", slug: { es: "nuestros-servicios/documentos", en: "our-services/documents", uk: "nashi-posluhy/dokumenty", ru: "nashi-uslugi/dokumenty" }, indexable: true },
+  { key: "training", section: "servicios", category: "formacion", slug: { es: "nuestros-servicios/formacion", en: "our-services/training", uk: "nashi-posluhy/navchannia", ru: "nashi-uslugi/obuchenie" }, indexable: true },
   { key: "housingJobs", section: "empleo", feature: "housing", slug: { es: "empleo/con-alojamiento", en: "jobs/with-housing", uk: "robota/z-zhytlom", ru: "rabota/s-zhilyom" }, indexable: true },
 ];  // prettier-ignore
 
 function entryOf(route: AppRoute): Entry<string> | undefined {
+  if (route.type === "search") return SEARCH_PAGE;
   if (route.type === "static") return STATIC_PAGES.find((s) => s.key === route.key);
   if (route.type === "agency") return AGENCY_PAGES.find((s) => s.key === route.key);
   if (route.type === "list") return LIST_PAGES.find((s) => s.key === route.key);
@@ -80,6 +90,8 @@ export type Resolved = { route: AppRoute; /** set when the slug belongs to anoth
 export function resolveSegments(locale: Locale, segments: string[]): Resolved | null {
   if (segments.length === 0) return { route: { type: "home" }, redirect: false };
   const path = segments.join("/");
+  if (SEARCH_PAGE.slug[locale] === path) return { route: { type: "search" }, redirect: false };
+  if (LOCALES.some((l) => SEARCH_PAGE.slug[l] === path)) return { route: { type: "search" }, redirect: true };
   for (const [type, entries] of [["static", STATIC_PAGES], ["agency", AGENCY_PAGES]] as const) {
     for (const entry of entries) {
       if (entry.slug[locale] === path) return { route: { type, key: entry.key } as AppRoute, redirect: false };

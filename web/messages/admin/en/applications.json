@@ -30,7 +30,8 @@
     "anyCategory": "any",
     "noCity": "city not specified",
     "unread": "{count, plural, one {# new message} other {# new messages}}",
-    "noPhone": "no phone"
+    "noPhone": "no phone",
+    "cv": "CV"
   },
   "kind": {
     "response": "Job response",
@@ -47,7 +48,10 @@
     "notes": "Repeat requests",
     "history": "Other requests from this number",
     "noHistory": "No other requests.",
-    "lang": "Language"
+    "lang": "Language",
+    "answers": "Candidate's answers",
+    "cv": "CV",
+    "cvDownload": "Download CV"
   },
   "stale": "No activity 48 h",
   "staleMark": "no activity",

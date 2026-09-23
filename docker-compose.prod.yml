@@ -19,6 +19,8 @@ services:
     image: caddy:2-alpine
     environment:
       DOMAIN: ${DOMAIN:?DOMAIN is required}
+      # temporary plain-HTTP access by IP while the domain is moving to its new DNS
+      SERVER_IP: ${SERVER_IP:-127.0.0.1}
     ports:
       - "80:80"
       - "443:443"
@@ -40,6 +42,11 @@ services:
         NEXT_PUBLIC_DEFAULT_LOCALE: ${DEFAULT_LOCALE:-es}
         NEXT_PUBLIC_TELEGRAM_BOT_URL: ${TELEGRAM_BOT_URL:-https://t.me/DalnoboySpainCE_bot}
         NEXT_PUBLIC_TURNSTILE_SITE_KEY: ${TURNSTILE_SITE_KEY:-}
+        # the same Google client the admin uses; the site button signs visitors in
+        NEXT_PUBLIC_GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+        NEXT_PUBLIC_TELEGRAM_LOGIN_BOT: ${TELEGRAM_LOGIN_BOT:-}
+        NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${GOOGLE_SITE_VERIFICATION:-}
+        NEXT_PUBLIC_BING_SITE_VERIFICATION: ${BING_SITE_VERIFICATION:-}
     environment:
       API_INTERNAL_URL: http://api:8000
     depends_on:
@@ -58,9 +65,15 @@ services:
       DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       REDIS_URL: redis://redis:6379/0
       SECRET_KEY: ${SECRET_KEY:?SECRET_KEY is required}
-      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:?GOOGLE_CLIENT_ID is required for /admin sign-in}
+      # empty until the client's Google OAuth client exists: the site works, /admin sign-in is closed
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
       BOT_SYNC_TOKEN: ${BOT_SYNC_TOKEN:-}
       TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:-}
+      TELEGRAM_LOGIN_BOT: ${TELEGRAM_LOGIN_BOT:-}
+      TELEGRAM_LOGIN_TOKEN: ${TELEGRAM_LOGIN_TOKEN:-}
+      INDEXNOW_KEY: ${INDEXNOW_KEY:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      MAIL_FROM: ${MAIL_FROM:-Citobazar <no-reply@citobazar.com>}
       PUBLIC_SITE_URL: https://${DOMAIN}
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/v1/health')"]

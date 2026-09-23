@@ -34,6 +34,11 @@ class ApplicationIn(BaseModel):
     consent: bool
     utm: dict[str, str] = Field(default_factory=dict)
     channel: Literal["form", "chat"] = Field("form", description="chat: a message from the site chat window")
+    questions: dict[str, str] = Field(
+        default_factory=dict,
+        max_length=10,
+        description="answers to the listing's optional questions: key -> value",
+    )
     website: str | None = Field(
         None, max_length=200, description="honeypot: hidden from people, bots fill it"
     )
@@ -71,11 +76,17 @@ class ApplicationIn(BaseModel):
     def _utm(cls, value: dict[str, str]) -> dict[str, str]:
         return {k[:40]: v[:200] for k, v in value.items() if k.startswith("utm_")}
 
+    @field_validator("questions")
+    @classmethod
+    def _questions(cls, value: dict[str, str]) -> dict[str, str]:
+        return {k[:20]: v[:20] for k, v in value.items() if isinstance(v, str)}
+
 
 class ApplicationCreated(BaseModel):
     id: int
     duplicate: bool = Field(description="same phone + same listing/category within 24h: a note was added")
     chat_token: str | None = Field(None, description="site chat: the browser keeps it to read the replies")
+    cv_token: str | None = Field(None, description="one-time key to attach a CV within an hour (optional)")
 
 
 class ChatMessageOut(BaseModel):
@@ -148,6 +159,14 @@ class AdminApplication(BaseModel):
     updated_at: datetime
     stale: bool = Field(False, description="new/in progress without changes for 48 h")
     unread: int = Field(0, description="site chat / bot messages staff has not read yet")
+    has_cv: bool = Field(False, description="the candidate attached a CV")
+
+
+class ApplicationFileOut(BaseModel):
+    id: int
+    filename: str
+    size: int
+    created_at: datetime
 
 
 class ApplicationNoteOut(BaseModel):
@@ -164,6 +183,11 @@ class AdminApplicationDetail(AdminApplication):
         default_factory=list, description="site chat or Telegram bot conversation"
     )
     bot: BotInfo | None = Field(None, description="an application from the Telegram bot")
+    answers: list[dict[str, str]] = Field(
+        default_factory=list,
+        description="answers to the listing's questions: question, answer (admin language)",
+    )
+    files: list[ApplicationFileOut] = Field(default_factory=list, description="the candidate's CV")
     consent_at: datetime
     consent_version: str
     anonymized_at: datetime | None = Field(description="personal data erased (GDPR)")

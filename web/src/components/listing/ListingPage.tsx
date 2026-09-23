@@ -80,7 +80,7 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
 
   const sectionPath = prefixed(locale, listing.section_slug);
   const crumbs = [
-    { name: "Bazarcito", href: localizedPath(locale, { type: "home" }) },
+    { name: "Citobazar", href: localizedPath(locale, { type: "home" }) },
     { name: listing.section_name, href: sectionPath },
     { name: sector.name, href: `${sectionPath}/${sector.slug}` },
     ...(profession ? [{ name: profession.name, href: `${sectionPath}/${sector.slug}/${profession.slug}` }] : []),
@@ -98,7 +98,7 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
       .filter(Boolean)
       .map((p) => `<p>${String(p).replace(/&/g, "&amp;").replace(/</g, "&lt;")}</p>`)
       .join(""),
-    identifier: { "@type": "PropertyValue", name: "Bazarcito", value: String(listing.id) },
+    identifier: { "@type": "PropertyValue", name: "Citobazar", value: String(listing.id) },
     datePosted: listing.published_at,
     validThrough: listing.expires_at,
     employmentType: [
@@ -108,7 +108,7 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
     ],
     hiringOrganization: {
       "@type": "Organization",
-      name: listing.source === "agency" ? "Bazarcito" : (listing.employer_name ?? "Bazarcito"),
+      name: listing.source === "agency" ? "Citobazar" : (listing.employer_name ?? "Citobazar"),
       sameAs: absoluteUrl("/"),
     },
     jobLocation: {
@@ -261,6 +261,7 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
                 sectors={options.sectors}
                 cities={options.cities}
                 listingId={listing.id}
+                questions={listing.questions ?? []}
                 title={t("applyTitle")}
               />
               <a className="btn btn--telegram btn--lg btn--block" href={`${TELEGRAM_BOT.replace(/\/$/, "")}?start=l_${listing.id}`} rel="noopener">

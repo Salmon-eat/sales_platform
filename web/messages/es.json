@@ -1,7 +1,7 @@
 {
   "meta": {
-    "siteName": "Bazarcito",
-    "title": "Bazarcito — empleo, servicios y trámites en España",
+    "siteName": "Citobazar",
+    "title": "Citobazar — empleo, servicios y trámites en España",
     "description": "Ofertas de empleo, servicios y ayuda con documentos en España. Busca o publica un anuncio en un minuto."
   },
   "header": {
@@ -12,7 +12,9 @@
     "post": "Anuncio",
     "language": "Idioma",
     "themeDark": "Tema oscuro",
-    "themeLight": "Tema claro"
+    "themeLight": "Tema claro",
+    "signIn": "Entrar",
+    "account": "Cuenta"
   },
   "sections": {
     "work": "Empleo",
@@ -22,7 +24,8 @@
     "housingJobs": "Empleo con alojamiento",
     "request": "¿No encuentras tu oferta?",
     "training": "Formación",
-    "documentsShort": "Documentos"
+    "documentsShort": "Documentos",
+    "all": "Todo"
   },
   "static": {
     "publish": "Publicar oferta",
@@ -32,7 +35,8 @@
     "account": "Mi cuenta",
     "request": "¿No encuentras tu oferta?",
     "legal": "Aviso legal",
-    "cookies": "Política de cookies"
+    "cookies": "Política de cookies",
+    "login": "Entrar"
   },
   "home": {
     "stats": "{total, plural, one {# anuncio} other {# anuncios}} · {today, plural, one {# nuevo hoy} other {# nuevos hoy}}",
@@ -73,7 +77,24 @@
       "job2Salary": "1.900 € / mes",
       "job3Title": "Albañil",
       "job3Salary": "2.300 € / mes"
-    }
+    },
+    "searchTitle": "¿Qué buscas en España?",
+    "searchPlaceholder": "Empleo, coche, piso…",
+    "allSectionsOption": "Todas las secciones",
+    "searchButton": "Buscar",
+    "statsListings": "anuncios",
+    "statsToday": "nuevos hoy",
+    "statsSections": "secciones",
+    "allSections": "Todas las secciones",
+    "seeAll": "Ver todo",
+    "topTitle": "Anuncios destacados",
+    "topBadge": "promoción de pago",
+    "howToTop": "Cómo aparecer aquí",
+    "freshAds": "Anuncios recientes",
+    "allAds": "Ver los {count}",
+    "ctaTitle": "Publica tu anuncio gratis",
+    "ctaText": "Entra con Google o con un código al correo · hasta 10 fotos · revisado por un moderador",
+    "ctaButton": "Publicar anuncio"
   },
   "sectors": {
     "transport": "Transporte",
@@ -97,11 +118,15 @@
     "unitHour": "por hora",
     "unitDay": "por día",
     "unitWeek": "por semana",
-    "agencyName": "Agencia Bazarcito",
+    "agencyName": "Agencia Citobazar",
     "saved": "Quitar de guardados",
     "applied": "Ya inscrito",
     "urgent": "Urgente",
-    "viewed": "Vista"
+    "viewed": "Vista",
+    "top": "TOP",
+    "priceFree": "Gratis",
+    "priceAsk": "A convenir",
+    "perMonth": "/mes"
   },
   "apply": {
     "badge": "Gratis",
@@ -151,7 +176,14 @@
     "savedNote": "Tu nombre y teléfono se guardan solo en este navegador: la próxima solicitud será en un clic.",
     "pageSubtitle": "Deja tu solicitud: un gestor te llamará, te preguntará qué necesitas y te buscará trabajo en España. También ayudamos con vivienda, documentos o la mudanza: escríbelo en el comentario.",
     "pageCommentPlaceholder": "Qué buscas o en qué te ayudamos: trabajo, vivienda, documentos…",
-    "errorCaptcha": "No hemos podido confirmar que no eres un robot. Recarga la página e inténtalo de nuevo."
+    "errorCaptcha": "No hemos podido confirmar que no eres un robot. Recarga la página e inténtalo de nuevo.",
+    "questionsTitle": "Unas preguntas del empleador",
+    "cvAdd": "Añadir currículum",
+    "cvRemove": "quitar",
+    "cvHint": "PDF, Word o foto, hasta 5 MB. No es obligatorio.",
+    "cvErrorType": "Admitimos PDF, Word (DOC, DOCX), JPG o PNG.",
+    "cvErrorSize": "El archivo supera los 5 MB.",
+    "cvFailed": "Hemos recibido tu solicitud, pero el currículum no se ha subido. El gestor te lo pedirá al llamarte."
   },
   "drivers": {
     "title": "Empleo de conductor CE en España",
@@ -182,10 +214,13 @@
     "back": "Ir al inicio"
   },
   "footer": {
-    "rights": "© {year} Bazarcito"
+    "rights": "© {year} Citobazar",
+    "agency": "Nuestros servicios"
   },
   "search": {
     "found": "{count, plural, one {# oferta} other {# ofertas}}",
+    "everywhere": "Buscar en todo el sitio",
+    "foundAds": "{count, plural, one {# anuncio} other {# anuncios}}",
     "filters": "Filtros",
     "moreFilters": "Más filtros",
     "reset": "Borrar todo",
@@ -324,7 +359,17 @@
     "localNote": "Tus guardados e inscripciones se guardan en este navegador.",
     "findJobs": "Buscar ofertas",
     "loading": "Cargando…",
-    "error": "No se pudieron cargar las ofertas. Prueba a recargar la página."
+    "error": "No se pudieron cargar las ofertas. Prueba a recargar la página.",
+    "guestTitle": "No has entrado",
+    "guestText": "Entra para guardar anuncios, publicar los tuyos y escribir a la gente.",
+    "signIn": "Entrar",
+    "signOut": "Salir",
+    "name": "Nombre",
+    "namePlaceholder": "Cómo te llamamos",
+    "phone": "Teléfono",
+    "save": "Guardar",
+    "delete": "Eliminar la cuenta",
+    "deleteConfirm": "¿Eliminar la cuenta? Tus datos se borrarán y no se puede deshacer."
   },
   "services": {
     "catalogTitle": "Servicios de la agencia",
@@ -345,7 +390,7 @@
     "viber": "Viber",
     "site": "Dejar una solicitud en la web",
     "close": "Cerrar",
-    "hello": "¡Hola! Te escribo desde la web de Bazarcito.",
+    "hello": "¡Hola! Te escribo desde la web de Citobazar.",
     "chat": "Escribir aquí, en la web",
     "messagePlaceholder": "Tu mensaje: qué buscas o en qué te ayudamos…",
     "name": "Nombre",
@@ -360,5 +405,35 @@
     "manager": "Gestor",
     "waiting": "Mensaje recibido. Un gestor te responderá aquí: puedes cerrar la página, la respuesta te esperará.",
     "reply": "Escribe…"
+  },
+  "signIn": {
+    "title": "Entrar",
+    "subtitle": "Sin contraseñas: te enviamos un código al correo o entra con Google.",
+    "or": "o",
+    "email": "Correo",
+    "emailPlaceholder": "tu@correo.com",
+    "sendCode": "Enviar el código",
+    "sending": "Enviando…",
+    "code": "Código del correo",
+    "sentTo": "Hemos enviado un código a {email}. Caduca en 10 minutos.",
+    "signIn": "Entrar",
+    "checking": "Comprobando…",
+    "changeEmail": "Cambiar el correo",
+    "legal": "Al entrar aceptas la política de privacidad.",
+    "errors": {
+      "wrong_code": "El código no coincide. Revisa el correo e inténtalo de nuevo.",
+      "code_expired": "El código ha caducado. Pide uno nuevo.",
+      "too_many_tries": "Demasiados intentos. Pide un código nuevo.",
+      "too_many_codes": "Demasiados códigos para esta dirección hoy. Inténtalo mañana.",
+      "wait_before_resend": "El código acaba de enviarse. Espera un minuto.",
+      "too_many": "Demasiadas peticiones. Inténtalo dentro de un minuto.",
+      "unavailable": "El servicio no está disponible. Inténtalo más tarde.",
+      "try_again_later": "El servicio no está disponible. Inténtalo más tarde.",
+      "google_not_configured": "El acceso con Google aún no está configurado.",
+      "invalid_token": "No se ha podido entrar con Google. Inténtalo de nuevo.",
+      "not_allowed": "Esta cuenta está bloqueada.",
+      "signed_out": "La sesión ha terminado. Entra de nuevo.",
+      "generic": "Algo ha salido mal. Inténtalo de nuevo."
+    }
   }
 }

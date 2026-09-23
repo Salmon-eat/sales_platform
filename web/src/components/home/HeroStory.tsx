@@ -289,7 +289,7 @@ export function HeroStory({ texts, href }: { texts: Texts; href: string }) {
               fill="#ffffff"
             />
             <text x="192" y="80" className="story__brand">
-              bazar<tspan fill="#ff6a1a">cito</tspan>
+              cito<tspan fill="#ff6a1a">bazar</tspan>
             </text>
             <rect x="192" y="96" width="96" height="24" rx="7" fill="#f1efe8" />
             <rect
@@ -440,7 +440,7 @@ export function HeroStory({ texts, href }: { texts: Texts; href: string }) {
                 textAnchor="middle"
                 className="story__muted"
               >
-                Bazarcito
+                Citobazar
               </text>
               <circle
                 className="story-pulse"

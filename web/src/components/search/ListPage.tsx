@@ -1,4 +1,4 @@
-﻿import { X } from "lucide-react";
+import { X } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { permanentRedirect, redirect, unstable_rethrow } from "next/navigation";
@@ -130,7 +130,7 @@ export async function ListPage({
   const q = get(canonical, "q");
 
   const crumbs = [
-    { name: "Bazarcito", href: localizedPath(locale, { type: "home" }) },
+    { name: "Citobazar", href: localizedPath(locale, { type: "home" }) },
     { name: state.section.name, href: link({ sector: null, feature: null, location: null }) },
     ...(state.sector ? [{ name: state.sector.name, href: link({ profession: null, feature: null, location: null }) }] : []),
     ...(state.profession ? [{ name: state.profession.name, href: link({ feature: null, location: null }) }] : []),

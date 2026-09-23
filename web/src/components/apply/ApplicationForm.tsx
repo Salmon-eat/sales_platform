@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Paperclip } from "lucide-react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { type FormEvent, useId, useRef, useState } from "react";
@@ -11,7 +11,7 @@ import { asLocale } from "@/i18n/routing";
 import { attributionUtm, track } from "@/lib/analytics";
 import { localizedPath } from "@/lib/routes";
 import { forgetContact, markApplied, saveContact, useSavedContact } from "@/lib/saved";
-import type { ApplicationOptions } from "@/lib/types";
+import type { ApplicationOptions, ListingQuestion } from "@/lib/types";
 
 const MESSENGERS = [
   ["phone", "messengerPhone"],
@@ -29,9 +29,33 @@ type Props = ApplicationOptions & {
   listingId?: number;
   /** Placeholder of the comment, e.g. "what do you need" on the "didn't find a job" page. */
   commentPlaceholder?: string;
+  /** The listing's optional questions (the manager chose them); the candidate may skip them. */
+  questions?: ListingQuestion[];
 };
 
-type State = { status: "idle" | "sending" | "sent"; error?: "phone" | "limit" | "captcha" | "generic" };
+type State = {
+  status: "idle" | "sending" | "sent";
+  error?: "phone" | "limit" | "captcha" | "generic";
+  /** the application went through but the CV did not */
+  cvFailed?: boolean;
+};
+
+const CV_MAX = 5 * 1024 * 1024;
+const CV_TYPES = /\.(pdf|docx?|jpe?g|png)$/i;
+
+/** The CV goes after the application, with the one-time key the answer gave. */
+async function uploadCv(token: string, file: File): Promise<boolean> {
+  try {
+    const res = await fetch(`/v1/applications/cv/${token}`, {
+      method: "POST",
+      headers: { "Content-Type": file.type || "application/octet-stream", "X-File-Name": encodeURIComponent(file.name) },
+      body: file,
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
 
 /** utm of this URL, else where the visitor came from earlier (a blogger's link a few days ago). */
 function utmForApplication(): Record<string, string> {
@@ -41,7 +65,7 @@ function utmForApplication(): Record<string, string> {
 }
 
 /** Application without registration: a manager calls back (spec §10). */
-export function ApplicationForm({ sectors, cities, title, categoryId, listingId, commentPlaceholder }: Props) {
+export function ApplicationForm({ sectors, cities, title, categoryId, listingId, commentPlaceholder, questions = [] }: Props) {
   const t = useTranslations("apply");
   const locale = asLocale(useLocale());
   const id = useId();
@@ -56,6 +80,17 @@ export function ApplicationForm({ sectors, cities, title, categoryId, listingId,
   const inSpain = chosenInSpain === undefined ? (saved?.in_spain ?? null) : chosenInSpain;
   const opened = useRef(false);
   const human = useHumanCheck(locale);
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [cvFile, setCvFile] = useState<File | null>(null);
+  const [cvError, setCvError] = useState<"type" | "size" | null>(null);
+
+  function pickCv(file: File | null) {
+    setCvError(null);
+    if (!file) return setCvFile(null);
+    if (!CV_TYPES.test(file.name)) return setCvError("type");
+    if (file.size > CV_MAX) return setCvError("size");
+    setCvFile(file);
+  }
 
   // the person started filling the form: sent vs. started shows where people give up
   function onStart() {
@@ -86,17 +121,21 @@ export function ApplicationForm({ sectors, cities, title, categoryId, listingId,
           comment: text("comment"),
           consent: form.get("consent") === "on",
           utm: utmForApplication(),
+          questions: answers,
           website: honeypotValue(form),
           captcha: human.token(),
         }),
       });
       human.reset();
       if (res.ok) {
+        const created = (await res.json().catch(() => ({}))) as { cv_token?: string | null };
+        const cvFailed = cvFile ? !(created.cv_token && (await uploadCv(created.cv_token, cvFile))) : false;
         if (listingId) markApplied(listingId); // "applied" state on cards + history in the account
         saveContact({ name: text("name") ?? "", phone: text("phone") ?? "", messenger, in_spain: inSpain });
         track("apply_sent", { listing_id: listingId });
         setEditing(false);
-        return setState({ status: "sent" });
+        setCvFile(null);
+        return setState({ status: "sent", cvFailed });
       }
       if (res.status === 429) return setState({ status: "idle", error: "limit" });
       const body = await res.json().catch(() => null);
@@ -115,6 +154,7 @@ export function ApplicationForm({ sectors, cities, title, categoryId, listingId,
         <CheckCircle2 size={40} aria-hidden />
         <h3>{t("successTitle")}</h3>
         <p>{t("successText")}</p>
+        {state.cvFailed && <p className="notice notice--warn">{t("cvFailed")}</p>}
         <button type="button" className="btn btn--ghost-dark" onClick={() => setState({ status: "idle" })}>
           {t("again")}
         </button>
@@ -259,6 +299,72 @@ export function ApplicationForm({ sectors, cities, title, categoryId, listingId,
         </span>
         <textarea id={field("comment")} name="comment" rows={3} maxLength={1000} placeholder={commentPlaceholder ?? t("commentPlaceholder")} />
       </label>
+
+      {/* the manager's questions for this job: a click each, all optional */}
+      {questions.length > 0 && (
+        <div className="apply-questions">
+          <p className="apply-questions__title">
+            {t("questionsTitle")} <small className="muted">({t("optional")})</small>
+          </p>
+          {questions.map((q) => (
+            <fieldset key={q.key} className="field">
+              <legend>{q.text}</legend>
+              <div className="choice-pills">
+                {q.options.map((o) => {
+                  const on = answers[q.key] === o.value;
+                  return (
+                    <button
+                      key={o.value}
+                      type="button"
+                      className={on ? "pill pill--active" : "pill"}
+                      aria-pressed={on}
+                      onClick={() =>
+                        setAnswers((prev) => {
+                          const next = { ...prev };
+                          if (on) delete next[q.key];
+                          else next[q.key] = o.value;
+                          return next;
+                        })
+                      }
+                    >
+                      {o.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
+          ))}
+        </div>
+      )}
+
+      {/* a CV if the person has one: never required */}
+      <div className="apply-cv">
+        {cvFile ? (
+          <p className="apply-cv__file">
+            <Paperclip size={15} aria-hidden /> <span>{cvFile.name}</span>
+            <button type="button" className="link-button" onClick={() => pickCv(null)}>
+              {t("cvRemove")}
+            </button>
+          </p>
+        ) : (
+          <label className="apply-cv__pick">
+            <Paperclip size={15} aria-hidden /> {t("cvAdd")} <small className="muted">({t("optional")})</small>
+            <input
+              type="file"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              onChange={(e) => {
+                pickCv(e.target.files?.[0] ?? null);
+                e.target.value = "";
+              }}
+            />
+          </label>
+        )}
+        {cvError ? (
+          <small className="field-error">{t(cvError === "type" ? "cvErrorType" : "cvErrorSize")}</small>
+        ) : (
+          !cvFile && <small className="muted">{t("cvHint")}</small>
+        )}
+      </div>
 
       <label className="consent">
         <input type="checkbox" name="consent" required />

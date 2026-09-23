@@ -2,13 +2,14 @@ import Link from "next/link";
 
 import { adminT } from "@/lib/admin-locale";
 import { adminFetch } from "@/lib/auth";
-import type { AdminSection } from "@/lib/types";
+import type { AdminSection, QuestionPreset } from "@/lib/types";
 
 import { ListingForm } from "../ListingForm";
 
 export default async function NewListingPage() {
   const t = await adminT("listings");
   const sections = await adminFetch<AdminSection[]>("/admin/taxonomy");
+  const presets = await adminFetch<QuestionPreset[]>("/admin/listing-questions");
 
   return (
     <>
@@ -18,7 +19,7 @@ export default async function NewListingPage() {
         <span>{t("edit.breadcrumbNew")}</span>
       </nav>
       <h1>{t("list.new")}</h1>
-      <ListingForm sections={sections} />
+      <ListingForm sections={sections} presets={presets} />
     </>
   );
 }

@@ -23,6 +23,10 @@ RULES: tuple[tuple[str, frozenset[str] | None, int], ...] = (
     ("/v1/health", None, 0),  # 0 = no limit
     ("/v1/internal/", None, 0),  # the Telegram bot, checked by its token
     ("/v1/auth/", frozenset({"POST"}), 10),
+    ("/v1/account/code", None, 5),  # asking for a sign-in code
+    ("/v1/account/session", None, 10),  # trying a code
+    ("/v1/account/google", None, 10),
+    ("/v1/account/telegram", None, 10),
     ("/v1/applications", frozenset({"POST"}), 10),
     ("/v1/employer-requests", frozenset({"POST"}), 5),
     ("/v1/chat/", frozenset({"POST"}), 20),

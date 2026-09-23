@@ -126,7 +126,11 @@
     "pinned": "Pin to the top of the results",
     "saving": "Saving…",
     "saveDraft": "Save draft",
-    "saveAndPublish": "Save and publish"
+    "saveAndPublish": "Save and publish",
+    "questionsTitle": "Questions to the candidate (optional)",
+    "questionsHint": "The candidate answers with a click in the application form and may skip them. Up to {max}.",
+    "questionOwn": "Own yes / no question {n}",
+    "questionOwnPlaceholder": "E.g. Can you start on Monday?"
   },
   "preview": {
     "caption": "Card preview (as in the list on the site)",
@@ -134,7 +138,7 @@
     "noSalary": "Salary not specified",
     "perPeriod": "{period, select, hour {per hour} day {per day} week {per week} other {per month}}",
     "urgent": "Urgent",
-    "agency": "Bazarcito agency",
+    "agency": "Citobazar agency",
     "company": "Company",
     "city": "City",
     "spainWide": "All of Spain",

@@ -30,6 +30,23 @@ class Settings(BaseSettings):
     # Telegram bot sync: the bot pushes its applications and conversations and picks up replies written
     # in the admin. A shared secret of at least 32 chars; empty = the bot endpoints are closed.
     bot_sync_token: str = ""
+
+    # IndexNow (Bing, Yandex and others): a random key, also served at /{key}.txt; empty = off
+    indexnow_key: str = ""
+
+    # "Sign in with Telegram": a bot of its own, so the working bot's token never leaves its server.
+    # The token is only used to check Telegram's signature; the site never calls the Bot API with it.
+    telegram_login_bot: str = ""  # bot username without @
+    telegram_login_token: str = ""
+
+    # Email: sign-in codes and notifications. Resend (an API key) or a plain SMTP server;
+    # with neither, letters are written to the log (local development).
+    mail_from: str = "Citobazar <no-reply@citobazar.com>"
+    resend_api_key: str = ""
+    smtp_host: str = ""
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_password: str = ""
     # Cloudflare Turnstile on the public forms (anti-bot); empty = off (honeypot and IP limits still work)
     turnstile_secret_key: str = ""
     public_site_url: str = "http://localhost:3000"

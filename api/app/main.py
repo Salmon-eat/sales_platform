@@ -62,7 +62,7 @@ async def protect(request: Request, call_next: CallNext) -> Response:
 def create_app() -> FastAPI:
     docs = not settings.is_production
     app = FastAPI(
-        title="Bazarcito API",
+        title="Citobazar API",
         version="0.1.0",
         lifespan=lifespan,
         docs_url=f"{API_PREFIX}/docs" if docs else None,

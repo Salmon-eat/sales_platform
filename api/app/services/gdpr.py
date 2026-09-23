@@ -9,7 +9,7 @@ from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
-from app.models import Application, ApplicationMessage, ApplicationNote
+from app.models import Application, ApplicationFile, ApplicationMessage, ApplicationNote
 
 ERASED_NAME = "—"
 FINAL_STATUSES = ("done", "rejected")
@@ -46,6 +46,7 @@ async def export_person(session: AsyncSession, application: Application) -> dict
             .where(ApplicationNote.application_id == a.id)
             .order_by(ApplicationNote.created_at)
         )
+        files = await session.scalars(select(ApplicationFile).where(ApplicationFile.application_id == a.id))
         items.append(
             {
                 "id": a.id,
@@ -67,6 +68,10 @@ async def export_person(session: AsyncSession, application: Application) -> dict
                     {"from": m.author, "text": m.text, "at": m.created_at.isoformat()} for m in messages
                 ],
                 "manager_notes": [{"text": n.text, "at": n.created_at.isoformat()} for n in notes],
+                # the files themselves are handed over separately (download from the application card)
+                "cv_files": [
+                    {"name": f.filename, "size": f.size, "at": f.created_at.isoformat()} for f in files
+                ],
             }
         )
     return {"exported_at": datetime.now(UTC).isoformat(), "applications": items}
@@ -88,6 +93,7 @@ async def anonymize(session: AsyncSession, applications: list[Application]) -> i
         # conversations and manager notes are free text about the person
         await session.execute(delete(ApplicationMessage).where(ApplicationMessage.application_id.in_(ids)))
         await session.execute(delete(ApplicationNote).where(ApplicationNote.application_id.in_(ids)))
+        await session.execute(delete(ApplicationFile).where(ApplicationFile.application_id.in_(ids)))  # CVs
     await session.commit()
     return len(ids)
 

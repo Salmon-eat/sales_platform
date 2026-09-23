@@ -1,11 +1,12 @@
 import secrets
 from typing import Annotated
+from urllib.parse import unquote
 
-from fastapi import APIRouter, Path, Request, status
+from fastapi import APIRouter, HTTPException, Path, Request, status
 
 from app.api.deps import RedisDep, SessionDep
 from app.schemas.application import ApplicationCreated, ApplicationIn, ChatMessageIn, ChatMessageOut
-from app.services import antibot
+from app.services import antibot, cv
 from app.services.applications import add_visitor_message, chat_by_token, chat_messages, create_application
 
 router = APIRouter(prefix="/applications", tags=["applications"])
@@ -50,3 +51,21 @@ async def submit_application(
         )
     await antibot.require_human(body.captcha, ip)
     return await create_application(session, redis, body, ip)
+
+
+@router.post("/cv/{token}", status_code=status.HTTP_201_CREATED)
+async def upload_cv(token: Token, request: Request, session: SessionDep, redis: RedisDep) -> dict[str, str]:
+    """The CV of an application just sent (optional): the raw file as the body, its name in X-File-Name.
+    The one-time token came with the application answer."""
+    application_id = await cv.token_application(redis, token)
+    if int(request.headers.get("content-length") or 0) > cv.MAX_BYTES:
+        raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, "file_too_large")
+    data = bytearray()
+    async for chunk in request.stream():
+        data += chunk
+        if len(data) > cv.MAX_BYTES:
+            raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, "file_too_large")
+    name = unquote(request.headers.get("x-file-name") or "")[:200]
+    row = await cv.save(session, application_id, bytes(data), name)
+    await cv.drop_token(redis, token)
+    return {"filename": row.filename}

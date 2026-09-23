@@ -126,7 +126,11 @@
     "pinned": "Fijar arriba en los resultados",
     "saving": "Guardando…",
     "saveDraft": "Guardar borrador",
-    "saveAndPublish": "Guardar y publicar"
+    "saveAndPublish": "Guardar y publicar",
+    "questionsTitle": "Preguntas al candidato (opcional)",
+    "questionsHint": "El candidato responde con un clic en la solicitud y puede saltarlas. Hasta {max}.",
+    "questionOwn": "Pregunta propia sí / no {n}",
+    "questionOwnPlaceholder": "Ej.: ¿Puedes empezar el lunes?"
   },
   "preview": {
     "caption": "Vista previa de la tarjeta (como en el listado de la web)",
@@ -134,7 +138,7 @@
     "noSalary": "Salario no indicado",
     "perPeriod": "{period, select, hour {por hora} day {por día} week {por semana} other {al mes}}",
     "urgent": "Urgente",
-    "agency": "Agencia Bazarcito",
+    "agency": "Agencia Citobazar",
     "company": "Empresa",
     "city": "Ciudad",
     "spainWide": "Toda España",
