@@ -15,6 +15,7 @@ from app.core.db import SessionLocal, engine
 from app.core.redis import redis
 from app.seo.counts import recount_seo_pages
 from app.services.cache import bump_cache_version
+from app.services.chat_notify import notify_unread
 from app.services.gdpr import anonymize_expired
 from app.services.listings import expire_listings
 
@@ -23,6 +24,7 @@ logger = logging.getLogger("worker")
 
 EXPIRE_EVERY_MINUTES = 10
 SEO_RECOUNT_EVERY_MINUTES = 60
+CHAT_NOTIFY_EVERY_MINUTES = 3
 
 
 async def expire_job() -> None:
@@ -61,6 +63,17 @@ async def analytics_cleanup_job() -> None:
         logger.exception("analytics cleanup failed")
 
 
+async def chat_notify_job() -> None:
+    """Somebody wrote and the other side has not opened it: one letter, a few minutes later."""
+    try:
+        async with SessionLocal() as session:
+            count = await notify_unread(session)
+        if count:
+            logger.info("told %s people about waiting messages", count)
+    except Exception:
+        logger.exception("chat notifications failed")
+
+
 async def gdpr_job() -> None:
     """Closed applications older than the retention period lose their personal data (admin spec §9)."""
     try:
@@ -79,6 +92,9 @@ async def main() -> None:
     )
     scheduler.add_job(
         seo_recount_job, "interval", minutes=SEO_RECOUNT_EVERY_MINUTES, id="seo_recount", coalesce=True
+    )
+    scheduler.add_job(
+        chat_notify_job, "interval", minutes=CHAT_NOTIFY_EVERY_MINUTES, id="chat_notify", coalesce=True
     )
     scheduler.add_job(analytics_cleanup_job, "cron", hour=4, id="analytics_cleanup", coalesce=True)
     scheduler.add_job(gdpr_job, "cron", hour=4, minute=30, id="gdpr_anonymize", coalesce=True)

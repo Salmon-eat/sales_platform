@@ -8,9 +8,11 @@ import { TrackListingView } from "@/components/Analytics";
 import { ApplicationForm } from "@/components/apply/ApplicationForm";
 import { ListingCard } from "@/components/home/ListingCard";
 import { PhotoGallery } from "@/components/listing/PhotoGallery";
+import { SellerContact } from "@/components/listing/SellerContact";
 import { AppliedNotice } from "@/components/saved/AppliedNotice";
 import { FavoriteButton } from "@/components/saved/FavoriteButton";
 import type { Locale } from "@/i18n/routing";
+import { getAccount } from "@/lib/account";
 import { ApiError, getListingDetail } from "@/lib/api";
 import { getApplicationOptions } from "@/lib/application-options";
 import { formatEuro } from "@/lib/listing-format";
@@ -67,8 +69,12 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
   const t = await getTranslations("listingPage");
   const tl = await getTranslations("listing");
   const ts = await getTranslations("search");
+  const tsel = await getTranslations("seller");
   const options = await getApplicationOptions(locale);
   const closed = listing.state !== "active";
+  // an ad somebody posted about their own thing: contacts and a chat, not an application form
+  const fromPerson = listing.source === "private";
+  const account = fromPerson ? await getAccount() : null;
   const where = place(listing, t("spainWide"));
   const salary = salaryText(listing, locale, tl);
   // outside jobs the number people look for is the price, not a salary
@@ -193,7 +199,7 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
           {/* narrow screens: the form is below the description, this takes the person there */}
           {!closed && (
             <a href="#apply" className="btn btn--primary btn--lg listing-apply-jump">
-              {tl("apply")}
+              {fromPerson ? tsel("contactJump") : tl("apply")}
             </a>
           )}
         </div>
@@ -266,7 +272,18 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
         </article>
 
         <aside className="listing-aside" id="apply">
-          {!closed && (
+          {!closed && fromPerson && (
+            <>
+              <TrackListingView listingId={listing.id} />
+              <SellerContact
+                listingId={listing.id}
+                signedIn={Boolean(account)}
+                loginHref={localizedPath(locale, { type: "static", key: "login" })}
+                chatsHref={`${localizedPath(locale, { type: "static", key: "account" })}?tab=chats`}
+              />
+            </>
+          )}
+          {!closed && !fromPerson && (
             <>
               <AppliedNotice id={listing.id} />
               <TrackListingView listingId={listing.id} />

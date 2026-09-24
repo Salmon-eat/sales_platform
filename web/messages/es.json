@@ -14,7 +14,8 @@
     "themeDark": "Tema oscuro",
     "themeLight": "Tema claro",
     "signIn": "Entrar",
-    "account": "Cuenta"
+    "account": "Cuenta",
+    "messages": "Mensajes"
   },
   "sections": {
     "work": "Empleo",
@@ -524,5 +525,40 @@
     "reason_unclear": "No se entiende qué se ofrece",
     "reason_other": "Otro motivo",
     "send": "Enviar a revisión"
+  },
+  "seller": {
+    "title": "Contactar con el vendedor",
+    "contactJump": "Contactar",
+    "showPhone": "Ver el teléfono",
+    "showing": "Un momento…",
+    "noPhone": "El vendedor no ha dejado teléfono: escríbele un mensaje.",
+    "writeTitle": "Escribir al vendedor",
+    "placeholder": "Hola, ¿sigue disponible?",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "sent": "Mensaje enviado. La respuesta llegará a tu cuenta.",
+    "toChats": "Ir a los mensajes",
+    "signInToWrite": "Entra en tu cuenta para escribir: así verás la respuesta.",
+    "signIn": "Entrar",
+    "safety": "No pagues por adelantado ni envíes documentos a desconocidos.",
+    "errors": {
+      "generic": "No se ha podido enviar. Inténtalo de nuevo.",
+      "contact_failed": "No se ha podido mostrar el teléfono. Inténtalo de nuevo.",
+      "signed_out": "La sesión ha caducado. Entra otra vez.",
+      "own_listing": "Este anuncio es tuyo.",
+      "no_chat_for_this_ad": "Para este anuncio, usa el formulario de respuesta.",
+      "too_many": "Demasiados mensajes seguidos. Prueba un poco más tarde."
+    }
+  },
+  "chats": {
+    "title": "Mensajes",
+    "empty": "Todavía no tienes mensajes.",
+    "pick": "Elige una conversación a la izquierda.",
+    "back": "Atrás",
+    "hide": "Quitar de la lista",
+    "asSeller": "yo vendo",
+    "asBuyer": "yo compro",
+    "placeholder": "Escribe un mensaje…",
+    "send": "Enviar"
   }
 }

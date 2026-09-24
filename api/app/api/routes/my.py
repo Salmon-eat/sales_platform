@@ -9,9 +9,10 @@ from fastapi import APIRouter, HTTPException, Request, status
 from app.api.deps import CurrentUser, SessionDep
 from app.core.config import settings
 from app.models.listing import MAX_PHOTOS
+from app.schemas.chat import ChatItem, ChatOut, MessageIn, StartChatIn
 from app.schemas.common import Lang
 from app.schemas.my import MyActionIn, MyListingIn, MyListingItem, MyListingOut, PhotoOut
-from app.services import my_listings, photos
+from app.services import chats, my_listings, photos
 
 router = APIRouter(prefix="/my", tags=["my"])
 
@@ -86,6 +87,53 @@ async def drop_photo(
 ) -> None:
     listing = await my_listings.get_own(session, user, listing_id)
     await my_listings.drop_photo(session, listing, photo_id)
+
+
+# ---------------------------------------------------------------------------- messages
+
+
+@router.get("/chats", response_model=list[ChatItem])
+async def my_chats(user: CurrentUser, session: SessionDep, lang: Lang = "es") -> list[ChatItem]:
+    return await chats.mine(session, user, lang)
+
+
+@router.post("/chats", response_model=ChatOut, status_code=status.HTTP_201_CREATED)
+async def write_to_seller(
+    body: StartChatIn, user: CurrentUser, session: SessionDep, lang: Lang = "es"
+) -> ChatOut:
+    """The buyer's first message about an ad; writing again continues the same conversation."""
+    chat = await chats.start(session, user, body.listing_id, body.text)
+    return await chats.detail_out(session, chat, user, lang)
+
+
+@router.get("/chats/{chat_id}", response_model=ChatOut)
+async def read_chat(
+    chat_id: int, user: CurrentUser, session: SessionDep, lang: Lang = "es"
+) -> ChatOut:
+    chat = await chats.get_own(session, user, chat_id)
+    await chats.mark_read(session, chat, user)
+    return await chats.detail_out(session, chat, user, lang)
+
+
+@router.post("/chats/{chat_id}/messages", response_model=ChatOut)
+async def reply(
+    chat_id: int, body: MessageIn, user: CurrentUser, session: SessionDep, lang: Lang = "es"
+) -> ChatOut:
+    chat = await chats.get_own(session, user, chat_id)
+    await chats.add_message(session, chat, user, body.text)
+    return await chats.detail_out(session, chat, user, lang)
+
+
+@router.post("/chats/{chat_id}/hide", status_code=status.HTTP_204_NO_CONTENT)
+async def hide_chat(chat_id: int, user: CurrentUser, session: SessionDep) -> None:
+    """Out of my list; the other side keeps the conversation and can write again."""
+    await chats.hide(session, await chats.get_own(session, user, chat_id), user)
+
+
+@router.get("/unread")
+async def unread(user: CurrentUser, session: SessionDep) -> dict[str, int]:
+    """For the badge in the header."""
+    return {"messages": await chats.unread_total(session, user)}
 
 
 @router.get("/limits")

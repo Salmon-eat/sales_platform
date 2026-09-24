@@ -8,6 +8,7 @@ from app.models.application import (
     ApplicationNote,
 )
 from app.models.base import Base
+from app.models.chat import MAX_MESSAGE, Conversation, ConversationMessage
 from app.models.enums import UserRole
 from app.models.listing import (
     CONTRACTS,
@@ -51,6 +52,9 @@ __all__ = [
     "Base",
     "Category",
     "ContentBlock",
+    "Conversation",
+    "ConversationMessage",
+    "MAX_MESSAGE",
     "EmployerRequest",
     "Favorite",
     "MAX_PHOTOS",

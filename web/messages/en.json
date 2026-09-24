@@ -14,7 +14,8 @@
     "themeDark": "Dark theme",
     "themeLight": "Light theme",
     "signIn": "Sign in",
-    "account": "Account"
+    "account": "Account",
+    "messages": "Messages"
   },
   "sections": {
     "work": "Jobs",
@@ -524,5 +525,40 @@
     "reason_unclear": "Unclear what is offered",
     "reason_other": "Another reason",
     "send": "Send for checking"
+  },
+  "seller": {
+    "title": "Contact the seller",
+    "contactJump": "Contact",
+    "showPhone": "Show the number",
+    "showing": "One moment…",
+    "noPhone": "The seller left no number — write them a message.",
+    "writeTitle": "Write to the seller",
+    "placeholder": "Hello, is this still available?",
+    "send": "Send",
+    "sending": "Sending…",
+    "sent": "Message sent. The reply will arrive in your account.",
+    "toChats": "Go to messages",
+    "signInToWrite": "Sign in to write, so you can see the reply in your account.",
+    "signIn": "Sign in",
+    "safety": "Do not pay in advance and do not send documents to strangers.",
+    "errors": {
+      "generic": "Could not send. Please try again.",
+      "contact_failed": "Could not show the number. Please try again.",
+      "signed_out": "Your session has ended. Please sign in again.",
+      "own_listing": "This is your own ad.",
+      "no_chat_for_this_ad": "For this ad, use the application form.",
+      "too_many": "Too many messages at once. Try again a little later."
+    }
+  },
+  "chats": {
+    "title": "Messages",
+    "empty": "No conversations yet.",
+    "pick": "Pick a conversation on the left.",
+    "back": "Back",
+    "hide": "Remove from the list",
+    "asSeller": "I am selling",
+    "asBuyer": "I am buying",
+    "placeholder": "Write a message…",
+    "send": "Send"
   }
 }

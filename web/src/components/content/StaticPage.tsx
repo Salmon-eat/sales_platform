@@ -4,7 +4,9 @@ import { getTranslations } from "next-intl/server";
 
 import { redirect } from "next/navigation";
 
+import { myChats } from "@/app/[locale]/chat-actions";
 import { AccountPanel } from "@/components/account/AccountPanel";
+import { Chats } from "@/components/account/Chats";
 import { MyAds } from "@/components/account/MyAds";
 import { SignInForm } from "@/components/account/SignInForm";
 import { ApplicationSection } from "@/components/apply/ApplicationSection";
@@ -35,6 +37,7 @@ export async function StaticPage({ locale, page, title, tab, edit }: Props) {
         <PageHero crumbs={crumbs} title={title} />
         <div className="container static-page">
           <AccountPanel account={account} locale={locale} />
+          {account && <Chats initial={await myChats(locale)} />}
           {account && <MyAds locale={locale} />}
           <AccountTabs key={tab} initialTab={tab === "applied" ? "applied" : "saved"} />
         </div>

@@ -29,6 +29,9 @@ RULES: tuple[tuple[str, frozenset[str] | None, int], ...] = (
     ("/v1/account/telegram", None, 10),
     ("/v1/applications", frozenset({"POST"}), 10),
     ("/v1/employer-requests", frozenset({"POST"}), 5),
+    # asking for a seller's phone: a person presses it a few times, a harvester thousands
+    ("/v1/contact/", None, 20),
+    ("/v1/my/chats", frozenset({"POST"}), 20),
     ("/v1/chat/", frozenset({"POST"}), 20),
     ("/v1/chat/", None, 30),  # the open chat window polls every 8 s
     ("/v1/events", None, 120),

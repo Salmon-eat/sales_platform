@@ -12,6 +12,7 @@ from app.api.routes import (
     applications,
     auth,
     bot_sync,
+    contacts,
     health,
     home,
     listings,
@@ -33,6 +34,7 @@ api_router.include_router(applications.chat_router)
 api_router.include_router(auth.router)
 api_router.include_router(account.router)
 api_router.include_router(my.router)
+api_router.include_router(contacts.router)
 api_router.include_router(analytics.router)
 api_router.include_router(bot_sync.router)
 

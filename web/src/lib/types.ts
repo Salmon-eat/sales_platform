@@ -259,6 +259,41 @@ export type MyListingDetail = MyListing & {
 
 export type MyLimits = { open: number; max_listings: number; max_photos: number; days: number };
 
+/** The seller's contacts, asked for one ad at a time (never part of the page itself). */
+export type SellerContact = {
+  name: string | null;
+  phone: string | null;
+  whatsapp: string | null;
+  telegram: string | null;
+  email: string | null;
+  can_chat: boolean;
+};
+
+/** One line in a buyer↔seller conversation (the orange window with the managers is ChatMessage). */
+export type DirectMessage = {
+  id: number;
+  mine: boolean;
+  text: string;
+  created_at: string;
+  read_at: string | null;
+};
+
+export type Chat = {
+  id: number;
+  listing_id: number;
+  listing_title: string;
+  listing_path: string | null;
+  listing_photo: string | null;
+  other_name: string;
+  /** true when I am the one who posted the ad */
+  selling: boolean;
+  last_text: string;
+  last_at: string;
+  unread: number;
+};
+
+export type ChatDetail = Chat & { messages: DirectMessage[] };
+
 export type ListingQuestionSetting = { key: string; text?: Partial<Record<"es" | "en" | "uk" | "ru", string>> };
 
 /** A ready-made question the manager can tick, in the admin language. */
