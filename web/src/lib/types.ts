@@ -259,6 +259,33 @@ export type MyListingDetail = MyListing & {
 
 export type MyLimits = { open: number; max_listings: number; max_photos: number; days: number };
 
+export type LanguageLevel = "a1" | "a2" | "b1" | "b2" | "c1" | "native";
+export type Licence = "b" | "c" | "ce" | "d" | "code95" | "adr" | "forklift" | "crane";
+
+/** The candidate's CV, filled in once and sent with one press. */
+export type Resume = {
+  id: number;
+  title: string;
+  about: string;
+  city_id: number | null;
+  city_name: string | null;
+  relocate: boolean;
+  experience_years: number | null;
+  languages: Partial<Record<Lang, LanguageLevel>>;
+  licences: Licence[];
+  has_car: boolean;
+  work_permit: boolean;
+  schedule: string[];
+  salary_min: number | null;
+  salary_period: SalaryPeriod | null;
+  is_public: boolean;
+  file_name: string | null;
+  file_size: number | null;
+  updated_at: string;
+};
+
+export type ResumeInput = Omit<Resume, "id" | "city_name" | "file_name" | "file_size" | "updated_at">;
+
 /** The seller's contacts, asked for one ad at a time (never part of the page itself). */
 export type SellerContact = {
   name: string | null;

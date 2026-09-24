@@ -5,16 +5,18 @@ import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 
 import { myChats } from "@/app/[locale]/chat-actions";
+import { getResume } from "@/app/[locale]/resume-actions";
 import { AccountPanel } from "@/components/account/AccountPanel";
 import { Chats } from "@/components/account/Chats";
 import { MyAds } from "@/components/account/MyAds";
+import { ResumeForm } from "@/components/account/ResumeForm";
 import { SignInForm } from "@/components/account/SignInForm";
 import { ApplicationSection } from "@/components/apply/ApplicationSection";
 import { PostPage } from "@/components/post/PostPage";
 import { AccountTabs } from "@/components/saved/AccountTabs";
 import type { Locale } from "@/i18n/routing";
 import { getAccount } from "@/lib/account";
-import { getContent } from "@/lib/api";
+import { getContent, getPopularLocations, orFallback } from "@/lib/api";
 import { getApplicationOptions } from "@/lib/application-options";
 import { localizedPath, type StaticKey } from "@/lib/routes";
 import { jsonLd } from "@/lib/seo";
@@ -39,6 +41,14 @@ export async function StaticPage({ locale, page, title, tab, edit }: Props) {
           <AccountPanel account={account} locale={locale} />
           {account && <Chats initial={await myChats(locale)} />}
           {account && <MyAds locale={locale} />}
+          {account && (
+            <ResumeForm
+              initial={await getResume(locale)}
+              cities={(await orFallback(getPopularLocations(locale, 50), []))
+                .filter((place): place is typeof place & { id: number } => typeof place.id === "number")
+                .sort((a, b) => a.name.localeCompare(b.name, locale))}
+            />
+          )}
           <AccountTabs key={tab} initialTab={tab === "applied" ? "applied" : "saved"} />
         </div>
       </>

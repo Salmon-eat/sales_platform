@@ -8,10 +8,12 @@ import { TrackListingView } from "@/components/Analytics";
 import { ApplicationForm } from "@/components/apply/ApplicationForm";
 import { ListingCard } from "@/components/home/ListingCard";
 import { PhotoGallery } from "@/components/listing/PhotoGallery";
+import { QuickApply } from "@/components/listing/QuickApply";
 import { SellerContact } from "@/components/listing/SellerContact";
 import { AppliedNotice } from "@/components/saved/AppliedNotice";
 import { FavoriteButton } from "@/components/saved/FavoriteButton";
 import type { Locale } from "@/i18n/routing";
+import { getResume } from "@/app/[locale]/resume-actions";
 import { getAccount } from "@/lib/account";
 import { ApiError, getListingDetail } from "@/lib/api";
 import { getApplicationOptions } from "@/lib/application-options";
@@ -74,7 +76,9 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
   const closed = listing.state !== "active";
   // an ad somebody posted about their own thing: contacts and a chat, not an application form
   const fromPerson = listing.source === "private";
-  const account = fromPerson ? await getAccount() : null;
+  const account = await getAccount();
+  // for a vacancy: the CV in the account, so answering is one press
+  const resume = !fromPerson && account ? await getResume(locale) : null;
   const where = place(listing, t("spainWide"));
   const salary = salaryText(listing, locale, tl);
   // outside jobs the number people look for is the price, not a salary
@@ -287,6 +291,15 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
             <>
               <AppliedNotice id={listing.id} />
               <TrackListingView listingId={listing.id} />
+              {/* a CV already in the account: one press instead of the whole form */}
+              {resume && (
+                <QuickApply
+                  listingId={listing.id}
+                  title={resume.title}
+                  hasFile={Boolean(resume.file_name)}
+                  accountHref={localizedPath(locale, { type: "static", key: "account" })}
+                />
+              )}
               <ApplicationForm
                 sectors={options.sectors}
                 cities={options.cities}

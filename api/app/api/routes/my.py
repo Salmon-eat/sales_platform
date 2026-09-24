@@ -4,15 +4,19 @@ Everything here is about the person's own rows only: each handler looks the ad u
 so an id guessed from someone else's page leads nowhere.
 """
 
+from urllib.parse import unquote
+
 from fastapi import APIRouter, HTTPException, Request, status
 
 from app.api.deps import CurrentUser, SessionDep
 from app.core.config import settings
+from app.models import Resume
 from app.models.listing import MAX_PHOTOS
 from app.schemas.chat import ChatItem, ChatOut, MessageIn, StartChatIn
 from app.schemas.common import Lang
 from app.schemas.my import MyActionIn, MyListingIn, MyListingItem, MyListingOut, PhotoOut
-from app.services import chats, my_listings, photos
+from app.schemas.resume import ApplyIn, ApplyOut, ResumeIn, ResumeOut
+from app.services import chats, cv, my_listings, photos, resumes
 
 router = APIRouter(prefix="/my", tags=["my"])
 
@@ -134,6 +138,65 @@ async def hide_chat(chat_id: int, user: CurrentUser, session: SessionDep) -> Non
 async def unread(user: CurrentUser, session: SessionDep) -> dict[str, int]:
     """For the badge in the header."""
     return {"messages": await chats.unread_total(session, user)}
+
+
+# ---------------------------------------------------------------------------- the candidate's CV
+
+
+async def _my_resume(session: SessionDep, user: CurrentUser) -> Resume:
+    resume = await resumes.get(session, user)
+    if resume is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "no_resume")
+    return resume
+
+
+@router.get("/resume", response_model=ResumeOut | None)
+async def my_resume(user: CurrentUser, session: SessionDep, lang: Lang = "es") -> ResumeOut | None:
+    """Null when there is none yet: the page then shows an empty form, not an error."""
+    resume = await resumes.get(session, user)
+    return await resumes.out(session, resume, lang) if resume else None
+
+
+@router.put("/resume", response_model=ResumeOut)
+async def save_resume(
+    body: ResumeIn, user: CurrentUser, session: SessionDep, lang: Lang = "es"
+) -> ResumeOut:
+    resume = await resumes.save(session, user, body)
+    return await resumes.out(session, resume, lang)
+
+
+@router.post("/resume/file", response_model=ResumeOut)
+async def upload_resume_file(
+    request: Request, user: CurrentUser, session: SessionDep, lang: Lang = "es"
+) -> ResumeOut:
+    """The CV file itself: raw body, name in X-File-Name, like the file sent with an application."""
+    resume = await _my_resume(session, user)
+    if int(request.headers.get("content-length") or 0) > cv.MAX_BYTES:
+        raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, "file_too_large")
+    data = bytearray()
+    async for chunk in request.stream():
+        data += chunk
+        if len(data) > cv.MAX_BYTES:
+            raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, "file_too_large")
+    name = unquote(request.headers.get("x-file-name") or "")[:200]
+    resume = await resumes.attach_file(session, resume, bytes(data), name)
+    return await resumes.out(session, resume, lang)
+
+
+@router.delete("/resume/file", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_resume_file(user: CurrentUser, session: SessionDep) -> None:
+    await resumes.drop_file(session, await _my_resume(session, user))
+
+
+@router.delete("/resume", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_resume(user: CurrentUser, session: SessionDep) -> None:
+    await resumes.remove(session, await _my_resume(session, user))
+
+
+@router.post("/apply", response_model=ApplyOut, status_code=status.HTTP_201_CREATED)
+async def apply_with_resume(body: ApplyIn, user: CurrentUser, session: SessionDep) -> ApplyOut:
+    """One press on a vacancy: the application goes to the managers with the CV attached."""
+    return await resumes.apply(session, user, await _my_resume(session, user), body)
 
 
 @router.get("/limits")
