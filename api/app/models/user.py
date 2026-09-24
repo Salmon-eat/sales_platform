@@ -26,6 +26,9 @@ class User(TimestampMixin, Base):
     # signed in with Telegram: there is no email there, the account is keyed by the Telegram id
     telegram_id: Mapped[int | None] = mapped_column(BigInteger, unique=True)
     telegram_username: Mapped[str | None] = mapped_column(String(64))
+    # how we may tell them a message is waiting; both on until they say otherwise
+    notify_email: Mapped[bool] = mapped_column(default=True, server_default="true")
+    notify_telegram: Mapped[bool] = mapped_column(default=True, server_default="true")
     # Access is switched off, never deleted, so the name stays in notes and history (admin spec §1).
     is_active: Mapped[bool] = mapped_column(default=True, server_default="true")
     last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
@@ -35,6 +38,11 @@ class User(TimestampMixin, Base):
     @property
     def is_staff(self) -> bool:
         return self.role in (UserRole.MANAGER, UserRole.ADMIN)
+
+    @property
+    def has_telegram(self) -> bool:
+        """Signed in with Telegram at some point, so the bot has someone to write to."""
+        return self.telegram_id is not None
 
 
 class Favorite(Base):

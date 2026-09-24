@@ -1499,6 +1499,23 @@
   gap: 12px;
   align-items: end;
 }
+.account-profile__notify {
+  display: grid;
+  gap: 6px;
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.account-profile__notify legend {
+  padding: 0 6px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.account-profile__notify p {
+  margin: 2px 0 0;
+}
 .account-profile__danger {
   border-top: 1px solid var(--line);
   padding-top: 10px;

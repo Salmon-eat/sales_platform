@@ -8,6 +8,9 @@ import type { Locale } from "@/i18n/routing";
 import { localizedPath } from "@/lib/routes";
 import type { Account } from "@/lib/types";
 
+/** The bot that signs people in; it is also the one that can send them a notice. */
+const LOGIN_BOT = process.env.NEXT_PUBLIC_TELEGRAM_LOGIN_BOT ?? "";
+
 /** Top of the account page: who is signed in, their contacts, sign out, delete the account. */
 export async function AccountPanel({ account, locale }: { account: Account | null; locale: Locale }) {
   const t = await getTranslations("account");
@@ -50,6 +53,30 @@ export async function AccountPanel({ account, locale }: { account: Account | nul
           <span>{t("phone")}</span>
           <input name="phone" type="tel" defaultValue={account.phone ?? ""} placeholder="+34 612 345 678" />
         </label>
+        <fieldset className="account-profile__notify">
+          <legend>{t("notifyTitle")}</legend>
+          <label className="check">
+            <input type="checkbox" name="notify_email" defaultChecked={account.notify_email !== false} />
+            <span>{t("notifyEmail")}</span>
+          </label>
+          <label className="check">
+            <input
+              type="checkbox"
+              name="notify_telegram"
+              defaultChecked={account.notify_telegram !== false}
+              disabled={!account.has_telegram}
+            />
+            <span>{t("notifyTelegram")}</span>
+          </label>
+          <p className="muted small">
+            {account.has_telegram ? t("notifyTelegramHint") : t("notifyTelegramOff")}{" "}
+            {account.has_telegram && LOGIN_BOT && (
+              <a href={`https://t.me/${LOGIN_BOT}`} rel="noopener">
+                @{LOGIN_BOT}
+              </a>
+            )}
+          </p>
+        </fieldset>
         <button type="submit" className="btn btn--primary btn--sm">
           {t("save")}
         </button>

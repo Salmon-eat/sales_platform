@@ -424,6 +424,11 @@ export type Account = {
   lang: string;
   role: string;
   created_at: string;
+  /** how the person agreed to hear about waiting messages */
+  notify_email?: boolean;
+  notify_telegram?: boolean;
+  /** the account is linked to Telegram, so notifications there are possible at all */
+  has_telegram?: boolean;
 };
 
 export type ApplicationStatus = "new" | "in_progress" | "done" | "rejected";

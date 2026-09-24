@@ -42,7 +42,8 @@ class Settings(BaseSettings):
     indexnow_key: str = ""
 
     # "Sign in with Telegram": a bot of its own, so the working bot's token never leaves its server.
-    # The token is only used to check Telegram's signature; the site never calls the Bot API with it.
+    # Used to check Telegram's signature at sign-in and to send notices about waiting messages to
+    # people who opened that bot themselves (app.services.telegram_send). Never the agency's bot.
     telegram_login_bot: str = ""  # bot username without @
     telegram_login_token: str = ""
 

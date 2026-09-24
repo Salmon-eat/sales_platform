@@ -42,6 +42,10 @@ class AccountOut(BaseModel):
     lang: str
     role: str
     created_at: datetime
+    notify_email: bool = True
+    notify_telegram: bool = True
+    # the account is linked to Telegram, so notifications there are possible at all
+    has_telegram: bool = False
 
 
 class AccountSession(BaseModel):
@@ -54,6 +58,8 @@ class AccountUpdate(BaseModel):
     name: str | None = Field(None, max_length=200)
     phone: str | None = Field(None, max_length=30)
     lang: Lang | None = None
+    notify_email: bool | None = None
+    notify_telegram: bool | None = None
 
     @field_validator("name")
     @classmethod

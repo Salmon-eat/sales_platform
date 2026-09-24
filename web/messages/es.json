@@ -370,7 +370,12 @@
     "phone": "Teléfono",
     "save": "Guardar",
     "delete": "Eliminar la cuenta",
-    "deleteConfirm": "¿Eliminar la cuenta? Tus datos se borrarán y no se puede deshacer."
+    "deleteConfirm": "¿Eliminar la cuenta? Tus datos se borrarán y no se puede deshacer.",
+    "notifyTitle": "Avisos de mensajes nuevos",
+    "notifyEmail": "Por correo",
+    "notifyTelegram": "Por Telegram",
+    "notifyTelegramHint": "Abre nuestro bot de acceso y pulsa «Start»: si no, Telegram no le deja escribir primero.",
+    "notifyTelegramOff": "Disponible si entras con Telegram."
   },
   "services": {
     "catalogTitle": "Servicios de la agencia",

@@ -370,7 +370,12 @@
     "phone": "Phone",
     "save": "Save",
     "delete": "Delete the account",
-    "deleteConfirm": "Delete the account? Your data will be erased and this cannot be undone."
+    "deleteConfirm": "Delete the account? Your data will be erased and this cannot be undone.",
+    "notifyTitle": "Alerts about new messages",
+    "notifyEmail": "By email",
+    "notifyTelegram": "On Telegram",
+    "notifyTelegramHint": "Open our sign-in bot and press Start, otherwise Telegram will not let it write first.",
+    "notifyTelegramOff": "Available if you sign in with Telegram."
   },
   "services": {
     "catalogTitle": "Agency services",

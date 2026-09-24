@@ -119,6 +119,9 @@ export async function updateProfile(formData: FormData): Promise<void> {
   const body = {
     name: String(formData.get("name") ?? "").trim(),
     phone: String(formData.get("phone") ?? "").trim() || null,
+    // an unticked box sends nothing at all, so absence means "off"
+    notify_email: formData.get("notify_email") !== null,
+    notify_telegram: formData.get("notify_telegram") !== null,
   };
   await apiFetch("/account/me", { method: "PATCH", body, token }).catch(() => undefined);
   revalidatePath("/", "layout");

@@ -107,6 +107,10 @@ async def update_me(body: AccountUpdate, user: CurrentUser, session: SessionDep)
         user.phone = body.phone
     if body.lang is not None:
         user.lang = body.lang
+    if body.notify_email is not None:
+        user.notify_email = body.notify_email
+    if body.notify_telegram is not None:
+        user.notify_telegram = body.notify_telegram
     await session.commit()
     return AccountOut.model_validate(user, from_attributes=True)
 

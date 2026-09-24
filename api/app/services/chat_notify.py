@@ -13,7 +13,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.models import Conversation, ConversationMessage, User
-from app.services import mail
+from app.services import mail, telegram_send
 
 log = logging.getLogger("bazarcito.chat_notify")
 
@@ -107,10 +107,14 @@ async def notify_unread(session: AsyncSession) -> int:
     for user_id, items in for_person.items():
         user = await session.get(User, user_id)
         ids = [message.id for message, _ in items]
-        if user is None or not user.email or not user.is_active:
-            # nobody to write to; the messages are still marked so we do not look at them again
+        reachable = user is not None and user.is_active and (
+            (user.notify_email and user.email) or (user.notify_telegram and user.telegram_id)
+        )
+        if not reachable:
+            # nobody to write to, or they asked not to be written to: mark and move on
             await _mark(session, ids)
             continue
+        assert user is not None
 
         lang = user.lang if user.lang in SUBJECT else "es"
         lines = []
@@ -119,12 +123,18 @@ async def notify_unread(session: AsyncSession) -> int:
             name = (sender.name if sender else None) or "—"
             lines.append(LINE[lang].format(name=name, text=_short(message.text)))
 
-        sent = await mail.send(
-            user.email,
-            SUBJECT[lang].format(count=len(items)),
-            BODY[lang].format(lines="\n".join(lines), url=_account_url(lang)),
-        )
-        # marked either way: a letter that cannot be sent must not be retried forever
+        subject = SUBJECT[lang].format(count=len(items))
+        body = BODY[lang].format(lines="\n".join(lines), url=_account_url(lang))
+
+        # Telegram first when they signed in with it: it arrives in seconds and costs nothing.
+        # If the bot may not write to them (they never opened it), the letter goes instead.
+        sent = False
+        if user.notify_telegram and user.telegram_id:
+            sent = await telegram_send.send(user.telegram_id, f"{subject}\n\n{body}")
+        if not sent and user.notify_email and user.email:
+            sent = await mail.send(user.email, subject, body)
+
+        # marked either way: a notice that cannot be delivered must not be retried forever
         await _mark(session, ids)
         written += 1 if sent else 0
 
