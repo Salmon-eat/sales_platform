@@ -5,8 +5,10 @@ import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 
 import { myChats } from "@/app/[locale]/chat-actions";
+import { myCandidates } from "@/app/[locale]/employer-actions";
 import { getResume } from "@/app/[locale]/resume-actions";
 import { AccountPanel } from "@/components/account/AccountPanel";
+import { Candidates } from "@/components/account/Candidates";
 import { Chats } from "@/components/account/Chats";
 import { MyAds } from "@/components/account/MyAds";
 import { ResumeForm } from "@/components/account/ResumeForm";
@@ -40,6 +42,7 @@ export async function StaticPage({ locale, page, title, tab, edit }: Props) {
         <div className="container static-page">
           <AccountPanel account={account} locale={locale} />
           {account && <Chats initial={await myChats(locale)} />}
+          {account && <Candidates initial={await myCandidates(locale)} />}
           {account && <MyAds locale={locale} />}
           {account && (
             <ResumeForm

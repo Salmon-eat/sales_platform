@@ -632,5 +632,22 @@
     "level_b2": "уверенный",
     "level_c1": "свободный",
     "level_native": "родной"
+  },
+  "candidates": {
+    "title": "Отклики на мои вакансии",
+    "all": "Все",
+    "status_new": "Новые",
+    "status_in_progress": "В работе",
+    "status_done": "Взяли",
+    "status_rejected": "Отказ",
+    "move_new": "Вернуть в новые",
+    "move_in_progress": "Взять в работу",
+    "move_done": "Взять на работу",
+    "move_rejected": "Отказать",
+    "cv": "Резюме",
+    "years": "{count} л. опыта",
+    "notes": "Заметки ({count})",
+    "noteAdd": "Добавить",
+    "notePlaceholder": "Что решили, когда перезвонить…"
   }
 }

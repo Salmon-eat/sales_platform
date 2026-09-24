@@ -632,5 +632,22 @@
     "level_b2": "впевнена",
     "level_c1": "вільна",
     "level_native": "рідна"
+  },
+  "candidates": {
+    "title": "Відгуки на мої вакансії",
+    "all": "Усі",
+    "status_new": "Нові",
+    "status_in_progress": "У роботі",
+    "status_done": "Взяли",
+    "status_rejected": "Відмова",
+    "move_new": "Повернути в нові",
+    "move_in_progress": "Взяти в роботу",
+    "move_done": "Взяли на роботу",
+    "move_rejected": "Відмовити",
+    "cv": "Резюме",
+    "years": "{count} р. досвіду",
+    "notes": "Нотатки ({count})",
+    "noteAdd": "Додати",
+    "notePlaceholder": "Що вирішили, коли передзвонити…"
   }
 }

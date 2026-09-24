@@ -632,5 +632,22 @@
     "level_b2": "bueno",
     "level_c1": "fluido",
     "level_native": "nativo"
+  },
+  "candidates": {
+    "title": "Respuestas a mis ofertas",
+    "all": "Todas",
+    "status_new": "Nuevas",
+    "status_in_progress": "En curso",
+    "status_done": "Contratado",
+    "status_rejected": "Descartado",
+    "move_new": "Volver a nuevas",
+    "move_in_progress": "Empezar",
+    "move_done": "Contratar",
+    "move_rejected": "Descartar",
+    "cv": "Currículum",
+    "years": "{count} años de experiencia",
+    "notes": "Notas ({count})",
+    "noteAdd": "Añadir",
+    "notePlaceholder": "Qué habéis hablado, cuándo llamar…"
   }
 }

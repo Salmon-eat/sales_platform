@@ -286,6 +286,26 @@ export type Resume = {
 
 export type ResumeInput = Omit<Resume, "id" | "city_name" | "file_name" | "file_size" | "updated_at">;
 
+/** Somebody who answered one of my vacancies. */
+export type Candidate = {
+  id: number;
+  listing_id: number | null;
+  listing_title: string;
+  name: string;
+  phone: string | null;
+  status: ApplicationStatus;
+  lang: string;
+  comment: string | null;
+  answers: { question: string; answer: string }[];
+  has_cv: boolean;
+  headline: string | null;
+  experience_years: number | null;
+  licences: string[];
+  languages: Record<string, string>;
+  notes: { text: string; author: string | null; created_at: string }[];
+  created_at: string;
+};
+
 /** The seller's contacts, asked for one ad at a time (never part of the page itself). */
 export type SellerContact = {
   name: string | null;

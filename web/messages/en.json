@@ -632,5 +632,22 @@
     "level_b2": "confident",
     "level_c1": "fluent",
     "level_native": "native"
+  },
+  "candidates": {
+    "title": "Answers to my vacancies",
+    "all": "All",
+    "status_new": "New",
+    "status_in_progress": "In progress",
+    "status_done": "Hired",
+    "status_rejected": "Rejected",
+    "move_new": "Back to new",
+    "move_in_progress": "Start",
+    "move_done": "Hire",
+    "move_rejected": "Reject",
+    "cv": "CV",
+    "years": "{count} years of experience",
+    "notes": "Notes ({count})",
+    "noteAdd": "Add",
+    "notePlaceholder": "What you agreed, when to call…"
   }
 }

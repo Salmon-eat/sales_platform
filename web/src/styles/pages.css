@@ -1117,3 +1117,104 @@
   margin: 0;
   font-weight: 600;
 }
+
+/* ---------------------------------------------------------------- answers to my vacancies */
+.candidates {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.candidate-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.candidate {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.candidate__head {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.candidate__facts {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0;
+}
+.candidate__comment {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--chip-bg);
+  white-space: pre-line;
+}
+.candidate__answers {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  font-size: 13.5px;
+}
+.candidate__answers div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+.candidate__answers dt {
+  color: var(--muted);
+}
+.candidate__answers dd {
+  margin: 0;
+  font-weight: 600;
+}
+.candidate__actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.candidate__notes {
+  display: grid;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.candidate__notes p {
+  margin: 0;
+}
+.candidate__note-form {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+}
+.candidate__note-form input {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+.badge--new {
+  background: var(--peach-bg);
+  color: var(--peach-ink);
+}
+.badge--in_progress {
+  background: var(--chip-bg);
+  color: var(--chip-ink);
+}
+.badge--done {
+  background: var(--ok-bg);
+  color: var(--ok-ink);
+}

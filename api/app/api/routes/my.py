@@ -1,12 +1,12 @@
-"""The visitor's own ads: write one, attach photos, send it for checking, close it.
+﻿"""The visitor's own ads: write one, attach photos, send it for checking, close it.
 
 Everything here is about the person's own rows only: each handler looks the ad up by id *and* owner,
 so an id guessed from someone else's page leads nowhere.
 """
 
-from urllib.parse import unquote
+from urllib.parse import quote, unquote
 
-from fastapi import APIRouter, HTTPException, Request, status
+from fastapi import APIRouter, HTTPException, Request, Response, status
 
 from app.api.deps import CurrentUser, SessionDep
 from app.core.config import settings
@@ -14,9 +14,10 @@ from app.models import Resume
 from app.models.listing import MAX_PHOTOS
 from app.schemas.chat import ChatItem, ChatOut, MessageIn, StartChatIn
 from app.schemas.common import Lang
+from app.schemas.employer import CandidateOut, NoteIn, StatusIn
 from app.schemas.my import MyActionIn, MyListingIn, MyListingItem, MyListingOut, PhotoOut
 from app.schemas.resume import ApplyIn, ApplyOut, ResumeIn, ResumeOut
-from app.services import chats, cv, my_listings, photos, resumes
+from app.services import chats, cv, employer, my_listings, photos, resumes
 
 router = APIRouter(prefix="/my", tags=["my"])
 
@@ -197,6 +198,53 @@ async def delete_resume(user: CurrentUser, session: SessionDep) -> None:
 async def apply_with_resume(body: ApplyIn, user: CurrentUser, session: SessionDep) -> ApplyOut:
     """One press on a vacancy: the application goes to the managers with the CV attached."""
     return await resumes.apply(session, user, await _my_resume(session, user), body)
+
+
+# ---------------------------------------------------------------------------- answers to my vacancies
+
+
+@router.get("/candidates", response_model=list[CandidateOut])
+async def my_candidates(
+    user: CurrentUser,
+    session: SessionDep,
+    lang: Lang = "es",
+    listing_id: int | None = None,
+) -> list[CandidateOut]:
+    """Everyone who answered a vacancy this person posted; nothing from anybody else's listings."""
+    return await employer.candidates(session, user, lang, listing_id)
+
+
+@router.post("/candidates/{application_id}/status", response_model=CandidateOut)
+async def set_candidate_status(
+    application_id: int, body: StatusIn, user: CurrentUser, session: SessionDep, lang: Lang = "es"
+) -> CandidateOut:
+    application = await employer.get_application(session, user, application_id)
+    await employer.set_status(session, application, body.status)
+    return await employer.out(session, application, lang)
+
+
+@router.post("/candidates/{application_id}/notes", response_model=CandidateOut)
+async def add_candidate_note(
+    application_id: int, body: NoteIn, user: CurrentUser, session: SessionDep, lang: Lang = "es"
+) -> CandidateOut:
+    application = await employer.get_application(session, user, application_id)
+    await employer.add_note(session, application, user, body.text)
+    return await employer.out(session, application, lang)
+
+
+@router.get("/candidates/{application_id}/cv")
+async def candidate_cv(application_id: int, user: CurrentUser, session: SessionDep) -> Response:
+    """Always a download, never opened in the browser: an uploaded file is not our page."""
+    application = await employer.get_application(session, user, application_id)
+    row = await employer.cv_file(session, application)
+    return Response(
+        content=row.data,
+        media_type="application/octet-stream",
+        headers={
+            "Content-Disposition": f"attachment; filename*=UTF-8''{quote(row.filename)}",
+            "X-Content-Type-Options": "nosniff",
+        },
+    )
 
 
 @router.get("/limits")
