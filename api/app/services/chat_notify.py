@@ -25,12 +25,33 @@ BATCH_LIMIT = 200
 URL_PREFIX = {"es": "es", "en": "en", "uk": "ua", "ru": "ru"}
 ACCOUNT_SLUG = {"es": "cuenta", "en": "account", "uk": "kabinet", "ru": "kabinet"}
 
-SUBJECT = {
-    "es": "Tienes {count} mensaje(s) nuevo(s) en Citobazar",
-    "en": "You have {count} new message(s) on Citobazar",
-    "uk": "У вас {count} нових повідомлень на Citobazar",
-    "ru": "У вас {count} новых сообщений на Citobazar",
+# one / few / many, because "1 нових повідомлень" is how a robot writes
+FORMS = {
+    "es": ("mensaje nuevo", "mensajes nuevos", "mensajes nuevos"),
+    "en": ("new message", "new messages", "new messages"),
+    "uk": ("нове повідомлення", "нові повідомлення", "нових повідомлень"),
+    "ru": ("новое сообщение", "новых сообщения", "новых сообщений"),
 }
+SUBJECT = {
+    "es": "Tienes {count} {word} en Citobazar",
+    "en": "You have {count} {word} on Citobazar",
+    "uk": "У вас {count} {word} на Citobazar",
+    "ru": "У вас {count} {word} на Citobazar",
+}
+
+
+def _plural(lang: str, count: int) -> str:
+    one, few, many = FORMS[lang]
+    if lang in ("es", "en"):
+        return one if count == 1 else few
+    tens, unit = count % 100, count % 10
+    if 11 <= tens <= 14:
+        return many
+    if unit == 1:
+        return one
+    if 2 <= unit <= 4:
+        return few
+    return many
 BODY = {
     "es": (
         "Alguien te ha escrito sobre tus anuncios.\n\n{lines}\n\n"
@@ -59,6 +80,8 @@ LINE = {
     "uk": "· {name}: {text}",
     "ru": "· {name}: {text}",
 }
+BUYER_WORD = {"es": "Comprador", "en": "Buyer", "uk": "Покупець", "ru": "Покупатель"}
+SELLER_WORD = {"es": "Vendedor", "en": "Seller", "uk": "Продавець", "ru": "Продавец"}
 
 
 def _account_url(lang: str) -> str:
@@ -118,12 +141,14 @@ async def notify_unread(session: AsyncSession) -> int:
 
         lang = user.lang if user.lang in SUBJECT else "es"
         lines = []
-        for message, _chat in items:
+        for message, chat in items:
             sender = await session.get(User, message.sender_id) if message.sender_id else None
-            name = (sender.name if sender else None) or "—"
+            # nobody has to fill in a name to write; say who they are in this deal instead
+            role = SELLER_WORD[lang] if chat.is_seller(message.sender_id or 0) else BUYER_WORD[lang]
+            name = (sender.name if sender else None) or role
             lines.append(LINE[lang].format(name=name, text=_short(message.text)))
 
-        subject = SUBJECT[lang].format(count=len(items))
+        subject = SUBJECT[lang].format(count=len(items), word=_plural(lang, len(items)))
         body = BODY[lang].format(lines="\n".join(lines), url=_account_url(lang))
 
         # Telegram first when they signed in with it: it arrives in seconds and costs nothing.
