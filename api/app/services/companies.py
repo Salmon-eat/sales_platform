@@ -8,7 +8,7 @@ human being answering the phone.
 from datetime import UTC, datetime
 
 from fastapi import HTTPException, status
-from sqlalchemy import func, or_, select
+from sqlalchemy import func, or_, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -262,8 +262,12 @@ async def catalogue(
         await session.scalars(
             select(Company)
             .where(*conds)
-            # verified first, then the ones people actually rated
-            .order_by(Company.is_verified.desc(), Company.updated_at.desc())
+            # paid placement first, then the verified ones, then whoever changed something last
+            .order_by(
+                func.coalesce(Company.promoted_until, func.now() - text("interval '1 day'")).desc(),
+                Company.is_verified.desc(),
+                Company.updated_at.desc(),
+            )
             .offset((page - 1) * per_page)
             .limit(per_page)
         )

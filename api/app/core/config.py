@@ -41,6 +41,11 @@ class Settings(BaseSettings):
     # IndexNow (Bing, Yandex and others): a random key, also served at /{key}.txt; empty = off
     indexnow_key: str = ""
 
+    # Paying by card (Stripe). Empty = the site works and the price list is shown, but the card
+    # button says "not available yet"; the team can still mark a transfer as received by hand.
+    stripe_secret_key: str = ""
+    stripe_webhook_secret: str = ""
+
     # "Sign in with Telegram": a bot of its own, so the working bot's token never leaves its server.
     # Used to check Telegram's signature at sign-in and to send notices about waiting messages to
     # people who opened that bot themselves (app.services.telegram_send). Never the agency's bot.

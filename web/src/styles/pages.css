@@ -1498,3 +1498,49 @@
     position: static;
   }
 }
+
+/* ---------------------------------------------------------------- paid extras */
+.promote {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line);
+}
+.promote__done {
+  margin: 6px 0 0;
+}
+.ad-card--highlighted {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}
+.orders {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+.order-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.order-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+@media (max-width: 640px) {
+  .order-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}

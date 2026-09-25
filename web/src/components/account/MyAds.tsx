@@ -8,12 +8,20 @@ import { formatEuro } from "@/lib/listing-format";
 import { localizedPath, prefixed } from "@/lib/routes";
 import type { MyListing } from "@/lib/types";
 
+import { getPrices } from "@/app/[locale]/order-actions";
+
 import { MyAdActions } from "./MyAdActions";
+import { PromoteButtons } from "./PromoteButtons";
 
 /** "My ads": what I posted, where each one stands, and what I can do with it. */
 export async function MyAds({ locale }: { locale: Locale }) {
   const t = await getTranslations("myAds");
-  const ads = (await accountFetch<MyListing[]>(`/my/listings?lang=${locale}`).catch(() => null)) ?? [];
+  const [ads, prices] = await Promise.all([
+    accountFetch<MyListing[]>(`/my/listings?lang=${locale}`)
+      .then((rows) => rows ?? [])
+      .catch(() => []),
+    getPrices(),
+  ]);
   const date = new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "Europe/Madrid" });
 
   return (
@@ -75,6 +83,8 @@ export async function MyAds({ locale }: { locale: Locale }) {
                   </Link>
                   <MyAdActions id={ad.id} status={ad.status} />
                 </div>
+                {/* extras only make sense for an ad people can actually see */}
+                {ad.status === "active" && <PromoteButtons listingId={ad.id} products={prices.products} />}
               </div>
             </li>
           ))}

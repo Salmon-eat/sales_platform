@@ -243,6 +243,7 @@ class ListingCard(BaseModel):
     price_kind: PriceKind = "fixed"
     photo: str | None = Field(None, description="path of the first photo, e.g. /media/2026/09/ab12.jpg")
     promoted: bool = Field(False, description="paid placement: shown in the top block")
+    highlighted: bool = Field(False, description="paid colour in the lists")
     housing: bool
     no_language: bool
     no_experience: bool

@@ -81,6 +81,8 @@ class Listing(TimestampMixin, Base):
     reject_note: Mapped[str | None] = mapped_column(Text)
     bumped_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     promoted_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # paid colour in the lists, until this moment
+    highlighted_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
     photos: Mapped[list["ListingPhoto"]] = relationship(
         back_populates="listing", cascade="all, delete-orphan", order_by="ListingPhoto.sort"

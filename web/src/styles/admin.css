@@ -1299,3 +1299,24 @@ a.admin-nav-item:hover {
   margin: 22px 0 0;
   font-size: 16px;
 }
+
+/* confirming a transfer right in the orders table */
+.admin-row-actions {
+  display: grid;
+  gap: 6px;
+}
+.admin-row-actions form {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.admin-row-actions input {
+  min-width: 140px;
+  min-height: 34px;
+  padding: 4px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}

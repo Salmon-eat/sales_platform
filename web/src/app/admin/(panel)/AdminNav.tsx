@@ -4,7 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-type Key = "dashboard" | "applications" | "moderation" | "reports" | "listings" | "links" | "users";
+type Key =
+  | "dashboard"
+  | "applications"
+  | "moderation"
+  | "reports"
+  | "orders"
+  | "listings"
+  | "links"
+  | "users";
 type Item = { href: string; label: Key; also?: string[] };
 
 // admin spec §2: admin-only items go at the bottom and are hidden from managers.
@@ -15,6 +23,7 @@ const STAFF: Item[] = [
   { href: "/admin/moderation", label: "moderation" },
   { href: "/admin/reports", label: "reports" },
   { href: "/admin/listings", label: "listings" },
+  { href: "/admin/orders", label: "orders" },
   { href: "/admin/links", label: "links" },
 ];
 const ADMIN: Item[] = [

@@ -68,7 +68,16 @@ export function ListingCard({ listing, locale, note }: { listing: Card; locale: 
 
   return (
     // already opened or applied: the card fades a little, like a visited link in Google results
-    <article className={applied || viewed ? "job-card job-card--seen" : "job-card"}>
+    <article
+      className={[
+        "job-card",
+        applied || viewed ? "job-card--seen" : "",
+        // paid colour: a frame only, so the text stays as readable as everybody else's
+        listing.highlighted ? "job-card--highlighted" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <div className="job-card-salary">
         {salary ? (
           <>

@@ -13,6 +13,7 @@ import { Candidates } from "@/components/account/Candidates";
 import { Chats } from "@/components/account/Chats";
 import { CompanyForm } from "@/components/account/CompanyForm";
 import { MyAds } from "@/components/account/MyAds";
+import { Orders } from "@/components/account/Orders";
 import { ResumeForm } from "@/components/account/ResumeForm";
 import { SignInForm } from "@/components/account/SignInForm";
 import { ApplicationSection } from "@/components/apply/ApplicationSection";
@@ -46,6 +47,7 @@ export async function StaticPage({ locale, page, title, tab, edit }: Props) {
           {account && <Chats initial={await myChats(locale)} />}
           {account && <Candidates initial={await myCandidates(locale)} />}
           {account && <MyAds locale={locale} />}
+          {account && <Orders locale={locale} />}
           {account && (
             <>
               <ResumeForm

@@ -745,5 +745,32 @@
       "logo_failed": "The logo was not uploaded.",
       "invalid": "Please check the fields."
     }
+  },
+  "promote": {
+    "bump": "Raise it",
+    "bump_hint": "The ad goes back to the top of the newest ones",
+    "highlight_7": "Highlight",
+    "highlight_7_hint": "A coloured frame in the lists for a week",
+    "top_7": "To the top",
+    "top_7_hint": "The block above the lists, one week",
+    "company_top_30": "Featured company",
+    "company_top_30_hint": "First place in the directory for a month",
+    "ordered": "Order created. As soon as the payment arrives, it switches on.",
+    "ordersTitle": "My orders",
+    "howToPay": "Card payments are coming. For now write to us and we will send the transfer details.",
+    "status_new": "Waiting for payment",
+    "status_paid": "Paid",
+    "status_failed": "Did not go through",
+    "status_refunded": "Refunded",
+    "status_cancelled": "Cancelled",
+    "errors": {
+      "generic": "Could not create the order.",
+      "signed_out": "Your session has ended. Please sign in again.",
+      "listing_not_active": "The ad has to be published first.",
+      "company_not_active": "The company page has to be in the directory first.",
+      "unknown_product": "There is no such service.",
+      "payments_not_configured": "Card payments are not set up yet.",
+      "payment_failed": "The payment service is not answering. Try again later."
+    }
   }
 }

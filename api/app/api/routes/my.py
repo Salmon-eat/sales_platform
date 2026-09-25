@@ -4,6 +4,7 @@ Everything here is about the person's own rows only: each handler looks the ad u
 so an id guessed from someone else's page leads nowhere.
 """
 
+from datetime import datetime
 from urllib.parse import quote, unquote
 
 from fastapi import APIRouter, HTTPException, Request, Response, status
@@ -12,7 +13,7 @@ from app.api.deps import CurrentUser, SessionDep
 from app.core.config import settings
 from pydantic import BaseModel, Field
 
-from app.models import Resume
+from app.models import Order, Resume
 from app.models.listing import MAX_PHOTOS
 from app.models.review import MAX_REPLY, MAX_REVIEW
 from app.schemas.chat import ChatItem, ChatOut, MessageIn, StartChatIn
@@ -21,7 +22,17 @@ from app.schemas.company import CompanyActionIn, CompanyIn, MyCompanyOut
 from app.schemas.employer import CandidateOut, NoteIn, StatusIn
 from app.schemas.my import MyActionIn, MyListingIn, MyListingItem, MyListingOut, PhotoOut
 from app.schemas.resume import ApplyIn, ApplyOut, ResumeIn, ResumeOut
-from app.services import chats, companies, cv, employer, my_listings, photos, resumes, reviews
+from app.services import (
+    chats,
+    companies,
+    cv,
+    employer,
+    my_listings,
+    payments,
+    photos,
+    resumes,
+    reviews,
+)
 
 router = APIRouter(prefix="/my", tags=["my"])
 
@@ -249,6 +260,59 @@ async def candidate_cv(application_id: int, user: CurrentUser, session: SessionD
             "X-Content-Type-Options": "nosniff",
         },
     )
+
+
+# ---------------------------------------------------------------------------- paid extras
+
+
+class OrderIn(BaseModel):
+    product: str = Field(max_length=30)
+    # the ad or the firm it is for
+    target_id: int
+
+
+class OrderOut(BaseModel):
+    id: int
+    product: str
+    days: int
+    amount: int
+    currency: str
+    status: str
+    listing_id: int | None
+    company_id: int | None
+    created_at: datetime
+    paid_at: datetime | None
+
+
+@router.get("/orders", response_model=list[OrderOut])
+async def my_orders(user: CurrentUser, session: SessionDep) -> list[OrderOut]:
+    rows = await payments.my_orders(session, user)
+    return [OrderOut.model_validate(row, from_attributes=True) for row in rows]
+
+
+@router.post("/orders", response_model=OrderOut, status_code=status.HTTP_201_CREATED)
+async def create_order(body: OrderIn, user: CurrentUser, session: SessionDep) -> OrderOut:
+    """Written down first; nothing is switched on until the money is there."""
+    order = await payments.create(session, user, body.product, body.target_id)
+    return OrderOut.model_validate(order, from_attributes=True)
+
+
+@router.post("/orders/{order_id}/checkout")
+async def checkout(order_id: int, user: CurrentUser, session: SessionDep) -> dict[str, str]:
+    """A link to Stripe's own page; card details never touch this server."""
+    order = await session.get(Order, order_id)
+    if order is None or order.user_id != user.id:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "not_found")
+    if order.status == "paid":
+        raise HTTPException(status.HTTP_409_CONFLICT, "already_paid")
+    site = settings.public_site_url.rstrip("/")
+    url = await payments.checkout_url(
+        order,
+        f"Citobazar · {order.product}",
+        f"{site}/es/cuenta?paid={order.id}",
+        f"{site}/es/cuenta?cancelled={order.id}",
+    )
+    return {"url": url}
 
 
 # ---------------------------------------------------------------------------- my firm

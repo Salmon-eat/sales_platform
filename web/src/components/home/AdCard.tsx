@@ -42,7 +42,16 @@ export function AdCard({ listing, locale }: { listing: Card; locale: Locale }) {
       : (salary ?? price ?? (listing.price_kind === "negotiable" ? t("priceAsk") : t("salaryNone")));
 
   return (
-    <article className={viewed ? "ad-card ad-card--seen" : "ad-card"}>
+    <article
+      className={[
+        "ad-card",
+        viewed ? "ad-card--seen" : "",
+        // paid colour: a frame, never a different text colour, so it stays readable
+        listing.highlighted ? "ad-card--highlighted" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <div className="ad-card__photo">
         {listing.photo ? (
           // the file is served by the site itself from /media

@@ -76,6 +76,9 @@ services:
       INDEXNOW_KEY: ${INDEXNOW_KEY:-}
       RESEND_API_KEY: ${RESEND_API_KEY:-}
       MAIL_FROM: ${MAIL_FROM:-Citobazar <no-reply@citobazar.com>}
+      # paying by card; empty = the team confirms transfers by hand in the admin
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
       PUBLIC_SITE_URL: https://${DOMAIN}
     volumes:
       - media:/app/media

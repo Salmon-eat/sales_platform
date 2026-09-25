@@ -8,6 +8,7 @@ from app.api.routes import (
     admin_companies,
     admin_listings,
     admin_moderation,
+    admin_orders,
     admin_reports,
     admin_users,
     analytics,
@@ -22,6 +23,7 @@ from app.api.routes import (
     locations,
     my,
     pages,
+    payments,
     reports,
     sellers,
     taxonomy,
@@ -43,6 +45,7 @@ api_router.include_router(contacts.router)
 api_router.include_router(reports.router)
 api_router.include_router(sellers.router)
 api_router.include_router(companies.router)
+api_router.include_router(payments.router)
 api_router.include_router(analytics.router)
 api_router.include_router(bot_sync.router)
 
@@ -54,6 +57,7 @@ admin_router.include_router(admin_listings.router)
 admin_router.include_router(admin_moderation.router)
 admin_router.include_router(admin_reports.router)
 admin_router.include_router(admin_companies.router)
+admin_router.include_router(admin_orders.router)
 admin_router.include_router(admin_analytics.router)
 admin_router.include_router(admin_users.router)
 api_router.include_router(admin_router)

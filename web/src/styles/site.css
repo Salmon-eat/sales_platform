@@ -2881,3 +2881,9 @@ button.contact-channel {
     align-items: center;
   }
 }
+
+/* a paid colour on a list card: a frame, never different text */
+.job-card--highlighted {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent) inset;
+}

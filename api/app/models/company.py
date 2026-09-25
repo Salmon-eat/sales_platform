@@ -44,3 +44,5 @@ class Company(TimestampMixin, Base):
     verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     moderated_by: Mapped[int | None]
     moderated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # paid placement: the firm sits at the top of the directory until this moment
+    promoted_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

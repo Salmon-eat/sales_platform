@@ -118,6 +118,8 @@ export type ListingCard = {
   photo?: string | null;
   /** paid placement: shown in the top block */
   promoted?: boolean;
+  /** paid colour in the lists */
+  highlighted?: boolean;
   housing: boolean;
   no_language: boolean;
   no_experience: boolean;
@@ -329,6 +331,31 @@ export type MyListingDetail = MyListing & {
 };
 
 export type MyLimits = { open: number; max_listings: number; max_photos: number; days: number };
+
+/** Paid extras: raising an ad, colouring it, putting it on top. */
+export type Product = {
+  key: "bump" | "highlight_7" | "top_7" | "company_top_30";
+  /** in cents, so nothing is ever a float */
+  amount: number;
+  currency: string;
+  days: number;
+  target: "listing" | "company";
+};
+
+export type ServicePrices = { products: Product[]; card_payments: boolean };
+
+export type Order = {
+  id: number;
+  product: string;
+  days: number;
+  amount: number;
+  currency: string;
+  status: "new" | "paid" | "failed" | "refunded" | "cancelled";
+  listing_id: number | null;
+  company_id: number | null;
+  created_at: string;
+  paid_at: string | null;
+};
 
 export type LanguageLevel = "a1" | "a2" | "b1" | "b2" | "c1" | "native";
 export type Licence = "b" | "c" | "ce" | "d" | "code95" | "adr" | "forklift" | "crane";

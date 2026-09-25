@@ -745,5 +745,32 @@
       "logo_failed": "El logotipo no se ha subido.",
       "invalid": "Revisa los campos."
     }
+  },
+  "promote": {
+    "bump": "Subir",
+    "bump_hint": "El anuncio vuelve al principio de los recientes",
+    "highlight_7": "Destacar",
+    "highlight_7_hint": "Marco de color en las listas durante una semana",
+    "top_7": "Arriba del todo",
+    "top_7_hint": "El bloque sobre las listas, una semana",
+    "company_top_30": "Empresa destacada",
+    "company_top_30_hint": "Primer puesto en el directorio durante un mes",
+    "ordered": "Pedido creado. En cuanto llegue el pago, se activa.",
+    "ordersTitle": "Mis pedidos",
+    "howToPay": "El pago con tarjeta llegará pronto. De momento escríbenos y te damos los datos para la transferencia.",
+    "status_new": "Pendiente de pago",
+    "status_paid": "Pagado",
+    "status_failed": "No ha ido",
+    "status_refunded": "Devuelto",
+    "status_cancelled": "Cancelado",
+    "errors": {
+      "generic": "No se ha podido crear el pedido.",
+      "signed_out": "La sesión ha caducado. Entra otra vez.",
+      "listing_not_active": "Primero el anuncio tiene que estar publicado.",
+      "company_not_active": "Primero la ficha tiene que estar en el directorio.",
+      "unknown_product": "Ese servicio no existe.",
+      "payments_not_configured": "El pago con tarjeta todavía no está listo.",
+      "payment_failed": "La pasarela de pago no responde. Inténtalo más tarde."
+    }
   }
 }
