@@ -72,6 +72,29 @@ async def get_current_user(row: CurrentSession, session: SessionDep) -> User:
 CurrentUser = Annotated[User, Depends(get_current_user)]
 
 
+async def get_optional_user(
+    session: SessionDep,
+    credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(_bearer)],
+) -> User | None:
+    """For pages open to everyone that behave a little differently for a signed-in visitor."""
+    if credentials is None:
+        return None
+    row = await session.scalar(
+        select(UserSession).where(
+            UserSession.token_hash == hash_token(credentials.credentials),
+            UserSession.revoked_at.is_(None),
+            UserSession.expires_at > datetime.now(UTC),
+        )
+    )
+    if row is None:
+        return None
+    user = await session.get(User, row.user_id)
+    return user if user and user.is_active else None
+
+
+OptionalUser = Annotated[User | None, Depends(get_optional_user)]
+
+
 async def require_staff(user: CurrentUser) -> User:
     """Managers and admins: applications, candidates, listings, employer requests, export."""
     if not user.is_staff:

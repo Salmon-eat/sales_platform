@@ -649,5 +649,23 @@
     "notes": "Notas ({count})",
     "noteAdd": "Añadir",
     "notePlaceholder": "Qué habéis hablado, cuándo llamar…"
+  },
+  "report": {
+    "open": "Denunciar el anuncio",
+    "why": "Qué pasa",
+    "note": "Detalles",
+    "notePlaceholder": "Cuéntanos brevemente qué ocurre",
+    "send": "Enviar",
+    "sending": "Enviando…",
+    "cancel": "Cancelar",
+    "thanks": "Gracias, un moderador revisará el anuncio.",
+    "reason_fraud": "Estafa",
+    "reason_prohibited": "Producto o servicio prohibido",
+    "reason_spam": "Spam o publicidad",
+    "reason_wrong_category": "Categoría equivocada",
+    "reason_duplicate": "Duplicado",
+    "reason_offensive": "Contenido ofensivo",
+    "reason_sold": "Ya vendido o no disponible",
+    "reason_other": "Otro"
   }
 }

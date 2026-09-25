@@ -649,5 +649,23 @@
     "notes": "Нотатки ({count})",
     "noteAdd": "Додати",
     "notePlaceholder": "Що вирішили, коли передзвонити…"
+  },
+  "report": {
+    "open": "Поскаржитися на оголошення",
+    "why": "Що не так",
+    "note": "Деталі",
+    "notePlaceholder": "Коротко, що саме не так",
+    "send": "Надіслати",
+    "sending": "Надсилаємо…",
+    "cancel": "Скасувати",
+    "thanks": "Дякуємо, модератор перевірить це оголошення.",
+    "reason_fraud": "Шахрайство",
+    "reason_prohibited": "Заборонений товар чи послуга",
+    "reason_spam": "Спам або реклама",
+    "reason_wrong_category": "Не та категорія",
+    "reason_duplicate": "Дублікат",
+    "reason_offensive": "Образливий вміст",
+    "reason_sold": "Уже продано або неактуально",
+    "reason_other": "Інше"
   }
 }

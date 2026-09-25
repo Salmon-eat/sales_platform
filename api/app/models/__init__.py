@@ -25,6 +25,7 @@ from app.models.listing import (
     ListingTranslation,
 )
 from app.models.location import LOCATION_LEVELS, Location, SlugHistory
+from app.models.report import MAX_NOTE, REPORT_REASONS, REPORT_STATUSES, ListingReport
 from app.models.resume import LANGUAGE_LEVELS, LICENCES, MAX_ABOUT, Resume
 from app.models.pages import ContentBlock, EmployerRequest, SeoPage
 from app.models.search import ListingSearch, SearchMiss
@@ -69,6 +70,10 @@ __all__ = [
     "LICENCES",
     "MAX_ABOUT",
     "Location",
+    "ListingReport",
+    "MAX_NOTE",
+    "REPORT_REASONS",
+    "REPORT_STATUSES",
     "Resume",
     "SearchMiss",
     "SeoPage",

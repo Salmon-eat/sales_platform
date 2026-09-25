@@ -649,5 +649,23 @@
     "notes": "Notes ({count})",
     "noteAdd": "Add",
     "notePlaceholder": "What you agreed, when to call…"
+  },
+  "report": {
+    "open": "Report this ad",
+    "why": "What is wrong",
+    "note": "Details",
+    "notePlaceholder": "Briefly, what is wrong",
+    "send": "Send",
+    "sending": "Sending…",
+    "cancel": "Cancel",
+    "thanks": "Thank you, a moderator will look at this ad.",
+    "reason_fraud": "Scam",
+    "reason_prohibited": "Prohibited item or service",
+    "reason_spam": "Spam or advertising",
+    "reason_wrong_category": "Wrong category",
+    "reason_duplicate": "Duplicate",
+    "reason_offensive": "Offensive content",
+    "reason_sold": "Already sold or gone",
+    "reason_other": "Something else"
   }
 }

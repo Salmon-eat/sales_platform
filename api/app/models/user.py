@@ -31,6 +31,8 @@ class User(TimestampMixin, Base):
     notify_telegram: Mapped[bool] = mapped_column(default=True, server_default="true")
     # Access is switched off, never deleted, so the name stays in notes and history (admin spec §1).
     is_active: Mapped[bool] = mapped_column(default=True, server_default="true")
+    # why it was switched off, so the team remembers and the person can be told
+    blocked_reason: Mapped[str | None] = mapped_column(String(200))
     last_login_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     # the visitor deleted their account: contacts wiped, the row stays for the statistics
     deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))

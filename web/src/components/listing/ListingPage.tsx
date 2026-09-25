@@ -9,6 +9,7 @@ import { ApplicationForm } from "@/components/apply/ApplicationForm";
 import { ListingCard } from "@/components/home/ListingCard";
 import { PhotoGallery } from "@/components/listing/PhotoGallery";
 import { QuickApply } from "@/components/listing/QuickApply";
+import { ReportButton } from "@/components/listing/ReportButton";
 import { SellerContact } from "@/components/listing/SellerContact";
 import { AppliedNotice } from "@/components/saved/AppliedNotice";
 import { FavoriteButton } from "@/components/saved/FavoriteButton";
@@ -313,6 +314,7 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
               <p className="muted small">{t("applyText")}</p>
             </>
           )}
+          {!closed && <ReportButton listingId={listing.id} />}
         </aside>
       </div>
 

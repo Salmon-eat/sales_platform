@@ -1218,3 +1218,31 @@
   background: var(--ok-bg);
   color: var(--ok-ink);
 }
+
+/* ---------------------------------------------------------------- reporting an ad */
+.report {
+  margin-top: 4px;
+}
+.report__open {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--faint);
+  font-size: 13px;
+}
+.report__form {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+.report__actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.report-done {
+  margin: 6px 0 0;
+}
