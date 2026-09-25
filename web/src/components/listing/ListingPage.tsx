@@ -19,7 +19,7 @@ import { getAccount } from "@/lib/account";
 import { ApiError, getListingDetail } from "@/lib/api";
 import { getApplicationOptions } from "@/lib/application-options";
 import { formatEuro } from "@/lib/listing-format";
-import { localizedPath, prefixed } from "@/lib/routes";
+import { localizedPath, prefixed, sellerPath } from "@/lib/routes";
 import { absoluteUrl, apiAlternates, jsonLd } from "@/lib/seo";
 import type { ListingDetail, ResolveOut } from "@/lib/types";
 
@@ -280,6 +280,22 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
           {!closed && fromPerson && (
             <>
               <TrackListingView listingId={listing.id} />
+              {listing.seller && (
+                <p className="seller-line">
+                  <Link href={sellerPath(locale, listing.seller.id)} className="listing-link">
+                    {listing.seller.name}
+                  </Link>
+                  {listing.seller.rating !== null ? (
+                    <span className="muted small">
+                      {" ★ "}
+                      {listing.seller.rating.toFixed(1)} ·{" "}
+                      {tsel("reviewsCount", { count: listing.seller.reviews_count })}
+                    </span>
+                  ) : (
+                    <span className="muted small"> · {tsel("noReviews")}</span>
+                  )}
+                </p>
+              )}
               <SellerContact
                 listingId={listing.id}
                 signedIn={Boolean(account)}

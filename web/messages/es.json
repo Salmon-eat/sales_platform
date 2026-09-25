@@ -552,8 +552,24 @@
       "signed_out": "La sesión ha caducado. Entra otra vez.",
       "own_listing": "Este anuncio es tuyo.",
       "no_chat_for_this_ad": "Para este anuncio, usa el formulario de respuesta.",
-      "too_many": "Demasiados mensajes seguidos. Prueba un poco más tarde."
-    }
+      "too_many": "Demasiados mensajes seguidos. Prueba un poco más tarde.",
+      "no_deal": "Puedes opinar si has escrito al vendedor sobre uno de sus anuncios.",
+      "not_yourself": "Este es tu propio perfil."
+    },
+    "reviewsCount": "{count, plural, one {# opinión} other {# opiniones}}",
+    "noReviews": "todavía sin opiniones",
+    "noReviewsYet": "Nadie ha escrito sobre este vendedor todavía.",
+    "since": "en la web desde {date}",
+    "theirAds": "Sus anuncios",
+    "reviews": "Opiniones",
+    "sellerReplied": "Respuesta del vendedor",
+    "leaveReview": "Escribir una opinión",
+    "rating": "Valoración",
+    "reviewText": "Cómo fue",
+    "reviewPlaceholder": "En pocas palabras: qué compraste, cómo quedasteis, si era como en el anuncio",
+    "sendReview": "Enviar la opinión",
+    "reviewSaved": "Gracias, hemos guardado tu opinión.",
+    "signInToReview": "Para opinar, entra y escribe al vendedor sobre uno de sus anuncios."
   },
   "chats": {
     "title": "Mensajes",

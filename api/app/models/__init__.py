@@ -27,6 +27,7 @@ from app.models.listing import (
 from app.models.location import LOCATION_LEVELS, Location, SlugHistory
 from app.models.report import MAX_NOTE, REPORT_REASONS, REPORT_STATUSES, ListingReport
 from app.models.resume import LANGUAGE_LEVELS, LICENCES, MAX_ABOUT, Resume
+from app.models.review import MAX_REPLY, MAX_REVIEW, SellerReview
 from app.models.pages import ContentBlock, EmployerRequest, SeoPage
 from app.models.search import ListingSearch, SearchMiss
 from app.models.taxonomy import AttributeDefinition, Category, Section
@@ -74,8 +75,11 @@ __all__ = [
     "MAX_NOTE",
     "REPORT_REASONS",
     "REPORT_STATUSES",
+    "MAX_REPLY",
+    "MAX_REVIEW",
     "Resume",
     "SearchMiss",
+    "SellerReview",
     "SeoPage",
     "Section",
     "SlugHistory",

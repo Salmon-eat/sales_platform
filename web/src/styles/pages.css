@@ -1246,3 +1246,103 @@
 .report-done {
   margin: 6px 0 0;
 }
+
+/* ---------------------------------------------------------------- the seller's page */
+.seller-head {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+.seller-head h1 {
+  margin: 0;
+}
+.seller-head__meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0;
+}
+.seller-line {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0 0 8px;
+}
+.stars {
+  display: inline-flex;
+  gap: 1px;
+  align-items: center;
+}
+.star {
+  color: var(--line-strong);
+  fill: none;
+}
+.star--on {
+  color: var(--accent);
+  fill: var(--accent);
+}
+.review-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.review {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.review p {
+  margin: 0;
+  white-space: pre-line;
+}
+.review__head {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.review__reply {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--chip-bg);
+}
+.review-form {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+}
+.review-form h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.review-form .field {
+  width: 100%;
+}
+.review-form__stars {
+  display: flex;
+  gap: 2px;
+}
+.star-button {
+  padding: 2px;
+  border: 0;
+  background: none;
+  color: var(--line-strong);
+  cursor: pointer;
+}
+.star-button--on {
+  color: var(--accent);
+}
+.star-button--on svg {
+  fill: var(--accent);
+}

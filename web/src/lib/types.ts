@@ -224,6 +224,31 @@ export type Home = {
 
 export type ListingPhoto = { path: string; thumb: string; width: number; height: number };
 
+/** Who is behind an ad a person posted themselves. */
+export type SellerBrief = { id: number; name: string; rating: number | null; reviews_count: number };
+
+export type SellerReview = {
+  id: number;
+  rating: number;
+  text: string;
+  reply: string | null;
+  replied_at: string | null;
+  author_name: string;
+  seller_name: string;
+  listing_id: number | null;
+  created_at: string;
+};
+
+export type SellerPageData = {
+  id: number;
+  name: string;
+  since: string;
+  rating: number | null;
+  reviews_count: number;
+  reviews: SellerReview[];
+  listings: ListingCard[];
+};
+
 /** An ad of the signed-in visitor, in their own area. */
 export type MyListingStatus = "draft" | "pending" | "active" | "paused" | "expired" | "closed" | "rejected";
 
@@ -354,6 +379,7 @@ export type ListingDetail = ListingCard & {
   questions: ListingQuestion[];
   description: string;
   photos: ListingPhoto[];
+  seller?: SellerBrief | null;
   requirements: string | null;
   conditions: string | null;
   original_lang: Lang;

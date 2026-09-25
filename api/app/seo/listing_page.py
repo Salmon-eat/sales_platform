@@ -7,12 +7,19 @@ from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.models import Category, Listing, Location, Section
+from app.models import Category, Listing, Location, Section, User
 from app.models.i18n import tr
-from app.schemas.pages import AttributeValue, ListingDetail, ListingPhotoOut, NamedSlug, PlaceRef
+from app.schemas.pages import (
+    AttributeValue,
+    ListingDetail,
+    ListingPhotoOut,
+    NamedSlug,
+    PlaceRef,
+    SellerBrief,
+)
 from app.seo.rules import closed_state
 from app.services import photos as photo_files
-from app.services import questions
+from app.services import questions, reviews
 from app.services.attributes import attribute_definitions
 from app.services.listings import public_cards
 
@@ -116,9 +123,22 @@ async def build_listing_detail(session: AsyncSession, listing: Listing, lang: st
         ).one()
 
     similar = await public_cards(session, await similar_listings(session, listing), lang)
+
+    seller = None
+    if listing.owner_id:
+        owner = await session.get(User, listing.owner_id)
+        if owner is not None and owner.is_active and owner.deleted_at is None:
+            average, count = await reviews.rating_of(session, owner.id)
+            seller = SellerBrief(
+                id=owner.id,
+                name=owner.name or (owner.email.split("@")[0] if owner.email else "—"),
+                rating=average,
+                reviews_count=count,
+            )
     return ListingDetail(
         **card.model_dump(),
         description=text.description,
+        seller=seller,
         photos=[
             ListingPhotoOut(
                 path=photo.path,

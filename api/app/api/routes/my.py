@@ -10,14 +10,17 @@ from fastapi import APIRouter, HTTPException, Request, Response, status
 
 from app.api.deps import CurrentUser, SessionDep
 from app.core.config import settings
+from pydantic import BaseModel, Field
+
 from app.models import Resume
 from app.models.listing import MAX_PHOTOS
+from app.models.review import MAX_REPLY, MAX_REVIEW
 from app.schemas.chat import ChatItem, ChatOut, MessageIn, StartChatIn
 from app.schemas.common import Lang
 from app.schemas.employer import CandidateOut, NoteIn, StatusIn
 from app.schemas.my import MyActionIn, MyListingIn, MyListingItem, MyListingOut, PhotoOut
 from app.schemas.resume import ApplyIn, ApplyOut, ResumeIn, ResumeOut
-from app.services import chats, cv, employer, my_listings, photos, resumes
+from app.services import chats, cv, employer, my_listings, photos, resumes, reviews
 
 router = APIRouter(prefix="/my", tags=["my"])
 
@@ -245,6 +248,50 @@ async def candidate_cv(application_id: int, user: CurrentUser, session: SessionD
             "X-Content-Type-Options": "nosniff",
         },
     )
+
+
+# ---------------------------------------------------------------------------- reviews
+
+
+class ReviewIn(BaseModel):
+    seller_id: int
+    rating: int = Field(ge=1, le=5)
+    text: str = Field("", max_length=MAX_REVIEW)
+    listing_id: int | None = None
+
+
+class ReplyIn(BaseModel):
+    text: str = Field(min_length=1, max_length=MAX_REPLY)
+
+
+@router.get("/reviews")
+async def my_reviews(user: CurrentUser, session: SessionDep) -> dict[str, list[dict]]:
+    """Both sides: what people said about me, and what I said about others."""
+    return {
+        "about_me": await reviews.about(session, user.id),
+        "written": await reviews.written_by(session, user),
+    }
+
+
+@router.post("/reviews", status_code=status.HTTP_201_CREATED)
+async def leave_review(body: ReviewIn, user: CurrentUser, session: SessionDep) -> dict:
+    review = await reviews.leave(
+        session, user, body.seller_id, body.rating, body.text.strip(), body.listing_id
+    )
+    return await reviews.as_dict(session, review)
+
+
+@router.delete("/reviews/{seller_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_review(seller_id: int, user: CurrentUser, session: SessionDep) -> None:
+    await reviews.remove(session, user, seller_id)
+
+
+@router.post("/reviews/{review_id}/reply")
+async def reply_to_review(
+    review_id: int, body: ReplyIn, user: CurrentUser, session: SessionDep
+) -> dict:
+    review = await reviews.answer(session, user, review_id, body.text.strip())
+    return await reviews.as_dict(session, review)
 
 
 @router.get("/limits")

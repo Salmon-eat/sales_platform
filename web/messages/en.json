@@ -552,8 +552,24 @@
       "signed_out": "Your session has ended. Please sign in again.",
       "own_listing": "This is your own ad.",
       "no_chat_for_this_ad": "For this ad, use the application form.",
-      "too_many": "Too many messages at once. Try again a little later."
-    }
+      "too_many": "Too many messages at once. Try again a little later.",
+      "no_deal": "You can review a seller you have written to about one of their ads.",
+      "not_yourself": "This is your own profile."
+    },
+    "reviewsCount": "{count, plural, one {# review} other {# reviews}}",
+    "noReviews": "no reviews yet",
+    "noReviewsYet": "Nobody has written about this seller yet.",
+    "since": "on the site since {date}",
+    "theirAds": "Their ads",
+    "reviews": "Reviews",
+    "sellerReplied": "The seller answered",
+    "leaveReview": "Write a review",
+    "rating": "Rating",
+    "reviewText": "How it went",
+    "reviewPlaceholder": "Briefly: what you bought, how you arranged it, whether it matched the ad",
+    "sendReview": "Send the review",
+    "reviewSaved": "Thank you, your review is saved.",
+    "signInToReview": "To review, sign in and write to the seller about one of their ads."
   },
   "chats": {
     "title": "Messages",

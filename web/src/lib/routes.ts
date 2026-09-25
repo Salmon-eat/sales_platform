@@ -19,6 +19,7 @@ export type ListKey = "work" | "services" | "documents" | "training" | "housingJ
 export type AppRoute =
   | { type: "home" }
   | { type: "search" }
+  | { type: "seller"; id: number }
   | { type: "static"; key: StaticKey }
   | { type: "agency"; key: AgencyKey }
   | { type: "list"; key: ListKey };
@@ -31,6 +32,17 @@ export const SEARCH_PAGE: Entry<"search"> = {
   slug: { es: "buscar", en: "search", uk: "poshuk", ru: "poisk" },
   indexable: false,
 };
+
+/** The public page of somebody who sells: /es/vendedor/42 */
+export const SELLER_PAGE: Entry<"seller"> = {
+  key: "seller",
+  slug: { es: "vendedor", en: "seller", uk: "prodavets", ru: "prodavets" },
+  indexable: false,
+};
+
+export function sellerPath(locale: Locale, id: number): string {
+  return `${localePrefix(locale)}/${SELLER_PAGE.slug[locale]}/${id}`;
+}
 
 export const STATIC_PAGES: Entry<StaticKey>[] = [
   { key: "publish", slug: { es: "publicar-oferta", en: "post-a-job", uk: "rozmistyty-oholoshennia", ru: "razmestit-obyavlenie" }, indexable: true },
@@ -71,6 +83,7 @@ function entryOf(route: AppRoute): Entry<string> | undefined {
 
 /** Full path with the locale prefix, e.g. "/ua/robota". */
 export function localizedPath(locale: Locale, route: AppRoute): string {
+  if (route.type === "seller") return sellerPath(locale, route.id);
   const entry = entryOf(route);
   return entry ? `${localePrefix(locale)}/${entry.slug[locale]}` : localePrefix(locale);
 }
@@ -90,6 +103,13 @@ export type Resolved = { route: AppRoute; /** set when the slug belongs to anoth
 export function resolveSegments(locale: Locale, segments: string[]): Resolved | null {
   if (segments.length === 0) return { route: { type: "home" }, redirect: false };
   const path = segments.join("/");
+  // /{lang}/{seller word}/{id}
+  if (segments.length === 2 && /^\d+$/.test(segments[1])) {
+    const wanted = SELLER_PAGE.slug[locale] === segments[0];
+    if (wanted || LOCALES.some((l) => SELLER_PAGE.slug[l] === segments[0])) {
+      return { route: { type: "seller", id: Number(segments[1]) }, redirect: !wanted };
+    }
+  }
   if (SEARCH_PAGE.slug[locale] === path) return { route: { type: "search" }, redirect: false };
   if (LOCALES.some((l) => SEARCH_PAGE.slug[l] === path)) return { route: { type: "search" }, redirect: true };
   for (const [type, entries] of [["static", STATIC_PAGES], ["agency", AGENCY_PAGES]] as const) {

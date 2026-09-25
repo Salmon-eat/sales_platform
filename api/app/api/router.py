@@ -21,6 +21,7 @@ from app.api.routes import (
     my,
     pages,
     reports,
+    sellers,
     taxonomy,
 )
 
@@ -38,6 +39,7 @@ api_router.include_router(account.router)
 api_router.include_router(my.router)
 api_router.include_router(contacts.router)
 api_router.include_router(reports.router)
+api_router.include_router(sellers.router)
 api_router.include_router(analytics.router)
 api_router.include_router(bot_sync.router)
 

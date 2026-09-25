@@ -59,9 +59,19 @@ class ListingPhotoOut(BaseModel):
     height: int
 
 
+class SellerBrief(BaseModel):
+    """Who is behind an ad a person posted themselves, and how other buyers rated them."""
+
+    id: int
+    name: str
+    rating: float | None
+    reviews_count: int
+
+
 class ListingDetail(ListingCard):
     description: str
     photos: list[ListingPhotoOut] = Field(default_factory=list)
+    seller: SellerBrief | None = None
     requirements: str | None
     conditions: str | None
     original_lang: str
