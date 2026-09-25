@@ -5,11 +5,13 @@ import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 
 import { myChats } from "@/app/[locale]/chat-actions";
+import { getMyCompany } from "@/app/[locale]/company-actions";
 import { myCandidates } from "@/app/[locale]/employer-actions";
 import { getResume } from "@/app/[locale]/resume-actions";
 import { AccountPanel } from "@/components/account/AccountPanel";
 import { Candidates } from "@/components/account/Candidates";
 import { Chats } from "@/components/account/Chats";
+import { CompanyForm } from "@/components/account/CompanyForm";
 import { MyAds } from "@/components/account/MyAds";
 import { ResumeForm } from "@/components/account/ResumeForm";
 import { SignInForm } from "@/components/account/SignInForm";
@@ -18,7 +20,7 @@ import { PostPage } from "@/components/post/PostPage";
 import { AccountTabs } from "@/components/saved/AccountTabs";
 import type { Locale } from "@/i18n/routing";
 import { getAccount } from "@/lib/account";
-import { getContent, getPopularLocations, orFallback } from "@/lib/api";
+import { getContent, getPopularLocations, getTaxonomy, orFallback } from "@/lib/api";
 import { getApplicationOptions } from "@/lib/application-options";
 import { localizedPath, type StaticKey } from "@/lib/routes";
 import { jsonLd } from "@/lib/seo";
@@ -45,12 +47,21 @@ export async function StaticPage({ locale, page, title, tab, edit }: Props) {
           {account && <Candidates initial={await myCandidates(locale)} />}
           {account && <MyAds locale={locale} />}
           {account && (
-            <ResumeForm
-              initial={await getResume(locale)}
-              cities={(await orFallback(getPopularLocations(locale, 50), []))
-                .filter((place): place is typeof place & { id: number } => typeof place.id === "number")
-                .sort((a, b) => a.name.localeCompare(b.name, locale))}
-            />
+            <>
+              <ResumeForm
+                initial={await getResume(locale)}
+                cities={(await orFallback(getPopularLocations(locale, 50), []))
+                  .filter((place): place is typeof place & { id: number } => typeof place.id === "number")
+                  .sort((a, b) => a.name.localeCompare(b.name, locale))}
+              />
+              <CompanyForm
+                initial={await getMyCompany(locale)}
+                taxonomy={await orFallback(getTaxonomy(locale), { sections: [] })}
+                cities={(await orFallback(getPopularLocations(locale, 50), []))
+                  .filter((place): place is typeof place & { id: number } => typeof place.id === "number")
+                  .sort((a, b) => a.name.localeCompare(b.name, locale))}
+              />
+            </>
           )}
           <AccountTabs key={tab} initialTab={tab === "applied" ? "applied" : "saved"} />
         </div>

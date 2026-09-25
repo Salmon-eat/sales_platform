@@ -9,6 +9,7 @@ from app.models.application import (
 )
 from app.models.base import Base
 from app.models.chat import MAX_MESSAGE, Conversation, ConversationMessage
+from app.models.company import COMPANY_STATUSES, MAX_CATEGORIES, Company
 from app.models.enums import UserRole
 from app.models.listing import (
     CONTRACTS,
@@ -54,8 +55,11 @@ __all__ = [
     "AttributeDefinition",
     "Base",
     "Category",
+    "COMPANY_STATUSES",
+    "Company",
     "ContentBlock",
     "Conversation",
+    "MAX_CATEGORIES",
     "ConversationMessage",
     "MAX_MESSAGE",
     "EmployerRequest",

@@ -17,10 +17,11 @@ from app.models.listing import MAX_PHOTOS
 from app.models.review import MAX_REPLY, MAX_REVIEW
 from app.schemas.chat import ChatItem, ChatOut, MessageIn, StartChatIn
 from app.schemas.common import Lang
+from app.schemas.company import CompanyActionIn, CompanyIn, MyCompanyOut
 from app.schemas.employer import CandidateOut, NoteIn, StatusIn
 from app.schemas.my import MyActionIn, MyListingIn, MyListingItem, MyListingOut, PhotoOut
 from app.schemas.resume import ApplyIn, ApplyOut, ResumeIn, ResumeOut
-from app.services import chats, cv, employer, my_listings, photos, resumes, reviews
+from app.services import chats, companies, cv, employer, my_listings, photos, resumes, reviews
 
 router = APIRouter(prefix="/my", tags=["my"])
 
@@ -248,6 +249,62 @@ async def candidate_cv(application_id: int, user: CurrentUser, session: SessionD
             "X-Content-Type-Options": "nosniff",
         },
     )
+
+
+# ---------------------------------------------------------------------------- my firm
+
+
+@router.get("/company", response_model=MyCompanyOut | None)
+async def my_company(user: CurrentUser, session: SessionDep, lang: Lang = "es") -> MyCompanyOut | None:
+    firm = await companies.get_own(session, user)
+    return await companies.mine_out(session, firm, lang) if firm else None
+
+
+@router.put("/company", response_model=MyCompanyOut)
+async def save_company(
+    body: CompanyIn, user: CurrentUser, session: SessionDep, lang: Lang = "es"
+) -> MyCompanyOut:
+    firm = await companies.save(session, user, body)
+    return await companies.mine_out(session, firm, lang)
+
+
+@router.post("/company/actions", response_model=MyCompanyOut)
+async def company_action(
+    body: CompanyActionIn, user: CurrentUser, session: SessionDep, lang: Lang = "es"
+) -> MyCompanyOut:
+    firm = await companies.act(session, user, body.action)
+    return await companies.mine_out(session, firm, lang)
+
+
+@router.post("/company/logo", response_model=MyCompanyOut)
+async def company_logo(
+    request: Request, user: CurrentUser, session: SessionDep, lang: Lang = "es"
+) -> MyCompanyOut:
+    """One picture, handled like an ad's photo: turned upright, stripped of metadata, resized."""
+    firm = await companies.get_own(session, user)
+    if firm is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "no_company")
+    data = bytearray()
+    async for chunk in request.stream():
+        data += chunk
+        if len(data) > photos.MAX_BYTES:
+            raise HTTPException(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, "file_too_large")
+    old = firm.logo
+    firm.logo = photos.save(bytes(data))[0]
+    await session.commit()
+    await session.refresh(firm)
+    if old:
+        photos.delete(old)
+    return await companies.mine_out(session, firm, lang)
+
+
+@router.delete("/company", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_company(user: CurrentUser, session: SessionDep) -> None:
+    firm = await companies.get_own(session, user)
+    logo = firm.logo if firm else None
+    await companies.remove(session, user)
+    if logo:
+        photos.delete(logo)
 
 
 # ---------------------------------------------------------------------------- reviews

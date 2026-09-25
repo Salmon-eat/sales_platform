@@ -5,6 +5,7 @@ from app.api.routes import (
     account,
     admin,
     admin_analytics,
+    admin_companies,
     admin_listings,
     admin_moderation,
     admin_reports,
@@ -13,6 +14,7 @@ from app.api.routes import (
     applications,
     auth,
     bot_sync,
+    companies,
     contacts,
     health,
     home,
@@ -40,6 +42,7 @@ api_router.include_router(my.router)
 api_router.include_router(contacts.router)
 api_router.include_router(reports.router)
 api_router.include_router(sellers.router)
+api_router.include_router(companies.router)
 api_router.include_router(analytics.router)
 api_router.include_router(bot_sync.router)
 
@@ -50,6 +53,7 @@ admin_router.include_router(admin.router)
 admin_router.include_router(admin_listings.router)
 admin_router.include_router(admin_moderation.router)
 admin_router.include_router(admin_reports.router)
+admin_router.include_router(admin_companies.router)
 admin_router.include_router(admin_analytics.router)
 admin_router.include_router(admin_users.router)
 api_router.include_router(admin_router)

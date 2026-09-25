@@ -7,6 +7,8 @@ import { DriversPage } from "@/components/drivers/DriversPage";
 import { ListingPage, listingMetadata } from "@/components/listing/ListingPage";
 import { ListPage, listMetadata } from "@/components/search/ListPage";
 import { SearchAll, searchAllMetadata } from "@/components/search/SearchAll";
+import { CompanyCatalogue, companiesMetadata } from "@/components/companies/CompanyCatalogue";
+import { CompanyPage, companyMetadata } from "@/components/companies/CompanyPage";
 import { SellerPage, sellerMetadata } from "@/components/seller/SellerPage";
 import { ServicePage, ServicesCatalog, servicesMetadata } from "@/components/services/ServicePages";
 import { asLocale, type Locale } from "@/i18n/routing";
@@ -71,6 +73,8 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   }
   if (target.route.type === "search") return searchAllMetadata(locale, await props.searchParams);
   if (target.route.type === "seller") return sellerMetadata(locale, target.route.id);
+  if (target.route.type === "companies") return companiesMetadata(locale);
+  if (target.route.type === "company") return companyMetadata(locale, target.route.slug);
   const filtered = Object.keys(await props.searchParams).length > 0;
   return {
     title: await routeTitle(locale, target.route),
@@ -95,6 +99,10 @@ export default async function ResolvedPage(props: Props) {
   const { route } = target;
   if (route.type === "search") return <SearchAll locale={locale} searchParams={await props.searchParams} />;
   if (route.type === "seller") return <SellerPage locale={locale} id={route.id} />;
+  if (route.type === "companies") {
+    return <CompanyCatalogue locale={locale} searchParams={await props.searchParams} />;
+  }
+  if (route.type === "company") return <CompanyPage locale={locale} slug={route.slug} />;
   if (route.type === "agency") return <DriversPage locale={locale} />;
   if (route.type === "static") {
     const { tab, edit } = await props.searchParams;

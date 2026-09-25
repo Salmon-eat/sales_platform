@@ -1294,3 +1294,8 @@ a.admin-nav-item:hover {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+.admin-subhead {
+  margin: 22px 0 0;
+  font-size: 16px;
+}

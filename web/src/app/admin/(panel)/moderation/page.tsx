@@ -3,7 +3,25 @@ import { AlertTriangle } from "lucide-react";
 import { adminT, getAdminLocale } from "@/lib/admin-locale";
 import { adminFetch } from "@/lib/auth";
 
+import { approveCompany, rejectCompany } from "../../companies-actions";
 import { approveAd, rejectAd } from "../../moderation-actions";
+
+type CompanyInQueue = {
+  id: number;
+  name: string;
+  about: string;
+  lang: string;
+  city_name: string | null;
+  categories: string[];
+  logo: string | null;
+  owner_name: string | null;
+  address: string | null;
+  hours: string | null;
+  phone: string | null;
+  email: string | null;
+  site: string | null;
+  updated_at: string;
+};
 
 type QueueItem = {
   id: number;
@@ -54,7 +72,10 @@ export default async function ModerationPage({
   const { ok } = await searchParams;
   const t = await adminT("moderation");
   const locale = await getAdminLocale();
-  const queue = await adminFetch<Page>("/admin/moderation/queue");
+  const [queue, firms] = await Promise.all([
+    adminFetch<Page>("/admin/moderation/queue"),
+    adminFetch<CompanyInQueue[]>("/admin/companies/queue").catch(() => []),
+  ]);
   const when = new Intl.DateTimeFormat(locale, {
     dateStyle: "short",
     timeStyle: "short",
@@ -82,6 +103,84 @@ export default async function ModerationPage({
       </header>
 
       {ok && <p className="notice notice--ok">{t("sent")}</p>}
+
+      {firms.length > 0 && (
+        <>
+          <h2 className="admin-subhead">{t("firmsTitle", { count: firms.length })}</h2>
+          <ul className="mod-list">
+            {firms.map((firm) => (
+              <li key={firm.id} className="mod-card">
+                <div className="mod-card__text">
+                  <div className="mod-card__top">
+                    <span className="badge">{t("firm")}</span>
+                    <span className="muted small">
+                      #{firm.id} · {firm.owner_name} · {when.format(new Date(firm.updated_at))}
+                    </span>
+                  </div>
+                  <h2 lang={firm.lang}>{firm.name}</h2>
+                  <p className="mod-card__body" lang={firm.lang}>
+                    {firm.about}
+                  </p>
+                  <dl className="mod-card__meta">
+                    <div>
+                      <dt>{t("firmServices")}</dt>
+                      <dd>{firm.categories.join(" · ") || "—"}</dd>
+                    </div>
+                    <div>
+                      <dt>{t("firmWhere")}</dt>
+                      <dd>{[firm.city_name, firm.address, firm.hours].filter(Boolean).join(" · ") || "—"}</dd>
+                    </div>
+                    <div>
+                      <dt>{t("contact")}</dt>
+                      <dd>{[firm.phone, firm.email, firm.site].filter(Boolean).join(" · ") || "—"}</dd>
+                    </div>
+                  </dl>
+                </div>
+                <div className="mod-card__side">
+                  {firm.logo && (
+                    <ul className="mod-card__photos">
+                      <li>
+                        <img src={firm.logo} alt="" />
+                      </li>
+                    </ul>
+                  )}
+                  <form action={approveCompany}>
+                    <input type="hidden" name="id" value={firm.id} />
+                    <label className="check">
+                      <input type="checkbox" name="verified" />
+                      <span>{t("firmVerified")}</span>
+                    </label>
+                    <button type="submit" className="btn btn--primary btn--block">
+                      {t("approve")}
+                    </button>
+                  </form>
+                  <form action={rejectCompany} className="mod-card__reject">
+                    <input type="hidden" name="id" value={firm.id} />
+                    <label className="field">
+                      <span>{t("rejectWhy")}</span>
+                      <select name="reason" defaultValue="unclear">
+                        {REASONS.map((reason) => (
+                          <option key={reason} value={reason}>
+                            {t(`reason_${reason}` as "reason_other")}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="field">
+                      <span>{t("rejectNote")}</span>
+                      <input name="note" maxLength={500} />
+                    </label>
+                    <button type="submit" className="btn btn--ghost-dark btn--block">
+                      {t("reject")}
+                    </button>
+                  </form>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <h2 className="admin-subhead">{t("adsTitle")}</h2>
+        </>
+      )}
 
       {queue.items.length === 0 ? (
         <p className="muted">{t("empty")}</p>

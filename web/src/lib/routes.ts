@@ -20,6 +20,8 @@ export type AppRoute =
   | { type: "home" }
   | { type: "search" }
   | { type: "seller"; id: number }
+  | { type: "companies" }
+  | { type: "company"; slug: string }
   | { type: "static"; key: StaticKey }
   | { type: "agency"; key: AgencyKey }
   | { type: "list"; key: ListKey };
@@ -32,6 +34,18 @@ export const SEARCH_PAGE: Entry<"search"> = {
   slug: { es: "buscar", en: "search", uk: "poshuk", ru: "poisk" },
   indexable: false,
 };
+
+/** The directory of firms: /es/empresas and /es/empresas/{slug} */
+export const COMPANIES_PAGE: Entry<"companies"> = {
+  key: "companies",
+  slug: { es: "empresas", en: "companies", uk: "firmy", ru: "firmy" },
+  indexable: true,
+};
+
+export function companyPath(locale: Locale, slug?: string): string {
+  const base = `${localePrefix(locale)}/${COMPANIES_PAGE.slug[locale]}`;
+  return slug ? `${base}/${slug}` : base;
+}
 
 /** The public page of somebody who sells: /es/vendedor/42 */
 export const SELLER_PAGE: Entry<"seller"> = {
@@ -84,6 +98,8 @@ function entryOf(route: AppRoute): Entry<string> | undefined {
 /** Full path with the locale prefix, e.g. "/ua/robota". */
 export function localizedPath(locale: Locale, route: AppRoute): string {
   if (route.type === "seller") return sellerPath(locale, route.id);
+  if (route.type === "companies") return companyPath(locale);
+  if (route.type === "company") return companyPath(locale, route.slug);
   const entry = entryOf(route);
   return entry ? `${localePrefix(locale)}/${entry.slug[locale]}` : localePrefix(locale);
 }
@@ -109,6 +125,13 @@ export function resolveSegments(locale: Locale, segments: string[]): Resolved | 
     if (wanted || LOCALES.some((l) => SELLER_PAGE.slug[l] === segments[0])) {
       return { route: { type: "seller", id: Number(segments[1]) }, redirect: !wanted };
     }
+  }
+  // /{lang}/{firms word}[/{slug}]
+  const firmsWord = segments[0];
+  const isFirms = COMPANIES_PAGE.slug[locale] === firmsWord;
+  if (segments.length <= 2 && (isFirms || LOCALES.some((l) => COMPANIES_PAGE.slug[l] === firmsWord))) {
+    const route: AppRoute = segments.length === 2 ? { type: "company", slug: segments[1] } : { type: "companies" };
+    return { route, redirect: !isFirms };
   }
   if (SEARCH_PAGE.slug[locale] === path) return { route: { type: "search" }, redirect: false };
   if (LOCALES.some((l) => SEARCH_PAGE.slug[l] === path)) return { route: { type: "search" }, redirect: true };

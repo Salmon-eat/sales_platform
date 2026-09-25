@@ -224,6 +224,52 @@ export type Home = {
 
 export type ListingPhoto = { path: string; thumb: string; width: number; height: number };
 
+/** A firm in the directory. */
+export type CompanyCard = {
+  id: number;
+  slug: string;
+  name: string;
+  about: string;
+  lang: Lang;
+  city_name: string | null;
+  categories: string[];
+  logo: string | null;
+  is_verified: boolean;
+  rating: number | null;
+  reviews_count: number;
+  listings_count: number;
+};
+
+export type CompanyPageData = CompanyCard & {
+  owner_id: number;
+  address: string | null;
+  hours: string | null;
+  site: string | null;
+  created_at: string;
+  reviews: SellerReview[];
+  listings: ListingCard[];
+};
+
+export type MyCompany = CompanyPageData & {
+  status: "draft" | "pending" | "active" | "rejected" | "hidden";
+  reject_reason: string | null;
+  reject_note: string | null;
+  category_ids: number[];
+  city_id: number | null;
+  phone: string | null;
+  whatsapp: string | null;
+  telegram: string | null;
+  email: string | null;
+  updated_at: string;
+};
+
+export type CompanyContact = {
+  phone: string | null;
+  whatsapp: string | null;
+  telegram: string | null;
+  email: string | null;
+};
+
 /** Who is behind an ad a person posted themselves. */
 export type SellerBrief = { id: number; name: string; rating: number | null; reviews_count: number };
 

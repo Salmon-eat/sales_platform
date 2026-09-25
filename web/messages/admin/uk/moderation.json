@@ -29,5 +29,11 @@
   "reason_other": "Інша причина",
   "noPrice": "ціну не вказано",
   "free": "безкоштовно",
-  "negotiable": "договірна"
+  "negotiable": "договірна",
+  "firmsTitle": "Фірми на перевірці ({count})",
+  "adsTitle": "Оголошення",
+  "firm": "Фірма",
+  "firmServices": "Напрямки",
+  "firmWhere": "Де і коли",
+  "firmVerified": "Документи бачив(ла), позначити «перевірено»"
 }

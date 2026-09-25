@@ -29,5 +29,11 @@
   "reason_other": "Otro motivo",
   "noPrice": "sin precio",
   "free": "gratis",
-  "negotiable": "negociable"
+  "negotiable": "negociable",
+  "firmsTitle": "Empresas en revisión ({count})",
+  "adsTitle": "Anuncios",
+  "firm": "Empresa",
+  "firmServices": "Actividades",
+  "firmWhere": "Dónde y cuándo",
+  "firmVerified": "He visto los papeles, marcar «verificada»"
 }

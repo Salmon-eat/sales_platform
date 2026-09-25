@@ -29,5 +29,11 @@
   "reason_other": "Another reason",
   "noPrice": "no price",
   "free": "free",
-  "negotiable": "negotiable"
+  "negotiable": "negotiable",
+  "firmsTitle": "Companies waiting ({count})",
+  "adsTitle": "Ads",
+  "firm": "Company",
+  "firmServices": "Trades",
+  "firmWhere": "Where and when",
+  "firmVerified": "I have seen the papers, mark as verified"
 }
