@@ -5,6 +5,8 @@ import { getTranslations } from "next-intl/server";
 
 import { AdCard } from "@/components/home/AdCard";
 import { AdSearch } from "@/components/home/AdSearch";
+import { SaveSearchButton } from "@/components/search/SaveSearchButton";
+import { getAccount } from "@/lib/account";
 import type { Locale } from "@/i18n/routing";
 import { getHome, orFallback, searchEverything } from "@/lib/api";
 import { localizedPath } from "@/lib/routes";
@@ -19,6 +21,10 @@ const EMPTY_HOME: Home = {
 };
 
 const NO_RESULTS: SearchResponse["items"] = [];
+
+function one(value: string | string[] | undefined): string {
+  return Array.isArray(value) ? (value[0] ?? "") : (value ?? "");
+}
 
 /** Query params this page passes to the API; everything else (filters) belongs to the section pages. */
 function apiParams(searchParams: RawSearchParams): [string, string][] {
@@ -50,7 +56,9 @@ export async function SearchAll({
   searchParams: RawSearchParams;
 }) {
   const t = await getTranslations("search");
+  const account = await getAccount();
   const params = apiParams(searchParams);
+  const q = one(searchParams.q);
   const [home, data] = await Promise.all([
     orFallback(getHome(locale), EMPTY_HOME),
     orFallback(searchEverything(locale, params), null),
@@ -78,6 +86,14 @@ export async function SearchAll({
         <section className="home-block">
           <div className="home-block__head">
             <h2>{t("foundAds", { count: data?.total ?? 0 })}</h2>
+            {q && (
+              <SaveSearchButton
+                title={q}
+                params={Object.fromEntries(params)}
+                signedIn={Boolean(account)}
+                loginHref={localizedPath(locale, { type: "static", key: "login" })}
+              />
+            )}
           </div>
 
           {items.length === 0 ? (

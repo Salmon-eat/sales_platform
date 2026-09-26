@@ -772,5 +772,29 @@
       "payments_not_configured": "Card payments are not set up yet.",
       "payment_failed": "The payment service is not answering. Try again later."
     }
+  },
+  "savedSearch": {
+    "title": "Saved searches",
+    "save": "Tell me about new ones",
+    "saving": "Saving…",
+    "saved": "We will tell you",
+    "signInToSave": "Sign in to hear about new ads for this search",
+    "on": "Alerts on",
+    "off": "Alerts off",
+    "remove": "Remove",
+    "lastTold": "last letter {date}",
+    "waitingForNew": "waiting for new ads",
+    "hint": "We write at most once an hour, and only about ads that appear after you save.",
+    "errors": {
+      "generic": "Could not save the search.",
+      "signed_out": "Your session has ended. Please sign in again.",
+      "too_many_searches": "Too many saved searches — remove one first."
+    }
+  },
+  "install": {
+    "title": "Citobazar on your phone",
+    "text": "Add it to your home screen and it opens like an app.",
+    "install": "Add",
+    "later": "Not now"
   }
 }

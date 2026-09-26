@@ -332,6 +332,20 @@ export type MyListingDetail = MyListing & {
 
 export type MyLimits = { open: number; max_listings: number; max_photos: number; days: number };
 
+/** A search somebody asked to be told about. */
+export type SavedSearch = {
+  id: number;
+  title: string;
+  lang: Lang;
+  section_key: string | null;
+  category_slug: string | null;
+  location_slug: string | null;
+  params: Record<string, string>;
+  notify: boolean;
+  created_at: string;
+  last_notified_at: string | null;
+};
+
 /** Paid extras: raising an ad, colouring it, putting it on top. */
 export type Product = {
   key: "bump" | "highlight_7" | "top_7" | "company_top_30";

@@ -772,5 +772,29 @@
       "payments_not_configured": "El pago con tarjeta todavía no está listo.",
       "payment_failed": "La pasarela de pago no responde. Inténtalo más tarde."
     }
+  },
+  "savedSearch": {
+    "title": "Búsquedas guardadas",
+    "save": "Avisarme de los nuevos",
+    "saving": "Guardando…",
+    "saved": "Te avisaremos",
+    "signInToSave": "Entra para recibir los nuevos de esta búsqueda",
+    "on": "Avisos activados",
+    "off": "Avisos desactivados",
+    "remove": "Quitar",
+    "lastTold": "último aviso el {date}",
+    "waitingForNew": "esperando anuncios nuevos",
+    "hint": "Escribimos como mucho una vez por hora, y solo sobre lo que aparece después de guardar.",
+    "errors": {
+      "generic": "No se ha podido guardar la búsqueda.",
+      "signed_out": "La sesión ha caducado. Entra otra vez.",
+      "too_many_searches": "Demasiadas búsquedas guardadas: quita alguna."
+    }
+  },
+  "install": {
+    "title": "Citobazar en el móvil",
+    "text": "Añádelo a la pantalla de inicio y se abrirá como una app.",
+    "install": "Añadir",
+    "later": "Ahora no"
   }
 }

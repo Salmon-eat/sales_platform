@@ -30,6 +30,7 @@ from app.models.order import ORDER_STATUSES, PROVIDERS, Order
 from app.models.report import MAX_NOTE, REPORT_REASONS, REPORT_STATUSES, ListingReport
 from app.models.resume import LANGUAGE_LEVELS, LICENCES, MAX_ABOUT, Resume
 from app.models.review import MAX_REPLY, MAX_REVIEW, SellerReview
+from app.models.saved_search import MAX_SEARCHES, SavedSearch
 from app.models.pages import ContentBlock, EmployerRequest, SeoPage
 from app.models.search import ListingSearch, SearchMiss
 from app.models.taxonomy import AttributeDefinition, Category, Section
@@ -86,6 +87,8 @@ __all__ = [
     "MAX_REPLY",
     "MAX_REVIEW",
     "Resume",
+    "MAX_SEARCHES",
+    "SavedSearch",
     "SearchMiss",
     "SellerReview",
     "SeoPage",

@@ -10,6 +10,7 @@ import { BottomNav } from "@/components/BottomNav";
 import { ContactWidget } from "@/components/ContactWidget";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { InstallApp } from "@/components/InstallApp";
 import { THEME_SCRIPT } from "@/lib/theme";
 import { routing } from "@/i18n/routing";
 import { getContent } from "@/lib/api";
@@ -48,6 +49,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: { default: t("title"), template: `%s | ${t("siteName")}` },
     description: t("description"),
     openGraph: { siteName: t("siteName"), locale, type: "website" },
+    // "add to home screen": the site then opens like an app, in its own window
+    manifest: `/manifest/${locale}.webmanifest`,
+    appleWebApp: { capable: true, title: t("siteName"), statusBarStyle: "default" },
+    icons: {
+      icon: [
+        { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+        { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+      ],
+      apple: "/apple-touch-icon.png",
+    },
     // proving the site belongs to us in Search Console / Bing Webmaster (empty = tag not rendered)
     verification: {
       ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
@@ -91,6 +102,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             hours={contact.hours}
             requestHref={localizedPath(locale, { type: "static", key: "request" })}
           />
+          <InstallApp />
           <Analytics />
         </NextIntlClientProvider>
       </body>

@@ -2887,3 +2887,30 @@ button.contact-channel {
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent) inset;
 }
+
+/* "add to home screen": one strip at the bottom, shown once */
+.install-bar {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 60;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 10px 30px rgba(22, 24, 29, 0.16);
+}
+.install-bar p {
+  margin: 2px 0 0;
+}
+@media (min-width: 720px) {
+  .install-bar {
+    left: auto;
+    width: 380px;
+  }
+}

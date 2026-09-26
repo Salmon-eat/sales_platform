@@ -8,6 +8,8 @@ import type { ReactNode } from "react";
 import { ApplicationForm } from "@/components/apply/ApplicationForm";
 import { ListingCard } from "@/components/home/ListingCard";
 import type { Locale } from "@/i18n/routing";
+import { SaveSearchButton } from "@/components/search/SaveSearchButton";
+import { getAccount } from "@/lib/account";
 import { resolvePath, searchListings } from "@/lib/api";
 import { getApplicationOptions } from "@/lib/application-options";
 import { FEATURE_SLUGS, type Linker, type ListState, listPath, makeLinker } from "@/lib/list-url";
@@ -90,6 +92,7 @@ export async function ListPage({
   searchParams: RawSearchParams;
 }) {
   const t = await getTranslations("search");
+  const account = await getAccount();
   const loaded = await load(locale, resolved, searchParams);
   const { state, data, canonical } = loaded;
   // ad tags (utm_*) survive the canonical redirects: the site tracker reads them on the landing page
@@ -189,6 +192,15 @@ export async function ListPage({
               initialPlace={resolved.location && resolved.location.level === "municipio" ? { slug: resolved.location.slug, name: resolved.location.name } : null}
             />
             <h1>{heading}</h1>
+            <SaveSearchButton
+              title={heading}
+              sectionKey={state.section.key}
+              categorySlug={state.profession?.slug ?? state.sector?.slug ?? null}
+              locationSlug={state.location}
+              params={Object.fromEntries(canonical)}
+              signedIn={Boolean(account)}
+              loginHref={localizedPath(locale, { type: "static", key: "login" })}
+            />
           </>
         }
       />

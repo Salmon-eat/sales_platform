@@ -8,12 +8,14 @@ import { myChats } from "@/app/[locale]/chat-actions";
 import { getMyCompany } from "@/app/[locale]/company-actions";
 import { myCandidates } from "@/app/[locale]/employer-actions";
 import { getResume } from "@/app/[locale]/resume-actions";
+import { mySearches } from "@/app/[locale]/search-actions";
 import { AccountPanel } from "@/components/account/AccountPanel";
 import { Candidates } from "@/components/account/Candidates";
 import { Chats } from "@/components/account/Chats";
 import { CompanyForm } from "@/components/account/CompanyForm";
 import { MyAds } from "@/components/account/MyAds";
 import { Orders } from "@/components/account/Orders";
+import { SavedSearches } from "@/components/account/SavedSearches";
 import { ResumeForm } from "@/components/account/ResumeForm";
 import { SignInForm } from "@/components/account/SignInForm";
 import { ApplicationSection } from "@/components/apply/ApplicationSection";
@@ -47,6 +49,7 @@ export async function StaticPage({ locale, page, title, tab, edit }: Props) {
           {account && <Chats initial={await myChats(locale)} />}
           {account && <Candidates initial={await myCandidates(locale)} />}
           {account && <MyAds locale={locale} />}
+          {account && <SavedSearches initial={await mySearches()} />}
           {account && <Orders locale={locale} />}
           {account && (
             <>

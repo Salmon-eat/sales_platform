@@ -9,7 +9,7 @@ from urllib.parse import quote, unquote
 
 from fastapi import APIRouter, HTTPException, Request, Response, status
 
-from app.api.deps import CurrentUser, SessionDep
+from app.api.deps import CurrentUser, RedisDep, SessionDep
 from app.core.config import settings
 from pydantic import BaseModel, Field
 
@@ -32,6 +32,7 @@ from app.services import (
     photos,
     resumes,
     reviews,
+    searches,
 )
 
 router = APIRouter(prefix="/my", tags=["my"])
@@ -260,6 +261,72 @@ async def candidate_cv(application_id: int, user: CurrentUser, session: SessionD
             "X-Content-Type-Options": "nosniff",
         },
     )
+
+
+# ---------------------------------------------------------------------------- saved searches
+
+
+class SearchIn(BaseModel):
+    title: str = Field(min_length=1, max_length=200)
+    section_key: str | None = Field(None, max_length=50)
+    category_slug: str | None = Field(None, max_length=120)
+    location_slug: str | None = Field(None, max_length=120)
+    params: dict[str, str] = Field(default_factory=dict, max_length=20)
+
+
+class SearchOut(BaseModel):
+    id: int
+    title: str
+    lang: str
+    section_key: str | None
+    category_slug: str | None
+    location_slug: str | None
+    params: dict[str, str]
+    notify: bool
+    created_at: datetime
+    last_notified_at: datetime | None
+
+
+class NotifyIn(BaseModel):
+    notify: bool
+
+
+@router.get("/searches", response_model=list[SearchOut])
+async def my_searches(user: CurrentUser, session: SessionDep) -> list[SearchOut]:
+    rows = await searches.mine(session, user)
+    return [SearchOut.model_validate(row, from_attributes=True) for row in rows]
+
+
+@router.post("/searches", response_model=SearchOut, status_code=status.HTTP_201_CREATED)
+async def save_search(
+    body: SearchIn, user: CurrentUser, session: SessionDep, redis: RedisDep, lang: Lang = "es"
+) -> SearchOut:
+    """Saved as it stands; the first letter is about what appears after this moment."""
+    search = await searches.save(
+        session,
+        redis,
+        user,
+        title=body.title,
+        lang=lang,
+        section_key=body.section_key,
+        category_slug=body.category_slug,
+        location_slug=body.location_slug,
+        params=body.params,
+    )
+    return SearchOut.model_validate(search, from_attributes=True)
+
+
+@router.post("/searches/{search_id}/notify", response_model=SearchOut)
+async def toggle_notify(
+    search_id: int, body: NotifyIn, user: CurrentUser, session: SessionDep
+) -> SearchOut:
+    search = await searches.set_notify(session, user, search_id, body.notify)
+    return SearchOut.model_validate(search, from_attributes=True)
+
+
+@router.delete("/searches/{search_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_search(search_id: int, user: CurrentUser, session: SessionDep) -> None:
+    await searches.remove(session, user, search_id)
 
 
 # ---------------------------------------------------------------------------- paid extras

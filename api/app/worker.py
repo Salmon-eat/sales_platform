@@ -12,12 +12,14 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from sqlalchemy import text
 
 from app.core.db import SessionLocal, engine
+from app.core.config import settings
 from app.core.redis import redis
 from app.seo.counts import recount_seo_pages
 from app.services.cache import bump_cache_version
 from app.services.chat_notify import notify_unread
 from app.services.gdpr import anonymize_expired
 from app.services.listings import expire_listings
+from app.services.searches import notify_new
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("worker")
@@ -25,6 +27,8 @@ logger = logging.getLogger("worker")
 EXPIRE_EVERY_MINUTES = 10
 SEO_RECOUNT_EVERY_MINUTES = 60
 CHAT_NOTIFY_EVERY_MINUTES = 3
+# often enough to be useful, rare enough that nobody gets a letter every ten minutes
+SAVED_SEARCH_EVERY_MINUTES = 60
 
 
 async def expire_job() -> None:
@@ -74,6 +78,17 @@ async def chat_notify_job() -> None:
         logger.exception("chat notifications failed")
 
 
+async def saved_searches_job() -> None:
+    """A saved search tells its owner when something new turns up, once an hour at most."""
+    try:
+        async with SessionLocal() as session:
+            count = await notify_new(session, redis, settings.public_site_url.rstrip("/"))
+        if count:
+            logger.info("told %s people about new ads in their searches", count)
+    except Exception:
+        logger.exception("saved search notifications failed")
+
+
 async def gdpr_job() -> None:
     """Closed applications older than the retention period lose their personal data (admin spec §9)."""
     try:
@@ -95,6 +110,9 @@ async def main() -> None:
     )
     scheduler.add_job(
         chat_notify_job, "interval", minutes=CHAT_NOTIFY_EVERY_MINUTES, id="chat_notify", coalesce=True
+    )
+    scheduler.add_job(
+        saved_searches_job, "interval", minutes=SAVED_SEARCH_EVERY_MINUTES, id="saved_searches", coalesce=True
     )
     scheduler.add_job(analytics_cleanup_job, "cron", hour=4, id="analytics_cleanup", coalesce=True)
     scheduler.add_job(gdpr_job, "cron", hour=4, minute=30, id="gdpr_anonymize", coalesce=True)
