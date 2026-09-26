@@ -14,6 +14,7 @@ from app.core.db import SessionLocal, engine
 from app.core.redis import redis
 from app.importers.ads_demo import delete_demo_ads, seed_demo_ads
 from app.importers.analytics_demo import delete_demo_analytics, seed_demo_analytics
+from app.importers.demo_extras import delete_demo_extras, seed_demo_extras
 from app.importers.content import seed_content
 from app.importers.listings_demo import seed_demo_listings
 from app.importers.loadtest_data import create_fake_listings, delete_fake_listings
@@ -98,6 +99,21 @@ async def delete_ads_cmd() -> None:
     print(f"demo ads removed: {removed}")
 
 
+async def seed_extras_cmd() -> None:
+    """Firms, CVs, reviews, conversations, orders and articles: a site that looks used."""
+    async with SessionLocal() as session:
+        made = await seed_demo_extras(session)
+    await bump_cache_version(redis)
+    print(f"demo extras: {made}" if made else "demo extras already there, skipping")
+
+
+async def delete_extras_cmd() -> None:
+    async with SessionLocal() as session:
+        removed = await delete_demo_extras(session)
+    await bump_cache_version(redis)
+    print(f"demo extras removed: {removed}" if removed else "nothing to remove")
+
+
 async def expire_listings_cmd() -> None:
     async with SessionLocal() as session:
         count = await expire_listings(session)
@@ -158,6 +174,10 @@ async def run(args: argparse.Namespace) -> None:
                 await seed_ads_cmd()
             case "delete-demo-ads":
                 await delete_ads_cmd()
+            case "seed-demo-extras":
+                await seed_extras_cmd()
+            case "delete-demo-extras":
+                await delete_extras_cmd()
             case "expire-listings":
                 await expire_listings_cmd()
             case "seed-fake-listings":
@@ -193,6 +213,8 @@ def main() -> None:
     sub.add_parser("seed-listings", help="create demo listings (only into an empty table)")
     sub.add_parser("seed-demo-ads", help="demo ads for the classifieds sections (flats, cars, items...)")
     sub.add_parser("delete-demo-ads", help="remove those demo ads")
+    sub.add_parser("seed-demo-extras", help="firms, CVs, reviews, chats, orders and articles (local only)")
+    sub.add_parser("delete-demo-extras", help="remove all of that demo data")
     sub.add_parser(
         "expire-listings", help="mark listings past expires_at as expired (the worker does it every 10 min)"
     )
