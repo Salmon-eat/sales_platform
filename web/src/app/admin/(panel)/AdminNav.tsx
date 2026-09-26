@@ -10,6 +10,7 @@ type Key =
   | "moderation"
   | "reports"
   | "orders"
+  | "posts"
   | "listings"
   | "links"
   | "users";
@@ -24,6 +25,7 @@ const STAFF: Item[] = [
   { href: "/admin/reports", label: "reports" },
   { href: "/admin/listings", label: "listings" },
   { href: "/admin/orders", label: "orders" },
+  { href: "/admin/posts", label: "posts" },
   { href: "/admin/links", label: "links" },
 ];
 const ADMIN: Item[] = [

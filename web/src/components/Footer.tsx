@@ -31,6 +31,8 @@ export async function Footer() {
           ))}
         </nav>
         <nav className="footer-links">
+          <Link href={localizedPath(locale, { type: "blog" })}>{t("blog.title")}</Link>
+          <Link href={localizedPath(locale, { type: "companies" })}>{t("companies.title")}</Link>
           {LINKS.map((key) => (
             <Link key={key} href={localizedPath(locale, { type: "static", key })}>
               {t(`static.${key}`)}

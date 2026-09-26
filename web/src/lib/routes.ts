@@ -22,6 +22,8 @@ export type AppRoute =
   | { type: "seller"; id: number }
   | { type: "companies" }
   | { type: "company"; slug: string }
+  | { type: "blog" }
+  | { type: "post"; slug: string }
   | { type: "static"; key: StaticKey }
   | { type: "agency"; key: AgencyKey }
   | { type: "list"; key: ListKey };
@@ -34,6 +36,18 @@ export const SEARCH_PAGE: Entry<"search"> = {
   slug: { es: "buscar", en: "search", uk: "poshuk", ru: "poisk" },
   indexable: false,
 };
+
+/** Articles: /es/blog and /es/blog/{slug} — the same word in every language, it reads everywhere. */
+export const BLOG_PAGE: Entry<"blog"> = {
+  key: "blog",
+  slug: { es: "blog", en: "blog", uk: "blog", ru: "blog" },
+  indexable: true,
+};
+
+export function blogPath(locale: Locale, slug?: string): string {
+  const base = `${localePrefix(locale)}/${BLOG_PAGE.slug[locale]}`;
+  return slug ? `${base}/${slug}` : base;
+}
 
 /** The directory of firms: /es/empresas and /es/empresas/{slug} */
 export const COMPANIES_PAGE: Entry<"companies"> = {
@@ -100,6 +114,8 @@ export function localizedPath(locale: Locale, route: AppRoute): string {
   if (route.type === "seller") return sellerPath(locale, route.id);
   if (route.type === "companies") return companyPath(locale);
   if (route.type === "company") return companyPath(locale, route.slug);
+  if (route.type === "blog") return blogPath(locale);
+  if (route.type === "post") return blogPath(locale, route.slug);
   const entry = entryOf(route);
   return entry ? `${localePrefix(locale)}/${entry.slug[locale]}` : localePrefix(locale);
 }
@@ -125,6 +141,13 @@ export function resolveSegments(locale: Locale, segments: string[]): Resolved | 
     if (wanted || LOCALES.some((l) => SELLER_PAGE.slug[l] === segments[0])) {
       return { route: { type: "seller", id: Number(segments[1]) }, redirect: !wanted };
     }
+  }
+  // /{lang}/blog[/{slug}]
+  if (segments[0] === BLOG_PAGE.slug[locale] && segments.length <= 2) {
+    return {
+      route: segments.length === 2 ? { type: "post", slug: segments[1] } : { type: "blog" },
+      redirect: false,
+    };
   }
   // /{lang}/{firms word}[/{slug}]
   const firmsWord = segments[0];

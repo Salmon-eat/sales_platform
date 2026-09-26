@@ -24,6 +24,7 @@ from app.api.routes import (
     my,
     pages,
     payments,
+    posts,
     reports,
     sellers,
     taxonomy,
@@ -46,6 +47,7 @@ api_router.include_router(reports.router)
 api_router.include_router(sellers.router)
 api_router.include_router(companies.router)
 api_router.include_router(payments.router)
+api_router.include_router(posts.router)
 api_router.include_router(analytics.router)
 api_router.include_router(bot_sync.router)
 
@@ -58,6 +60,7 @@ admin_router.include_router(admin_moderation.router)
 admin_router.include_router(admin_reports.router)
 admin_router.include_router(admin_companies.router)
 admin_router.include_router(admin_orders.router)
+admin_router.include_router(posts.admin_router)
 admin_router.include_router(admin_analytics.router)
 admin_router.include_router(admin_users.router)
 api_router.include_router(admin_router)

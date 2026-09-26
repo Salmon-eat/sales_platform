@@ -796,5 +796,10 @@
     "text": "Añádelo a la pantalla de inicio y se abrirá como una app.",
     "install": "Añadir",
     "later": "Ahora no"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Cómo funcionan el empleo, la vivienda y los trámites en España, en palabras claras.",
+    "empty": "Todavía no hay artículos."
   }
 }

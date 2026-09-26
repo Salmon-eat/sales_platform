@@ -332,6 +332,21 @@ export type MyListingDetail = MyListing & {
 
 export type MyLimits = { open: number; max_listings: number; max_photos: number; days: number };
 
+/** An article in the blog. */
+export type BlogPost = {
+  id: number;
+  slug: string;
+  lang: Lang;
+  title: string;
+  excerpt: string;
+  cover: string | null;
+  status: "draft" | "published";
+  published_at: string | null;
+  updated_at: string;
+};
+
+export type BlogPostFull = BlogPost & { body: string };
+
 /** A search somebody asked to be told about. */
 export type SavedSearch = {
   id: number;

@@ -796,5 +796,10 @@
     "text": "Add it to your home screen and it opens like an app.",
     "install": "Add",
     "later": "Not now"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "How work, housing and paperwork in Spain actually work, in plain words.",
+    "empty": "No articles yet."
   }
 }
