@@ -2303,13 +2303,16 @@
 }
 .section-grid__panel {
   grid-column: 1 / -1;
-  animation: picker-open 0.25s ease-out;
   scroll-margin: 16px;
+}
+/* the row holds nothing until the numbers are in; then the whole panel slides open at once */
+.section-grid__panel:empty {
+  display: none;
 }
 @keyframes picker-open {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-12px);
   }
 }
 .section-card {
@@ -2331,6 +2334,7 @@
 }
 /* the "what are you looking for?" panel itself */
 .picker {
+  animation: picker-open 0.28s ease-out;
   border: 1px solid var(--line);
   border-radius: 20px;
   background: var(--surface);
@@ -2465,9 +2469,26 @@
   min-width: 220px;
 }
 @media (prefers-reduced-motion: reduce) {
-  .section-grid__panel {
+  .picker {
     animation: none;
   }
+}
+/* languages and papers, folded at the end of the panel */
+.picker__more {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+.picker__more > summary {
+  display: inline-block;
+  margin-bottom: 4px;
+  color: var(--accent-ink);
+  font-weight: 600;
+  font-size: 14.5px;
+  cursor: pointer;
+}
+.picker__more[open] > summary {
+  margin-bottom: 14px;
 }
 @media (max-width: 640px) {
   .picker__head,

@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { facetValueLabel } from "@/lib/facets";
 import { type Linker, type ListState, makeFacetLinks } from "@/lib/list-url";
 import type { Pairs } from "@/lib/search-url";
-import { forAudience, sectionUi } from "@/lib/sections";
+import { quickFilters } from "@/lib/sections";
 import type { SearchResponse } from "@/lib/types";
 
 type Props = { data: SearchResponse; pairs: Pairs; state: ListState; link: Linker };
@@ -16,7 +16,7 @@ type Props = { data: SearchResponse; pairs: Pairs; state: ListState; link: Linke
  */
 export async function QuickFilters({ data, pairs, state, link }: Props) {
   const locale = await getLocale();
-  const choices = forAudience(state.section.key, locale, sectionUi(state.section.key).quick ?? [], ([key]) => key);
+  const choices = quickFilters(state.section.key, locale);
   if (choices.length === 0) return null;
   const t = await getTranslations("search");
   const facets = makeFacetLinks(link, state, pairs);

@@ -10,7 +10,7 @@ import { asLocale } from "@/i18n/routing";
 import { facetTitle, facetValueLabel } from "@/lib/facets";
 import { prefixed } from "@/lib/routes";
 import { isActive, type Pairs, toggleValue } from "@/lib/search-url";
-import { forAudience, isJobsSection, sectionUi } from "@/lib/sections";
+import { isJobsSection, sectionUi } from "@/lib/sections";
 import type { CategoryFacet, FacetGroup, SearchResponse } from "@/lib/types";
 
 type Section = { key: string; slug: string; name: string };
@@ -33,12 +33,6 @@ const DEBOUNCE_MS = 200;
 export function SectionGridList({ cards }: { cards: SectionCard[] }) {
   const locale = asLocale(useLocale());
   const [open, setOpen] = useState<string | null>(null);
-  const panel = useRef<HTMLLIElement>(null);
-
-  // bring the panel into view when it opens under a row that is low on the screen
-  useEffect(() => {
-    if (open) panel.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }, [open]);
 
   function onClick(event: MouseEvent, key: string) {
     if (!sectionUi(key).picker) return; // a plain section: just a link
@@ -59,6 +53,9 @@ export function SectionGridList({ cards }: { cards: SectionCard[] }) {
                 className={isOpen ? "section-card section-card--open" : "section-card"}
                 style={style}
                 onClick={(e) => onClick(e, section.key)}
+                // pointed at or tabbed to: fetch the panel's numbers now, so the click opens it full
+                onPointerEnter={() => sectionUi(section.key).picker && void warmUp(section.key, locale)}
+                onFocus={() => sectionUi(section.key).picker && void warmUp(section.key, locale)}
                 aria-expanded={sectionUi(section.key).picker ? isOpen : undefined}
               >
                 {inside}
@@ -68,7 +65,7 @@ export function SectionGridList({ cards }: { cards: SectionCard[] }) {
             {/* a full-width row placed after the card; the grid packs the rest of the card's row back in
                 front of it (grid-auto-flow: dense), so it always opens under the whole row */}
             {isOpen && (
-              <li ref={panel} className="section-grid__panel">
+              <li className="section-grid__panel">
                 <SectionPickerPanel section={section} onClose={() => setOpen(null)} />
               </li>
             )}
@@ -102,6 +99,43 @@ function queryOf(category: string | null, place: string | null, pairs: Pairs): P
   return [...(category ? [["category", category] as [string, string]] : []), ...(place ? [["location", place] as [string, string]] : []), ...pairs];
 }
 
+/** The counts for a choice: the list with it applied, and the category tiles counted without a category
+ * (choosing one must not hide the others). One search each, one ad per page: only the numbers matter. */
+function loadCounts(
+  sectionKey: string,
+  locale: string,
+  category: string | null,
+  place: string | null,
+  pairs: Pairs,
+  signal?: AbortSignal,
+): Promise<Counts> {
+  const ask = (query: Pairs) => {
+    const qs = new URLSearchParams([["lang", locale], ["section", sectionKey], ["per_page", "1"], ...query]);
+    return fetch(`/v1/listings?${qs}`, { signal }).then((r) =>
+      r.ok ? (r.json() as Promise<SearchResponse>) : Promise.reject(new Error(String(r.status))),
+    );
+  };
+  return Promise.all([ask(queryOf(category, place, pairs)), ask(queryOf(null, place, pairs))]).then(([current, tiles]) => ({
+    current,
+    tiles: tiles.categories,
+  }));
+}
+
+/** Answers for a panel with nothing chosen, asked for as soon as the card is pointed at, so the click
+ * opens a full panel at once. A failed one is dropped, so the next attempt asks again. */
+const warm = new Map<string, Promise<Counts>>();
+
+function warmUp(sectionKey: string, locale: string): Promise<Counts> {
+  const key = `${locale}|${sectionKey}`;
+  let answer = warm.get(key);
+  if (!answer) {
+    answer = loadCounts(sectionKey, locale, null, null, []);
+    answer.catch(() => warm.delete(key));
+    warm.set(key, answer);
+  }
+  return answer;
+}
+
 /**
  * What the panel holds: the section's categories as tiles, then its filters as buttons (which ones is
  * section data, SECTION_UI), a town, and "Show N" with N counted live while the choice is made. The
@@ -113,8 +147,7 @@ function SectionPickerPanel({ section, onClose }: { section: Section; onClose: (
   const locale = asLocale(useLocale());
   const router = useRouter();
   const jobs = isJobsSection(section.key);
-  // a Spaniard is not offered "no Spanish needed" or residence papers; a newcomer is
-  const groupsShown = forAudience(section.key, locale, sectionUi(section.key).picker ?? [], (key) => key);
+  const ui = sectionUi(section.key);
 
   const [category, setCategory] = useState<string | null>(null);
   const [place, setPlace] = useState<string | null>(null);
@@ -123,22 +156,20 @@ function SectionPickerPanel({ section, onClose }: { section: Section; onClose: (
 
   useEffect(() => {
     const controller = new AbortController();
-    const ask = (query: Pairs) => {
-      const qs = new URLSearchParams([["lang", locale], ["section", section.key], ["per_page", "1"], ...query]);
-      return fetch(`/v1/listings?${qs}`, { signal: controller.signal }).then((r) =>
-        r.ok ? (r.json() as Promise<SearchResponse>) : Promise.reject(new Error(String(r.status))),
-      );
-    };
-    const timer = setTimeout(() => {
-      // the tiles are counted without a category chosen: choosing one must not hide the others
-      Promise.all([ask(queryOf(category, place, pairs)), ask(queryOf(null, place, pairs))])
-        .then(([current, tiles]) => setCounts({ current, tiles: tiles.categories }))
+    const pristine = !category && !place && pairs.length === 0;
+    const load = () =>
+      // nothing chosen yet: the answer warmed up when the card was pointed at, if it came in time
+      (pristine ? warmUp(section.key, locale) : loadCounts(section.key, locale, category, place, pairs, controller.signal))
+        .then((next) => !controller.signal.aborted && setCounts(next))
         .catch(() => undefined);
-    }, DEBOUNCE_MS);
+    // the first answer at once; after that wait for the clicking to pause
+    const timer = setTimeout(load, counts ? DEBOUNCE_MS : 0);
     return () => {
       clearTimeout(timer);
       controller.abort();
     };
+    // `counts` only decides the delay; a new answer must not ask again
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, place, pairs, locale, section.key]);
 
   const target = (() => {
@@ -146,11 +177,18 @@ function SectionPickerPanel({ section, onClose }: { section: Section; onClose: (
     return `${prefixed(locale, section.slug)}${qs ? `?${qs}` : ""}`;
   })();
 
-  const groups = groupsShown
-    .map((key) => counts?.current.facets.find((g) => g.key === key))
-    .filter((g): g is FacetGroup => Boolean(g));
-  const yesNo = groups.filter((g) => g.type === "bool");
-  const lists = groups.filter((g) => g.type !== "bool" && g.type !== "range");
+  // once it is on screen, bring it into view if it opened under a row low on the screen
+  const box = useRef<HTMLDivElement>(null);
+  const shown = counts !== null;
+  useEffect(() => {
+    if (shown) box.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [shown]);
+
+  // nothing to show until the first counts are in: the panel then slides open whole, never half-empty
+  if (!counts) return null;
+
+  const groupsOf = (keys: string[]) =>
+    keys.map((key) => counts.current.facets.find((g) => g.key === key)).filter((g): g is FacetGroup => Boolean(g));
   const chip = (g: FacetGroup, value: string, label: string, count: number) => (
     <PickerChip
       key={`${g.key}:${value}`}
@@ -160,9 +198,36 @@ function SectionPickerPanel({ section, onClose }: { section: Section; onClose: (
       onToggle={() => setPairs((current) => toggleValue(current, g.key, value, g.type))}
     />
   );
+  /** Yes/no filters in one row (under `rowTitle`, if any), then each list of values under its name. */
+  const renderGroups = (keys: string[], rowTitle: string | null) => {
+    const groups = groupsOf(keys);
+    const yesNo = groups.filter((g) => g.type === "bool");
+    const lists = groups.filter((g) => g.type !== "bool" && g.type !== "range");
+    return (
+      <>
+        {yesNo.length > 0 && (
+          <section className="picker__group">
+            {rowTitle && <h3>{rowTitle}</h3>}
+            <div className="picker__chips">
+              {yesNo.map((g) => chip(g, "1", facetValueLabel(g, "1", null, t), g.values[0]?.count ?? 0))}
+            </div>
+          </section>
+        )}
+        {lists.map((g) => (
+          <section key={g.key} className="picker__group">
+            <h3>{facetTitle(g, t)}</h3>
+            <div className="picker__chips">
+              {g.values.map((v) => chip(g, v.value, facetValueLabel(g, v.value, v.label, t), v.count))}
+            </div>
+          </section>
+        ))}
+      </>
+    );
+  };
+  const more = ui.pickerMore ?? [];
 
   return (
-    <div className="picker" role="region" aria-labelledby="picker-title">
+    <div ref={box} className="picker" role="region" aria-labelledby="picker-title">
       <header className="picker__head">
         <h2 id="picker-title">{jobs ? tHome("pickerTitleJobs") : tHome("pickerTitle", { section: section.name })}</h2>
         <button type="button" className="picker__close" aria-label={t("close")} onClick={onClose}>
@@ -191,23 +256,7 @@ function SectionPickerPanel({ section, onClose }: { section: Section; onClose: (
           </div>
         </section>
 
-        {yesNo.length > 0 && (
-          <section className="picker__group">
-            <h3>{tHome("pickerMain")}</h3>
-            <div className="picker__chips">
-              {yesNo.map((g) => chip(g, "1", facetValueLabel(g, "1", null, t), g.values[0]?.count ?? 0))}
-            </div>
-          </section>
-        )}
-
-        {lists.map((g) => (
-          <section key={g.key} className="picker__group">
-            <h3>{facetTitle(g, t)}</h3>
-            <div className="picker__chips">
-              {g.values.map((v) => chip(g, v.value, facetValueLabel(g, v.value, v.label, t), v.count))}
-            </div>
-          </section>
-        ))}
+        {renderGroups(ui.picker ?? [], tHome("pickerMain"))}
 
         <section className="picker__group">
           <h3>{t("places")}</h3>
@@ -220,6 +269,15 @@ function SectionPickerPanel({ section, onClose }: { section: Section; onClose: (
             ))}
           </select>
         </section>
+
+        {/* languages and papers: open to everyone, folded for those who do not need them. The language
+            the site is read in says nothing about somebody's papers, so nothing here is guessed */}
+        {more.length > 0 && (
+          <details className="picker__more" open={pairs.some(([key]) => more.includes(key))}>
+            <summary>{tHome("pickerMore")}</summary>
+            {renderGroups(more, null)}
+          </details>
+        )}
       </div>
 
       <footer className="picker__foot">
@@ -235,9 +293,7 @@ function SectionPickerPanel({ section, onClose }: { section: Section; onClose: (
           {t("reset")}
         </button>
         <button type="button" className="btn btn--primary btn--lg picker__show" onClick={() => router.push(target)}>
-          {counts
-            ? tHome("pickerShow", { found: t(jobs ? "found" : "foundAds", { count: counts.current.total }) })
-            : t("filters")}
+          {tHome("pickerShow", { found: t(jobs ? "found" : "foundAds", { count: counts.current.total }) })}
         </button>
       </footer>
     </div>
