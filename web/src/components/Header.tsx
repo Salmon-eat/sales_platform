@@ -22,7 +22,6 @@ const MAX_SECTION_TABS = 6;
 export async function Header() {
   const locale = asLocale(await getLocale());
   const t = await getTranslations("header");
-  const tSections = await getTranslations("sections");
   const account = await getAccount();
   // the badge next to the messages icon; a guest has no conversations to count
   const unread = account
@@ -30,14 +29,12 @@ export async function Header() {
     : 0;
   // the sections come from the taxonomy, so a new one appears in the header on its own
   const home = await orFallback(getHome(locale), null);
-  const tabs: Tab[] = [
-    { key: "all", href: localizedPath(locale, { type: "search" }), label: tSections("all") },
-    ...(home?.sections ?? []).slice(0, MAX_SECTION_TABS).map((section) => ({
-      key: section.key,
-      href: prefixed(locale, section.slug),
-      label: section.name,
-    })),
-  ];
+  // no "everything" tab: the logo leads home, and the search there already covers the whole board
+  const tabs: Tab[] = (home?.sections ?? []).slice(0, MAX_SECTION_TABS).map((section) => ({
+    key: section.key,
+    href: prefixed(locale, section.slug),
+    label: section.name,
+  }));
 
   return (
     <header className="site-header">

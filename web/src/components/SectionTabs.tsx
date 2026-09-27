@@ -6,11 +6,11 @@ import { useEffect, useRef } from "react";
 
 export type Tab = { key: string; href: string; label: string };
 
-/** The header tabs: "everything" and the board's sections, in the order the API gives them. */
+/** The header tabs: the board's sections, in the order the API gives them. */
 export function SectionTabs({ tabs }: { tabs: Tab[] }) {
   const pathname = decodeURIComponent(usePathname());
   const matches = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
-  // the longest match wins, so a section wins over the short "everything" link
+  // the longest match wins, should one tab's address ever start with another's
   const activeIndex = tabs.reduce<number>(
     (acc, tab, i) => (matches(tab.href) && (acc < 0 || tab.href.length > tabs[acc].href.length) ? i : acc),
     -1,

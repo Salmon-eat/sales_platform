@@ -25,8 +25,7 @@
     "housingJobs": "Jobs with housing",
     "request": "Didn't find a vacancy?",
     "training": "Training",
-    "documentsShort": "Documents",
-    "all": "All"
+    "documentsShort": "Documents"
   },
   "static": {
     "publish": "Post a job",

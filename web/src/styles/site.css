@@ -30,8 +30,13 @@
   font-size: 15px;
   font-weight: 500;
   white-space: nowrap;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 }
+/* pointing at a section shows the same orange line the open one has */
 .tab:hover {
+  border-bottom-color: var(--accent);
   color: var(--ink);
 }
 .tab-short {
