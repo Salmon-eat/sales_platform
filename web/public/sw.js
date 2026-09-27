@@ -8,7 +8,9 @@
  *   - anything that is not a plain GET is never touched.
  */
 
-const VERSION = "v1";
+const VERSION = "v2";
+// local dev: /_next/static names don't change between edits, so caching them would freeze the site
+const DEV = ["localhost", "127.0.0.1"].includes(self.location.hostname);
 const STATIC = `citobazar-static-${VERSION}`;
 const PAGES = `citobazar-pages-${VERSION}`;
 const OFFLINE = "/offline.html";
@@ -39,7 +41,7 @@ function isStatic(url) {
 
 self.addEventListener("fetch", (event) => {
   const { request } = event;
-  if (request.method !== "GET") return;
+  if (DEV || request.method !== "GET") return;
 
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;

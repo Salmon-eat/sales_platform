@@ -17,8 +17,22 @@ export function InstallApp() {
   const [event, setEvent] = useState<InstallEvent | null>(null);
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
+    if (!("serviceWorker" in navigator)) return;
+    if (process.env.NODE_ENV === "production") {
       navigator.serviceWorker.register("/sw.js").catch(() => undefined);
+      return;
+    }
+    // dev: file names under /_next/static don't change between edits, so the worker's cache-first
+    // would serve stale CSS/JS forever — drop the worker and its caches instead
+    navigator.serviceWorker
+      .getRegistrations()
+      .then((registrations) => registrations.forEach((registration) => registration.unregister()))
+      .catch(() => undefined);
+    if ("caches" in window) {
+      caches
+        .keys()
+        .then((names) => names.filter((name) => name.startsWith("citobazar-")).forEach((name) => caches.delete(name)))
+        .catch(() => undefined);
     }
   }, []);
 
