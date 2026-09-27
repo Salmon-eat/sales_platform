@@ -65,6 +65,10 @@ def _match_professions(d: Dictionary, prefix: str, counts: dict[int, int]) -> li
 
 
 WORDS = 8
+# One category can own a dozen phrases for the same thing ("Квартири", "квартира", "зняти квартиру"...)
+# and would fill the whole list with itself. Two is enough to show what it is; the rest of the room
+# goes to other categories, which is what the visitor cannot guess.
+PER_CATEGORY = 2
 
 
 def _words(d: Dictionary, prefix: str, counts: dict[int, int], lang: str) -> list[SuggestWord]:
@@ -86,9 +90,6 @@ def _words(d: Dictionary, prefix: str, counts: dict[int, int], lang: str) -> lis
             rank = 1
         else:
             continue
-        # a word of another language still counts (a Ukrainian may well type "piso"), but after ours
-        if lang not in d.phrase_langs.get(phrase, {lang}):
-            rank += 2
         for entry in entries:
             best = found.get(phrase)
             if best is None or rank < best[0]:
@@ -103,13 +104,17 @@ def _words(d: Dictionary, prefix: str, counts: dict[int, int], lang: str) -> lis
         found.items(), key=lambda kv: (kv[1][0], -total(kv[1][1]), d.phrase_order.get(kv[0], 0))
     )
     out: list[SuggestWord] = []
+    shown_per_category: dict[int, int] = {}
     for phrase, (_, entry) in ordered:
         section = d.sections.get(entry.section_id)
         # the agency's own pages are not a place to send somebody looking for ads
         if section is None or section.kind != "listings":
             continue
+        if shown_per_category.get(entry.id, 0) >= PER_CATEGORY:
+            continue
         if len(out) >= WORDS:
             break
+        shown_per_category[entry.id] = shown_per_category.get(entry.id, 0) + 1
         out.append(
             SuggestWord(
                 text=d.display.get(phrase, phrase),

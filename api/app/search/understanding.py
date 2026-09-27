@@ -77,8 +77,6 @@ class Dictionary:
     # phrases are stored stripped of accents for matching; this gives back the spelling to show
     # somebody who is typing ("portatil" -> "portátil")
     display: dict[str, str] = field(default_factory=dict)
-    # which languages a phrase was written in, so a Ukrainian is not offered Russian words first
-    phrase_langs: dict[str, set[str]] = field(default_factory=dict)
     # the order words were written in the seed files: the common word comes before the slang for it
     phrase_order: dict[str, int] = field(default_factory=dict)
     sections: dict[int, SectionEntry] = field(default_factory=dict)
@@ -108,18 +106,21 @@ async def get_dictionary(session: AsyncSession, redis: Redis) -> Dictionary:
     categories: dict[str, list[CategoryEntry]] = defaultdict(list)
     by_id: dict[int, CategoryEntry] = {}
     display: dict[str, str] = {}
-    phrase_langs: dict[str, set[str]] = {}
     phrase_order: dict[str, int] = {}
     for c in (await session.scalars(select(Category).where(Category.is_enabled))).all():
         section = sections[c.section_id]
         if not section.is_enabled:
             continue
-        written_in: list[tuple[str, str]] = [(lang, text) for lang, text in c.name.items()]
-        written_in += [(lang, w) for lang, words in c.synonyms.items() for w in words]
-        for lang, written in written_in:
+        # what the site was taught by hand and what it learned by itself are the same thing here:
+        # a word nobody can be suggested or understood by is a word that only half works
+        known_words = {**c.synonyms}
+        for lang, words in (c.extra_synonyms or {}).items():
+            known_words[lang] = [*known_words.get(lang, []), *words]
+
+        written_in = [*c.name.values(), *(w for words in known_words.values() for w in words)]
+        for written in written_in:
             phrase = normalize(written)
             display.setdefault(phrase, written)
-            phrase_langs.setdefault(phrase, set()).add(lang)
             phrase_order.setdefault(phrase, len(phrase_order))
         base = dict(
             id=c.id,
@@ -132,7 +133,7 @@ async def get_dictionary(session: AsyncSession, redis: Redis) -> Dictionary:
         by_id[c.id] = CategoryEntry(**base, is_name=True)
         for phrase in {normalize(n) for n in c.name.values()}:
             categories[phrase].append(CategoryEntry(**base, is_name=True))
-        for phrase in {normalize(s) for words in c.synonyms.values() for s in words}:
+        for phrase in {normalize(s) for words in known_words.values() for s in words}:
             categories[phrase].append(CategoryEntry(**base, is_name=False))
 
     places: dict[str, PlaceEntry] = {}
@@ -162,7 +163,6 @@ async def get_dictionary(session: AsyncSession, redis: Redis) -> Dictionary:
         version,
         time.monotonic(),
         display=display,
-        phrase_langs=phrase_langs,
         phrase_order=phrase_order,
         sections={
             s.id: SectionEntry(s.id, s.key, s.slug, s.name, s.kind)
