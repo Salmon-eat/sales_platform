@@ -177,7 +177,13 @@
   gap: 2px;
   min-width: 0;
 }
-.suggest-word__text b {
+/* the word stays one line; only the path goes underneath it */
+.suggest-word__word {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.suggest-word__word b {
   font-weight: 700;
 }
 .suggest-word--active {

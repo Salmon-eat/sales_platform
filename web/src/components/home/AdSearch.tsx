@@ -194,8 +194,11 @@ export function AdSearch({ sections, initialQuery = "", initialCity = null }: Pr
                   onClick={() => pick(word)}
                 >
                   <span className="suggest-word__text">
-                    {typed > 0 && <b>{word.text.slice(0, typed)}</b>}
-                    {word.text.slice(typed)}
+                    {/* one line: the part already typed in bold, the rest of the word after it */}
+                    <span className="suggest-word__word">
+                      {typed > 0 && <b>{word.text.slice(0, typed)}</b>}
+                      {word.text.slice(typed)}
+                    </span>
                     <small>
                       {word.section} / {word.category}
                     </small>
