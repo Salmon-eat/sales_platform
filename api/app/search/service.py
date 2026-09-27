@@ -36,6 +36,7 @@ from app.search.params import (
 )
 from app.search.postgres import PostgresSearchBackend
 from app.search.text import normalize
+from app.search import spelling
 from app.search.understanding import get_dictionary, understand
 from app.services.attributes import attribute_definitions
 from app.services.cache import cached
@@ -250,6 +251,15 @@ async def search_listings(
     specs = attribute_specs(definitions)
     filters = parse_filters(raw, specs, radius_allowed=place is not None and place.level == "municipio")
 
+    # a word the site has never seen is repaired against the words it has ("дiвани" -> "диван"),
+    # before anything else looks at the query
+    corrections: list[tuple[str, str]] = []
+    if filters.q:
+        repaired, corrections = await spelling.repair(session, filters.q)
+        if corrections:
+            raw = {**raw, "q": [repaired]}
+            filters = parse_filters(raw, specs, radius_allowed=place is not None and place.level == "municipio")
+
     # "диван у Валенсії": the town named inside the query becomes the place filter, and only the rest
     # is looked for in the text. Without this the words "у валенсії" are searched for in the ad itself
     # and find nothing. A town given in the path always wins.
@@ -342,6 +352,7 @@ async def search_listings(
         understood=understood,
         relaxations=relaxations,
         fuzzy=page.used_fuzzy,
+        corrected=[[typed, used] for typed, used in corrections],
     )
 
 

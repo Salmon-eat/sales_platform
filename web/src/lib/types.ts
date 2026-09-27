@@ -164,6 +164,9 @@ export type Relaxation = {
   label_value: string | null;
 };
 
+/** What was searched instead of what was typed: [["ноутбукк", "ноутбук"]] */
+export type Correction = [string, string];
+
 export type SearchResponse = {
   items: (ListingCard & { distance_km: number | null })[];
   total: number;
@@ -181,6 +184,8 @@ export type SearchResponse = {
   understood: { category: SelectedCategory | null; location: SelectedPlace | null; rest_q: string; complete: boolean } | null;
   relaxations: Relaxation[];
   fuzzy: boolean;
+  /** words repaired against the site's own vocabulary */
+  corrected?: Correction[];
 };
 
 // ---------- public pages ----------

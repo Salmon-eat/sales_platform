@@ -278,7 +278,8 @@
     "close": "Cerrar",
     "submit": "Buscar",
     "where": "Dónde",
-    "showMore": "Mostrar {count} más"
+    "showMore": "Mostrar {count} más",
+    "correctedTo": "Mostramos resultados de «{used}» en lugar de «{typed}»."
   },
   "seo": {
     "whereSpain": "España",

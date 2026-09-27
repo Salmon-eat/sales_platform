@@ -278,7 +278,8 @@
     "close": "Закрыть",
     "submit": "Найти",
     "where": "Где искать",
-    "showMore": "Показать ещё {count}"
+    "showMore": "Показать ещё {count}",
+    "correctedTo": "Показываем результаты для «{used}» вместо «{typed}»."
   },
   "seo": {
     "whereSpain": "Испания",

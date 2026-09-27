@@ -135,6 +135,15 @@ export async function SearchAll({
             )}
           </div>
 
+          {data?.corrected && data.corrected.length > 0 && (
+            <p className="search-hint">
+              {t("correctedTo", {
+                typed: data.corrected.map(([typed]) => typed).join(", "),
+                used: data.corrected.map(([, used]) => used).join(", "),
+              })}
+            </p>
+          )}
+
           {items.length === 0 ? (
             <div className="search-empty">
               <h2>{t("emptyTitle")}</h2>

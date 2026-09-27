@@ -278,7 +278,8 @@
     "close": "Закрити",
     "submit": "Шукати",
     "where": "Де шукати",
-    "showMore": "Показати ще {count}"
+    "showMore": "Показати ще {count}",
+    "correctedTo": "Показуємо результати для «{used}» замість «{typed}»."
   },
   "seo": {
     "whereSpain": "Іспанія",

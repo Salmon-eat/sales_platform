@@ -33,7 +33,7 @@ from app.models.resume import LANGUAGE_LEVELS, LICENCES, MAX_ABOUT, Resume
 from app.models.review import MAX_REPLY, MAX_REVIEW, SellerReview
 from app.models.saved_search import MAX_SEARCHES, SavedSearch
 from app.models.pages import ContentBlock, EmployerRequest, SeoPage
-from app.models.search import ListingSearch, SearchMiss
+from app.models.search import ListingSearch, SearchMiss, SearchWord
 from app.models.taxonomy import AttributeDefinition, Category, Section
 from app.models.user import Favorite, User, UserSession
 
@@ -94,6 +94,7 @@ __all__ = [
     "MAX_SEARCHES",
     "SavedSearch",
     "SearchMiss",
+    "SearchWord",
     "SellerReview",
     "SeoPage",
     "Section",

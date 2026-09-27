@@ -21,6 +21,7 @@ from app.importers.loadtest_data import create_fake_listings, delete_fake_listin
 from app.importers.locations import import_locations
 from app.importers.taxonomy import seed_taxonomy
 from app.models import User, UserRole
+from app.search.spelling import refresh as refresh_search_words
 from app.seo.counts import recount_seo_pages
 from app.services.cache import bump_cache_version
 from app.services.listings import expire_listings
@@ -114,6 +115,13 @@ async def delete_extras_cmd() -> None:
     print(f"demo extras removed: {removed}" if removed else "nothing to remove")
 
 
+async def search_words_cmd() -> None:
+    """Rebuild the site's own vocabulary: what a misspelled word is repaired against."""
+    async with SessionLocal() as session:
+        count = await refresh_search_words(session)
+    print(f"search vocabulary: {count} words")
+
+
 async def expire_listings_cmd() -> None:
     async with SessionLocal() as session:
         count = await expire_listings(session)
@@ -178,6 +186,8 @@ async def run(args: argparse.Namespace) -> None:
                 await seed_extras_cmd()
             case "delete-demo-extras":
                 await delete_extras_cmd()
+            case "refresh-search-words":
+                await search_words_cmd()
             case "expire-listings":
                 await expire_listings_cmd()
             case "seed-fake-listings":
@@ -215,6 +225,7 @@ def main() -> None:
     sub.add_parser("delete-demo-ads", help="remove those demo ads")
     sub.add_parser("seed-demo-extras", help="firms, CVs, reviews, chats, orders and articles (local only)")
     sub.add_parser("delete-demo-extras", help="remove all of that demo data")
+    sub.add_parser("refresh-search-words", help="rebuild the words a search typo is repaired against")
     sub.add_parser(
         "expire-listings", help="mark listings past expires_at as expired (the worker does it every 10 min)"
     )

@@ -19,6 +19,7 @@ from app.services.cache import bump_cache_version
 from app.services.chat_notify import notify_unread
 from app.services.gdpr import anonymize_expired
 from app.services.listings import expire_listings
+from app.search.spelling import refresh as refresh_search_words
 from app.services.searches import notify_new
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -29,6 +30,8 @@ SEO_RECOUNT_EVERY_MINUTES = 60
 CHAT_NOTIFY_EVERY_MINUTES = 3
 # often enough to be useful, rare enough that nobody gets a letter every ten minutes
 SAVED_SEARCH_EVERY_MINUTES = 60
+# new ads bring new words; often enough to matter, rare enough to be free
+WORDS_EVERY_MINUTES = 30
 
 
 async def expire_job() -> None:
@@ -78,6 +81,16 @@ async def chat_notify_job() -> None:
         logger.exception("chat notifications failed")
 
 
+async def search_words_job() -> None:
+    """The site's own vocabulary, rebuilt from the live ads: what a misspelled word is repaired against."""
+    try:
+        async with SessionLocal() as session:
+            count = await refresh_search_words(session)
+        logger.info("search vocabulary: %s words", count)
+    except Exception:
+        logger.exception("search vocabulary refresh failed")
+
+
 async def saved_searches_job() -> None:
     """A saved search tells its owner when something new turns up, once an hour at most."""
     try:
@@ -114,12 +127,16 @@ async def main() -> None:
     scheduler.add_job(
         saved_searches_job, "interval", minutes=SAVED_SEARCH_EVERY_MINUTES, id="saved_searches", coalesce=True
     )
+    scheduler.add_job(
+        search_words_job, "interval", minutes=WORDS_EVERY_MINUTES, id="search_words", coalesce=True
+    )
     scheduler.add_job(analytics_cleanup_job, "cron", hour=4, id="analytics_cleanup", coalesce=True)
     scheduler.add_job(gdpr_job, "cron", hour=4, minute=30, id="gdpr_anonymize", coalesce=True)
     scheduler.start()
     logger.info("worker started")
     await expire_job()  # catch up right after a restart
     await seo_recount_job()
+    await search_words_job()
     try:
         await asyncio.Event().wait()
     finally:

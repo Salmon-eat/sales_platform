@@ -22,6 +22,20 @@ class ListingSearch(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 
+class SearchWord(Base):
+    """A word that really appears in the ads, in any language; the site's own vocabulary.
+
+    It is what a misspelled or differently-ended word is repaired against, so no correction can ever
+    point at something nobody wrote.
+    """
+
+    __tablename__ = "search_words"
+
+    word: Mapped[str] = mapped_column(String(60), primary_key=True)
+    hits: Mapped[int] = mapped_column(default=1, server_default="1")
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
 class SearchMiss(Base):
     __tablename__ = "search_misses"
 

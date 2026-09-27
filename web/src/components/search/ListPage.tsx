@@ -299,6 +299,14 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
             </Link>
           </p>
         )}
+        {data.corrected && data.corrected.length > 0 && (
+          <p className="search-hint">
+            {t("correctedTo", {
+              typed: data.corrected.map(([typed]) => typed).join(", "),
+              used: data.corrected.map(([, used]) => used).join(", "),
+            })}
+          </p>
+        )}
         {data.fuzzy && data.total > 0 && <p className="search-hint">{t("fuzzyNote")}</p>}
 
         {data.total === 0 ? (

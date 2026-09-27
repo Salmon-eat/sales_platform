@@ -86,6 +86,10 @@ class SearchResponse(BaseModel):
     understood: Understood | None = None
     relaxations: list[Relaxation] = Field(default_factory=list)
     fuzzy: bool = False
+    # words repaired against the site's own vocabulary: [["дiвани", "диван"]]
+    corrected: list[list[str]] = Field(
+        default_factory=list, description="what was searched instead of what was typed"
+    )
 
 
 class SuggestProfession(BaseModel):
