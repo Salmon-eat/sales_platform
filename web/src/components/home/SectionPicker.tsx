@@ -10,7 +10,7 @@ import { asLocale } from "@/i18n/routing";
 import { facetTitle, facetValueLabel } from "@/lib/facets";
 import { prefixed } from "@/lib/routes";
 import { isActive, type Pairs, toggleValue } from "@/lib/search-url";
-import { isJobsSection, sectionUi } from "@/lib/sections";
+import { forAudience, isJobsSection, sectionUi } from "@/lib/sections";
 import type { CategoryFacet, FacetGroup, SearchResponse } from "@/lib/types";
 
 type Section = { key: string; slug: string; name: string };
@@ -113,7 +113,8 @@ function SectionPickerPanel({ section, onClose }: { section: Section; onClose: (
   const locale = asLocale(useLocale());
   const router = useRouter();
   const jobs = isJobsSection(section.key);
-  const groupsShown = sectionUi(section.key).picker ?? [];
+  // a Spaniard is not offered "no Spanish needed" or residence papers; a newcomer is
+  const groupsShown = forAudience(section.key, locale, sectionUi(section.key).picker ?? [], (key) => key);
 
   const [category, setCategory] = useState<string | null>(null);
   const [place, setPlace] = useState<string | null>(null);

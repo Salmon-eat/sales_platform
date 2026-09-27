@@ -4,7 +4,7 @@ import { Fragment, type ReactNode } from "react";
 
 import { facetTitle, facetValueLabel } from "@/lib/facets";
 import { type Linker, type ListState, makeFacetLinks } from "@/lib/list-url";
-import { isJobsSection } from "@/lib/sections";
+import { forNewcomers, isJobsSection, isNewcomer } from "@/lib/sections";
 import { get, type Pairs, setParam } from "@/lib/search-url";
 import type { FacetGroup, NamedSlug, SearchResponse } from "@/lib/types";
 
@@ -128,13 +128,16 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
 
   // switches on top: "new" first, then yes/no conditions (housing, no language…)
   const posted = tier2.find((g) => g.key === "posted" && g.values.length > 0);
-  const bools = [...(posted ? [posted] : []), ...tier2.filter((g) => g.type === "bool")];
-  // the first four blocks stay open (spec §5); for this audience documents and "suitable for" matter
-  // more than schedule or contract
+  // the first four blocks stay open (spec §5). For a newcomer documents and "suitable for" matter more
+  // than schedule or contract; a local (the site read in Spanish) gets the newcomers' filters last, still
+  // there but under "more filters"
+  const local = !isNewcomer(locale);
   const rank = (key: string) => {
+    if (local && forNewcomers(state.section.key, key)) return PRIORITY.length + 1;
     const i = PRIORITY.indexOf(key);
     return i === -1 ? PRIORITY.length : i;
   };
+  const bools = [...(posted ? [posted] : []), ...tier2.filter((g) => g.type === "bool").sort((a, b) => rank(a.key) - rank(b.key))];
   // price, year and kilometres stand right under the categories, as on every car and classifieds site
   const ranges = tier2.filter((g) => g.type === "range").sort((a, b) => rank(a.key) - rank(b.key));
   const others = tier2
