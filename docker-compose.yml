@@ -80,6 +80,21 @@ services:
       redis:
         condition: service_healthy
 
+  # Side-by-side trial only: nothing on the site talks to it. Started on purpose:
+  #   docker compose --profile search up -d meilisearch
+  meilisearch:
+    profiles: ["search"]
+    image: getmeili/meilisearch:v1.24
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-dev-master-key}
+      MEILI_ENV: development
+      # a laptop is not a server: keep indexing from eating the machine
+      MEILI_MAX_INDEXING_MEMORY: 512Mb
+    ports:
+      - "7700:7700"
+    volumes:
+      - meilidata:/meili_data
+
   web:
     profiles: ["web"]
     image: node:22-alpine
@@ -100,4 +115,5 @@ services:
 
 volumes:
   pgdata:
+  meilidata:
   web_node_modules:
