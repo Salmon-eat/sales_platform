@@ -399,6 +399,22 @@ button.icon-button {
   letter-spacing: -0.02em;
   color: var(--ink);
 }
+a.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 25px;
+  line-height: 1;
+  white-space: nowrap;
+  margin-left: -6px;
+}
+.logo__mark {
+  width: 1.21em;
+  height: 1.27em;
+  margin-right: 12px;
+  transform: translateY(1px);
+  flex: none;
+}
 .logo span {
   color: var(--accent);
 }
