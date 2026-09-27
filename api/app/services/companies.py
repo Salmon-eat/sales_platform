@@ -243,7 +243,20 @@ async def catalogue(
     city_slug: str | None = None,
     page: int = 1,
     per_page: int = 20,
+    redis=None,
 ) -> dict:
+    # "юридичні послуги в Малазі": the trade and the town are read out of the words, because a firm
+    # writes its own page in its own words and almost never in the ones people search with
+    if q and redis is not None:
+        from app.search.understanding import get_dictionary, understand
+
+        guess = understand(await get_dictionary(session, redis), q)
+        if guess.category and category_id is None:
+            category_id = guess.category.id
+        if guess.place and city_slug is None:
+            city_slug = guess.place.slug
+        q = guess.rest or None
+
     conds = [Company.status.in_(PUBLIC)]
     if category_id:
         # the chosen category or any of its children

@@ -250,6 +250,21 @@ async def search_listings(
     specs = attribute_specs(definitions)
     filters = parse_filters(raw, specs, radius_allowed=place is not None and place.level == "municipio")
 
+    # "диван у Валенсії": the town named inside the query becomes the place filter, and only the rest
+    # is looked for in the text. Without this the words "у валенсії" are searched for in the ad itself
+    # and find nothing. A town given in the path always wins.
+    if filters.q and location is None:
+        guess = understand(await get_dictionary(session, redis), filters.q, section_key)
+        # only when something is left over: a query that is fully understood ("прибирання Валенсія")
+        # belongs to a page of its own, and the caller sends the visitor there instead
+        if guess.place and guess.rest and guess.rest != filters.q:
+            location, place = await resolve_place(session, guess.place.slug)
+            filters = parse_filters(
+                {**raw, "q": [guess.rest]},
+                specs,
+                radius_allowed=place is not None and place.level == "municipio",
+            )
+
     query = SearchQuery(
         lang=lang,
         section_id=section.id if section else None,

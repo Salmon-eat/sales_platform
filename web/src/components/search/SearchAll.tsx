@@ -3,12 +3,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
+import { Building2 } from "lucide-react";
+
 import { AdCard } from "@/components/home/AdCard";
 import { AdSearch } from "@/components/home/AdSearch";
 import { SaveSearchButton } from "@/components/search/SaveSearchButton";
 import { getAccount } from "@/lib/account";
+import { companyPath } from "@/lib/routes";
+import type { CompanyCard } from "@/lib/types";
 import type { Locale } from "@/i18n/routing";
-import { getHome, orFallback, searchEverything } from "@/lib/api";
+import { getHome, orFallback, searchCompanies, searchEverything } from "@/lib/api";
 import { localizedPath } from "@/lib/routes";
 import type { RawSearchParams } from "@/lib/search-url";
 import type { Home, SearchResponse } from "@/lib/types";
@@ -21,6 +25,7 @@ const EMPTY_HOME: Home = {
 };
 
 const NO_RESULTS: SearchResponse["items"] = [];
+const NO_FIRMS: { items: CompanyCard[]; total: number } = { items: [], total: 0 };
 
 function one(value: string | string[] | undefined): string {
   return Array.isArray(value) ? (value[0] ?? "") : (value ?? "");
@@ -56,12 +61,14 @@ export async function SearchAll({
   searchParams: RawSearchParams;
 }) {
   const t = await getTranslations("search");
+  const tc = await getTranslations("companies");
   const account = await getAccount();
   const params = apiParams(searchParams);
   const q = one(searchParams.q);
-  const [home, data] = await Promise.all([
+  const [home, data, firms] = await Promise.all([
     orFallback(getHome(locale), EMPTY_HOME),
     orFallback(searchEverything(locale, params), null),
+    q ? orFallback(searchCompanies(locale, q), NO_FIRMS) : Promise.resolve(NO_FIRMS),
   ]);
   const items = data?.items ?? NO_RESULTS;
   const page = data?.page ?? 1;
@@ -83,6 +90,38 @@ export async function SearchAll({
       </section>
 
       <div className="container home-content">
+        {/* a request like "legal services in Málaga" is usually answered by a firm, not by an ad */}
+        {firms.items.length > 0 && (
+          <section className="home-block">
+            <div className="home-block__head">
+              <h2>{tc("title")}</h2>
+              <Link href={companyPath(locale)} className="home-block__link">
+                {tc("found", { count: firms.total })}
+              </Link>
+            </div>
+            <ul className="company-list">
+              {firms.items.slice(0, 3).map((firm) => (
+                <li key={firm.id} className="company-row">
+                  <span className="company-row__logo">
+                    {firm.logo ? <img src={firm.logo} alt="" /> : <Building2 size={20} aria-hidden />}
+                  </span>
+                  <div className="company-row__body">
+                    <h3>
+                      <Link href={companyPath(locale, firm.slug)} className="listing-link">
+                        {firm.name}
+                      </Link>
+                      {firm.is_verified && <span className="badge badge--active">{tc("verified")}</span>}
+                    </h3>
+                    <p className="company-row__meta muted small">
+                      {[firm.city_name, ...firm.categories].filter(Boolean).join(" · ")}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <section className="home-block">
           <div className="home-block__head">
             <h2>{t("foundAds", { count: data?.total ?? 0 })}</h2>

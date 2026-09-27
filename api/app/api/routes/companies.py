@@ -5,7 +5,7 @@ from typing import Annotated, Any
 from fastapi import APIRouter, HTTPException, Query, status
 from sqlalchemy import select
 
-from app.api.deps import SessionDep
+from app.api.deps import RedisDep, SessionDep
 from app.models import Company
 from app.schemas.common import Lang
 from app.schemas.company import CompanyContactOut
@@ -17,6 +17,7 @@ router = APIRouter(prefix="/companies", tags=["companies"])
 @router.get("")
 async def catalogue(
     session: SessionDep,
+    redis: RedisDep,
     lang: Lang = "es",
     q: Annotated[str | None, Query(max_length=100)] = None,
     category_id: int | None = None,
@@ -24,7 +25,7 @@ async def catalogue(
     page: Annotated[int, Query(ge=1)] = 1,
     per_page: Annotated[int, Query(ge=1, le=50)] = 20,
 ) -> dict[str, Any]:
-    return await companies.catalogue(session, lang, q, category_id, city, page, per_page)
+    return await companies.catalogue(session, lang, q, category_id, city, page, per_page, redis=redis)
 
 
 @router.get("/{slug}")

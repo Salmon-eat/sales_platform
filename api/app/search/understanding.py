@@ -8,7 +8,7 @@ changes (seed-taxonomy / import-locations bump it; listing edits don't) or every
 
 import time
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from redis.asyncio import Redis
 from redis.exceptions import RedisError
@@ -16,7 +16,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Category, Location, Section
-from app.search.text import latin_lookalike, normalize
+from app.search.text import STEM, close_enough, latin_lookalike, normalize
 from app.services.cache import TAXONOMY_VERSION_KEY
 
 MAX_NGRAM = 5
@@ -69,6 +69,10 @@ class Dictionary:
     by_category_id: dict[int, CategoryEntry]
     version: str
     built_at: float
+    # the same words grouped by their first letters, so a word with a different ending can be found
+    # without walking the whole dictionary: {"вале": ["валencia", "valencia"…]}
+    places_by_stem: dict[str, list[str]] = field(default_factory=dict)
+    categories_by_stem: dict[str, list[str]] = field(default_factory=dict)
 
 
 _cache: Dictionary | None = None
@@ -128,8 +132,43 @@ async def get_dictionary(session: AsyncSession, redis: Redis) -> Dictionary:
             ):
                 places[phrase] = entry
 
-    _cache = Dictionary(categories, places, by_id, version, time.monotonic())
+    _cache = Dictionary(
+        categories,
+        places,
+        by_id,
+        version,
+        time.monotonic(),
+        places_by_stem=_by_stem(places, FUZZY_MIN_POPULATION),
+        categories_by_stem=_by_stem(categories),
+    )
     return _cache
+
+
+# Spain has thousands of villages, and one of them is called Remondo — close enough to "ремонт" to
+# swallow the word. Only towns people actually search for are matched by a changed ending.
+FUZZY_MIN_POPULATION = 20_000
+
+
+def _by_stem(phrases: dict, min_population: int = 0) -> dict[str, list[str]]:
+    """One-word entries grouped by their first letters; phrases of two words keep their exact form."""
+    grouped: dict[str, list[str]] = defaultdict(list)
+    for phrase, entry in phrases.items():
+        if " " in phrase or len(phrase) < STEM + 1:
+            continue
+        if min_population and getattr(entry, "population", 0) < min_population:
+            continue
+        grouped[phrase[:STEM]].append(phrase)
+    return grouped
+
+
+def _similar(word: str, grouped: dict[str, list[str]]) -> str | None:
+    """The dictionary word this one is a form of: "валенсії" -> "валенсія"."""
+    if len(word) < STEM + 1:
+        return None
+    for candidate in grouped.get(word[:STEM], ()):
+        if close_enough(word, candidate):
+            return candidate
+    return None
 
 
 def _best_category(entries: list[CategoryEntry], section_key: str | None) -> CategoryEntry | None:
@@ -150,6 +189,14 @@ def understand(dictionary: Dictionary, q: str, section_key: str | None = None) -
         for n in range(min(MAX_NGRAM, len(words) - i), 0, -1):
             chunk = words[i : i + n]
             variants = {" ".join(chunk), " ".join(latin_lookalike(w) or w for w in chunk)}
+            # one word written with a different ending ("у Валенсії", "ремонту") still counts
+            if n == 1:
+                same_place = _similar(chunk[0], dictionary.places_by_stem)
+                if same_place:
+                    variants.add(same_place)
+                same_category = _similar(chunk[0], dictionary.categories_by_stem)
+                if same_category:
+                    variants.add(same_category)
             if category is None:
                 entries = [e for v in variants for e in dictionary.categories.get(v, [])]
                 if entries and (found := _best_category(entries, section_key)):

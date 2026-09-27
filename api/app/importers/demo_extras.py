@@ -313,11 +313,16 @@ async def seed_demo_extras(session: AsyncSession) -> dict[str, int]:
         town_id = await session.scalar(
             select(Location.id).where(Location.slug == town_slug, Location.level == "municipio")
         )
+        # the trades live in the services section; the same slugs exist in jobs and mean something else
         category_ids = list(
             (
                 await session.scalars(
-                    select(Category.id).where(
-                        Category.slug["es"].astext.in_(category_slugs), Category.is_enabled.is_(True)
+                    select(Category.id)
+                    .join(Section, Section.id == Category.section_id)
+                    .where(
+                        Section.key == "servicios-sec",
+                        Category.slug["es"].astext.in_(category_slugs),
+                        Category.is_enabled.is_(True),
                     )
                 )
             ).all()

@@ -3,6 +3,7 @@ import "server-only";
 import { cache } from "react";
 
 import type {
+  CompanyCard,
   ContentBlock,
   Home,
   Lang,
@@ -76,6 +77,12 @@ export const searchListings = cache((lang: string, section: string, params: [str
 export const searchEverything = cache((lang: string, params: [string, string][], perPage = 24) => {
   const qs = new URLSearchParams([["lang", lang], ["per_page", String(perPage)], ...params]);
   return apiFetch<SearchResponse>(`/listings?${qs}`, { revalidate: false });
+});
+
+/** Firms matching the same words as an ad search: "legal services in Málaga" is usually a firm. */
+export const searchCompanies = cache((lang: string, q: string, limit = 3) => {
+  const qs = new URLSearchParams({ lang, q, per_page: String(limit) });
+  return apiFetch<{ items: CompanyCard[]; total: number }>(`/companies?${qs}`, { revalidate: 60 });
 });
 
 /** Path without the language prefix -> what the page is. Memoized per request (metadata + page). */

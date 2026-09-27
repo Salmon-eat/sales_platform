@@ -906,19 +906,30 @@
               "synonyms": {
                 "es": [
                   "mudanzas",
-                  "cargador"
+                  "cargador",
+                  "portes",
+                  "transporte de muebles"
                 ],
                 "en": [
                   "removals",
-                  "loader"
+                  "loader",
+                  "moving"
                 ],
                 "uk": [
                   "вантажник",
-                  "мувінг"
+                  "мувінг",
+                  "перевезення",
+                  "переїзд",
+                  "вантажники",
+                  "грузоперевезення"
                 ],
                 "ru": [
                   "грузчик",
-                  "мувинг"
+                  "мувинг",
+                  "перевозки",
+                  "переезд",
+                  "грузчики",
+                  "грузоперевозки"
                 ]
               }
             },
@@ -1544,7 +1555,30 @@
                 ]
               }
             }
-          ]
+          ],
+          "synonyms": {
+            "uk": [
+              "прибирання",
+              "клінінг",
+              "прибиральниця",
+              "мийка вікон"
+            ],
+            "ru": [
+              "уборка",
+              "клининг",
+              "уборщица",
+              "мойка окон"
+            ],
+            "es": [
+              "limpieza",
+              "limpiadora",
+              "limpieza de casas"
+            ],
+            "en": [
+              "cleaning",
+              "house cleaning"
+            ]
+          }
         },
         {
           "slug": {
@@ -2638,7 +2672,30 @@
                 ]
               }
             }
-          ]
+          ],
+          "synonyms": {
+            "uk": [
+              "перукар",
+              "манікюр",
+              "косметолог",
+              "салон краси"
+            ],
+            "ru": [
+              "парикмахер",
+              "маникюр",
+              "косметолог",
+              "салон красоты"
+            ],
+            "es": [
+              "peluquería",
+              "manicura",
+              "estética"
+            ],
+            "en": [
+              "hairdresser",
+              "beauty salon"
+            ]
+          }
         },
         {
           "slug": {
@@ -3630,7 +3687,35 @@
             "ru": "Ремонт и строительство"
           },
           "icon": "hammer",
-          "is_enabled": false
+          "is_enabled": false,
+          "synonyms": {
+            "uk": [
+              "ремонт",
+              "ремонт квартир",
+              "будівельні роботи",
+              "плиточник",
+              "маляр"
+            ],
+            "ru": [
+              "ремонт",
+              "ремонт квартир",
+              "строительные работы",
+              "плиточник",
+              "маляр"
+            ],
+            "es": [
+              "reformas",
+              "obras",
+              "albañil",
+              "pintor",
+              "alicatado"
+            ],
+            "en": [
+              "renovation",
+              "repairs",
+              "builder"
+            ]
+          }
         },
         {
           "slug": {
@@ -3646,7 +3731,30 @@
             "ru": "Перевозки"
           },
           "icon": "truck",
-          "is_enabled": false
+          "is_enabled": false,
+          "synonyms": {
+            "uk": [
+              "перевезення",
+              "переїзд",
+              "вантажники",
+              "грузоперевезення"
+            ],
+            "ru": [
+              "перевозки",
+              "переезд",
+              "грузчики",
+              "грузоперевозки"
+            ],
+            "es": [
+              "mudanzas",
+              "portes",
+              "transporte de muebles"
+            ],
+            "en": [
+              "moving",
+              "removals"
+            ]
+          }
         },
         {
           "slug": {
@@ -3662,7 +3770,30 @@
             "ru": "Уборка"
           },
           "icon": "sparkles",
-          "is_enabled": false
+          "is_enabled": false,
+          "synonyms": {
+            "uk": [
+              "прибирання",
+              "клінінг",
+              "прибиральниця",
+              "мийка вікон"
+            ],
+            "ru": [
+              "уборка",
+              "клининг",
+              "уборщица",
+              "мойка окон"
+            ],
+            "es": [
+              "limpieza",
+              "limpiadora",
+              "limpieza de casas"
+            ],
+            "en": [
+              "cleaning",
+              "house cleaning"
+            ]
+          }
         },
         {
           "slug": {
@@ -3678,7 +3809,28 @@
             "ru": "Переводы"
           },
           "icon": "languages",
-          "is_enabled": false
+          "is_enabled": false,
+          "synonyms": {
+            "uk": [
+              "переклад",
+              "перекладач",
+              "присяжний переклад"
+            ],
+            "ru": [
+              "перевод",
+              "переводчик",
+              "присяжный перевод"
+            ],
+            "es": [
+              "traducción",
+              "traductor jurado",
+              "traducciones"
+            ],
+            "en": [
+              "translation",
+              "sworn translation"
+            ]
+          }
         },
         {
           "slug": {
@@ -3694,7 +3846,30 @@
             "ru": "Красота"
           },
           "icon": "scissors",
-          "is_enabled": false
+          "is_enabled": false,
+          "synonyms": {
+            "uk": [
+              "перукар",
+              "манікюр",
+              "косметолог",
+              "салон краси"
+            ],
+            "ru": [
+              "парикмахер",
+              "маникюр",
+              "косметолог",
+              "салон красоты"
+            ],
+            "es": [
+              "peluquería",
+              "manicura",
+              "estética"
+            ],
+            "en": [
+              "hairdresser",
+              "beauty salon"
+            ]
+          }
         },
         {
           "slug": {
@@ -3710,7 +3885,32 @@
             "ru": "Здоровье"
           },
           "icon": "stethoscope",
-          "is_enabled": false
+          "is_enabled": false,
+          "synonyms": {
+            "uk": [
+              "лікар",
+              "стоматолог",
+              "масаж",
+              "фізіотерапевт"
+            ],
+            "ru": [
+              "врач",
+              "стоматолог",
+              "массаж",
+              "физиотерапевт"
+            ],
+            "es": [
+              "médico",
+              "dentista",
+              "masaje",
+              "fisioterapeuta"
+            ],
+            "en": [
+              "doctor",
+              "dentist",
+              "massage"
+            ]
+          }
         },
         {
           "slug": {
@@ -3726,7 +3926,37 @@
             "ru": "Юристы и гестор"
           },
           "icon": "scale",
-          "is_enabled": false
+          "is_enabled": false,
+          "synonyms": {
+            "uk": [
+              "юридичні послуги",
+              "юрист",
+              "адвокат",
+              "гестор",
+              "гестория",
+              "оформлення документів"
+            ],
+            "ru": [
+              "юридические услуги",
+              "юрист",
+              "адвокат",
+              "гестор",
+              "оформление документов"
+            ],
+            "es": [
+              "abogado",
+              "abogados",
+              "asesoría",
+              "gestoría",
+              "servicios jurídicos",
+              "papeleo"
+            ],
+            "en": [
+              "lawyer",
+              "legal services",
+              "paperwork help"
+            ]
+          }
         }
       ],
       "_retired": "moved to the 'servicios-sec' section; kept here switched off, not deleted"
@@ -3815,7 +4045,35 @@
             "uk": "Ремонт і будівництво",
             "ru": "Ремонт и строительство"
           },
-          "icon": "hammer"
+          "icon": "hammer",
+          "synonyms": {
+            "uk": [
+              "ремонт",
+              "ремонт квартир",
+              "будівельні роботи",
+              "плиточник",
+              "маляр"
+            ],
+            "ru": [
+              "ремонт",
+              "ремонт квартир",
+              "строительные работы",
+              "плиточник",
+              "маляр"
+            ],
+            "es": [
+              "reformas",
+              "obras",
+              "albañil",
+              "pintor",
+              "alicatado"
+            ],
+            "en": [
+              "renovation",
+              "repairs",
+              "builder"
+            ]
+          }
         },
         {
           "slug": {
@@ -3830,7 +4088,30 @@
             "uk": "Перевезення",
             "ru": "Перевозки"
           },
-          "icon": "truck"
+          "icon": "truck",
+          "synonyms": {
+            "uk": [
+              "перевезення",
+              "переїзд",
+              "вантажники",
+              "грузоперевезення"
+            ],
+            "ru": [
+              "перевозки",
+              "переезд",
+              "грузчики",
+              "грузоперевозки"
+            ],
+            "es": [
+              "mudanzas",
+              "portes",
+              "transporte de muebles"
+            ],
+            "en": [
+              "moving",
+              "removals"
+            ]
+          }
         },
         {
           "slug": {
@@ -3845,7 +4126,30 @@
             "uk": "Прибирання",
             "ru": "Уборка"
           },
-          "icon": "sparkles"
+          "icon": "sparkles",
+          "synonyms": {
+            "uk": [
+              "прибирання",
+              "клінінг",
+              "прибиральниця",
+              "мийка вікон"
+            ],
+            "ru": [
+              "уборка",
+              "клининг",
+              "уборщица",
+              "мойка окон"
+            ],
+            "es": [
+              "limpieza",
+              "limpiadora",
+              "limpieza de casas"
+            ],
+            "en": [
+              "cleaning",
+              "house cleaning"
+            ]
+          }
         },
         {
           "slug": {
@@ -3860,7 +4164,28 @@
             "uk": "Переклади",
             "ru": "Переводы"
           },
-          "icon": "languages"
+          "icon": "languages",
+          "synonyms": {
+            "uk": [
+              "переклад",
+              "перекладач",
+              "присяжний переклад"
+            ],
+            "ru": [
+              "перевод",
+              "переводчик",
+              "присяжный перевод"
+            ],
+            "es": [
+              "traducción",
+              "traductor jurado",
+              "traducciones"
+            ],
+            "en": [
+              "translation",
+              "sworn translation"
+            ]
+          }
         },
         {
           "slug": {
@@ -3875,7 +4200,30 @@
             "uk": "Краса",
             "ru": "Красота"
           },
-          "icon": "scissors"
+          "icon": "scissors",
+          "synonyms": {
+            "uk": [
+              "перукар",
+              "манікюр",
+              "косметолог",
+              "салон краси"
+            ],
+            "ru": [
+              "парикмахер",
+              "маникюр",
+              "косметолог",
+              "салон красоты"
+            ],
+            "es": [
+              "peluquería",
+              "manicura",
+              "estética"
+            ],
+            "en": [
+              "hairdresser",
+              "beauty salon"
+            ]
+          }
         },
         {
           "slug": {
@@ -3890,7 +4238,32 @@
             "uk": "Здоров'я",
             "ru": "Здоровье"
           },
-          "icon": "stethoscope"
+          "icon": "stethoscope",
+          "synonyms": {
+            "uk": [
+              "лікар",
+              "стоматолог",
+              "масаж",
+              "фізіотерапевт"
+            ],
+            "ru": [
+              "врач",
+              "стоматолог",
+              "массаж",
+              "физиотерапевт"
+            ],
+            "es": [
+              "médico",
+              "dentista",
+              "masaje",
+              "fisioterapeuta"
+            ],
+            "en": [
+              "doctor",
+              "dentist",
+              "massage"
+            ]
+          }
         },
         {
           "slug": {
@@ -3905,7 +4278,37 @@
             "uk": "Юристи та гестор",
             "ru": "Юристы и гестор"
           },
-          "icon": "scale"
+          "icon": "scale",
+          "synonyms": {
+            "uk": [
+              "юридичні послуги",
+              "юрист",
+              "адвокат",
+              "гестор",
+              "гестория",
+              "оформлення документів"
+            ],
+            "ru": [
+              "юридические услуги",
+              "юрист",
+              "адвокат",
+              "гестор",
+              "оформление документов"
+            ],
+            "es": [
+              "abogado",
+              "abogados",
+              "asesoría",
+              "gestoría",
+              "servicios jurídicos",
+              "papeleo"
+            ],
+            "en": [
+              "lawyer",
+              "legal services",
+              "paperwork help"
+            ]
+          }
         }
       ]
     },

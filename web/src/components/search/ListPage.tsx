@@ -188,7 +188,9 @@ export async function ListPage({
             <SearchBox
               key={path}
               sectionPaths={{ empleo: localizedPath(locale, { type: "list", key: "work" }), servicios: localizedPath(locale, { type: "list", key: "services" }) }}
-              initialQuery={q ?? ""}
+              // a word recognised as a profession became a path: show it back, so the box never looks
+              // as if the site swallowed what was typed
+              initialQuery={q ?? state.profession?.name ?? state.sector?.name ?? ""}
               initialPlace={resolved.location && resolved.location.level === "municipio" ? { slug: resolved.location.slug, name: resolved.location.name } : null}
             />
             <h1>{heading}</h1>
