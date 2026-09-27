@@ -2,7 +2,7 @@
 
 from app.search.service import POOR_RESULT, repair_helped
 from app.search.spelling import MIN_LENGTH, SIMILAR_ENOUGH
-from app.search.text import normalize
+from app.search.text import close_by_edits, normalize
 
 
 def test_the_threshold_is_loose_enough_for_one_wrong_letter() -> None:
@@ -19,6 +19,21 @@ def test_a_ukrainian_word_survives_normalising() -> None:
     assert normalize("Київ") == "київ"
     # Russian writes "ё" as "е" half the time, so both spellings have to meet somewhere
     assert normalize("Ёлка") == "елка"
+
+
+def test_one_keystroke_away_counts_as_the_same_word() -> None:
+    """Trigrams alone miss the commonest slip of all: "leptop" and "laptop" share only 0.40 of their
+    trigrams, under any threshold safe enough to keep, yet they are one key apart."""
+    assert close_by_edits("leptop", "laptop")
+    assert close_by_edits("холодилник", "холодильник")  # a letter left out
+    assert close_by_edits("limpeza", "limpieza")
+    assert close_by_edits("laptop", "laptop")
+
+
+def test_two_different_words_are_still_two_different_words() -> None:
+    assert not close_by_edits("laptop", "lorry")
+    assert not close_by_edits("диван", "стіл")
+    assert not close_by_edits("коче", "камера")  # nothing alike and nothing close in length
 
 
 def test_a_correction_has_to_earn_its_place() -> None:

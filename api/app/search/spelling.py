@@ -18,7 +18,7 @@ from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.search import SearchWord
-from app.search.text import normalize, one_alphabet
+from app.search.text import close_by_edits, normalize, one_alphabet
 
 log = logging.getLogger("bazarcito.spelling")
 
@@ -79,7 +79,13 @@ async def _closest(session: AsyncSession, word: str) -> str | None:
         .order_by(similarity.desc(), SearchWord.hits.desc())
         .limit(CANDIDATES)
     )
-    best = [(w, hits, score) for w, hits, score in rows.all() if score >= SIMILAR_ENOUGH]
+    # close by trigrams, or simply one keystroke away: the second catches "leptop" -> "laptop",
+    # which shares too few trigrams to pass a threshold that is safe for everything else
+    best = [
+        (w, hits, score)
+        for w, hits, score in rows.all()
+        if score >= SIMILAR_ENOUGH or close_by_edits(word, w)
+    ]
     if not best:
         return None
     # among equally close words, the one more ads use

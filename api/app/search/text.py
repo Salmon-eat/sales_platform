@@ -94,6 +94,19 @@ def close_enough(typed: str, known: str) -> bool:
     return _distance(typed, known, allowed) <= allowed
 
 
+def close_by_edits(typed: str, known: str) -> bool:
+    """One slip in a short word, two in a long one — the bar every search engine uses.
+
+    Trigram similarity alone misses the commonest mistake of all: "leptop" and "laptop" share only
+    0.40 of their trigrams, below any threshold loose enough to be safe, yet they are one keystroke
+    apart. Counting the keystrokes catches it without loosening anything else.
+    """
+    allowed = 1 if len(typed) < 8 else 2
+    if abs(len(typed) - len(known)) > allowed:
+        return False
+    return _distance(typed, known, allowed) <= allowed
+
+
 def _distance(a: str, b: str, limit: int) -> int:
     """Levenshtein, stopped as soon as it is clearly over the limit."""
     previous = list(range(len(b) + 1))
