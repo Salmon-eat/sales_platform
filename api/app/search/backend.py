@@ -4,7 +4,7 @@ can be replaced by Meilisearch (spec §1: after ~50k active listings or facets p
 from dataclasses import dataclass, field
 from typing import Protocol
 
-from app.search.params import AttrSpec, Filters
+from app.search.params import AttrSpec, Filters, SectionRules
 
 
 @dataclass(frozen=True)
@@ -26,10 +26,8 @@ class SearchQuery:
     filters: Filters
     attr_specs: dict[str, AttrSpec] = field(default_factory=dict)
     per_page: int = 20
-    # a "price from–to" filter in the facets: everywhere except the jobs, which have a salary instead
-    price_filter: bool = False
-    # salary, housing, "no experience", schedule, contract: only where there are jobs
-    job_filters: bool = True
+    # which filters this section has: the job ones, a price (see SectionRules)
+    rules: SectionRules = field(default_factory=SectionRules)
     # Matching words that merely resemble the ones in the ads means reading every ad, which costs real
     # time once there are thousands. The caller turns it off for the first attempt and only pays for it
     # when the plain search and the spelling repair have both come back nearly empty.

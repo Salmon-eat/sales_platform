@@ -4,6 +4,7 @@ import { Briefcase, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { type KeyboardEvent, useId, useMemo, useState } from "react";
 
+import { JOBS_SECTION } from "@/lib/sections";
 import type { AdminSection } from "@/lib/types";
 
 type Props = {
@@ -14,8 +15,6 @@ type Props = {
 };
 
 type Entry = { id: number; sector: string; name: string; section: string | null; search: string };
-
-const JOBS_SECTION = "empleo";
 
 const fold = (s: string) =>
   s

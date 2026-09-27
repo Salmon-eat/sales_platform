@@ -26,6 +26,8 @@ import {
   setParam,
   sortPairs,
 } from "@/lib/search-url";
+import { formatFilterNumber } from "@/lib/listing-format";
+import { isJobsSection } from "@/lib/sections";
 import { absoluteUrl, apiAlternates, jsonLd } from "@/lib/seo";
 import type { ResolveOut, SearchResponse } from "@/lib/types";
 
@@ -243,9 +245,12 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
   const t = await getTranslations("search");
   const link = makeLinker(locale, state);
   const chips = activeChips(data, canonical, state, link, t, locale);
+  // jobs are compared by salary and shown as job cards; everything else by price, with its photo
+  const jobs = isJobsSection(state.section.key);
+  const Card = jobs ? ListingCard : AdRow;
+  const foundKey = jobs ? "found" : "foundAds"; // "3 вакансії" / "3 оголошення"
   // "we will find you a job" belongs in the jobs section; on a page of sofas it is nonsense
-  const applyOptions =
-    data.total === 0 && state.section.key === "empleo" ? await getApplicationOptions(locale) : null;
+  const applyOptions = data.total === 0 && jobs ? await getApplicationOptions(locale) : null;
   // A page that says "nothing found" and stops is a dead end: whatever the search was, the section
   // still has its newest ads, and they are better than an apology.
   const instead =
@@ -253,9 +258,6 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
       ? await orFallback(searchListings(locale, state.section.key, [["sort", "new"]], 120), null)
       : null;
   const q = get(canonical, "q");
-  // jobs are compared by salary and shown as job cards; everything else by price, with its photo
-  const jobs = state.section.key === "empleo";
-  const Card = jobs ? ListingCard : AdRow;
   const sortOptions = [...(q ? ["relevance"] : []), "new", ...(jobs ? ["salary"] : ["price_asc", "price_desc"])] as (
     | "relevance"
     | "new"
@@ -280,7 +282,7 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
         <div className="search-toolbar">
           {/* only the jobs section counts vacancies; everywhere else these are ads */}
           <p className="search-count">
-            {t(state.section.key === "empleo" ? "found" : "foundAds", { count: data.total })}
+            {t(foundKey, { count: data.total })}
           </p>
           <div className="chips-row">
             {chips.map((chip) => (
@@ -356,7 +358,7 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
                         <Link href={target} className={r.count === 0 ? "relaxation relaxation--zero" : "relaxation"}>
                           <span>{t(`relax_${r.kind}`, { value: r.label_value ?? "" })}</span>
                           <span className="facet-count">
-                            {t(state.section.key === "empleo" ? "found" : "foundAds", { count: r.count })}
+                            {t(foundKey, { count: r.count })}
                           </span>
                         </Link>
                       </li>
@@ -461,7 +463,7 @@ function activeChips(data: SearchResponse, pairs: Pairs, state: ListState, link:
   for (const group of data.facets.filter((g) => g.type === "range")) {
     const { chosen_from: lo, chosen_to: hi } = group;
     if (lo === null && hi === null) continue;
-    const n = (v: number) => (group.key === "a.year" ? String(v) : v.toLocaleString(locale)); // not "2 016"
+    const n = (v: number) => formatFilterNumber(group.key, v, locale);
     const span = lo !== null && hi !== null ? `${n(lo)}–${n(hi)}` : lo !== null ? t("rangeFromValue", { value: n(lo) }) : t("rangeToValue", { value: n(hi!) });
     const unit = group.key === "price" ? " €" : group.unit ? ` ${group.unit}` : "";
     chips.push({

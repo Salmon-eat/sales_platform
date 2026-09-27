@@ -4,11 +4,10 @@ import { Camera } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
-import { ago, useAdPrice } from "@/components/home/AdCard";
+import { useAdPrice, useCardBasics } from "@/components/home/card-basics";
 import { FavoriteButton } from "@/components/saved/FavoriteButton";
 import type { Locale } from "@/i18n/routing";
-import { prefixed } from "@/lib/routes";
-import { useViewed } from "@/lib/saved";
+import { ago } from "@/lib/listing-format";
 import type { ListingCard as Card } from "@/lib/types";
 
 /** enough to tell one car from the next (fuel, gearbox, year...); the rest is on the ad's page */
@@ -21,9 +20,7 @@ const MAX_TAGS = 5;
  */
 export function AdRow({ listing, locale, note }: { listing: Card; locale: Locale; note?: string }) {
   const t = useTranslations("listing");
-  const viewed = useViewed().has(listing.id);
-  const href = prefixed(locale, listing.path);
-  const place = listing.location_scope === "spain_wide" ? t("spainWide") : listing.location?.name;
+  const { href, place, viewed } = useCardBasics(listing, locale);
   const { money, per } = useAdPrice(listing, locale);
   const tags = (listing.tags ?? []).slice(0, MAX_TAGS);
 

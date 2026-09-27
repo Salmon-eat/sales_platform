@@ -3,6 +3,7 @@ import "server-only";
 import type { Locale } from "@/i18n/routing";
 
 import { getPopularLocations, getTaxonomy, orFallback } from "./api";
+import { isJobsSection } from "./sections";
 import type { ApplicationOptions, CategoryNode, Taxonomy } from "./types";
 
 const EMPTY: Taxonomy = { sections: [] };
@@ -13,7 +14,7 @@ export async function getApplicationOptions(lang: string): Promise<ApplicationOp
     orFallback(getTaxonomy(lang), EMPTY),
     orFallback(getPopularLocations(lang, 50), []),
   ]);
-  const jobs = taxonomy.sections.find((s) => s.key === "empleo");
+  const jobs = taxonomy.sections.find((s) => isJobsSection(s.key));
   return {
     taxonomy,
     sectors: (jobs?.categories ?? []).map((c) => ({ id: c.id, name: c.name })),

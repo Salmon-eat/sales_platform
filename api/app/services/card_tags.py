@@ -5,7 +5,7 @@ import re
 from typing import Any
 
 from app.models import AttributeDefinition, Listing
-from app.models.i18n import tr
+from app.models.i18n import format_number, tr
 from app.schemas.listing import CardTag
 
 # the order people scan a card in: can I talk there, are my papers fine, what do I get, is it for me
@@ -22,16 +22,6 @@ ORDER = list(KIND)
 # a car is read make first, then year and kilometres, then the rest
 LEADING = ["brand", "year", "km", "fuel", "gearbox", "body"]
 SKIP = {"housing_cost"}  # merged into the "housing" tag by the card itself
-THOUSANDS = {"es": ".", "en": ",", "uk": " ", "ru": " "}
-
-
-def number(value: int, lang: str) -> str:
-    """189000 -> "189.000" (es), "189,000" (en), "189 000" (uk, ru). Years stay as they are."""
-    if value < 10_000:
-        return str(value)
-    return f"{value:,}".replace(",", THOUSANDS.get(lang, " "))
-
-
 LOWERCASE_LANGS = {"uk", "ru", "es"}  # language names are not capitalized mid-sentence there
 
 
@@ -81,7 +71,7 @@ def card_tags(listing: Listing, definitions: list[AttributeDefinition], lang: st
         elif defn.type == "int" and isinstance(value, int):
             # "189 000 km" says what it is by its unit; a bare year says it by itself
             unit = tr(defn.unit, lang) if defn.unit else None
-            text = f"{number(value, lang)} {unit}" if unit else number(value, lang)
+            text = f"{format_number(value, lang)} {unit}" if unit else format_number(value, lang)
             tags.append(CardTag(key=key, label=text, kind=kind))
         elif defn.type == "enum" and (name := _option(defn, value, lang)):
             # "3/1" alone says nothing: short values get the field name; a make ("Ford", "MG") is

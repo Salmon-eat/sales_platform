@@ -1,4 +1,4 @@
-from app.search.params import AttrSpec, canonical_query, parse_filters
+from app.search.params import AttrSpec, SectionRules, canonical_query, parse_filters
 from app.search.text import latin_lookalike, normalize, one_alphabet, tokens
 
 CE_SPECS = {
@@ -39,7 +39,7 @@ def test_from_to_filters() -> None:
     f = parse_filters(
         {"price": ["8 000-15000"], "a.year": ["2018-"], "a.km": ["-100000"], "a.fuel": ["diesel"]},
         CAR_SPECS,
-        price_allowed=True,
+        rules=SectionRules(price=True),
     )
     assert f.ranges == {"price": (8000, 15000), "a.year": (2018, None), "a.km": (None, 100000)}
     assert canonical_query(f) == "a.fuel=diesel&a.km=-100000&a.year=2018-&price=8000-15000"
@@ -48,7 +48,7 @@ def test_from_to_filters() -> None:
 def test_from_to_filters_forgive_and_refuse() -> None:
     # the ends the wrong way round are swapped; nonsense and a price on the jobs page are dropped
     raw = {"price": ["15000-8000"], "a.year": ["abc-"], "a.km": ["-"]}
-    f = parse_filters(raw, CAR_SPECS, price_allowed=True)
+    f = parse_filters(raw, CAR_SPECS, rules=SectionRules(price=True))
     assert f.ranges == {"price": (8000, 15000)}
     assert parse_filters({"price": ["100-200"]}, CAR_SPECS).ranges == {}
     # a number filter is only read for an attribute that is a number
@@ -64,7 +64,7 @@ def test_job_filters_stay_in_the_jobs_section() -> None:
         "schedule": ["full"],
         "q": ["seat"],
     }
-    assert canonical_query(parse_filters(raw, jobs_allowed=False)) == "q=seat"
+    assert canonical_query(parse_filters(raw, rules=SectionRules(jobs=False))) == "q=seat"
     assert "housing=1" in canonical_query(parse_filters(raw))
 
 

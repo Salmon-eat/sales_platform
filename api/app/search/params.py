@@ -28,6 +28,26 @@ MAX_NUMBER = 100_000_000  # a price, a year, kilometres: anything bigger is a ty
 Range = tuple[int | None, int | None]  # "from" and "to", either may be open
 
 
+JOBS_SECTION = "empleo"
+
+
+@dataclass(frozen=True)
+class SectionRules:
+    """Which filters a section has. The one place that knows jobs differ from everything else: a job has
+    a salary, housing, "no experience", a schedule and a contract; a car, a flat or a sofa has a price.
+    The whole-board search (no section) mixes both and keeps the job filters."""
+
+    jobs: bool = True
+    price: bool = False
+
+    @classmethod
+    def for_section(cls, section_key: str | None) -> "SectionRules":
+        return cls(jobs=section_key in (None, JOBS_SECTION), price=section_key != JOBS_SECTION)
+
+
+ANY_SECTION = SectionRules()  # the parser's default: job filters on, no price
+
+
 @dataclass(frozen=True)
 class AttrSpec:
     key: str
@@ -111,8 +131,7 @@ def parse_filters(
     raw: Mapping[str, str | list[str]],
     attr_specs: Mapping[str, AttrSpec] | None = None,
     radius_allowed: bool = False,
-    price_allowed: bool = False,
-    jobs_allowed: bool = True,
+    rules: SectionRules = ANY_SECTION,
 ) -> Filters:
     specs = attr_specs or {}
     f = Filters()
@@ -120,7 +139,7 @@ def parse_filters(
     if q := " ".join(" ".join(_values(raw.get("q"))).split())[:MAX_Q].strip():
         f.q = q
     # salary, housing, "no experience", schedule, contract: things a job has and a car does not
-    if jobs_allowed:
+    if rules.jobs:
         if (vals := _values(raw.get("salary_min"))) and vals[0].isdigit() and 0 < int(vals[0]) <= 100_000:
             f.salary_min = int(vals[0])
         for key in BOOL_KEYS:
@@ -142,7 +161,7 @@ def parse_filters(
     if (vals := _values(raw.get("page"))) and vals[0].isdigit():
         f.page = max(1, min(int(vals[0]), MAX_PAGE))
     # jobs have a salary, not a price
-    if price_allowed and (price := parse_range(raw.get("price"))):
+    if rules.price and (price := parse_range(raw.get("price"))):
         f.ranges["price"] = price
 
     # tier 3: a.<key>, only for attributes of the selected category

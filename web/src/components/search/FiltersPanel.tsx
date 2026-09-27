@@ -5,6 +5,7 @@ import { Fragment, type ReactNode } from "react";
 import { RangeFilter } from "./RangeFilter";
 
 import type { Linker, ListState } from "@/lib/list-url";
+import { isJobsSection } from "@/lib/sections";
 import { get, isActive, type Pairs, setParam, toggleValue } from "@/lib/search-url";
 import type { FacetGroup, NamedSlug, SearchResponse } from "@/lib/types";
 
@@ -180,7 +181,7 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
       <Group key={block.group.key} group={block.group} />
     );
 
-  const jobs = state.section.key === "empleo";
+  const jobs = isJobsSection(state.section.key);
   const categoryBlock = tier3.length > 0 && data.category && (
     <div className="facet-block facet-block--category">
       <h2>{t("attributes", { category: data.category.name })}</h2>

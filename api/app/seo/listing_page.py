@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from app.models import Category, Listing, Location, Section, User
-from app.models.i18n import tr
+from app.models.i18n import format_number, tr
 from app.schemas.pages import (
     AttributeValue,
     ListingDetail,
@@ -21,7 +21,6 @@ from app.seo.rules import closed_state
 from app.services import photos as photo_files
 from app.services import questions, reviews
 from app.services.attributes import attribute_definitions
-from app.services.card_tags import number
 from app.services.listings import public_cards
 
 SIMILAR = 6
@@ -101,7 +100,7 @@ async def build_listing_detail(session: AsyncSession, listing: Listing, lang: st
             shown = [f"{value.get('min', '')}–{value.get('max', '')}"]
         elif d.type == "int":
             unit = tr(d.unit, lang) if d.unit else None
-            shown = [f"{number(value, lang)} {unit}" if unit else number(value, lang)]
+            shown = [f"{format_number(value, lang)} {unit}" if unit else format_number(value, lang)]
         else:
             shown = [labels.get(v, v) for v in (value if isinstance(value, list) else [value])]
         attributes.append(

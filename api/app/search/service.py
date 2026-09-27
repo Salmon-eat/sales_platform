@@ -33,6 +33,7 @@ from app.search.params import (
     AttrSpec,
     Filters,
     Range,
+    SectionRules,
     cache_params,
     canonical_query,
     parse_filters,
@@ -294,18 +295,11 @@ async def search_listings(
     location, place = (await resolve_place(session, location_slug)) if location_slug else (None, None)
     definitions = await filterable_definitions(session, section, category)
     specs = attribute_specs(definitions)
-    price_allowed = section_key != "empleo"  # jobs have a salary, everything else a price
-    # salary, housing, "no experience", schedule, contract belong to jobs; the whole-board search has
-    # jobs in it and keeps them
-    jobs_allowed = section_key in (None, "empleo")
+    rules = SectionRules.for_section(section_key)
 
     def read(params: Mapping[str, list[str]]) -> Filters:
         return parse_filters(
-            params,
-            specs,
-            radius_allowed=place is not None and place.level == "municipio",
-            price_allowed=price_allowed,
-            jobs_allowed=jobs_allowed,
+            params, specs, radius_allowed=place is not None and place.level == "municipio", rules=rules
         )
 
     filters = read(raw)
@@ -329,8 +323,7 @@ async def search_listings(
         filters=filters,
         attr_specs=specs,
         per_page=per_page,
-        price_filter=price_allowed,
-        job_filters=jobs_allowed,
+        rules=rules,
         # cheapest attempt first: exact words only (see the third step below)
         allow_fuzzy=False,
     )

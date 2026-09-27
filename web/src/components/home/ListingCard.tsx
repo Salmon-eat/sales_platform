@@ -4,11 +4,11 @@ import { BadgeCheck, FileCheck, Gift, House, Languages } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
+import { useCardBasics } from "@/components/home/card-basics";
 import { FavoriteButton } from "@/components/saved/FavoriteButton";
 import type { Locale } from "@/i18n/routing";
-import { formatSalaryRange } from "@/lib/listing-format";
-import { prefixed } from "@/lib/routes";
-import { useApplied, useViewed } from "@/lib/saved";
+import { ago, formatSalaryRange } from "@/lib/listing-format";
+import { useApplied } from "@/lib/saved";
 import type { CardTag, ListingCard as Card } from "@/lib/types";
 
 const UNIT = { month: "unitMonth", hour: "unitHour", day: "unitDay", week: "unitWeek" } as const;
@@ -24,15 +24,6 @@ const TAG_ICONS: Partial<Record<Tag["kind"], typeof House>> = {
   perk: Gift,
 };
 
-/** "2 h ago", "yesterday"; coarse enough that server and client render the same text. */
-function ago(iso: string, locale: Locale): string {
-  const minutes = Math.round((Date.now() - new Date(iso).getTime()) / 60_000);
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
-  if (minutes < 60) return rtf.format(-Math.max(minutes, 1), "minute");
-  if (minutes < 60 * 24) return rtf.format(-Math.round(minutes / 60), "hour");
-  return rtf.format(-Math.round(minutes / (60 * 24)), "day");
-}
-
 /**
  * Listing card (spec §11): the salary is the most visible element (right on desktop, first row on
  * mobile), then the title, "company · city · time", the tags that make the job attractive, favourite and
@@ -42,10 +33,7 @@ export function ListingCard({ listing, locale, note }: { listing: Card; locale: 
   const t = useTranslations("listing");
   const tSearch = useTranslations("search");
   const applied = Boolean(useApplied().get(listing.id));
-  const viewed = useViewed().has(listing.id);
-  const href = prefixed(locale, listing.path);
-
-  const place = listing.location_scope === "spain_wide" ? t("spainWide") : listing.location?.name;
+  const { href, place, viewed } = useCardBasics(listing, locale);
   const company = listing.source === "agency" ? t("agencyName") : listing.employer_name;
   // what catches the eye first: housing, language, papers, perks; then the schedule and the contract
   const housingCost = listing.tags?.find((tag) => tag.key === "housing_cost")?.label;

@@ -270,7 +270,7 @@ class PostgresSearchBackend:
             return func.count().filter(and_(true(), *others(group), value_cond))
 
         columns: list[tuple[str, str, Any]] = []
-        if query.job_filters:
+        if query.rules.jobs:
             for key in BOOL_KEYS:
                 columns.append((key, "1", counter(key, getattr(Listing, key).is_(True))))
             for value in SCHEDULES:
@@ -299,7 +299,7 @@ class PostgresSearchBackend:
 
         # "from–to" filters: the lowest and highest value the other filters leave, as hints in the inputs
         range_groups = [f"a.{s.key}" for s in query.attr_specs.values() if s.type == "int"]
-        if query.price_filter:
+        if query.rules.price:
             range_groups.insert(0, "price")
         range_columns: list[Any] = []
         for group in range_groups:

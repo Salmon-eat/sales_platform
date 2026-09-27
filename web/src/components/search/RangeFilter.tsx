@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { type FormEvent, useState } from "react";
 
+import { formatFilterNumber } from "@/lib/listing-format";
+
 type Props = {
   /** query key: "price", "a.year", "a.km" */
   param: string;
@@ -30,9 +32,7 @@ export function RangeFilter({ param, label, unit, min, max, from, to, base, loca
   const router = useRouter();
   const [lo, setLo] = useState(from === null ? "" : String(from));
   const [hi, setHi] = useState(to === null ? "" : String(to));
-  const number = new Intl.NumberFormat(locale);
-  // a year is not "2 016"
-  const hint = (n: number | null) => (n === null ? "" : param === "a.year" ? String(n) : number.format(n));
+  const hint = (n: number | null) => (n === null ? "" : formatFilterNumber(param, n, locale));
 
   function apply(event: FormEvent) {
     event.preventDefault();

@@ -2,43 +2,15 @@
 
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { ListingCard } from "@/components/home/ListingCard";
 import { asLocale } from "@/i18n/routing";
+import { useListingCards } from "@/lib/listing-cards";
 import { localizedPath } from "@/lib/routes";
 import { forgetApplied, useApplied, useFavorites } from "@/lib/saved";
-import type { ListingCard as Card } from "@/lib/types";
 
 export type AccountTab = "saved" | "applied";
-
-type Loaded = { key: string; cards: Map<number, Card> } | { key: string; error: true };
-
-/** Cards for the ids kept in this browser; closed or removed listings come back missing. */
-function useCards(ids: number[], lang: string) {
-  const key = ids.join(",");
-  const [loaded, setLoaded] = useState<Loaded | null>(null);
-
-  useEffect(() => {
-    if (!key) return;
-    const controller = new AbortController();
-    fetch(`/v1/listings/cards?ids=${key}&lang=${lang}`, { signal: controller.signal })
-      .then((res) => (res.ok ? (res.json() as Promise<Card[]>) : Promise.reject(new Error(String(res.status)))))
-      .then((cards) => setLoaded({ key: `${lang}|${key}`, cards: new Map(cards.map((c) => [c.id, c])) }))
-      .catch((error: Error) => {
-        if (error.name !== "AbortError") setLoaded({ key: `${lang}|${key}`, error: true });
-      });
-    return () => controller.abort();
-  }, [key, lang]);
-
-  // a result for an older list of ids is not shown (e.g. right after un-saving)
-  const current = loaded && loaded.key === `${lang}|${key}` ? loaded : null;
-  return {
-    loading: Boolean(key) && !current,
-    error: Boolean(current && "error" in current),
-    cards: current && "cards" in current ? current.cards : new Map<number, Card>(),
-  };
-}
 
 export function AccountTabs({ initialTab }: { initialTab: AccountTab }) {
   const t = useTranslations("account");
@@ -48,7 +20,7 @@ export function AccountTabs({ initialTab }: { initialTab: AccountTab }) {
   const applied = useApplied();
 
   const ids = tab === "saved" ? favorites.ids : applied.entries.map((e) => e.id);
-  const { loading, error, cards } = useCards(ids, locale);
+  const { loading, error, cards } = useListingCards(ids, locale);
   const date = new Intl.DateTimeFormat(locale, { dateStyle: "medium", timeZone: "Europe/Madrid" });
 
   function select(next: AccountTab) {
