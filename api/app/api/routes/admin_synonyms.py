@@ -5,7 +5,7 @@ Everything weaker lands here, because a wrong synonym attaches itself to every a
 is worse than a missing one.
 """
 
-from typing import Annotated, Literal
+from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel
@@ -14,7 +14,7 @@ from sqlalchemy import func, select
 from app.api.deps import AdminLang, RedisDep, SessionDep, require_staff
 from app.models import Category, Section, SynonymProposal, User
 from app.models.i18n import tr
-from app.services import synonyms
+from app.services import synonyms, wikidata
 from app.services.cache import bump_cache_version
 
 router = APIRouter(prefix="/admin/search-words", tags=["admin: search words"])
@@ -26,6 +26,8 @@ class DecideIn(BaseModel):
     action: Literal["add", "ignore"]
     # the person may know better than the guess
     category_id: int | None = None
+    # the same thing in the other languages, as a Wikidata lookup returned it
+    words: dict[str, list[str]] | None = None
 
 
 @router.get("/proposals")
@@ -80,9 +82,25 @@ async def decide(
         accept=body.action == "add",
         category_id=body.category_id,
         user_id=user.id,
+        words=body.words,
     )
     # the ads of that category carry a new word now
     await bump_cache_version(redis, taxonomy=True)
+
+
+@router.get("/lookup")
+async def lookup(
+    session: SessionDep,
+    redis: RedisDep,
+    user: Staff,
+    proposal_id: Annotated[int, Query()],
+) -> dict[str, Any]:
+    """What this word means, in all four languages, so one "yes" teaches the site all of them."""
+    proposal = await session.get(SynonymProposal, proposal_id)
+    if proposal is None:
+        return {"found": None}
+    found = await wikidata.look_up(redis, proposal.word, proposal.lang)
+    return {"found": found.model_dump() if found else None}
 
 
 @router.post("/collect")

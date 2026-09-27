@@ -15,12 +15,15 @@ function back(params?: Record<string, string>): never {
 export async function decideWord(form: FormData): Promise<void> {
   const id = String(form.get("id") ?? "");
   const category = String(form.get("category_id") ?? "").trim();
+  // the same thing in the other languages, as the lookup found it; absent for a plain yes
+  const words = String(form.get("words") ?? "").trim();
   try {
     await adminFetch(`/admin/search-words/proposals/${id}`, {
       method: "POST",
       body: {
         action: String(form.get("action") ?? "ignore"),
         category_id: category ? Number(category) : null,
+        words: words ? JSON.parse(words) : null,
       },
     });
   } catch {

@@ -13,6 +13,9 @@
   "evidence": "Evidence",
   "noGuess": "category unknown",
   "counts": "searched {searches}, opened {opened}",
+  "lookUp": "What is it?",
+  "lookupNothing": "Wikidata does not know “{word}”. Add it by hand or dismiss it.",
+  "addAll": "Add in all four languages to “{category}”",
   "add": "Add",
   "ignore": "Dismiss",
   "note": "An added word is kept in the category's own list and survives a taxonomy update. You can remove it from the category itself."

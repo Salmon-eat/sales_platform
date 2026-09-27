@@ -1089,6 +1089,36 @@ a.admin-nav-item:hover {
   color: inherit;
   border-bottom-color: #ff6a1a;
 }
+/* what a word turned out to mean, opened under its row */
+.lookup-row td {
+  background: var(--bg, #faf7f2);
+}
+.lookup {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+.lookup__words {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 4px 20px;
+  margin: 0;
+  width: 100%;
+}
+.lookup__words div {
+  display: flex;
+  gap: 8px;
+}
+.lookup__words dt {
+  min-width: 22px;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-size: 12px;
+  padding-top: 2px;
+}
+.lookup__words dd {
+  margin: 0;
+}
 /* two small buttons side by side inside a table row (yes / no to a search word) */
 .admin-table__actions {
   display: flex;

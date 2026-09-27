@@ -25,6 +25,7 @@ from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Category, SynonymProposal
+from app.models.i18n import LANGS
 from app.search.text import normalize
 
 log = logging.getLogger("bazarcito.synonyms")
@@ -93,7 +94,8 @@ async def collect(session: AsyncSession) -> tuple[int, int]:
     for (word, lang), searches in totals.items():
         if searches < MIN_SEARCHES:
             continue
-        winner, opened = max(by_category.get((word, lang), {}).items(), key=lambda kv: kv[1], default=(None, 0))
+        went_to = by_category.get((word, lang), {})
+        winner, opened = max(went_to.items(), key=lambda kv: kv[1], default=(None, 0))
         # nothing to propose if that category already knows the word (the search failed for some
         # other reason — the ads it would match are simply not there)
         if winner is not None:
@@ -142,10 +144,36 @@ async def add_word(session: AsyncSession, category_id: int, lang: str, word: str
     return True
 
 
+async def add_words(
+    session: AsyncSession, category_id: int, words: dict[str, list[str]]
+) -> int:
+    """Teach a category the same thing in several languages at once (what a Wikidata lookup returns)."""
+    added = 0
+    for lang, items in words.items():
+        if lang not in LANGS:
+            continue
+        for word in items:
+            # kept as it is written ("portátil", not "portatil"): the index strips accents itself,
+            # and the seed files hold natural spellings too
+            if await add_word(session, category_id, lang, word.strip()):
+                added += 1
+    return added
+
+
 async def decide(
-    session: AsyncSession, proposal_id: int, *, accept: bool, category_id: int | None, user_id: int | None
+    session: AsyncSession,
+    proposal_id: int,
+    *,
+    accept: bool,
+    category_id: int | None,
+    user_id: int | None,
+    words: dict[str, list[str]] | None = None,
 ) -> SynonymProposal | None:
-    """A person says yes or no. "Yes" may point at a different category than the one guessed."""
+    """A person says yes or no.
+
+    "Yes" may point at a different category than the one guessed, and may carry the same thing in the
+    other languages — one decision, and the Spanish visitor finds the ads too.
+    """
     proposal = await session.get(SynonymProposal, proposal_id)
     if proposal is None or proposal.status != "new":
         return proposal
@@ -154,6 +182,8 @@ async def decide(
         if target is None:
             return proposal
         await add_word(session, target, proposal.lang, proposal.word)
+        if words:
+            await add_words(session, target, words)
         proposal.category_id = target
         proposal.status = "added"
     else:

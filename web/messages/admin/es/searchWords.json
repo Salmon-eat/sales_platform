@@ -13,6 +13,9 @@
   "evidence": "Pruebas",
   "noGuess": "categoría desconocida",
   "counts": "buscada {searches}, abierta {opened}",
+  "lookUp": "¿Qué es?",
+  "lookupNothing": "Wikidata no conoce «{word}». Añádela a mano o descártala.",
+  "addAll": "Añadir en los cuatro idiomas a «{category}»",
   "add": "Añadir",
   "ignore": "Descartar",
   "note": "La palabra añadida se guarda en una lista propia de la categoría y no se pierde al actualizar el catálogo. Puedes quitarla desde la categoría."

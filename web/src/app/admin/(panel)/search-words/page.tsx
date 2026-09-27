@@ -1,4 +1,5 @@
-import { Check, RefreshCw, X } from "lucide-react";
+import { Check, Globe, RefreshCw, X } from "lucide-react";
+import { Fragment } from "react";
 
 import { adminT } from "@/lib/admin-locale";
 import { adminFetch } from "@/lib/auth";
@@ -17,6 +18,15 @@ type Proposal = {
   section: string | null;
 };
 
+/** The same thing in four languages, as Wikidata knows it. */
+type Lookup = {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  words: Record<string, string[]>;
+};
+
 /**
  * Words the site wants to learn.
  *
@@ -27,12 +37,19 @@ type Proposal = {
 export default async function SearchWordsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ ok?: string; error?: string; status?: string }>;
+  searchParams: Promise<{ ok?: string; error?: string; status?: string; lookup?: string }>;
 }) {
-  const { ok, error, status } = await searchParams;
+  const { ok, error, status, lookup } = await searchParams;
   const t = await adminT("searchWords");
   const shown = status === "added" || status === "ignored" ? status : "new";
   const proposals = await adminFetch<Proposal[]>(`/admin/search-words/proposals?status=${shown}`);
+  // what Wikidata says this word is, fetched only for the row somebody asked about
+  const asked = Number(lookup) || 0;
+  const found = asked
+    ? await adminFetch<{ found: Lookup | null }>(`/admin/search-words/lookup?proposal_id=${asked}`)
+        .then((r) => r.found)
+        .catch(() => null)
+    : null;
 
   return (
     <section className="admin-section">
@@ -77,7 +94,8 @@ export default async function SearchWordsPage({
           </thead>
           <tbody>
             {proposals.map((p) => (
-              <tr key={p.id}>
+              <Fragment key={p.id}>
+              <tr>
                 <td>
                   <strong>{p.word}</strong> <span className="muted small">{p.lang}</span>
                 </td>
@@ -94,6 +112,12 @@ export default async function SearchWordsPage({
                 <td className="muted small">{t("counts", { searches: p.searches, opened: p.opened })}</td>
                 {shown === "new" && (
                   <td className="admin-table__actions">
+                    <a
+                      href={`/admin/search-words?status=new&lookup=${p.id}`}
+                      className="btn btn--outline btn--small"
+                    >
+                      <Globe size={13} aria-hidden /> {t("lookUp")}
+                    </a>
                     {p.category_id && (
                       <form action={decideWord}>
                         <input type="hidden" name="id" value={p.id} />
@@ -113,6 +137,44 @@ export default async function SearchWordsPage({
                   </td>
                 )}
               </tr>
+              {asked === p.id && (
+                <tr className="lookup-row">
+                  <td colSpan={shown === "new" ? 4 : 3}>
+                    {found === null ? (
+                      <p className="muted">{t("lookupNothing", { word: p.word })}</p>
+                    ) : (
+                      <div className="lookup">
+                        <p>
+                          <strong>{found.title}</strong>{" "}
+                          <span className="muted small">{found.description}</span>{" "}
+                          <a href={found.url} target="_blank" rel="noreferrer noopener" className="muted small">
+                            {found.id}
+                          </a>
+                        </p>
+                        <dl className="lookup__words">
+                          {Object.entries(found.words).map(([code, names]) => (
+                            <div key={code}>
+                              <dt>{code}</dt>
+                              <dd>{names.join(", ")}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                        {p.category_id && (
+                          <form action={decideWord}>
+                            <input type="hidden" name="id" value={p.id} />
+                            <input type="hidden" name="action" value="add" />
+                            <input type="hidden" name="words" value={JSON.stringify(found.words)} />
+                            <button type="submit" className="btn btn--primary btn--small">
+                              <Check size={13} aria-hidden /> {t("addAll", { category: p.category ?? "" })}
+                            </button>
+                          </form>
+                        )}
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              )}
+              </Fragment>
             ))}
           </tbody>
         </table>
