@@ -43,6 +43,9 @@ class SearchPage:
     hits: list[Hit]
     total: int
     used_fuzzy: bool = False  # FTS found < 5, trigram similarity was added
+    # of the ads on this page, how many contain the typed words themselves rather than matching only
+    # through the words of their category ("пилосос" -> every ad in "Дім і сад")
+    own_words: int = 0
 
 
 @dataclass

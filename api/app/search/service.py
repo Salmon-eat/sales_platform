@@ -15,6 +15,7 @@ from app.models import AttributeDefinition, Category, Listing, Location, SearchM
 from app.models.i18n import tr
 from app.schemas.search import (
     CategoryFacet,
+    CloseEnough,
     FacetGroup,
     FacetValue,
     ListingCardWithDistance,
@@ -25,7 +26,7 @@ from app.schemas.search import (
     SelectedPlace,
 )
 from app.schemas.search import Understood as UnderstoodOut
-from app.search.backend import FacetResult, PlaceRef, SearchBackend, SearchQuery
+from app.search.backend import FacetResult, PlaceRef, SearchBackend, SearchPage, SearchQuery
 from app.search.params import (
     BOOL_KEYS,
     RADII,
@@ -391,6 +392,22 @@ async def search_listings(
         relaxations=relaxations,
         fuzzy=page.used_fuzzy,
         corrected=[[typed, used] for typed, used in corrections],
+        close_enough=_close_enough(page, understood),
+    )
+
+
+def _close_enough(page: SearchPage, understood: UnderstoodOut | None) -> CloseEnough | None:
+    """Ads that answer the query without containing it: "пилосос" brings back "Дім і сад".
+
+    Worth saying out loud, and only when the whole page is like that — one real match among the
+    neighbours means the search did find what was asked for.
+    """
+    if not page.hits or page.own_words or understood is None or understood.category is None:
+        return None
+    return CloseEnough(
+        category=understood.category.name,
+        section_slug=understood.section_slug,
+        category_slug=understood.category.slug,
     )
 
 

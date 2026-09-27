@@ -48,8 +48,10 @@ async def seed_taxonomy_cmd() -> None:
     await bump_cache_version(redis, taxonomy=True)
     print(
         f"taxonomy: {report.sections} sections, {report.categories} categories, "
-        f"{report.attributes} attributes"
+        f"{report.attributes} attributes, {report.slang_words} words from search_slang.json"
     )
+    for warning in report.warnings:
+        print(f"  ! {warning}")
 
 
 async def import_locations_cmd(download: bool) -> None:

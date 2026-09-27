@@ -72,6 +72,14 @@ class ListingCardWithDistance(ListingCard):
     distance_km: float | None = None
 
 
+class CloseEnough(BaseModel):
+    """Nothing carries the typed words; these ads come from the category the words belong to."""
+
+    category: str
+    section_slug: str | None = None
+    category_slug: str | None = None
+
+
 class SearchResponse(BaseModel):
     items: list[ListingCardWithDistance]
     total: int
@@ -93,6 +101,9 @@ class SearchResponse(BaseModel):
     corrected: list[list[str]] = Field(
         default_factory=list, description="what was searched instead of what was typed"
     )
+    # set when no ad on the page carries the typed words: they are all from the category those
+    # words belong to, and the page says so instead of pretending it found them
+    close_enough: CloseEnough | None = None
 
 
 class SuggestProfession(BaseModel):

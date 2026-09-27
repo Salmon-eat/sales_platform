@@ -1,0 +1,376 @@
+{
+  "_comment": "Words people actually type, written by hand before the site has any traffic to learn from. Keyed by <section key>/<category slug.es>, because several sections share a slug (limpieza, mudanzas, belleza...). Seeded into categories.synonyms together with seeds/taxonomy.json; what the site learns later lives apart, in categories.extra_synonyms. Rules: never a word that fits half the board (робота, продам, Іспанія) — a word here attaches itself to every ad of the category.",
+  "_note_uk_ru": "The Ukrainian and Russian lists carry the mixed speech of people living in Spain: Spanish words written in Cyrillic (гестор, падрон, камарера, канхе, пеон, фінка). Nobody types 'gestoría' on a Ukrainian keyboard, and that is exactly the search that used to find nothing.",
+
+  "categories": {
+    "empleo/electricista": {
+      "uk": ["електрик", "електромонтажник", "проводка"],
+      "ru": ["электрик", "электромонтажник", "проводка"],
+      "es": ["electricista", "instalador eléctrico"],
+      "en": ["electrician"]
+    },
+    "empleo/fontanero": {
+      "uk": ["сантехнік", "водопровідник", "труби"],
+      "ru": ["сантехник", "водопроводчик", "трубы"],
+      "es": ["fontanero", "instalador de fontanería"],
+      "en": ["plumber"]
+    },
+    "empleo/pintor": {
+      "uk": ["маляр", "фарбувальник", "покраска"],
+      "ru": ["маляр", "покраска", "покрасчик"],
+      "es": ["pintor", "pintura"],
+      "en": ["painter"]
+    },
+    "empleo/soldador": {
+      "uk": ["зварювальник", "зварник", "сварщик", "аргонник"],
+      "ru": ["сварщик", "сварной", "аргонщик"],
+      "es": ["soldador", "soldadura", "tig", "mig"],
+      "en": ["welder", "welding"]
+    },
+    "empleo/ayudante-cocina": {
+      "uk": ["помічник кухаря", "помічник на кухню", "аюданте"],
+      "ru": ["помощник повара", "помощник на кухню", "аюданте"],
+      "es": ["ayudante de cocina", "pinche", "pinche de cocina"],
+      "en": ["kitchen assistant", "kitchen porter"]
+    },
+    "empleo/friegaplatos": {
+      "uk": ["посудомийниця", "посудомийник", "мийка посуду"],
+      "ru": ["посудомойщица", "посудомойщик", "мойка посуды"],
+      "es": ["friegaplatos", "lavaplatos"],
+      "en": ["dishwasher", "kitchen washer"]
+    },
+    "empleo/limpieza-oficinas": {
+      "uk": ["прибирання офісів", "прибиральниця в офіс", "клінінг офісів"],
+      "ru": ["уборка офисов", "уборщица в офис", "клининг офисов"],
+      "es": ["limpieza de oficinas", "limpiadora de oficinas"],
+      "en": ["office cleaning", "office cleaner"]
+    },
+    "empleo/invernadero": {
+      "uk": ["теплиця", "теплиці", "інвернадеро", "помідори", "перець"],
+      "ru": ["теплица", "теплицы", "инвернадеро", "помидоры", "перец"],
+      "es": ["invernadero", "invernaderos"],
+      "en": ["greenhouse", "greenhouses"]
+    },
+    "empleo/ganaderia": {
+      "uk": ["ферма", "тваринництво", "корови", "свиноферма", "доярка"],
+      "ru": ["ферма", "животноводство", "коровы", "свиноферма", "доярка"],
+      "es": ["ganadería", "granja", "vacas", "porcino", "ordeño"],
+      "en": ["farm", "livestock", "dairy farm"]
+    },
+    "empleo/ninera": {
+      "uk": ["няня", "нянька", "канґуро", "сидіти з дитиною", "гувернантка"],
+      "ru": ["няня", "нянька", "кангуро", "сидеть с ребёнком", "гувернантка"],
+      "es": ["niñera", "canguro", "cuidado de niños"],
+      "en": ["nanny", "babysitter", "childminder"]
+    },
+    "empleo/auxiliar": {
+      "uk": ["сиделка", "доглядальниця", "соціальний працівник", "ауксиліар"],
+      "ru": ["сиделка", "соцработник", "ауксилиар", "уход за больными"],
+      "es": ["auxiliar", "auxiliar de ayuda a domicilio", "sad"],
+      "en": ["care worker", "home care assistant"]
+    },
+    "empleo/operario": {
+      "uk": ["оператор верстата", "робітник на виробництво", "конвеєр", "цех"],
+      "ru": ["оператор станка", "рабочий на производство", "конвейер", "цех"],
+      "es": ["operario", "operario de producción", "línea de producción", "fábrica"],
+      "en": ["machine operator", "production worker", "factory"]
+    },
+    "empleo/empaquetado": {
+      "uk": ["пакувальник", "пакування", "фасування", "упаковка"],
+      "ru": ["упаковщик", "упаковка", "фасовка"],
+      "es": ["empaquetado", "envasado", "manipulado"],
+      "en": ["packer", "packing"]
+    },
+    "empleo/cuidadora-interna": {
+      "uk": ["інтерна", "з проживанням", "доглядальниця з проживанням", "інтерна на вихідні"],
+      "ru": ["интерна", "с проживанием", "сиделка с проживанием"],
+      "es": ["interna", "cuidadora interna", "interna fin de semana", "externa"],
+      "en": ["live-in carer", "live-in"]
+    },
+    "empleo/cuidado-mayores": {
+      "uk": ["догляд за літніми", "догляд за бабусею", "догляд за дідусем", "residencia"],
+      "ru": ["уход за пожилыми", "уход за бабушкой", "уход за дедушкой"],
+      "es": ["cuidado de mayores", "cuidadora de ancianos", "residencia de mayores", "geriátrico"],
+      "en": ["elderly care", "carer for the elderly"]
+    },
+    "empleo/peon": {
+      "uk": ["пеон", "різноробочий", "підсобник", "чорнороб", "разнорабочий"],
+      "ru": ["пеон", "разнорабочий", "подсобник", "чернорабочий"],
+      "es": ["peón", "peón de obra", "ayudante de obra"],
+      "en": ["labourer", "general worker"]
+    },
+    "empleo/albanil": {
+      "uk": ["альбаніль", "муляр", "каменяр", "кладка", "штукатур"],
+      "ru": ["альбаниль", "каменщик", "кладка", "штукатур"],
+      "es": ["albañil", "oficial de primera", "obra"],
+      "en": ["bricklayer", "mason", "builder"]
+    },
+    "empleo/camarero": {
+      "uk": ["камареро", "камарера", "офіціант", "офіціантка", "бар", "тераса"],
+      "ru": ["камареро", "камарера", "официант", "официантка", "бар", "терраса"],
+      "es": ["camarero", "camarera", "camarero de barra", "terraza"],
+      "en": ["waiter", "waitress", "bar staff"]
+    },
+    "empleo/mozo-almacen": {
+      "uk": ["складський робітник", "комірник", "мосо", "альмасен", "вантажник на склад"],
+      "ru": ["кладовщик", "работник склада", "мосо", "альмасен", "грузчик на склад"],
+      "es": ["mozo de almacén", "almacén", "carga y descarga"],
+      "en": ["warehouse worker", "warehouse operative"]
+    },
+    "empleo/carretillero": {
+      "uk": ["карретільєро", "навантажувач", "погрузчик", "штабелер", "toro"],
+      "ru": ["карретильеро", "погрузчик", "штабелёр"],
+      "es": ["carretillero", "carretilla elevadora", "toro"],
+      "en": ["forklift driver", "forklift operator"]
+    },
+    "empleo/conductor-ce": {
+      "uk": ["далекобійник", "дальнобій", "фура", "тягач", "трайлер", "камйонеро"],
+      "ru": ["дальнобойщик", "дальнобой", "фура", "тягач", "трейлер", "камьонеро"],
+      "es": ["camionero", "trailero", "tráiler", "nacional", "internacional"],
+      "en": ["lorry driver", "hgv driver", "long haul"]
+    },
+    "empleo/conductor-b": {
+      "uk": ["водій буса", "бусик", "розвозка", "фургонета"],
+      "ru": ["водитель буса", "бусик", "развозка", "фургонета"],
+      "es": ["conductor de furgoneta", "furgoneta", "reparto"],
+      "en": ["van driver"]
+    },
+    "empleo/repartidor": {
+      "uk": ["кур'єр", "доставка", "розвозити", "глово", "райдер"],
+      "ru": ["курьер", "доставка", "развозить", "глово", "райдер"],
+      "es": ["repartidor", "reparto", "rider", "mensajero"],
+      "en": ["courier", "delivery driver", "rider"]
+    },
+    "empleo/limpieza-hoteles": {
+      "uk": ["покоївка", "камарера де пісос", "прибирання номерів"],
+      "ru": ["горничная", "камарера де писос", "уборка номеров"],
+      "es": ["camarera de pisos", "limpieza de hoteles", "gobernanta"],
+      "en": ["hotel housekeeping", "chambermaid", "room attendant"]
+    },
+    "empleo/recogida-fruta": {
+      "uk": ["збір фруктів", "збір врожаю", "полуниця", "апельсини", "оливки", "кампо"],
+      "ru": ["сбор фруктов", "сбор урожая", "клубника", "апельсины", "оливки", "кампо"],
+      "es": ["recogida de fruta", "campaña", "campo", "fresa", "naranja", "aceituna"],
+      "en": ["fruit picking", "harvest", "farm work"]
+    },
+
+    "inmobiliaria/pisos": {
+      "uk": ["хата", "кватира", "пісо", "однокімнатна", "двокімнатна", "студія", "апартаменти"],
+      "ru": ["хата", "кватира", "писо", "однушка", "двушка", "студия", "апартаменты"],
+      "es": ["piso", "ático", "dúplex", "estudio", "apartamento", "vivienda"],
+      "en": ["flat", "apartment", "studio", "penthouse"]
+    },
+    "inmobiliaria/habitaciones": {
+      "uk": ["підселення", "ліжко-місце", "компі де пісо", "сусід по квартирі", "кімната для дівчини"],
+      "ru": ["подселение", "койко-место", "компи де писо", "сосед по квартире"],
+      "es": ["compi de piso", "piso compartido", "habitación individual", "habitación doble"],
+      "en": ["flatshare", "room share", "single room", "double room"]
+    },
+    "inmobiliaria/casas": {
+      "uk": ["фінка", "шале", "адосадо", "будинок з садом", "котедж"],
+      "ru": ["финка", "шале", "адосадо", "дом с садом", "коттедж"],
+      "es": ["finca", "chalet", "adosado", "casa de pueblo", "unifamiliar"],
+      "en": ["house", "townhouse", "country house"]
+    },
+    "inmobiliaria/locales": {
+      "uk": ["нава", "локаль", "приміщення під бар", "приміщення під магазин", "склад в оренду"],
+      "ru": ["наве", "локаль", "помещение под бар", "помещение под магазин", "склад в аренду"],
+      "es": ["local", "nave industrial", "oficina en alquiler", "bajo comercial"],
+      "en": ["commercial unit", "industrial unit", "shop premises"]
+    },
+    "inmobiliaria/garajes": {
+      "uk": ["парковка", "машиномісце", "трастеро", "комірчина"],
+      "ru": ["парковка", "машиноместо", "трастеро", "кладовка"],
+      "es": ["plaza de garaje", "trastero", "parking"],
+      "en": ["parking space", "storage unit"]
+    },
+
+    "motor/coches": {
+      "uk": ["тачка", "машинка", "легковик", "бричка", "секонд", "кочé"],
+      "ru": ["тачка", "машинка", "легковушка", "бричка", "секонд"],
+      "es": ["coche de segunda mano", "turismo", "buga", "utilitario"],
+      "en": ["second hand car", "used car"]
+    },
+    "motor/furgonetas": {
+      "uk": ["бус", "бусик", "мікрик", "фургонета", "вантажний бус"],
+      "ru": ["бус", "бусик", "микрик", "фургонета", "грузовой бус"],
+      "es": ["furgoneta", "furgón", "combi"],
+      "en": ["van", "panel van"]
+    },
+    "motor/camiones": {
+      "uk": ["фура", "камйон", "тягач", "самоскид", "рефрижератор"],
+      "ru": ["фура", "камьон", "тягач", "самосвал", "рефрижератор"],
+      "es": ["camión", "tractora", "volquete", "frigorífico"],
+      "en": ["lorry", "truck", "tipper"]
+    },
+    "motor/motos": {
+      "uk": ["мотик", "скут", "мопед", "байк"],
+      "ru": ["мотик", "скут", "мопед", "байк"],
+      "es": ["moto de segunda mano", "scooter", "ciclomotor"],
+      "en": ["bike", "scooter", "moped"]
+    },
+    "motor/recambios": {
+      "uk": ["резина", "гума", "катки", "диски", "акум", "запчасті"],
+      "ru": ["резина", "покрышки", "катки", "диски", "акум", "запчасти"],
+      "es": ["neumáticos", "llantas", "batería", "recambio"],
+      "en": ["tyres", "alloys", "battery", "spares"]
+    },
+
+    "articulos/electronica": {
+      "uk": ["ноут", "ноутик", "лептоп", "комп", "телек", "мобіла", "смарт", "приставка", "навушники"],
+      "ru": ["ноут", "ноутик", "лаптоп", "комп", "телек", "мобила", "смарт", "приставка", "наушники"],
+      "es": ["portátil", "ordenador", "movil", "tele", "consola", "cascos", "pc"],
+      "en": ["laptop", "pc", "phone", "tv", "console", "headphones"]
+    },
+    "articulos/casa-y-jardin": {
+      "uk": ["холодос", "стіралка", "мікрохвильовка", "пилосос", "канапа", "шафа", "матрац", "посудомийка"],
+      "ru": ["холодос", "стиралка", "микроволновка", "пылесос", "диван", "шкаф", "матрас", "посудомойка"],
+      "es": ["frigo", "lavadora", "microondas", "aspiradora", "sofá", "armario", "colchón", "lavavajillas"],
+      "en": ["fridge", "washing machine", "microwave", "vacuum cleaner", "sofa", "wardrobe", "mattress"]
+    },
+    "articulos/moda": {
+      "uk": ["шмотки", "кроси", "кросівки", "куртка", "пуховик", "сумка"],
+      "ru": ["шмотки", "кроссы", "кроссовки", "куртка", "пуховик", "сумка"],
+      "es": ["zapatillas", "ropa de segunda mano", "abrigo", "bolso"],
+      "en": ["trainers", "second hand clothes", "coat", "bag"]
+    },
+    "articulos/bebes": {
+      "uk": ["коляска", "візок", "автокрісло", "ліжечко", "стільчик", "манеж"],
+      "ru": ["коляска", "автокресло", "кроватка", "стульчик", "манеж"],
+      "es": ["carrito", "cochecito", "silla de coche", "cuna", "trona", "parque"],
+      "en": ["pram", "buggy", "car seat", "cot", "high chair"]
+    },
+    "articulos/deportes": {
+      "uk": ["велік", "велосик", "самокат", "гантелі", "бігова доріжка", "намет"],
+      "ru": ["велик", "велосипед", "самокат", "гантели", "беговая дорожка", "палатка"],
+      "es": ["bici", "patinete", "pesas", "cinta de correr", "tienda de campaña"],
+      "en": ["bike", "scooter", "weights", "treadmill", "tent"]
+    },
+    "articulos/herramientas": {
+      "uk": ["дриль", "болгарка", "перфоратор", "шурік", "драбина", "зварювальний апарат"],
+      "ru": ["дрель", "болгарка", "перфоратор", "шурик", "лестница", "сварочный аппарат"],
+      "es": ["taladro", "radial", "martillo percutor", "escalera", "soldador"],
+      "en": ["drill", "angle grinder", "ladder", "welder"]
+    },
+
+    "servicios-sec/juridico": {
+      "uk": ["гестор", "хестор", "гесторія", "гестория", "автономо", "автоном", "асесорія", "резиденція", "арайго"],
+      "ru": ["гестор", "хестор", "гестория", "автономо", "автоном", "асесория", "резиденция", "арайго"],
+      "es": ["gestor", "gestoría", "asesoría", "autónomo", "arraigo", "residencia", "extranjería"],
+      "en": ["gestor", "immigration lawyer", "residency", "self-employed registration"]
+    },
+    "servicios-sec/reformas": {
+      "uk": ["манітас", "чапузас", "майстер на годину", "плитка", "гіпсокартон", "покраска стін"],
+      "ru": ["манитас", "чапузас", "мастер на час", "плитка", "гипсокартон", "покраска стен"],
+      "es": ["manitas", "chapuzas", "alicatado", "pladur", "reforma integral"],
+      "en": ["handyman", "tiling", "plastering", "full refurbishment"]
+    },
+    "servicios-sec/mudanzas": {
+      "uk": ["портес", "мудансас", "вантажники", "газель", "вивіз мотлоху"],
+      "ru": ["портес", "муданcас", "грузчики", "газель", "вывоз мусора"],
+      "es": ["portes", "mudanza", "transporte de muebles", "vaciado de pisos"],
+      "en": ["removals", "man with a van", "house clearance"]
+    },
+    "servicios-sec/limpieza": {
+      "uk": ["лімпієса", "прибиральниця", "генеральне прибирання", "мийка вікон", "після ремонту"],
+      "ru": ["лимпьеса", "уборщица", "генеральная уборка", "мойка окон", "после ремонта"],
+      "es": ["limpieza a fondo", "limpieza de cristales", "limpieza fin de obra"],
+      "en": ["deep cleaning", "window cleaning", "after builders clean"]
+    },
+    "servicios-sec/traducciones": {
+      "uk": ["присяжний переклад", "традуктор хурадо", "апостиль", "нотаріальний переклад"],
+      "ru": ["присяжный перевод", "традуктор хурадо", "апостиль", "нотариальный перевод"],
+      "es": ["traductor jurado", "traducción jurada", "apostilla"],
+      "en": ["sworn translation", "certified translation", "apostille"]
+    },
+    "servicios-sec/belleza": {
+      "uk": ["перукарня", "пелукерія", "нарощування", "брови", "вії", "епіляція"],
+      "ru": ["парикмахерская", "пелукерия", "наращивание", "брови", "ресницы", "эпиляция"],
+      "es": ["peluquería", "uñas", "cejas", "pestañas", "depilación"],
+      "en": ["hairdresser", "nails", "brows", "lashes", "waxing"]
+    },
+    "servicios-sec/salud": {
+      "uk": ["стоматолог", "зуби", "масаж", "фізіотерапевт", "психолог", "узі"],
+      "ru": ["стоматолог", "зубы", "массаж", "физиотерапевт", "психолог", "узи"],
+      "es": ["dentista", "fisioterapeuta", "psicólogo", "ecografía"],
+      "en": ["dentist", "physiotherapist", "psychologist"]
+    },
+
+    "servicios/nie-tie": {
+      "uk": ["ніе", "тіе", "тархета", "сіта превія", "цита", "резиденція", "картка резидента"],
+      "ru": ["ние", "тие", "тархета", "сита превия", "цита", "резиденция", "карта резидента"],
+      "es": ["nie", "tie", "tarjeta de residencia", "cita previa", "extranjería"],
+      "en": ["nie number", "tie card", "residence card", "appointment"]
+    },
+    "servicios/empadronamiento": {
+      "uk": ["падрон", "прописка", "емпадронаміенто", "реєстрація за адресою", "аюнтаміенто"],
+      "ru": ["падрон", "прописка", "эмпадронамьенто", "регистрация по адресу", "аюнтамьенто"],
+      "es": ["empadronamiento", "padrón", "certificado de empadronamiento", "ayuntamiento"],
+      "en": ["padron", "town hall registration"]
+    },
+    "servicios/canje-permiso": {
+      "uk": ["канхе", "канже", "обмін прав", "іспанські права", "теорія", "практика"],
+      "ru": ["канхе", "канже", "обмен прав", "испанские права", "теория", "практика"],
+      "es": ["canje de carnet", "canje de permiso", "permiso de conducir", "dgt"],
+      "en": ["licence exchange", "swap driving licence"]
+    },
+    "servicios/cap-95": {
+      "uk": ["сап", "код 95", "кап 95", "картка водія", "тахограф"],
+      "ru": ["сап", "код 95", "кап 95", "карта водителя", "тахограф"],
+      "es": ["cap", "código 95", "tarjeta de tacógrafo"],
+      "en": ["cpc", "driver qualification card"]
+    },
+    "servicios/carnet-c-ce": {
+      "uk": ["права це", "категорія с", "категорія се", "відкрити се", "автошкола на фуру"],
+      "ru": ["права це", "категория с", "категория се", "открыть се", "автошкола на фуру"],
+      "es": ["carnet c", "carnet ce", "carnet de camión", "ampliación de carnet"],
+      "en": ["c licence", "ce licence", "hgv licence"]
+    },
+
+    "formacion-sec/autoescuelas": {
+      "uk": ["автошкола", "теорія", "практичні заняття", "тест дгт", "канхе"],
+      "ru": ["автошкола", "теория", "практические занятия", "тест дгт", "канхе"],
+      "es": ["autoescuela", "test dgt", "clases prácticas", "teórico"],
+      "en": ["driving school", "theory test", "driving lessons"]
+    },
+    "formacion-sec/idiomas": {
+      "uk": ["іспанська з нуля", "дele", "дельє", "розмовний клуб", "каталанська"],
+      "ru": ["испанский с нуля", "dele", "разговорный клуб", "каталанский"],
+      "es": ["clases de español", "dele", "conversación", "valenciano"],
+      "en": ["spanish classes", "dele exam", "conversation club"]
+    },
+
+    "negocios/traspasos": {
+      "uk": ["траспасо", "передача бару", "готовий бізнес", "продаж кафе"],
+      "ru": ["траспасо", "передача бара", "готовый бизнес", "продажа кафе"],
+      "es": ["traspaso de local", "traspaso de bar", "negocio en funcionamiento"],
+      "en": ["business transfer", "bar for transfer"]
+    },
+    "negocios/maquinaria": {
+      "uk": ["бетономішалка", "риштування", "генератор", "компресор", "верстат"],
+      "ru": ["бетономешалка", "леса", "генератор", "компрессор", "станок"],
+      "es": ["hormigonera", "andamios", "generador", "compresor"],
+      "en": ["cement mixer", "scaffolding", "generator", "compressor"]
+    },
+
+    "animales/cuidado-animales": {
+      "uk": ["ветеринар", "передержка", "грумінг", "вигул", "стрижка собак"],
+      "ru": ["ветеринар", "передержка", "груминг", "выгул", "стрижка собак"],
+      "es": ["veterinario", "peluquería canina", "guardería canina", "paseador"],
+      "en": ["vet", "dog grooming", "dog walker", "pet sitting"]
+    },
+
+    "comunidad/se-regala": {
+      "uk": ["віддам даром", "безкоштовно", "самовивіз", "віддам в добрі руки"],
+      "ru": ["отдам даром", "бесплатно", "самовывоз", "отдам в добрые руки"],
+      "es": ["se regala", "gratis", "regalo", "recoger en mano"],
+      "en": ["free to collect", "giveaway"]
+    },
+    "comunidad/perdidos": {
+      "uk": ["загубив", "загубила", "знайшов", "зник кіт", "зник собака", "загублені документи"],
+      "ru": ["потерял", "потеряла", "нашёл", "пропал кот", "пропала собака", "потерянные документы"],
+      "es": ["se busca", "perdido", "encontrado", "extraviado"],
+      "en": ["lost", "found", "missing pet"]
+    }
+  }
+}

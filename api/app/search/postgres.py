@@ -172,6 +172,10 @@ class PostgresSearchBackend:
         if place:
             order.append((Listing.location_scope == "spain_wide").asc())  # local first
         sort = f.effective_sort
+        if sort != "salary":
+            # paid ads come first, as on other boards (the card carries a "top" mark); a visitor who
+            # sorted by salary gets exactly that order
+            order.append(func.coalesce(Listing.promoted_until > func.now(), False).desc())
         if sort == "relevance" and f.q:
             age_days = func.extract("epoch", func.now() - Listing.published_at) / 86400.0
             rank = (
@@ -199,7 +203,28 @@ class PostgresSearchBackend:
             .limit(query.per_page)
         )
         hits = [Hit(listing_id=i, distance_km=round(d, 1) if d is not None else None) for i, d in rows]
-        return SearchPage(hits=hits, total=total, used_fuzzy=self._fuzzy.get(id(query), False))
+        return SearchPage(
+            hits=hits,
+            total=total,
+            used_fuzzy=self._fuzzy.get(id(query), False),
+            own_words=await self._own_words(f.q, [h.listing_id for h in hits]),
+        )
+
+    async def _own_words(self, q: str | None, ids: list[int]) -> int:
+        """Of the ads on this page, how many carry the typed words themselves?
+
+        "пилосос" is a word of the category "Дім і сад", so it brings back every ad in it. That is the
+        right answer when no vacuum is for sale — but the visitor has to be told, or the page looks
+        like it found three hundred vacuum cleaners. Only the ids already on the page are looked at,
+        by primary key, so this costs nothing.
+        """
+        if not q or not ids or not meaningful(q):
+            return 0
+        own = LS.tsv_title.op("||")(LS.tsv_body).op("@@")(ts_query(q))
+        found = await self.session.scalar(
+            select(func.count()).select_from(LS).where(LS.listing_id.in_(ids), own)
+        )
+        return found or 0
 
     async def facets(self, query: SearchQuery) -> FacetResult:
         f = query.filters

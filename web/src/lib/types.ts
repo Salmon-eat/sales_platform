@@ -116,7 +116,7 @@ export type ListingCard = {
   price_kind?: "fixed" | "negotiable" | "free" | "from";
   /** path of the first photo, e.g. /media/2026/09/ab12.jpg */
   photo?: string | null;
-  /** paid placement: shown in the top block */
+  /** paid placement: first in its section and in the search, with a "top" mark */
   promoted?: boolean;
   /** paid colour in the lists */
   highlighted?: boolean;
@@ -192,6 +192,8 @@ export type SearchResponse = {
   fuzzy: boolean;
   /** words repaired against the site's own vocabulary */
   corrected?: Correction[];
+  /** nothing carries the typed words: these ads come from the category those words belong to */
+  close_enough?: { category: string; section_slug: string | null; category_slug: string | null } | null;
 };
 
 // ---------- public pages ----------
@@ -230,8 +232,6 @@ export type HomeSection = {
 export type Home = {
   totals: { listings: number; today: number; sections: number };
   sections: HomeSection[];
-  /** paid placement */
-  promoted: ListingCard[];
   fresh: ListingCard[];
 };
 

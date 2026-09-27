@@ -317,7 +317,11 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
             })}
           </p>
         )}
-        {data.fuzzy && data.total > 0 && <p className="search-hint">{t("fuzzyNote")}</p>}
+        {/* "пилосос" with no vacuum for sale: say that these are the neighbours, not the thing asked for */}
+        {data.close_enough && q && (
+          <p className="search-hint">{t("closeEnough", { q, category: data.close_enough.category })}</p>
+        )}
+        {data.fuzzy && data.total > 0 && !data.close_enough && <p className="search-hint">{t("fuzzyNote")}</p>}
 
         {data.total === 0 ? (
           <div className="search-empty">

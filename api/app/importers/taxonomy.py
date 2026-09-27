@@ -18,6 +18,8 @@ from app.models.i18n import LANGS
 from app.models.taxonomy import SECTION_KINDS
 
 SEED_FILE = Path(__file__).resolve().parents[2] / "seeds" / "taxonomy.json"
+# the words people really type, kept in a file of their own so taxonomy.json stays readable
+SLANG_FILE = Path(__file__).resolve().parents[2] / "seeds" / "search_slang.json"
 ATTRIBUTE_TYPES = {"bool", "enum", "multi_enum", "int_range"}
 
 
@@ -30,7 +32,30 @@ class SeedReport:
     sections: int = 0
     categories: int = 0
     attributes: int = 0
+    slang_words: int = 0
     warnings: list[str] = field(default_factory=list)
+
+
+def load_slang(path: Path = SLANG_FILE) -> dict[str, dict[str, list[str]]]:
+    """Keyed "<section>/<category slug.es>": several sections share a slug (limpieza, mudanzas...)."""
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8")).get("categories", {})
+
+
+def merge_words(
+    from_taxonomy: dict[str, list[str]], from_slang: dict[str, list[str]]
+) -> tuple[dict[str, list[str]], int]:
+    """Both files feed the same field; a word written twice is kept once, in the order it was written."""
+    merged: dict[str, list[str]] = {}
+    added = 0
+    for lang in {*from_taxonomy, *from_slang}:
+        seen: dict[str, None] = {}
+        for word in [*from_taxonomy.get(lang, []), *from_slang.get(lang, [])]:
+            seen.setdefault(word.strip(), None)
+        merged[lang] = [word for word in seen if word]
+        added += len([w for w in from_slang.get(lang, []) if w.strip()])
+    return merged, added
 
 
 def _require_langs(value: dict[str, Any] | None, where: str) -> dict[str, Any]:
@@ -90,6 +115,7 @@ async def _upsert_category(
     data: dict[str, Any],
     sort: int,
     section_keys: set[str],
+    slang: dict[str, dict[str, list[str]]],
 ) -> None:
     slug = _require_langs(data.get("slug"), f"category in {section.key}")
     where = f"category {slug['es']}"
@@ -106,7 +132,10 @@ async def _upsert_category(
         session.add(category)
     category.slug = slug
     category.name = _require_langs(data.get("name"), where)
-    category.synonyms = data.get("synonyms", {})
+    # taken out as it is used, so a key that matches no category is reported instead of silently lost
+    extra = slang.pop(f"{section.key}/{slug['es']}", {})
+    category.synonyms, added = merge_words(data.get("synonyms", {}), extra)
+    report.slang_words += added
     category.icon = data.get("icon")
     category.sort = data.get("sort", sort)
     category.is_enabled = data.get("is_enabled", True)
@@ -124,7 +153,7 @@ async def _upsert_category(
     for i, child in enumerate(data.get("children", []), start=1):
         if parent is not None:
             raise SeedError(f"{where}: professions cannot have children (max depth is sector -> profession)")
-        await _upsert_category(session, report, section, category, child, i, section_keys)
+        await _upsert_category(session, report, section, category, child, i, section_keys, slang)
 
 
 def load_seed(path: Path = SEED_FILE) -> dict[str, Any]:
@@ -133,6 +162,7 @@ def load_seed(path: Path = SEED_FILE) -> dict[str, Any]:
 
 async def seed_taxonomy(session: AsyncSession, path: Path = SEED_FILE) -> SeedReport:
     data = await asyncio.to_thread(load_seed, path)
+    slang = dict(await asyncio.to_thread(load_slang))
     report = SeedReport()
 
     for i, item in enumerate(data["sections"], start=1):
@@ -158,7 +188,10 @@ async def seed_taxonomy(session: AsyncSession, path: Path = SEED_FILE) -> SeedRe
             report.attributes += 1
 
         for j, category in enumerate(item.get("categories", []), start=1):
-            await _upsert_category(session, report, section, None, category, j, section_keys)
+            await _upsert_category(session, report, section, None, category, j, section_keys, slang)
+
+    for unused in sorted(slang):
+        report.warnings.append(f"search_slang.json: no category {unused!r}")
 
     await session.commit()
     return report

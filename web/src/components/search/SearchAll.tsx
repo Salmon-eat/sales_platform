@@ -21,7 +21,6 @@ import type { Home, SearchResponse } from "@/lib/types";
 const EMPTY_HOME: Home = {
   totals: { listings: 0, today: 0, sections: 0 },
   sections: [],
-  promoted: [],
   fresh: [],
 };
 
@@ -159,6 +158,10 @@ export async function SearchAll({
                 used: data.corrected.map(([, used]) => used).join(", "),
               })}
             </p>
+          )}
+
+          {data?.close_enough && q && (
+            <p className="search-hint">{t("closeEnough", { q, category: data.close_enough.category })}</p>
           )}
 
           {items.length === 0 ? (
