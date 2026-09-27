@@ -1413,10 +1413,11 @@
   font-size: 14.5px;
   font-weight: 600;
 }
+/* three across on a computer (nine sections make an even 3 × 3), wide enough for the category hints */
 .section-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(max(340px, calc((100% - 32px) / 3)), 1fr));
+  gap: 16px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1425,9 +1426,9 @@
 .section-card {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
   height: 100%;
-  padding: 14px;
+  padding: 16px 18px 16px 16px;
   border-radius: 18px;
   border: 1px solid var(--line);
   background: var(--surface);
@@ -1442,8 +1443,8 @@
   display: grid;
   place-items: center;
   flex: none;
-  width: 76px;
-  height: 76px;
+  width: 84px;
+  height: 84px;
   border-radius: 16px;
   background: color-mix(in srgb, var(--hue) 14%, var(--surface));
 }
@@ -1455,24 +1456,27 @@
 }
 .section-card__body {
   display: grid;
-  gap: 2px;
+  gap: 3px;
   min-width: 0;
 }
 .section-card__title {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
 }
 .section-card__count {
   color: var(--muted);
-  font-size: 13.5px;
+  font-size: 14px;
 }
+/* the categories may take two lines, so "Ремонт і будівництво · Перевезення" is read whole */
 .section-card__hints {
+  display: -webkit-box;
   overflow: hidden;
   color: var(--faint);
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1.45;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 @media (prefers-reduced-motion: reduce) {
   .section-card,
