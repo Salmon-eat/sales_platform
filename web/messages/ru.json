@@ -213,7 +213,11 @@
   },
   "footer": {
     "rights": "© {year} Citobazar",
-    "agency": "Наши услуги"
+    "agency": "Наши услуги",
+    "service": "Сервис",
+    "help": "Помощь",
+    "legal": "Правила",
+    "follow": "Подписывайтесь"
   },
   "search": {
     "found": "{count, plural, one {# вакансия} few {# вакансии} many {# вакансий} other {# вакансии}}",

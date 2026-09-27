@@ -213,7 +213,11 @@
   },
   "footer": {
     "rights": "© {year} Citobazar",
-    "agency": "Nuestros servicios"
+    "agency": "Nuestros servicios",
+    "service": "Servicio",
+    "help": "Ayuda",
+    "legal": "Legal",
+    "follow": "Síguenos"
   },
   "search": {
     "found": "{count, plural, one {# oferta} other {# ofertas}}",

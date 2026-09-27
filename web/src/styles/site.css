@@ -2252,27 +2252,74 @@
 
 /* ---------- footer, mobile bottom navigation ---------- */
 .site-footer {
-  padding: 16px 0;
+  padding: 40px 0 20px;
   border-top: 1px solid var(--line);
   background: var(--surface);
   font-size: 14.5px;
 }
-.footer-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px 28px;
-  text-align: center;
+/* brand + link columns, like the big classifieds sites: one row on a computer, a grid on a phone */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.3fr repeat(5, minmax(0, 1fr));
+  gap: 28px 32px;
+  align-items: start;
 }
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px 20px;
+.footer-brand .logo {
+  margin-left: 0;
 }
-.footer-links a:hover {
+.footer-col h2 {
+  margin: 0 0 14px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.footer-col ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.footer-col a {
+  color: var(--muted);
+}
+.footer-col a:hover {
   color: var(--accent-ink);
+}
+.footer-social {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--ink) !important;
+}
+.footer-social:hover {
+  border-color: var(--accent);
+  color: var(--accent) !important;
+}
+.footer-bottom {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+@media (max-width: 1000px) {
+  .footer-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 560px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .bottom-nav {
   display: none;
