@@ -112,18 +112,21 @@ def parse_filters(
     attr_specs: Mapping[str, AttrSpec] | None = None,
     radius_allowed: bool = False,
     price_allowed: bool = False,
+    jobs_allowed: bool = True,
 ) -> Filters:
     specs = attr_specs or {}
     f = Filters()
 
     if q := " ".join(" ".join(_values(raw.get("q"))).split())[:MAX_Q].strip():
         f.q = q
-    if (vals := _values(raw.get("salary_min"))) and vals[0].isdigit() and 0 < int(vals[0]) <= 100_000:
-        f.salary_min = int(vals[0])
-    for key in BOOL_KEYS:
-        setattr(f, key, "1" in _values(raw.get(key)))
-    f.schedule = tuple(sorted({v for v in _values(raw.get("schedule")) if v in SCHEDULES}))
-    f.contract = tuple(sorted({v for v in _values(raw.get("contract")) if v in CONTRACTS}))
+    # salary, housing, "no experience", schedule, contract: things a job has and a car does not
+    if jobs_allowed:
+        if (vals := _values(raw.get("salary_min"))) and vals[0].isdigit() and 0 < int(vals[0]) <= 100_000:
+            f.salary_min = int(vals[0])
+        for key in BOOL_KEYS:
+            setattr(f, key, "1" in _values(raw.get(key)))
+        f.schedule = tuple(sorted({v for v in _values(raw.get("schedule")) if v in SCHEDULES}))
+        f.contract = tuple(sorted({v for v in _values(raw.get("contract")) if v in CONTRACTS}))
     if (vals := _values(raw.get("posted"))) and vals[0] in POSTED_DAYS:
         f.posted = vals[0]
     if (

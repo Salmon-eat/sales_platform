@@ -241,6 +241,8 @@
     "sort_price_desc": "Más caros",
     "categories": "Profesiones",
     "allCategories": "Todas las profesiones",
+    "categoriesAds": "Categorías",
+    "allCategoriesAds": "Todas las categorías",
     "places": "Ciudades",
     "allPlaces": "Toda España",
     "spainWideNote": "+ {count} en toda España (rutas)",

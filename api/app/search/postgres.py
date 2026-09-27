@@ -270,19 +270,20 @@ class PostgresSearchBackend:
             return func.count().filter(and_(true(), *others(group), value_cond))
 
         columns: list[tuple[str, str, Any]] = []
-        for key in BOOL_KEYS:
-            columns.append((key, "1", counter(key, getattr(Listing, key).is_(True))))
-        for value in SCHEDULES:
-            columns.append(("schedule", value, counter("schedule", Listing.schedule.any(value))))
-        for value in CONTRACTS:
-            columns.append(("contract", value, counter("contract", Listing.contract == value)))
+        if query.job_filters:
+            for key in BOOL_KEYS:
+                columns.append((key, "1", counter(key, getattr(Listing, key).is_(True))))
+            for value in SCHEDULES:
+                columns.append(("schedule", value, counter("schedule", Listing.schedule.any(value))))
+            for value in CONTRACTS:
+                columns.append(("contract", value, counter("contract", Listing.contract == value)))
+            for amount in SALARY_BUCKETS:
+                columns.append(
+                    ("salary_min", str(amount), counter("salary_min", Listing.salary_monthly_min >= amount))
+                )
         for value, days in POSTED_DAYS.items():
             cond = Listing.published_at >= func.now() - timedelta(days=days)
             columns.append(("posted", value, counter("posted", cond)))
-        for amount in SALARY_BUCKETS:
-            columns.append(
-                ("salary_min", str(amount), counter("salary_min", Listing.salary_monthly_min >= amount))
-            )
         if query.place and query.place.level == "municipio" and query.place.lat is not None:
             for radius in RADII:
                 columns.append(

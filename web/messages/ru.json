@@ -241,6 +241,8 @@
     "sort_price_desc": "Дороже",
     "categories": "Профессии",
     "allCategories": "Все профессии",
+    "categoriesAds": "Категории",
+    "allCategoriesAds": "Все категории",
     "places": "Города",
     "allPlaces": "Вся Испания",
     "spainWideNote": "+ {count} по всей Испании (разъезды)",

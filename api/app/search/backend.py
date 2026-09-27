@@ -28,6 +28,8 @@ class SearchQuery:
     per_page: int = 20
     # a "price from–to" filter in the facets: everywhere except the jobs, which have a salary instead
     price_filter: bool = False
+    # salary, housing, "no experience", schedule, contract: only where there are jobs
+    job_filters: bool = True
     # Matching words that merely resemble the ones in the ads means reading every ad, which costs real
     # time once there are thousands. The caller turns it off for the first attempt and only pays for it
     # when the plain search and the spelling repair have both come back nearly empty.

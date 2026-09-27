@@ -171,12 +171,14 @@ def fake_vehicle(rng: random.Random, category_slug: str, attrs: dict[str, object
         return {}
     year = min(2026, max(1998, round(rng.triangular(2002, 2026, 2019))))
     age = max(2026 - year, 0)
-    per_year = {"motos": (2_000, 7_000), "camiones": (60_000, 130_000), "remolques": (0, 0)}.get(
+    per_year = {"motos": (2_000, 7_000), "camiones": (40_000, 90_000), "remolques": (0, 0)}.get(
         category_slug, (9_000, 19_000)
     )
+    # a lorry rarely comes to sale past ~1.2 million km, a car past ~400 000
+    ceiling = {"camiones": 1_200_000, "motos": 120_000}.get(category_slug, 400_000)
     out: dict[str, object] = {"year": year}
     if per_year[1]:
-        out["km"] = round(age * rng.randint(*per_year) + rng.randint(0, 9_000), -2)
+        out["km"] = min(round(age * rng.randint(*per_year) + rng.randint(0, 9_000), -2), ceiling)
     fuel = attrs.get("fuel")
     if fuel == "electrico":
         out["dgt_label"] = "cero"

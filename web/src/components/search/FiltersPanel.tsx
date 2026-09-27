@@ -202,7 +202,8 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
     <div className="filters">
       <h2 className="filters-title">{t("filters")}</h2>
       <div className="facet-group facet-group--check">
-        <h3>{t("categories")}</h3>
+        {/* professions in the jobs section, categories (dogs, flats, vans) everywhere else */}
+        <h3>{t(jobs ? "categories" : "categoriesAds")}</h3>
         <ul>
           {selected && (
             <li>
@@ -211,7 +212,7 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
                 scroll={false}
                 className="facet facet--back"
               >
-                ← {state.profession ? state.sector?.name : t("allCategories")}
+                ← {state.profession ? state.sector?.name : t(jobs ? "allCategories" : "allCategoriesAds")}
               </Link>
             </li>
           )}

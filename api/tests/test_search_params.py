@@ -55,6 +55,19 @@ def test_from_to_filters_forgive_and_refuse() -> None:
     assert parse_filters({"a.fuel": ["1-2"]}, CAR_SPECS).ranges == {}
 
 
+def test_job_filters_stay_in_the_jobs_section() -> None:
+    # "with housing", "no experience", a salary or a schedule mean nothing on a page of cars
+    raw = {
+        "housing": ["1"],
+        "no_experience": ["1"],
+        "salary_min": ["1500"],
+        "schedule": ["full"],
+        "q": ["seat"],
+    }
+    assert canonical_query(parse_filters(raw, jobs_allowed=False)) == "q=seat"
+    assert "housing=1" in canonical_query(parse_filters(raw))
+
+
 def test_price_sorts() -> None:
     assert canonical_query(parse_filters({"sort": ["price_asc"]})) == "sort=price_asc"
     assert canonical_query(parse_filters({"sort": ["price_desc"]})) == "sort=price_desc"

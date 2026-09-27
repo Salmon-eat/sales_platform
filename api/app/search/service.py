@@ -31,6 +31,7 @@ from app.search.params import (
     BOOL_KEYS,
     RADII,
     AttrSpec,
+    Filters,
     Range,
     cache_params,
     canonical_query,
@@ -294,12 +295,20 @@ async def search_listings(
     definitions = await filterable_definitions(session, section, category)
     specs = attribute_specs(definitions)
     price_allowed = section_key != "empleo"  # jobs have a salary, everything else a price
-    filters = parse_filters(
-        raw,
-        specs,
-        radius_allowed=place is not None and place.level == "municipio",
-        price_allowed=price_allowed,
-    )
+    # salary, housing, "no experience", schedule, contract belong to jobs; the whole-board search has
+    # jobs in it and keeps them
+    jobs_allowed = section_key in (None, "empleo")
+
+    def read(params: Mapping[str, list[str]]) -> Filters:
+        return parse_filters(
+            params,
+            specs,
+            radius_allowed=place is not None and place.level == "municipio",
+            price_allowed=price_allowed,
+            jobs_allowed=jobs_allowed,
+        )
+
+    filters = read(raw)
 
     # "диван у Валенсії": the town named inside the query becomes the place filter, and only the rest
     # is looked for in the text. Without this the words "у валенсії" are searched for in the ad itself
@@ -310,12 +319,7 @@ async def search_listings(
         # belongs to a page of its own, and the caller sends the visitor there instead
         if guess.place and guess.rest and guess.rest != filters.q:
             location, place = await resolve_place(session, guess.place.slug)
-            filters = parse_filters(
-                {**raw, "q": [guess.rest]},
-                specs,
-                radius_allowed=place is not None and place.level == "municipio",
-                price_allowed=price_allowed,
-            )
+            filters = read({**raw, "q": [guess.rest]})
 
     query = SearchQuery(
         lang=lang,
@@ -326,6 +330,7 @@ async def search_listings(
         attr_specs=specs,
         per_page=per_page,
         price_filter=price_allowed,
+        job_filters=jobs_allowed,
         # cheapest attempt first: exact words only (see the third step below)
         allow_fuzzy=False,
     )
@@ -340,12 +345,7 @@ async def search_listings(
     if filters.q and page.total < POOR_RESULT:
         repaired, guesses = await spelling.repair(session, filters.q)
         if guesses:
-            retry_filters = parse_filters(
-                {**raw, "q": [repaired]},
-                specs,
-                radius_allowed=place is not None and place.level == "municipio",
-                price_allowed=price_allowed,
-            )
+            retry_filters = read({**raw, "q": [repaired]})
             retry_query = replace(query, filters=retry_filters)
             retry_backend = get_backend(session)  # the backend caches per query object; start clean
             retry = await retry_backend.search(retry_query)

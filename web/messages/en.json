@@ -241,6 +241,8 @@
     "sort_price_desc": "Most expensive",
     "categories": "Professions",
     "allCategories": "All professions",
+    "categoriesAds": "Categories",
+    "allCategoriesAds": "All categories",
     "places": "Cities",
     "allPlaces": "All of Spain",
     "spainWideNote": "+ {count} across Spain (travelling)",
