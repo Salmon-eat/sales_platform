@@ -181,7 +181,13 @@ export type SearchResponse = {
   places: PlaceFacet[];
   spain_wide: number;
   facets: FacetGroup[];
-  understood: { category: SelectedCategory | null; location: SelectedPlace | null; rest_q: string; complete: boolean } | null;
+  understood: {
+    category: SelectedCategory | null;
+    location: SelectedPlace | null;
+    rest_q: string;
+    complete: boolean;
+    section_slug: string | null;
+  } | null;
   relaxations: Relaxation[];
   fuzzy: boolean;
   /** words repaired against the site's own vocabulary */

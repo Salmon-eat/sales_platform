@@ -13,7 +13,7 @@ import { companyPath } from "@/lib/routes";
 import type { CompanyCard } from "@/lib/types";
 import type { Locale } from "@/i18n/routing";
 import { getHome, orFallback, searchCompanies, searchEverything } from "@/lib/api";
-import { localizedPath } from "@/lib/routes";
+import { localizedPath, prefixed } from "@/lib/routes";
 import type { RawSearchParams } from "@/lib/search-url";
 import type { Home, SearchResponse } from "@/lib/types";
 
@@ -62,6 +62,7 @@ export async function SearchAll({
 }) {
   const t = await getTranslations("search");
   const tc = await getTranslations("companies");
+  const th = await getTranslations("home");
   const account = await getAccount();
   const params = apiParams(searchParams);
   const q = one(searchParams.q);
@@ -73,6 +74,20 @@ export async function SearchAll({
   const items = data?.items ?? NO_RESULTS;
   const page = data?.page ?? 1;
   const pages = data?.pages ?? 1;
+  // "юридичні послуги" is a category we know, even when not one ad carries those words: the section
+  // page is the answer, and without the section the path cannot be built at all
+  const understood = data?.understood;
+  // only a query we understood whole: "продам холодильник" reads "продам" as the sales profession and
+  // suggesting it would send the visitor somewhere they never asked to go
+  const understoodHref =
+    understood?.section_slug && !understood.rest_q && (understood.category || understood.location)
+      ? prefixed(
+          locale,
+          [understood.section_slug, understood.category?.slug, understood.location?.slug]
+            .filter(Boolean)
+            .join("/"),
+        )
+      : null;
   const pageHref = (n: number) => {
     const qs = new URLSearchParams(params.filter(([k]) => k !== "page"));
     if (n > 1) qs.set("page", String(n));
@@ -147,7 +162,31 @@ export async function SearchAll({
           {items.length === 0 ? (
             <div className="search-empty">
               <h2>{t("emptyTitle")}</h2>
-              <p className="muted">{t("emptyText")}</p>
+              {/* the word was recognised even though no ad carries it: send the visitor to the
+                  section it belongs to instead of leaving them on an empty page */}
+              {understoodHref ? (
+                <>
+                  <p className="muted">{t("didYouMean")}</p>
+                  <Link href={understoodHref} className="search-empty__link">
+                    {[understood?.category?.name, understood?.location?.name].filter(Boolean).join(" · ")}
+                  </Link>
+                </>
+              ) : (
+                <p className="muted">{t("emptyHint")}</p>
+              )}
+              {/* the section we point at may be empty too, so there is always something to look at */}
+              {home.fresh.length > 0 && (
+                <>
+                  <h3>{th("freshTitle")}</h3>
+                  <ul className="ad-grid">
+                    {home.fresh.slice(0, 4).map((item) => (
+                      <li key={item.id}>
+                        <AdCard listing={item} locale={locale} />
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
           ) : (
             <ul className="ad-grid">

@@ -258,6 +258,7 @@
     "distance": "{city} · {km} км",
     "emptyTitle": "Нічого не знайшли",
     "emptyText": "Спробуйте ослабити умови:",
+    "emptyHint": "Спробуйте інше слово — або подивіться свіжі оголошення.",
     "relax_attributes": "Без фільтрів категорії",
     "relax_radius": "Радіус {value} км",
     "relax_province": "Уся провінція {value}",

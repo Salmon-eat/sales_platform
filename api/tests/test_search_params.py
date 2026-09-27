@@ -56,6 +56,7 @@ def test_page_is_bounded() -> None:
 
 def test_text_normalization() -> None:
     assert normalize("  Conductor  CÉ, Frigorífico! ") == "conductor ce frigorifico"
-    assert tokens("водій   се  мадрид") == ["водіи", "се", "мадрид"]
+    # "й" is a letter of its own: the ad says "водій", and so must the query
+    assert tokens("водій   се  мадрид") == ["водій", "се", "мадрид"]
     assert latin_lookalike("се") == "ce"
     assert latin_lookalike("водій") is None

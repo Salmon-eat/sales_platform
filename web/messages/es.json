@@ -258,6 +258,7 @@
     "distance": "a {km} km de {city}",
     "emptyTitle": "No hemos encontrado nada",
     "emptyText": "Prueba a ampliar la búsqueda:",
+    "emptyHint": "Prueba con otra palabra o mira los anuncios recientes.",
     "relax_attributes": "Sin filtros de la categoría",
     "relax_radius": "Radio {value} km",
     "relax_province": "Toda la provincia de {value}",

@@ -258,6 +258,7 @@
     "distance": "{km} km from {city}",
     "emptyTitle": "Nothing found",
     "emptyText": "Try widening your search:",
+    "emptyHint": "Try another word, or have a look at the newest ads.",
     "relax_attributes": "Without category filters",
     "relax_radius": "Radius {value} km",
     "relax_province": "Whole province of {value}",

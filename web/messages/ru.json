@@ -258,6 +258,7 @@
     "distance": "{city} · {km} км",
     "emptyTitle": "Ничего не нашли",
     "emptyText": "Попробуйте ослабить условия:",
+    "emptyHint": "Попробуйте другое слово — или посмотрите свежие объявления.",
     "relax_attributes": "Без фильтров категории",
     "relax_radius": "Радиус {value} км",
     "relax_province": "Вся провинция {value}",

@@ -16,19 +16,15 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Category, Location, Section
-from app.search.text import STEM, close_enough, latin_lookalike, normalize
+from app.search.text import STEM, STOPWORDS, close_enough, latin_lookalike, normalize
 from app.services.cache import TAXONOMY_VERSION_KEY
 
 MAX_NGRAM = 5
 MIN_PLACE_TOKEN = 3
 REFRESH_SECONDS = 600
 
-# words that don't change the meaning once a profession or a place is recognised
-STOPWORDS = {
-    "в", "у", "на", "з", "із", "по", "робота", "роботу", "вакансія", "вакансії", "вакансия", "вакансии",
-    "работа", "работу", "во", "trabajo", "empleo", "oferta", "ofertas", "de", "en", "el", "la",
-    "job", "jobs", "work", "in", "at", "spain", "espana", "іспанія", "іспанії", "испания", "испании",
-}  # fmt: skip
+# the same words the text search skips: they don't change the meaning once a profession or a place
+# is recognised either
 
 
 @dataclass(frozen=True)

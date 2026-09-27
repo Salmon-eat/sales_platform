@@ -44,6 +44,17 @@ from app.services.listings import public_cards
 
 MULTI_GROUPS = {"schedule", "contract"}
 SINGLE_GROUPS = {"posted", "salary_min", "radius"}
+# a page this empty is worth a second attempt with the spelling repaired
+POOR_RESULT = 5
+
+
+def repair_helped(typed_found: int, repaired_found: int) -> bool:
+    """A guess at what somebody meant is kept only when it beats what they actually typed.
+
+    "водієм" is a perfectly good word; the site used to replace it anyway and lose four of the five
+    ads it had found. Nothing is ever shown as "corrected" unless the correction earned it.
+    """
+    return repaired_found > typed_found
 
 
 def get_backend(session: AsyncSession) -> SearchBackend:
@@ -251,15 +262,6 @@ async def search_listings(
     specs = attribute_specs(definitions)
     filters = parse_filters(raw, specs, radius_allowed=place is not None and place.level == "municipio")
 
-    # a word the site has never seen is repaired against the words it has ("дiвани" -> "диван"),
-    # before anything else looks at the query
-    corrections: list[tuple[str, str]] = []
-    if filters.q:
-        repaired, corrections = await spelling.repair(session, filters.q)
-        if corrections:
-            raw = {**raw, "q": [repaired]}
-            filters = parse_filters(raw, specs, radius_allowed=place is not None and place.level == "municipio")
-
     # "диван у Валенсії": the town named inside the query becomes the place filter, and only the rest
     # is looked for in the text. Without this the words "у валенсії" are searched for in the ad itself
     # and find nothing. A town given in the path always wins.
@@ -286,6 +288,28 @@ async def search_listings(
     )
     backend = get_backend(session)
     page = await backend.search(query)
+
+    # Only a search that went badly is worth second-guessing. A typed word is repaired against the
+    # words the site really contains, and the repair is kept only if it finds more than the visitor's
+    # own wording did — "водієм" is a perfectly good word, and guessing at it used to cost results.
+    corrections: list[tuple[str, str]] = []
+    if filters.q and page.total < POOR_RESULT:
+        repaired, guesses = await spelling.repair(session, filters.q)
+        if guesses:
+            retry_filters = parse_filters(
+                {**raw, "q": [repaired]}, specs, radius_allowed=place is not None and place.level == "municipio"
+            )
+            retry_query = replace(query, filters=retry_filters)
+            retry_backend = get_backend(session)  # the backend caches per query object; start clean
+            retry = await retry_backend.search(retry_query)
+            if repair_helped(page.total, retry.total):
+                corrections, filters, query, backend, page = (
+                    guesses,
+                    retry_filters,
+                    retry_query,
+                    retry_backend,
+                    retry,
+                )
 
     facet_key = {
         "section": query.section_id,
@@ -321,11 +345,13 @@ async def search_listings(
             await session.get(Category, u_category.parent_id) if u_category and u_category.parent_id else None
         )
         u_location = await session.get(Location, u.place.id) if u.place else None
+        u_section = await session.get(Section, u_category.section_id) if u_category else None
         understood = UnderstoodOut(
             category=_selected_category(u_category, lang, u_parent) if u_category else None,
             location=await _selected_place(session, u_location, lang) if u_location else None,
             rest_q=u.rest,
             complete=u.complete,
+            section_slug=tr(u_section.slug, lang) if u_section else None,
         )
 
     relaxations: list[Relaxation] = []

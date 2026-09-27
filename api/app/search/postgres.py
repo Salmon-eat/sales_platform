@@ -12,7 +12,7 @@ from sqlalchemy.types import Text
 from app.models import Listing, ListingSearch, Location
 from app.search.backend import Bucket, FacetResult, Hit, PlaceRef, SearchPage, SearchQuery
 from app.search.params import BOOL_KEYS, CONTRACTS, POSTED_DAYS, RADII, SCHEDULES, Filters
-from app.search.text import latin_lookalike, normalize, tokens
+from app.search.text import latin_lookalike, meaningful, normalize, tokens
 
 FUZZY_BELOW = 5  # spec §7: if FTS gives < 5 results, add trigram similarity
 # spec says similarity() > 0.3; word_similarity() (substring-aware, fits long texts) needs a higher bar
@@ -26,7 +26,7 @@ LS = ListingSearch
 
 def ts_query(q: str) -> ColumnElement[Any]:
     """Every token in spanish/english (stemmed) or simple (exact); the last one also as a prefix."""
-    words = tokens(q)
+    words = meaningful(q)
     query: ColumnElement[Any] | None = None
     for i, word in enumerate(words):
         last = i == len(words) - 1
@@ -126,7 +126,7 @@ class PostgresSearchBackend:
         if self._fuzzy[key]:
             # `trgm_text %> q` == word_similarity(q, trgm_text) > pg_trgm.word_similarity_threshold
             # (FUZZY_THRESHOLD, set for the database in migration 0006); unlike the function it uses the index
-            return [or_(fts, LS.trgm_text.op("%>")(normalize(q)))]
+            return [or_(fts, LS.trgm_text.op("%>")(" ".join(meaningful(q))))]
         return [fts]
 
     def _select(self, *columns: Any) -> Any:
@@ -173,7 +173,7 @@ class PostgresSearchBackend:
             )
             if self._fuzzy.get(id(query)):
                 # ranking only touches the page candidates, the function form is fine here
-                rank = rank + func.word_similarity(normalize(f.q), LS.trgm_text) * 0.5
+                rank = rank + func.word_similarity(" ".join(meaningful(f.q)), LS.trgm_text) * 0.5
             order.append(rank.desc())
             if distance is not None and f.radius:
                 order.append(distance.asc())

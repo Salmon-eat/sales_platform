@@ -39,7 +39,7 @@ def test_rest_goes_to_full_text() -> None:
 def test_stopwords_are_dropped_only_with_entities() -> None:
     assert understand(_dictionary(), "робота офіціант в мадрид").complete
     plain = understand(_dictionary(), "робота мрії")
-    assert plain.category is None and plain.rest == "робота мріі"
+    assert plain.category is None and plain.rest == "робота мрії"
 
 
 def test_short_tokens_are_not_places() -> None:

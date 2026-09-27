@@ -63,6 +63,9 @@ class Understood(BaseModel):
     location: SelectedPlace | None
     rest_q: str
     complete: bool
+    # the section the recognised category lives in; the all-site search has no section of its own and
+    # cannot build a link to the category page without it
+    section_slug: str | None = None
 
 
 class ListingCardWithDistance(ListingCard):
