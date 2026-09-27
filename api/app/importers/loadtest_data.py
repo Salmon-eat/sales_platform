@@ -164,6 +164,31 @@ def fake_section_tags(
     return out
 
 
+def fake_vehicle(rng: random.Random, category_slug: str, attrs: dict[str, object]) -> dict[str, object]:
+    """Year, kilometres and the DGT label that belong together, the way a real car's do: a 2008 diesel
+    has done 200 000 km and gets no label; a 2022 hybrid has 40 000 and the ECO sticker."""
+    if category_slug == "recambios":  # spare parts have no year or mileage
+        return {}
+    year = min(2026, max(1998, round(rng.triangular(2002, 2026, 2019))))
+    age = max(2026 - year, 0)
+    per_year = {"motos": (2_000, 7_000), "camiones": (60_000, 130_000), "remolques": (0, 0)}.get(
+        category_slug, (9_000, 19_000)
+    )
+    out: dict[str, object] = {"year": year}
+    if per_year[1]:
+        out["km"] = round(age * rng.randint(*per_year) + rng.randint(0, 9_000), -2)
+    fuel = attrs.get("fuel")
+    if fuel == "electrico":
+        out["dgt_label"] = "cero"
+    elif fuel in {"hibrido", "gas"}:
+        out["dgt_label"] = "eco"
+    elif fuel == "diesel":
+        out["dgt_label"] = "c" if year >= 2015 else "b" if year >= 2006 else "sin"
+    elif fuel == "gasolina":
+        out["dgt_label"] = "c" if year >= 2006 else "b" if year >= 2001 else "sin"
+    return out
+
+
 def _money(rng: random.Random, section_key: str) -> dict[str, object]:
     """What the card shows first: a salary in jobs, a price everywhere else."""
     if section_key == "empleo":
@@ -284,6 +309,8 @@ async def create_fake_listings(
                     elif spec.type == "multi_enum" and rng.random() < 0.8:
                         attributes[spec.key] = sorted(rng.sample(values, rng.randint(1, 2)), key=values.index)
                 attributes.update(fake_section_tags(rng, section_tags, section.id))
+                if section.key == "motor":
+                    attributes.update(fake_vehicle(rng, category.slug["es"], attributes))
 
                 jobs = section.key == "empleo"
                 published = now - timedelta(minutes=rng.randint(0, 60 * 24 * 45))

@@ -3464,9 +3464,37 @@
       },
       "attributes": [
         {
+          "key": "year",
+          "type": "int",
+          "facet_order": 1,
+          "label": {
+            "es": "Año",
+            "en": "Year",
+            "uk": "Рік випуску",
+            "ru": "Год выпуска"
+          }
+        },
+        {
+          "key": "km",
+          "type": "int",
+          "facet_order": 2,
+          "label": {
+            "es": "Kilómetros",
+            "en": "Mileage",
+            "uk": "Пробіг",
+            "ru": "Пробег"
+          },
+          "unit": {
+            "es": "km",
+            "en": "km",
+            "uk": "км",
+            "ru": "км"
+          }
+        },
+        {
           "key": "fuel",
           "type": "enum",
-          "facet_order": 1,
+          "facet_order": 3,
           "label": {
             "es": "Combustible",
             "en": "Fuel",
@@ -3524,7 +3552,7 @@
         {
           "key": "gearbox",
           "type": "enum",
-          "facet_order": 2,
+          "facet_order": 4,
           "label": {
             "es": "Cambio",
             "en": "Gearbox",
@@ -3553,41 +3581,59 @@
           ]
         },
         {
-          "key": "vehicle_age",
+          "key": "dgt_label",
           "type": "enum",
-          "facet_order": 3,
+          "facet_order": 5,
           "label": {
-            "es": "Antigüedad",
-            "en": "Age",
-            "uk": "Вік",
-            "ru": "Возраст"
+            "es": "Etiqueta DGT",
+            "en": "DGT eco label",
+            "uk": "Екомітка DGT",
+            "ru": "Экометка DGT"
           },
           "options": [
             {
-              "value": "lt3",
+              "value": "cero",
               "label": {
-                "es": "Hasta 3 años",
-                "en": "Up to 3 years",
-                "uk": "До 3 років",
-                "ru": "До 3 лет"
+                "es": "0 emisiones",
+                "en": "Zero emissions",
+                "uk": "0 (без викидів)",
+                "ru": "0 (без выбросов)"
               }
             },
             {
-              "value": "3to10",
+              "value": "eco",
               "label": {
-                "es": "3–10 años",
-                "en": "3–10 years",
-                "uk": "3–10 років",
-                "ru": "3–10 лет"
+                "es": "ECO",
+                "en": "ECO",
+                "uk": "ECO",
+                "ru": "ECO"
               }
             },
             {
-              "value": "gt10",
+              "value": "c",
               "label": {
-                "es": "Más de 10 años",
-                "en": "Over 10 years",
-                "uk": "Понад 10 років",
-                "ru": "Больше 10 лет"
+                "es": "C",
+                "en": "C",
+                "uk": "C",
+                "ru": "C"
+              }
+            },
+            {
+              "value": "b",
+              "label": {
+                "es": "B",
+                "en": "B",
+                "uk": "B",
+                "ru": "B"
+              }
+            },
+            {
+              "value": "sin",
+              "label": {
+                "es": "Sin etiqueta",
+                "en": "No label",
+                "uk": "Без мітки",
+                "ru": "Без метки"
               }
             }
           ]
@@ -3595,7 +3641,7 @@
         {
           "key": "itv",
           "type": "bool",
-          "facet_order": 4,
+          "facet_order": 6,
           "label": {
             "es": "ITV al día",
             "en": "MOT valid",
@@ -3648,7 +3694,440 @@
               "cars",
               "vehicle"
             ]
-          }
+          },
+          "attributes": [
+            {
+              "key": "brand",
+              "type": "enum",
+              "facet_order": 1,
+              "label": {
+                "es": "Marca",
+                "en": "Make",
+                "uk": "Марка",
+                "ru": "Марка"
+              },
+              "options": [
+                {
+                  "value": "seat",
+                  "label": {
+                    "es": "Seat",
+                    "en": "Seat",
+                    "uk": "Seat",
+                    "ru": "Seat"
+                  }
+                },
+                {
+                  "value": "volkswagen",
+                  "label": {
+                    "es": "Volkswagen",
+                    "en": "Volkswagen",
+                    "uk": "Volkswagen",
+                    "ru": "Volkswagen"
+                  }
+                },
+                {
+                  "value": "renault",
+                  "label": {
+                    "es": "Renault",
+                    "en": "Renault",
+                    "uk": "Renault",
+                    "ru": "Renault"
+                  }
+                },
+                {
+                  "value": "peugeot",
+                  "label": {
+                    "es": "Peugeot",
+                    "en": "Peugeot",
+                    "uk": "Peugeot",
+                    "ru": "Peugeot"
+                  }
+                },
+                {
+                  "value": "toyota",
+                  "label": {
+                    "es": "Toyota",
+                    "en": "Toyota",
+                    "uk": "Toyota",
+                    "ru": "Toyota"
+                  }
+                },
+                {
+                  "value": "citroen",
+                  "label": {
+                    "es": "Citroën",
+                    "en": "Citroën",
+                    "uk": "Citroën",
+                    "ru": "Citroën"
+                  }
+                },
+                {
+                  "value": "ford",
+                  "label": {
+                    "es": "Ford",
+                    "en": "Ford",
+                    "uk": "Ford",
+                    "ru": "Ford"
+                  }
+                },
+                {
+                  "value": "opel",
+                  "label": {
+                    "es": "Opel",
+                    "en": "Opel",
+                    "uk": "Opel",
+                    "ru": "Opel"
+                  }
+                },
+                {
+                  "value": "kia",
+                  "label": {
+                    "es": "Kia",
+                    "en": "Kia",
+                    "uk": "Kia",
+                    "ru": "Kia"
+                  }
+                },
+                {
+                  "value": "hyundai",
+                  "label": {
+                    "es": "Hyundai",
+                    "en": "Hyundai",
+                    "uk": "Hyundai",
+                    "ru": "Hyundai"
+                  }
+                },
+                {
+                  "value": "dacia",
+                  "label": {
+                    "es": "Dacia",
+                    "en": "Dacia",
+                    "uk": "Dacia",
+                    "ru": "Dacia"
+                  }
+                },
+                {
+                  "value": "nissan",
+                  "label": {
+                    "es": "Nissan",
+                    "en": "Nissan",
+                    "uk": "Nissan",
+                    "ru": "Nissan"
+                  }
+                },
+                {
+                  "value": "bmw",
+                  "label": {
+                    "es": "BMW",
+                    "en": "BMW",
+                    "uk": "BMW",
+                    "ru": "BMW"
+                  }
+                },
+                {
+                  "value": "mercedes",
+                  "label": {
+                    "es": "Mercedes-Benz",
+                    "en": "Mercedes-Benz",
+                    "uk": "Mercedes-Benz",
+                    "ru": "Mercedes-Benz"
+                  }
+                },
+                {
+                  "value": "audi",
+                  "label": {
+                    "es": "Audi",
+                    "en": "Audi",
+                    "uk": "Audi",
+                    "ru": "Audi"
+                  }
+                },
+                {
+                  "value": "skoda",
+                  "label": {
+                    "es": "Škoda",
+                    "en": "Škoda",
+                    "uk": "Škoda",
+                    "ru": "Škoda"
+                  }
+                },
+                {
+                  "value": "fiat",
+                  "label": {
+                    "es": "Fiat",
+                    "en": "Fiat",
+                    "uk": "Fiat",
+                    "ru": "Fiat"
+                  }
+                },
+                {
+                  "value": "mazda",
+                  "label": {
+                    "es": "Mazda",
+                    "en": "Mazda",
+                    "uk": "Mazda",
+                    "ru": "Mazda"
+                  }
+                },
+                {
+                  "value": "volvo",
+                  "label": {
+                    "es": "Volvo",
+                    "en": "Volvo",
+                    "uk": "Volvo",
+                    "ru": "Volvo"
+                  }
+                },
+                {
+                  "value": "mini",
+                  "label": {
+                    "es": "Mini",
+                    "en": "Mini",
+                    "uk": "Mini",
+                    "ru": "Mini"
+                  }
+                },
+                {
+                  "value": "cupra",
+                  "label": {
+                    "es": "Cupra",
+                    "en": "Cupra",
+                    "uk": "Cupra",
+                    "ru": "Cupra"
+                  }
+                },
+                {
+                  "value": "tesla",
+                  "label": {
+                    "es": "Tesla",
+                    "en": "Tesla",
+                    "uk": "Tesla",
+                    "ru": "Tesla"
+                  }
+                },
+                {
+                  "value": "mg",
+                  "label": {
+                    "es": "MG",
+                    "en": "MG",
+                    "uk": "MG",
+                    "ru": "MG"
+                  }
+                },
+                {
+                  "value": "jeep",
+                  "label": {
+                    "es": "Jeep",
+                    "en": "Jeep",
+                    "uk": "Jeep",
+                    "ru": "Jeep"
+                  }
+                },
+                {
+                  "value": "land_rover",
+                  "label": {
+                    "es": "Land Rover",
+                    "en": "Land Rover",
+                    "uk": "Land Rover",
+                    "ru": "Land Rover"
+                  }
+                },
+                {
+                  "value": "suzuki",
+                  "label": {
+                    "es": "Suzuki",
+                    "en": "Suzuki",
+                    "uk": "Suzuki",
+                    "ru": "Suzuki"
+                  }
+                },
+                {
+                  "value": "honda",
+                  "label": {
+                    "es": "Honda",
+                    "en": "Honda",
+                    "uk": "Honda",
+                    "ru": "Honda"
+                  }
+                },
+                {
+                  "value": "mitsubishi",
+                  "label": {
+                    "es": "Mitsubishi",
+                    "en": "Mitsubishi",
+                    "uk": "Mitsubishi",
+                    "ru": "Mitsubishi"
+                  }
+                },
+                {
+                  "value": "lexus",
+                  "label": {
+                    "es": "Lexus",
+                    "en": "Lexus",
+                    "uk": "Lexus",
+                    "ru": "Lexus"
+                  }
+                },
+                {
+                  "value": "alfa_romeo",
+                  "label": {
+                    "es": "Alfa Romeo",
+                    "en": "Alfa Romeo",
+                    "uk": "Alfa Romeo",
+                    "ru": "Alfa Romeo"
+                  }
+                },
+                {
+                  "value": "porsche",
+                  "label": {
+                    "es": "Porsche",
+                    "en": "Porsche",
+                    "uk": "Porsche",
+                    "ru": "Porsche"
+                  }
+                },
+                {
+                  "value": "byd",
+                  "label": {
+                    "es": "BYD",
+                    "en": "BYD",
+                    "uk": "BYD",
+                    "ru": "BYD"
+                  }
+                },
+                {
+                  "value": "smart",
+                  "label": {
+                    "es": "Smart",
+                    "en": "Smart",
+                    "uk": "Smart",
+                    "ru": "Smart"
+                  }
+                },
+                {
+                  "value": "ds",
+                  "label": {
+                    "es": "DS",
+                    "en": "DS",
+                    "uk": "DS",
+                    "ru": "DS"
+                  }
+                },
+                {
+                  "value": "subaru",
+                  "label": {
+                    "es": "Subaru",
+                    "en": "Subaru",
+                    "uk": "Subaru",
+                    "ru": "Subaru"
+                  }
+                },
+                {
+                  "value": "jaguar",
+                  "label": {
+                    "es": "Jaguar",
+                    "en": "Jaguar",
+                    "uk": "Jaguar",
+                    "ru": "Jaguar"
+                  }
+                },
+                {
+                  "value": "otra",
+                  "label": {
+                    "es": "Otra marca",
+                    "en": "Other make",
+                    "uk": "Інша марка",
+                    "ru": "Другая марка"
+                  }
+                }
+              ]
+            },
+            {
+              "key": "body",
+              "type": "enum",
+              "facet_order": 2,
+              "label": {
+                "es": "Carrocería",
+                "en": "Body type",
+                "uk": "Кузов",
+                "ru": "Кузов"
+              },
+              "options": [
+                {
+                  "value": "compacto",
+                  "label": {
+                    "es": "Compacto",
+                    "en": "Hatchback",
+                    "uk": "Хетчбек",
+                    "ru": "Хэтчбек"
+                  }
+                },
+                {
+                  "value": "berlina",
+                  "label": {
+                    "es": "Berlina",
+                    "en": "Saloon",
+                    "uk": "Седан",
+                    "ru": "Седан"
+                  }
+                },
+                {
+                  "value": "familiar",
+                  "label": {
+                    "es": "Familiar",
+                    "en": "Estate",
+                    "uk": "Універсал",
+                    "ru": "Универсал"
+                  }
+                },
+                {
+                  "value": "suv",
+                  "label": {
+                    "es": "SUV / 4x4",
+                    "en": "SUV / 4x4",
+                    "uk": "Позашляховик / SUV",
+                    "ru": "Внедорожник / SUV"
+                  }
+                },
+                {
+                  "value": "monovolumen",
+                  "label": {
+                    "es": "Monovolumen",
+                    "en": "People carrier",
+                    "uk": "Мінівен",
+                    "ru": "Минивэн"
+                  }
+                },
+                {
+                  "value": "coupe",
+                  "label": {
+                    "es": "Coupé",
+                    "en": "Coupé",
+                    "uk": "Купе",
+                    "ru": "Купе"
+                  }
+                },
+                {
+                  "value": "cabrio",
+                  "label": {
+                    "es": "Cabrio",
+                    "en": "Convertible",
+                    "uk": "Кабріолет",
+                    "ru": "Кабриолет"
+                  }
+                },
+                {
+                  "value": "pickup",
+                  "label": {
+                    "es": "Pick-up",
+                    "en": "Pick-up",
+                    "uk": "Пікап",
+                    "ru": "Пикап"
+                  }
+                }
+              ]
+            }
+          ]
         },
         {
           "slug": {
@@ -3686,7 +4165,130 @@
               "van",
               "minivan"
             ]
-          }
+          },
+          "attributes": [
+            {
+              "key": "brand",
+              "type": "enum",
+              "facet_order": 1,
+              "label": {
+                "es": "Marca",
+                "en": "Make",
+                "uk": "Марка",
+                "ru": "Марка"
+              },
+              "options": [
+                {
+                  "value": "ford",
+                  "label": {
+                    "es": "Ford",
+                    "en": "Ford",
+                    "uk": "Ford",
+                    "ru": "Ford"
+                  }
+                },
+                {
+                  "value": "volkswagen",
+                  "label": {
+                    "es": "Volkswagen",
+                    "en": "Volkswagen",
+                    "uk": "Volkswagen",
+                    "ru": "Volkswagen"
+                  }
+                },
+                {
+                  "value": "renault",
+                  "label": {
+                    "es": "Renault",
+                    "en": "Renault",
+                    "uk": "Renault",
+                    "ru": "Renault"
+                  }
+                },
+                {
+                  "value": "peugeot",
+                  "label": {
+                    "es": "Peugeot",
+                    "en": "Peugeot",
+                    "uk": "Peugeot",
+                    "ru": "Peugeot"
+                  }
+                },
+                {
+                  "value": "citroen",
+                  "label": {
+                    "es": "Citroën",
+                    "en": "Citroën",
+                    "uk": "Citroën",
+                    "ru": "Citroën"
+                  }
+                },
+                {
+                  "value": "mercedes",
+                  "label": {
+                    "es": "Mercedes-Benz",
+                    "en": "Mercedes-Benz",
+                    "uk": "Mercedes-Benz",
+                    "ru": "Mercedes-Benz"
+                  }
+                },
+                {
+                  "value": "fiat",
+                  "label": {
+                    "es": "Fiat",
+                    "en": "Fiat",
+                    "uk": "Fiat",
+                    "ru": "Fiat"
+                  }
+                },
+                {
+                  "value": "opel",
+                  "label": {
+                    "es": "Opel",
+                    "en": "Opel",
+                    "uk": "Opel",
+                    "ru": "Opel"
+                  }
+                },
+                {
+                  "value": "nissan",
+                  "label": {
+                    "es": "Nissan",
+                    "en": "Nissan",
+                    "uk": "Nissan",
+                    "ru": "Nissan"
+                  }
+                },
+                {
+                  "value": "toyota",
+                  "label": {
+                    "es": "Toyota",
+                    "en": "Toyota",
+                    "uk": "Toyota",
+                    "ru": "Toyota"
+                  }
+                },
+                {
+                  "value": "iveco",
+                  "label": {
+                    "es": "Iveco",
+                    "en": "Iveco",
+                    "uk": "Iveco",
+                    "ru": "Iveco"
+                  }
+                },
+                {
+                  "value": "otra",
+                  "label": {
+                    "es": "Otra marca",
+                    "en": "Other make",
+                    "uk": "Інша марка",
+                    "ru": "Другая марка"
+                  }
+                }
+              ]
+            }
+          ]
         },
         {
           "slug": {
@@ -3729,7 +4331,94 @@
               "lorry",
               "tractor unit"
             ]
-          }
+          },
+          "attributes": [
+            {
+              "key": "brand",
+              "type": "enum",
+              "facet_order": 1,
+              "label": {
+                "es": "Marca",
+                "en": "Make",
+                "uk": "Марка",
+                "ru": "Марка"
+              },
+              "options": [
+                {
+                  "value": "mercedes",
+                  "label": {
+                    "es": "Mercedes-Benz",
+                    "en": "Mercedes-Benz",
+                    "uk": "Mercedes-Benz",
+                    "ru": "Mercedes-Benz"
+                  }
+                },
+                {
+                  "value": "volvo",
+                  "label": {
+                    "es": "Volvo",
+                    "en": "Volvo",
+                    "uk": "Volvo",
+                    "ru": "Volvo"
+                  }
+                },
+                {
+                  "value": "scania",
+                  "label": {
+                    "es": "Scania",
+                    "en": "Scania",
+                    "uk": "Scania",
+                    "ru": "Scania"
+                  }
+                },
+                {
+                  "value": "man",
+                  "label": {
+                    "es": "MAN",
+                    "en": "MAN",
+                    "uk": "MAN",
+                    "ru": "MAN"
+                  }
+                },
+                {
+                  "value": "daf",
+                  "label": {
+                    "es": "DAF",
+                    "en": "DAF",
+                    "uk": "DAF",
+                    "ru": "DAF"
+                  }
+                },
+                {
+                  "value": "iveco",
+                  "label": {
+                    "es": "Iveco",
+                    "en": "Iveco",
+                    "uk": "Iveco",
+                    "ru": "Iveco"
+                  }
+                },
+                {
+                  "value": "renault",
+                  "label": {
+                    "es": "Renault Trucks",
+                    "en": "Renault Trucks",
+                    "uk": "Renault Trucks",
+                    "ru": "Renault Trucks"
+                  }
+                },
+                {
+                  "value": "otra",
+                  "label": {
+                    "es": "Otra marca",
+                    "en": "Other make",
+                    "uk": "Інша марка",
+                    "ru": "Другая марка"
+                  }
+                }
+              ]
+            }
+          ]
         },
         {
           "slug": {
@@ -3775,7 +4464,166 @@
               "moped",
               "quad"
             ]
-          }
+          },
+          "attributes": [
+            {
+              "key": "brand",
+              "type": "enum",
+              "facet_order": 1,
+              "label": {
+                "es": "Marca",
+                "en": "Make",
+                "uk": "Марка",
+                "ru": "Марка"
+              },
+              "options": [
+                {
+                  "value": "honda",
+                  "label": {
+                    "es": "Honda",
+                    "en": "Honda",
+                    "uk": "Honda",
+                    "ru": "Honda"
+                  }
+                },
+                {
+                  "value": "yamaha",
+                  "label": {
+                    "es": "Yamaha",
+                    "en": "Yamaha",
+                    "uk": "Yamaha",
+                    "ru": "Yamaha"
+                  }
+                },
+                {
+                  "value": "kawasaki",
+                  "label": {
+                    "es": "Kawasaki",
+                    "en": "Kawasaki",
+                    "uk": "Kawasaki",
+                    "ru": "Kawasaki"
+                  }
+                },
+                {
+                  "value": "suzuki",
+                  "label": {
+                    "es": "Suzuki",
+                    "en": "Suzuki",
+                    "uk": "Suzuki",
+                    "ru": "Suzuki"
+                  }
+                },
+                {
+                  "value": "bmw",
+                  "label": {
+                    "es": "BMW",
+                    "en": "BMW",
+                    "uk": "BMW",
+                    "ru": "BMW"
+                  }
+                },
+                {
+                  "value": "ktm",
+                  "label": {
+                    "es": "KTM",
+                    "en": "KTM",
+                    "uk": "KTM",
+                    "ru": "KTM"
+                  }
+                },
+                {
+                  "value": "ducati",
+                  "label": {
+                    "es": "Ducati",
+                    "en": "Ducati",
+                    "uk": "Ducati",
+                    "ru": "Ducati"
+                  }
+                },
+                {
+                  "value": "harley_davidson",
+                  "label": {
+                    "es": "Harley-Davidson",
+                    "en": "Harley-Davidson",
+                    "uk": "Harley-Davidson",
+                    "ru": "Harley-Davidson"
+                  }
+                },
+                {
+                  "value": "triumph",
+                  "label": {
+                    "es": "Triumph",
+                    "en": "Triumph",
+                    "uk": "Triumph",
+                    "ru": "Triumph"
+                  }
+                },
+                {
+                  "value": "piaggio",
+                  "label": {
+                    "es": "Piaggio",
+                    "en": "Piaggio",
+                    "uk": "Piaggio",
+                    "ru": "Piaggio"
+                  }
+                },
+                {
+                  "value": "vespa",
+                  "label": {
+                    "es": "Vespa",
+                    "en": "Vespa",
+                    "uk": "Vespa",
+                    "ru": "Vespa"
+                  }
+                },
+                {
+                  "value": "kymco",
+                  "label": {
+                    "es": "Kymco",
+                    "en": "Kymco",
+                    "uk": "Kymco",
+                    "ru": "Kymco"
+                  }
+                },
+                {
+                  "value": "sym",
+                  "label": {
+                    "es": "SYM",
+                    "en": "SYM",
+                    "uk": "SYM",
+                    "ru": "SYM"
+                  }
+                },
+                {
+                  "value": "aprilia",
+                  "label": {
+                    "es": "Aprilia",
+                    "en": "Aprilia",
+                    "uk": "Aprilia",
+                    "ru": "Aprilia"
+                  }
+                },
+                {
+                  "value": "royal_enfield",
+                  "label": {
+                    "es": "Royal Enfield",
+                    "en": "Royal Enfield",
+                    "uk": "Royal Enfield",
+                    "ru": "Royal Enfield"
+                  }
+                },
+                {
+                  "value": "otra",
+                  "label": {
+                    "es": "Otra marca",
+                    "en": "Other make",
+                    "uk": "Інша марка",
+                    "ru": "Другая марка"
+                  }
+                }
+              ]
+            }
+          ]
         },
         {
           "slug": {

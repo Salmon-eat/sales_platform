@@ -72,9 +72,13 @@
       "city": "valencia",
       "price": 8900,
       "attributes": {
+        "brand": "ford",
+        "body": "monovolumen",
+        "year": 2016,
+        "km": 189000,
         "fuel": "diesel",
         "gearbox": "manual",
-        "vehicle_age": "3to10",
+        "dgt_label": "c",
         "itv": true
       },
       "translations": {
@@ -95,9 +99,13 @@
       "price": 4500,
       "price_kind": "negotiable",
       "attributes": {
+        "brand": "seat",
+        "body": "compacto",
+        "year": 2012,
+        "km": 160000,
         "fuel": "gasolina",
         "gearbox": "automatico",
-        "vehicle_age": "gt10"
+        "dgt_label": "c"
       },
       "translations": {
         "es": {
@@ -116,8 +124,11 @@
       "city": "malaga",
       "price": 1800,
       "attributes": {
+        "brand": "honda",
+        "year": 2019,
+        "km": 21000,
         "fuel": "gasolina",
-        "vehicle_age": "3to10"
+        "dgt_label": "c"
       },
       "translations": {
         "es": {

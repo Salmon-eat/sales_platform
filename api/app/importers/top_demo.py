@@ -33,9 +33,7 @@ async def seed_demo_top(session: AsyncSession) -> dict[str, int]:
     for index, section in enumerate(sections):
         share = index % 3 + 1  # 1, 2, 3, 1, 2, 3...: sections look different, as on a real board
         have = (
-            await session.scalar(
-                select(func.count()).where(Listing.section_id == section.id, active, on_top)
-            )
+            await session.scalar(select(func.count()).where(Listing.section_id == section.id, active, on_top))
             or 0
         )
         if have < share:
@@ -53,7 +51,9 @@ async def seed_demo_top(session: AsyncSession) -> dict[str, int]:
             ).all()
             if ids:
                 await session.execute(
-                    update(Listing).where(Listing.id.in_(ids)).values(promoted_until=now + timedelta(days=DAYS))
+                    update(Listing)
+                    .where(Listing.id.in_(ids))
+                    .values(promoted_until=now + timedelta(days=DAYS))
                 )
             have += len(ids)
         result[section.key] = have
