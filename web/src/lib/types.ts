@@ -118,6 +118,8 @@ export type ListingCard = {
   price_kind?: "fixed" | "negotiable" | "free" | "from";
   /** path of the first photo, e.g. /media/2026/09/ab12.jpg */
   photo?: string | null;
+  /** still on offer; false only in histories (paused, expired, sold) */
+  active?: boolean;
   /** paid placement: first in its section and in the search, with a "top" mark */
   promoted?: boolean;
   /** paid colour in the lists */

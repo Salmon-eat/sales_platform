@@ -122,6 +122,8 @@
     "urgent": "Urgent",
     "viewed": "Viewed",
     "top": "TOP",
+    "statusActive": "Active",
+    "statusInactive": "No longer available",
     "priceFree": "Free",
     "priceAsk": "Negotiable",
     "perMonth": "/mo"

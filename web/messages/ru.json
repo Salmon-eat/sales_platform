@@ -122,6 +122,8 @@
     "urgent": "Срочно",
     "viewed": "Просмотрено",
     "top": "ТОП",
+    "statusActive": "Активно",
+    "statusInactive": "Неактивно",
     "priceFree": "Бесплатно",
     "priceAsk": "Договорная",
     "perMonth": "/мес"

@@ -242,6 +242,7 @@ class ListingCard(BaseModel):
     price_period: SalaryPeriod | None = Field(None, description="null = one-off, else per month/day/hour")
     price_kind: PriceKind = "fixed"
     photo: str | None = Field(None, description="path of the first photo, e.g. /media/2026/09/ab12.jpg")
+    active: bool = Field(True, description="still on offer; false only in histories (paused, expired, sold)")
     promoted: bool = Field(False, description="paid placement: first in its section and in the search")
     highlighted: bool = Field(False, description="paid colour in the lists")
     housing: bool

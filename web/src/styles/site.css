@@ -1546,6 +1546,34 @@
   gap: 2px;
   padding: 10px 12px 12px;
 }
+/* histories: is the ad still on offer. Said in words, not by colour alone */
+.ad-status {
+  justify-self: start;
+  margin-bottom: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.ad-status--on {
+  background: color-mix(in srgb, #1f9d55 14%, var(--surface));
+  color: #1a7f46;
+}
+.ad-status--off {
+  background: var(--chip-bg);
+  color: var(--muted);
+}
+:root[data-theme="dark"] .ad-status--on {
+  color: #5fd394;
+}
+/* an ad that is over: the picture fades, the words stay readable */
+.ad-card--inactive .ad-card__photo {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+.ad-card--inactive .ad-card__price {
+  color: var(--muted);
+}
 .ad-card__price {
   margin: 0;
   font-size: 18px;

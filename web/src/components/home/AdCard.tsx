@@ -4,49 +4,28 @@ import { Camera } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
+import { useAdPrice, useCardBasics } from "@/components/home/card-basics";
 import { FavoriteButton } from "@/components/saved/FavoriteButton";
 import type { Locale } from "@/i18n/routing";
-import { formatEuro, formatSalaryRange } from "@/lib/listing-format";
-import { prefixed } from "@/lib/routes";
-import { useViewed } from "@/lib/saved";
+import { ago } from "@/lib/listing-format";
 import type { ListingCard as Card } from "@/lib/types";
 
-const PERIOD = { month: "perMonth", week: "perWeek", day: "perDay", hour: "perHour" } as const;
-
-/** "2 h ago", "yesterday": coarse on purpose, so server and client render the same text. */
-export function ago(iso: string | null, locale: Locale): string {
-  if (!iso) return "";
-  const minutes = Math.round((Date.now() - new Date(iso).getTime()) / 60_000);
-  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
-  if (minutes < 60) return rtf.format(-Math.max(minutes, 1), "minute");
-  if (minutes < 60 * 24) return rtf.format(-Math.round(minutes / 60), "hour");
-  return rtf.format(-Math.round(minutes / (60 * 24)), "day");
-}
+type Props = {
+  listing: Card;
+  locale: Locale;
+  /** histories say whether the ad is still on offer ("Active" / "Inactive") */
+  showStatus?: boolean;
+};
 
 /**
  * The card of the classifieds grid: photo, price, title, where and when. Jobs show their salary, an ad
  * without a price shows what it says instead ("free", "negotiable").
  */
-/** What an ad costs, as the cards show it: the price (or a job's salary), "free", "negotiable"; and
- * "/month" when it is paid by the period. Shared by the grid card and the list row. */
-export function useAdPrice(listing: Card, locale: Locale): { money: string; per: string | null } {
+export function AdCard({ listing, locale, showStatus = false }: Props) {
   const t = useTranslations("listing");
-  const salary = formatSalaryRange(listing.salary_min, listing.salary_max, locale);
-  const price = listing.price !== null && listing.price !== undefined ? formatEuro(listing.price, locale) : null;
-  const period = listing.price_period ?? listing.salary_period ?? null;
-  const money =
-    listing.price_kind === "free"
-      ? t("priceFree")
-      : (salary ?? price ?? (listing.price_kind === "negotiable" ? t("priceAsk") : t("salaryNone")));
-  return { money, per: period && (salary || price) ? t(PERIOD[period]) : null };
-}
-
-export function AdCard({ listing, locale }: { listing: Card; locale: Locale }) {
-  const t = useTranslations("listing");
-  const viewed = useViewed().has(listing.id);
-  const href = prefixed(locale, listing.path);
-  const place = listing.location_scope === "spain_wide" ? t("spainWide") : listing.location?.name;
+  const { href, place, viewed } = useCardBasics(listing, locale);
   const { money, per } = useAdPrice(listing, locale);
+  const inactive = listing.active === false;
 
   return (
     <article
@@ -55,7 +34,8 @@ export function AdCard({ listing, locale }: { listing: Card; locale: Locale }) {
         viewed ? "ad-card--seen" : "",
         // paid colour: a frame, never a different text colour, so it stays readable
         listing.highlighted ? "ad-card--highlighted" : "",
-        listing.promoted ? "ad-card--top" : "",
+        listing.promoted && !inactive ? "ad-card--top" : "",
+        inactive ? "ad-card--inactive" : "",
       ]
         .filter(Boolean)
         .join(" ")}
@@ -67,10 +47,15 @@ export function AdCard({ listing, locale }: { listing: Card; locale: Locale }) {
         ) : (
           <Camera size={22} aria-hidden />
         )}
-        {listing.promoted && <span className="ad-card__top">{t("top")}</span>}
+        {listing.promoted && !inactive && <span className="ad-card__top">{t("top")}</span>}
         <FavoriteButton id={listing.id} />
       </div>
       <div className="ad-card__body">
+        {showStatus && (
+          <span className={inactive ? "ad-status ad-status--off" : "ad-status ad-status--on"}>
+            {t(inactive ? "statusInactive" : "statusActive")}
+          </span>
+        )}
         <p className="ad-card__price">
           {money}
           {per && <small>{per}</small>}
@@ -80,9 +65,7 @@ export function AdCard({ listing, locale }: { listing: Card; locale: Locale }) {
             {listing.title}
           </Link>
         </h3>
-        <p className="ad-card__meta">
-          {[place, ago(listing.published_at, locale)].filter(Boolean).join(" · ")}
-        </p>
+        <p className="ad-card__meta">{[place, ago(listing.published_at, locale)].filter(Boolean).join(" · ")}</p>
       </div>
     </article>
   );

@@ -424,6 +424,7 @@ async def public_cards(session: AsyncSession, listings: list[Listing], lang: str
                 price_period=item.price_period,
                 price_kind=item.price_kind,
                 photo=photos.get(item.id),
+                active=item.status == "active",
                 promoted=bool(item.promoted_until and item.promoted_until > now),
                 highlighted=bool(item.highlighted_until and item.highlighted_until > now),
                 tags=card_tags(

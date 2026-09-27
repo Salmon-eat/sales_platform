@@ -80,6 +80,8 @@ async def stats(
 
 
 MAX_CARD_IDS = 100
+# statuses a visitor may have seen the ad in: it was on the site, and now it is paused, over or sold
+WAS_PUBLIC = ("active", "paused", "expired", "closed")
 
 
 @router.get("/listings/cards", response_model=list[ListingCard])
@@ -87,18 +89,24 @@ async def cards(
     session: SessionDep,
     ids: Annotated[str, Query(max_length=1000, description="comma-separated listing ids, e.g. 12,7,31")],
     lang: Lang = "es",
+    with_closed: Annotated[
+        bool, Query(description="also ads that were public and are no longer (history: shown as inactive)")
+    ] = False,
 ) -> list[ListingCard]:
-    """Active listings by id, in the order given: saved listings and application history (spec §10).
+    """Listings by id, in the order given: saved listings, application history, viewed history (spec §10).
 
-    Ids of closed or removed listings are left out; the client shows them as no longer available.
+    Normally only active ones; ids of closed or removed listings are left out and the client shows them as
+    no longer available. With with_closed the ones that were once public come back too, marked inactive.
+    Drafts, ads waiting for moderation and rejected ones never do.
     """
     wanted = [int(part) for part in ids.split(",") if part.strip().isdigit()][:MAX_CARD_IDS]
     if not wanted:
         return []
+    statuses = WAS_PUBLIC if with_closed else ("active",)
     rows = (
         await session.scalars(
             select(Listing)
-            .where(Listing.id.in_(wanted), Listing.status == "active")
+            .where(Listing.id.in_(wanted), Listing.status.in_(statuses))
             .options(selectinload(Listing.translations))
         )
     ).all()
