@@ -16,7 +16,9 @@ SCHEDULES = ("full", "part", "weekends", "shifts")
 CONTRACTS = ("fijo_discontinuo", "indefinido", "temporal")
 POSTED_DAYS = {"3d": 3}  # one "new" switch instead of day / week / month
 RADII = (10, 25, 50, 100)
-SORTS = ("new", "relevance", "salary")
+SORTS = ("new", "relevance", "salary", "price_asc", "price_desc")
+# a visitor who picked one of these asked for exactly that order: no paid ads pushed on top of it
+EXPLICIT_SORTS = ("salary", "price_asc", "price_desc")
 MAX_PAGE = 100
 MAX_Q = 200
 

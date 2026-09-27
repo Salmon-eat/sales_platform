@@ -231,6 +231,8 @@
     "sort_relevance": "Relevancia",
     "sort_new": "Más recientes",
     "sort_salary": "Salario",
+    "sort_price_asc": "Más baratos",
+    "sort_price_desc": "Más caros",
     "categories": "Profesiones",
     "allCategories": "Todas las profesiones",
     "places": "Ciudades",

@@ -7,6 +7,7 @@ import type { ReactNode } from "react";
 
 import { TrackSearch } from "@/components/Analytics";
 import { ApplicationForm } from "@/components/apply/ApplicationForm";
+import { AdRow } from "@/components/home/AdRow";
 import { ListingCard } from "@/components/home/ListingCard";
 import type { Locale } from "@/i18n/routing";
 import { SaveSearchButton } from "@/components/search/SaveSearchButton";
@@ -252,7 +253,16 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
       ? await orFallback(searchListings(locale, state.section.key, [["sort", "new"]], 120), null)
       : null;
   const q = get(canonical, "q");
-  const sortOptions = (q ? ["relevance", "new", "salary"] : ["new", "salary"]) as ("relevance" | "new" | "salary")[];
+  // jobs are compared by salary and shown as job cards; everything else by price, with its photo
+  const jobs = state.section.key === "empleo";
+  const Card = jobs ? ListingCard : AdRow;
+  const sortOptions = [...(q ? ["relevance"] : []), "new", ...(jobs ? ["salary"] : ["price_asc", "price_desc"])] as (
+    | "relevance"
+    | "new"
+    | "salary"
+    | "price_asc"
+    | "price_desc"
+  )[];
 
   return (
     <div className={head ? "container search-layout search-layout--head" : "container search-layout"}>
@@ -367,7 +377,7 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
                 <ul className="search-list">
                   {instead.items.slice(0, 6).map((item) => (
                     <li key={item.id}>
-                      <ListingCard listing={item} locale={locale} />
+                      <Card listing={item} locale={locale} />
                     </li>
                   ))}
                 </ul>
@@ -378,7 +388,7 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
           <ul className="search-list">
             {data.items.map((item) => (
               <li key={item.id}>
-                <ListingCard
+                <Card
                   listing={item}
                   locale={locale}
                   note={

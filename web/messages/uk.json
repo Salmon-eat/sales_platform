@@ -231,6 +231,8 @@
     "sort_relevance": "За релевантністю",
     "sort_new": "Спочатку нові",
     "sort_salary": "За зарплатою",
+    "sort_price_asc": "Дешевші",
+    "sort_price_desc": "Дорожчі",
     "categories": "Професії",
     "allCategories": "Усі професії",
     "places": "Міста",

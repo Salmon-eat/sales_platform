@@ -14,7 +14,7 @@ import type { ListingCard as Card } from "@/lib/types";
 const PERIOD = { month: "perMonth", week: "perWeek", day: "perDay", hour: "perHour" } as const;
 
 /** "2 h ago", "yesterday": coarse on purpose, so server and client render the same text. */
-function ago(iso: string | null, locale: Locale): string {
+export function ago(iso: string | null, locale: Locale): string {
   if (!iso) return "";
   const minutes = Math.round((Date.now() - new Date(iso).getTime()) / 60_000);
   const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
@@ -27,12 +27,10 @@ function ago(iso: string | null, locale: Locale): string {
  * The card of the classifieds grid: photo, price, title, where and when. Jobs show their salary, an ad
  * without a price shows what it says instead ("free", "negotiable").
  */
-export function AdCard({ listing, locale }: { listing: Card; locale: Locale }) {
+/** What an ad costs, as the cards show it: the price (or a job's salary), "free", "negotiable"; and
+ * "/month" when it is paid by the period. Shared by the grid card and the list row. */
+export function useAdPrice(listing: Card, locale: Locale): { money: string; per: string | null } {
   const t = useTranslations("listing");
-  const viewed = useViewed().has(listing.id);
-  const href = prefixed(locale, listing.path);
-  const place = listing.location_scope === "spain_wide" ? t("spainWide") : listing.location?.name;
-
   const salary = formatSalaryRange(listing.salary_min, listing.salary_max, locale);
   const price = listing.price !== null && listing.price !== undefined ? formatEuro(listing.price, locale) : null;
   const period = listing.price_period ?? listing.salary_period ?? null;
@@ -40,6 +38,15 @@ export function AdCard({ listing, locale }: { listing: Card; locale: Locale }) {
     listing.price_kind === "free"
       ? t("priceFree")
       : (salary ?? price ?? (listing.price_kind === "negotiable" ? t("priceAsk") : t("salaryNone")));
+  return { money, per: period && (salary || price) ? t(PERIOD[period]) : null };
+}
+
+export function AdCard({ listing, locale }: { listing: Card; locale: Locale }) {
+  const t = useTranslations("listing");
+  const viewed = useViewed().has(listing.id);
+  const href = prefixed(locale, listing.path);
+  const place = listing.location_scope === "spain_wide" ? t("spainWide") : listing.location?.name;
+  const { money, per } = useAdPrice(listing, locale);
 
   return (
     <article
@@ -66,7 +73,7 @@ export function AdCard({ listing, locale }: { listing: Card; locale: Locale }) {
       <div className="ad-card__body">
         <p className="ad-card__price">
           {money}
-          {period && (salary || price) && <small>{t(PERIOD[period])}</small>}
+          {per && <small>{per}</small>}
         </p>
         <h3>
           <Link href={href} className="listing-link">

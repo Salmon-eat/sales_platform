@@ -11,7 +11,7 @@ from sqlalchemy.types import Text
 
 from app.models import Listing, ListingSearch, Location
 from app.search.backend import Bucket, FacetResult, Hit, PlaceRef, SearchPage, SearchQuery
-from app.search.params import BOOL_KEYS, CONTRACTS, POSTED_DAYS, RADII, SCHEDULES, Filters
+from app.search.params import BOOL_KEYS, CONTRACTS, EXPLICIT_SORTS, POSTED_DAYS, RADII, SCHEDULES, Filters
 from app.search.text import latin_lookalike, meaningful, normalize, one_alphabet, tokens
 
 FUZZY_BELOW = 5  # spec §7: if FTS gives < 5 results, add trigram similarity
@@ -172,9 +172,9 @@ class PostgresSearchBackend:
         if place:
             order.append((Listing.location_scope == "spain_wide").asc())  # local first
         sort = f.effective_sort
-        if sort != "salary":
+        if sort not in EXPLICIT_SORTS:
             # paid ads come first, as on other boards (the card carries a "top" mark); a visitor who
-            # sorted by salary gets exactly that order
+            # sorted by salary or price gets exactly that order
             order.append(func.coalesce(Listing.promoted_until > func.now(), False).desc())
         if sort == "relevance" and f.q:
             age_days = func.extract("epoch", func.now() - Listing.published_at) / 86400.0
@@ -191,6 +191,10 @@ class PostgresSearchBackend:
                 order.append(distance.asc())
         elif sort == "salary":
             order.append(Listing.salary_monthly_min.desc().nulls_last())
+        elif sort in {"price_asc", "price_desc"}:
+            # "free" costs nothing; an ad without a price ("negotiable") goes to the end either way
+            price = case((Listing.price_kind == "free", 0), else_=Listing.price)
+            order.append(price.asc().nulls_last() if sort == "price_asc" else price.desc().nulls_last())
         else:  # new: pinned first, then newest (spec §7)
             order.append(Listing.is_pinned.desc())
         order += [Listing.published_at.desc(), Listing.id.desc()]

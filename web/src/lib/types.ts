@@ -174,7 +174,7 @@ export type SearchResponse = {
   per_page: number;
   pages: number;
   canonical_query: string;
-  sort: "relevance" | "new" | "salary";
+  sort: "relevance" | "new" | "salary" | "price_asc" | "price_desc";
   category: SelectedCategory | null;
   location: SelectedPlace | null;
   categories: CategoryFacet[];
