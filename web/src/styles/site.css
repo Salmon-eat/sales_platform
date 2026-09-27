@@ -2079,6 +2079,16 @@
 .search-empty h2 {
   font-size: 22px;
 }
+.search-empty h3 {
+  font-size: 16px;
+  margin-top: 6px;
+}
+/* the way out of an empty page: the section the typed words belong to */
+.search-empty__link {
+  justify-self: start;
+  font-weight: 600;
+  color: var(--accent);
+}
 .relaxations {
   display: grid;
   gap: 6px;
