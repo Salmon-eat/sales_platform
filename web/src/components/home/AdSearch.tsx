@@ -10,10 +10,15 @@ import { track } from "@/lib/analytics";
 import { localizedPath, prefixed } from "@/lib/routes";
 import type { HomeSection, LocationRef } from "@/lib/types";
 
-type Props = { sections: HomeSection[] };
+type Props = {
+  sections: HomeSection[];
+  /** what was searched for: on the results page the box shows it back, on the home page it is empty */
+  initialQuery?: string;
+  initialCity?: string | null;
+};
 
 /** The one search of the whole site: what, in which section, where. */
-export function AdSearch({ sections }: Props) {
+export function AdSearch({ sections, initialQuery = "", initialCity = null }: Props) {
   const t = useTranslations("home");
   const ts = useTranslations("search");
   const locale = asLocale(useLocale());
@@ -27,9 +32,13 @@ export function AdSearch({ sections }: Props) {
   useEffect(() => {
     fetch(`/v1/locations/popular?lang=${locale}&limit=30`)
       .then((r) => (r.ok ? r.json() : []))
-      .then(setCities)
+      .then((list: LocationRef[]) => {
+        setCities(list);
+        // the town that was searched for keeps its name in the button, not just in the address
+        if (initialCity) setPlace(list.find((item) => item.slug === initialCity) ?? null);
+      })
       .catch(() => undefined);
-  }, [locale]);
+  }, [locale, initialCity]);
 
   useEffect(() => {
     const close = (event: MouseEvent) => {
@@ -55,7 +64,14 @@ export function AdSearch({ sections }: Props) {
     <form ref={box} className="ad-search" role="search" onSubmit={submit}>
       <label className="ad-search__field">
         <Search size={18} aria-hidden />
-        <input name="q" type="search" autoComplete="off" placeholder={t("searchPlaceholder")} aria-label={t("searchPlaceholder")} />
+        <input
+          name="q"
+          type="search"
+          autoComplete="off"
+          defaultValue={initialQuery}
+          placeholder={t("searchPlaceholder")}
+          aria-label={t("searchPlaceholder")}
+        />
       </label>
       <label className="ad-search__field ad-search__section">
         <select value={section} onChange={(e) => setSection(e.target.value)} aria-label={t("allSectionsOption")}>

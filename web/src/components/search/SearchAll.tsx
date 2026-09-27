@@ -78,7 +78,7 @@ export async function SearchAll({
       <section className="home-search">
         <div className="container">
           <h1>{t("everywhere")}</h1>
-          <AdSearch sections={home.sections} />
+          <AdSearch sections={home.sections} initialQuery={q} initialCity={one(searchParams.location) || null} />
         </div>
       </section>
 
