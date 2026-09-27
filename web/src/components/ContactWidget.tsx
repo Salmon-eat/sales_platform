@@ -27,49 +27,58 @@ type Props = {
 
 const digits = (phone: string) => phone.replace(/\D/g, "");
 
-/** The mascot's orange head as the floating "write to a manager" button. */
-function OrangeHead() {
+/** The mascot as the floating "write to a manager" button: a cat in a headset, a manager on the line.
+ * Colours come from CSS (light: a cream cat on an orange disc; dark theme: an orange cat on a dark one). */
+function CatHead() {
   return (
-    <svg viewBox="-26 -34 52 58" className="contact-orange__svg" aria-hidden>
-      <defs>
-        <radialGradient id="contact-orange-shade" cx="0.35" cy="0.3" r="0.8">
-          <stop offset="0.55" stopColor="#ff8a1f" stopOpacity="0" />
-          <stop offset="1" stopColor="#d9620a" stopOpacity="0.55" />
-        </radialGradient>
-      </defs>
-      <circle r="21" fill="#ff8a1f" />
-      <circle r="21" fill="url(#contact-orange-shade)" />
-      <ellipse
-        cx="-8"
-        cy="-10"
-        rx="5"
-        ry="3"
-        fill="#fff"
-        opacity="0.35"
-        transform="rotate(-30 -8 -10)"
-      />
+    <svg viewBox="-30 -30 60 60" className="contact-mascot__svg" aria-hidden>
+      <circle r="28" className="contact-mascot__disc" />
+      {/* ears: a curved outer edge, a softly rounded tip, a tuft of fur inside; the right one twitches */}
+      <g>
+        <path
+          d="M-15.5 0 C-16.8 -8 -16 -15 -13.4 -19.6 Q-12.6 -20.8 -11.6 -19.9 C-8.6 -17 -5.6 -13.6 -2.8 -9.6 Z"
+          className="contact-mascot__fur"
+        />
+        <path
+          d="M-12.8 -4.5 C-13.6 -9.5 -13.2 -13.6 -12.2 -16.4 C-10 -14 -7.8 -11.4 -5.8 -8.8 Z"
+          className="contact-mascot__inner"
+        />
+        <path d="M-12 -6 L-10.4 -10.4 M-10 -6.6 L-9.2 -10.8" className="contact-mascot__tuft" />
+      </g>
+      <g className="contact-mascot__ear">
+        <path
+          d="M15.5 0 C16.8 -8 16 -15 13.4 -19.6 Q12.6 -20.8 11.6 -19.9 C8.6 -17 5.6 -13.6 2.8 -9.6 Z"
+          className="contact-mascot__fur"
+        />
+        <path
+          d="M12.8 -4.5 C13.6 -9.5 13.2 -13.6 12.2 -16.4 C10 -14 7.8 -11.4 5.8 -8.8 Z"
+          className="contact-mascot__inner"
+        />
+        <path d="M12 -6 L10.4 -10.4 M10 -6.6 L9.2 -10.8" className="contact-mascot__tuft" />
+      </g>
+      <ellipse cy="3" rx="15.5" ry="12.5" className="contact-mascot__fur" />
+      {/* the headset: a band over the head, two cups, a microphone at the mouth */}
+      <path d="M-16.5 1 C-17 -23 17 -23 16.5 1" className="contact-mascot__band" />
+      <rect x="-20" y="-4" width="6.5" height="12" rx="3.2" className="contact-mascot__gear" />
+      <rect x="13.5" y="-4" width="6.5" height="12" rx="3.2" className="contact-mascot__gear" />
+      <path d="M-16 8 Q-14.5 14.5 -6.5 13.5" className="contact-mascot__boom" />
+      <circle cx="-5.5" cy="13.4" r="2.3" className="contact-mascot__gear" />
+      <g className="contact-mascot__eyes">
+        <ellipse cx="-5.5" cy="1.5" rx="1.9" ry="2.6" fill="#16181d" />
+        <ellipse cx="5.5" cy="1.5" rx="1.9" ry="2.6" fill="#16181d" />
+        <circle cx="-4.9" cy="0.6" r="0.7" fill="#fff" />
+        <circle cx="6.1" cy="0.6" r="0.7" fill="#fff" />
+      </g>
+      <circle cx="-9.5" cy="7" r="2" fill="#ff5d7a" opacity="0.3" />
+      <circle cx="9.5" cy="7" r="2" fill="#ff5d7a" opacity="0.3" />
+      <path d="M-1.7 6 L1.7 6 L0 7.9 Z" className="contact-mascot__inner" />
       <path
-        d="M0 -21 q1 -6 -1 -9"
-        stroke="#6b4a2a"
-        strokeWidth="2.2"
+        d="M0 7.9 q-1.4 2.3 -3.3 1.2 M0 7.9 q1.4 2.3 3.3 1.2"
+        stroke="#16181d"
+        strokeWidth="1"
         strokeLinecap="round"
         fill="none"
-      />
-      <path
-        className="contact-orange__leaf"
-        d="M0 -25 q9 -9 17 -3 q-8 7 -17 3 z"
-        fill="#3fae5a"
-      />
-      <g className="contact-orange__eyes">
-        <ellipse cx="-7" cy="-2" rx="2.3" ry="3.3" fill="#16181d" />
-        <ellipse cx="7" cy="-2" rx="2.3" ry="3.3" fill="#16181d" />
-        <circle cx="-6.2" cy="-3.3" r="0.9" fill="#fff" />
-        <circle cx="7.8" cy="-3.3" r="0.9" fill="#fff" />
-      </g>
-      <circle cx="-12" cy="6" r="3" fill="#ff5d7a" opacity="0.45" />
-      <circle cx="12" cy="6" r="3" fill="#ff5d7a" opacity="0.45" />
-      <path d="M-5 7 q5 6 10 0 z" fill="#7a2a12" />
-    </svg>
+      />    </svg>
   );
 }
 
@@ -201,7 +210,7 @@ export function ContactWidget({
       )}
       <button
         type="button"
-        className="contact-orange"
+        className="contact-mascot"
         onClick={() => {
           setOpen((v) => !v);
           if (unread) setChat(true);
@@ -210,12 +219,12 @@ export function ContactWidget({
         aria-label={t("open")}
       >
         {!open && (
-          <span className="contact-orange__hint">
+          <span className="contact-mascot__hint">
             {t(unread ? "newReply" : "open")}
           </span>
         )}
-        <OrangeHead />
-        {unread && <span className="contact-orange__dot" aria-hidden />}
+        <CatHead />
+        {unread && <span className="contact-mascot__dot" aria-hidden />}
       </button>
     </div>
   );

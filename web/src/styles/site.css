@@ -2420,7 +2420,7 @@
   justify-items: end;
   gap: 12px;
 }
-.contact-orange {
+.contact-mascot {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -2429,28 +2429,79 @@
   background: none;
   cursor: pointer;
 }
-.contact-orange__svg {
+.contact-mascot__svg {
   display: block;
-  width: 74px;
-  height: 82px;
+  width: 72px;
+  height: 72px;
   filter: drop-shadow(0 8px 14px rgba(22, 24, 29, 0.22));
   animation: contact-bob 3s ease-in-out infinite;
   transform-origin: 50% 90%;
 }
-.contact-orange:hover .contact-orange__svg {
+.contact-mascot:hover .contact-mascot__svg {
   animation: contact-wiggle 0.6s ease-in-out;
 }
-.contact-orange__leaf {
-  transform-box: fill-box;
-  transform-origin: left center;
-  animation: contact-leaf 3s ease-in-out infinite;
+/* the cat's colours: a cream cat on an orange disc; in the dark theme an orange cat on a dark disc */
+.contact-mascot__disc {
+  fill: var(--accent);
 }
-.contact-orange__eyes {
+.contact-mascot__fur {
+  fill: #fff8ee;
+}
+.contact-mascot__inner {
+  fill: #ff8f52;
+}
+.contact-mascot__tuft {
+  stroke: #fff8ee;
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  fill: none;
+}
+.contact-mascot__gear {
+  fill: #2a2d35;
+}
+.contact-mascot__band,
+.contact-mascot__boom {
+  stroke: #2a2d35;
+  stroke-linecap: round;
+  fill: none;
+}
+.contact-mascot__band {
+  stroke-width: 3.2;
+}
+.contact-mascot__boom {
+  stroke-width: 2;
+}
+:root[data-theme="dark"] .contact-mascot__disc {
+  fill: #24272f;
+}
+:root[data-theme="dark"] .contact-mascot__fur {
+  fill: #ff8a1f;
+}
+:root[data-theme="dark"] .contact-mascot__tuft {
+  stroke: #ffd9b8;
+}
+:root[data-theme="dark"] .contact-mascot__inner {
+  fill: #c9480c;
+}
+:root[data-theme="dark"] .contact-mascot__gear {
+  fill: #fff8ee;
+}
+:root[data-theme="dark"] .contact-mascot__band,
+:root[data-theme="dark"] .contact-mascot__boom {
+  stroke: #fff8ee;
+}
+/* a twitch of the right ear now and then */
+.contact-mascot__ear {
+  transform-box: fill-box;
+  transform-origin: 30% 100%;
+  animation: contact-ear 5s ease-in-out infinite;
+}
+.contact-mascot__eyes {
   transform-box: fill-box;
   transform-origin: center;
   animation: contact-blink 4s infinite;
 }
-.contact-orange__hint {
+.contact-mascot__hint {
   padding: 12px 20px;
   border-radius: 999px;
   background: var(--surface);
@@ -2478,9 +2529,17 @@
     transform: rotate(10deg);
   }
 }
-@keyframes contact-leaf {
-  50% {
-    transform: rotate(-12deg);
+@keyframes contact-ear {
+  0%,
+  86%,
+  100% {
+    transform: rotate(0);
+  }
+  90% {
+    transform: rotate(14deg);
+  }
+  94% {
+    transform: rotate(-4deg);
   }
 }
 @keyframes contact-blink {
@@ -2584,21 +2643,21 @@
     right: 14px;
     bottom: calc(72px + env(safe-area-inset-bottom));
   }
-  .contact-orange__hint {
+  .contact-mascot__hint {
     display: none;
   }
-  .contact-orange__svg {
-    width: 54px;
-    height: 60px;
+  .contact-mascot__svg {
+    width: 56px;
+    height: 56px;
   }
   .contact-panel {
     width: min(300px, calc(100vw - 28px));
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .contact-orange__svg,
-  .contact-orange__leaf,
-  .contact-orange__eyes,
+  .contact-mascot__svg,
+  .contact-mascot__ear,
+  .contact-mascot__eyes,
   .contact-panel {
     animation: none;
   }
@@ -2726,10 +2785,10 @@ button.contact-channel {
   padding: 0;
   justify-content: center;
 }
-.contact-orange {
+.contact-mascot {
   position: relative;
 }
-.contact-orange__dot {
+.contact-mascot__dot {
   position: absolute;
   top: 4px;
   right: 2px;
