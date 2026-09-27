@@ -15,7 +15,7 @@ dependencies = [
   "pyjwt[crypto]>=2.10",
   "openpyxl>=3.1",
   "phonenumbers>=8.13",
-  "apscheduler>=3.10,<4",
+  "apscheduler>=3.11.3,<4",
   # photos of ads: check the file really is an image, turn it the right way up, drop the EXIF (it can
   # carry the place the photo was taken) and save a smaller copy for the cards
   "pillow>=11.0",
