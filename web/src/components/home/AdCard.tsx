@@ -48,6 +48,7 @@ export function AdCard({ listing, locale }: { listing: Card; locale: Locale }) {
         viewed ? "ad-card--seen" : "",
         // paid colour: a frame, never a different text colour, so it stays readable
         listing.highlighted ? "ad-card--highlighted" : "",
+        listing.promoted ? "ad-card--top" : "",
       ]
         .filter(Boolean)
         .join(" ")}

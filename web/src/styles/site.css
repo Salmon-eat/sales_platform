@@ -960,6 +960,19 @@
   font-weight: 600;
   vertical-align: middle;
 }
+/* the same orange "top" mark as on the photo cards; orange always carries dark text */
+.top-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #16181d;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+}
 .listing-link::after {
   /* the whole card is clickable; favourite and apply sit above */
   content: "";
@@ -1324,8 +1337,8 @@
   left: 8px;
   padding: 2px 8px;
   border-radius: 6px;
-  background: var(--solid);
-  color: var(--on-solid);
+  background: var(--accent);
+  color: #16181d;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -2886,6 +2899,20 @@ button.contact-channel {
 .job-card--highlighted {
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent) inset;
+}
+/* paid top: an orange frame, a warm glow and a hint of orange in the card, so it reads as "first for a
+   reason"; the text keeps the same colours as every other card */
+.job-card--top,
+.ad-card--top {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+  /* the glow is centred, so no edge looks heavier than another */
+  box-shadow: 0 0 18px -8px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+/* the photo card: its photo covers anything drawn inside the border, so the second line goes outside
+   (an outline follows the rounded corners) and the frame is equally thick all round */
+.ad-card--top {
+  outline: 1px solid var(--accent);
 }
 
 /* "add to home screen": one strip at the bottom, shown once */

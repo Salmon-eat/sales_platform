@@ -20,6 +20,7 @@ from app.importers.listings_demo import seed_demo_listings
 from app.importers.loadtest_data import create_fake_listings, delete_fake_listings
 from app.importers.locations import import_locations
 from app.importers.taxonomy import seed_taxonomy
+from app.importers.top_demo import seed_demo_top
 from app.models import User, UserRole
 from app.search.spelling import refresh as refresh_search_words
 from app.seo.counts import recount_seo_pages
@@ -118,6 +119,14 @@ async def delete_extras_cmd() -> None:
     print(f"demo extras removed: {removed}" if removed else "nothing to remove")
 
 
+async def top_cmd() -> None:
+    """A few paid "top" ads in every section, to see how they look."""
+    async with SessionLocal() as session:
+        made = await seed_demo_top(session)
+    await bump_cache_version(redis)
+    print(f"top ads per section: {made}")
+
+
 async def search_words_cmd() -> None:
     """Rebuild the site's own vocabulary: what a misspelled word is repaired against."""
     async with SessionLocal() as session:
@@ -197,6 +206,8 @@ async def run(args: argparse.Namespace) -> None:
                 await seed_extras_cmd()
             case "delete-demo-extras":
                 await delete_extras_cmd()
+            case "seed-demo-top":
+                await top_cmd()
             case "refresh-search-words":
                 await search_words_cmd()
             case "learn-search-words":
@@ -238,6 +249,7 @@ def main() -> None:
     sub.add_parser("delete-demo-ads", help="remove those demo ads")
     sub.add_parser("seed-demo-extras", help="firms, CVs, reviews, chats, orders and articles (local only)")
     sub.add_parser("delete-demo-extras", help="remove all of that demo data")
+    sub.add_parser("seed-demo-top", help="put 1-3 existing ads of every section on paid top (local only)")
     sub.add_parser("refresh-search-words", help="rebuild the words a search typo is repaired against")
     sub.add_parser(
         "learn-search-words", help="turn fruitless searches into category words (the worker does it nightly)"

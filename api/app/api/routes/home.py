@@ -1,4 +1,5 @@
-"""Everything the home page shows, in one request: the sections, the promoted ads and the newest ones."""
+"""Everything the home page shows, in one request: the sections and the newest ads. Paid ads have no
+block here: like on other boards, they come first in their section and in the search."""
 
 from datetime import UTC, datetime, timedelta
 from typing import Annotated
@@ -17,7 +18,6 @@ from app.services.listings import public_cards
 
 router = APIRouter(tags=["home"])
 
-PROMOTED = 4
 FRESH = 12
 CATEGORY_HINTS = 4
 CACHE_TTL = 60
@@ -77,14 +77,6 @@ async def _build(session: SessionDep, lang: str) -> HomeOut:
         for section in sections
     ]
 
-    promoted_rows = (
-        await session.scalars(
-            _cards_query()
-            .where(active, Listing.promoted_until > datetime.now(UTC))
-            .order_by(Listing.promoted_until.desc())
-            .limit(PROMOTED)
-        )
-    ).all()
     fresh_rows = (
         await session.scalars(
             _cards_query()
@@ -97,7 +89,6 @@ async def _build(session: SessionDep, lang: str) -> HomeOut:
     return HomeOut(
         totals=HomeTotals(listings=total, today=fresh_count, sections=len(blocks)),
         sections=blocks,
-        promoted=await public_cards(session, list(promoted_rows), lang),
         fresh=await public_cards(session, list(fresh_rows), lang),
     )
 

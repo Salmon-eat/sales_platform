@@ -15,9 +15,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { alternates: routeAlternates(locale, { type: "home" }) };
 }
 
-const EMPTY = { totals: { listings: 0, today: 0, sections: 0 }, sections: [], promoted: [], fresh: [] };
+const EMPTY = { totals: { listings: 0, today: 0, sections: 0 }, sections: [], fresh: [] };
 
-/** Home: the whole board at a glance — search, sections, paid placements, the newest ads. */
+/** Home: the whole board at a glance — search, sections, the newest ads. */
 export default async function HomePage({ params }: Props) {
   const locale = asLocale((await params).locale);
   setRequestLocale(locale);

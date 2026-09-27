@@ -20,5 +20,4 @@ class HomeSection(BaseModel):
 class HomeOut(BaseModel):
     totals: HomeTotals
     sections: list[HomeSection]
-    promoted: list[ListingCard] = Field(description="paid placement")
     fresh: list[ListingCard]

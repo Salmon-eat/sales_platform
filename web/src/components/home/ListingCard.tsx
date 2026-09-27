@@ -74,6 +74,7 @@ export function ListingCard({ listing, locale, note }: { listing: Card; locale: 
         applied || viewed ? "job-card--seen" : "",
         // paid colour: a frame only, so the text stays as readable as everybody else's
         listing.highlighted ? "job-card--highlighted" : "",
+        listing.promoted ? "job-card--top" : "",
       ]
         .filter(Boolean)
         .join(" ")}
@@ -93,6 +94,8 @@ export function ListingCard({ listing, locale, note }: { listing: Card; locale: 
           <Link href={href} className="listing-link">
             {listing.title}
           </Link>
+          {/* paid placement: it stands first in the list, and the mark says why */}
+          {listing.promoted && <span className="top-badge">{t("top")}</span>}
           {listing.is_urgent && <span className="urgent-badge">{t("urgent")}</span>}
           {!listing.is_translated && <span className="lang-badge">{listing.lang === "uk" ? "UA" : listing.lang.toUpperCase()}</span>}
         </h3>
