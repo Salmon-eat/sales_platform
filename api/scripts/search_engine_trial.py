@@ -17,14 +17,18 @@ not the dictionary.
 
 import asyncio
 import json
+import sys
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
+from pathlib import Path
 
-from sqlalchemy import text
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # so it runs from anywhere
 
-from app.core.db import SessionLocal, engine
+from sqlalchemy import text  # noqa: E402
+
+from app.core.db import SessionLocal, engine  # noqa: E402
 
 MEILI = "http://meilisearch:7700"
 KEY = "dev-master-key"

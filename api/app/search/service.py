@@ -285,6 +285,8 @@ async def search_listings(
         filters=filters,
         attr_specs=specs,
         per_page=per_page,
+        # cheapest attempt first: exact words only (see the third step below)
+        allow_fuzzy=False,
     )
     backend = get_backend(session)
     page = await backend.search(query)
@@ -292,6 +294,7 @@ async def search_listings(
     # Only a search that went badly is worth second-guessing. A typed word is repaired against the
     # words the site really contains, and the repair is kept only if it finds more than the visitor's
     # own wording did — "водієм" is a perfectly good word, and guessing at it used to cost results.
+    # This step is cheap: it looks in a small table of the site's own words, not in the ads.
     corrections: list[tuple[str, str]] = []
     if filters.q and page.total < POOR_RESULT:
         repaired, guesses = await spelling.repair(session, filters.q)
@@ -310,6 +313,15 @@ async def search_listings(
                     retry_backend,
                     retry,
                 )
+
+    # Last resort, and the only expensive one: words that merely resemble what the ads contain. Reading
+    # every ad costs time, so it happens once, after the two cheap attempts have both come back empty.
+    if filters.q and page.total < POOR_RESULT:
+        forgiving = replace(query, allow_fuzzy=True)
+        forgiving_backend = get_backend(session)
+        found = await forgiving_backend.search(forgiving)
+        if found.total > page.total:
+            query, backend, page = forgiving, forgiving_backend, found
 
     facet_key = {
         "section": query.section_id,

@@ -26,6 +26,10 @@ class SearchQuery:
     filters: Filters
     attr_specs: dict[str, AttrSpec] = field(default_factory=dict)
     per_page: int = 20
+    # Matching words that merely resemble the ones in the ads means reading every ad, which costs real
+    # time once there are thousands. The caller turns it off for the first attempt and only pays for it
+    # when the plain search and the spelling repair have both come back nearly empty.
+    allow_fuzzy: bool = True
 
 
 @dataclass

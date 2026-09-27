@@ -12,7 +12,7 @@ from sqlalchemy.types import Text
 from app.models import Listing, ListingSearch, Location
 from app.search.backend import Bucket, FacetResult, Hit, PlaceRef, SearchPage, SearchQuery
 from app.search.params import BOOL_KEYS, CONTRACTS, POSTED_DAYS, RADII, SCHEDULES, Filters
-from app.search.text import latin_lookalike, meaningful, normalize, tokens
+from app.search.text import latin_lookalike, meaningful, normalize, one_alphabet, tokens
 
 FUZZY_BELOW = 5  # spec §7: if FTS gives < 5 results, add trigram similarity
 # spec says similarity() > 0.3; word_similarity() (substring-aware, fits long texts) needs a higher bar
@@ -30,7 +30,10 @@ def ts_query(q: str) -> ColumnElement[Any]:
     query: ColumnElement[Any] | None = None
     for i, word in enumerate(words):
         last = i == len(words) - 1
-        variants = [word] + ([alt] if (alt := latin_lookalike(word)) else [])
+        variants = [word]
+        for alternative in (latin_lookalike(word), one_alphabet(word)):
+            if alternative:
+                variants.append(alternative)
         alternatives: ColumnElement[Any] | None = None
         for v in variants:
             for expr in (
@@ -116,6 +119,10 @@ class PostgresSearchBackend:
             return []
         fts = LS.tsv_all.op("@@")(ts_query(q))
         key = id(query)
+        if not query.allow_fuzzy:
+            # no trigram pass, and no counting query to decide about one
+            self._fuzzy[key] = False
+            return [fts]
         if key not in self._fuzzy:
             conds = self._base(query) + list(filter_groups(query, query.filters).values()) + [fts]
             found = await self.session.scalar(
@@ -144,8 +151,9 @@ class PostgresSearchBackend:
         f = query.filters
         text = await self._text(query)
         conds = self._base(query) + text + list(filter_groups(query, f).values())
-        if text and not self._fuzzy[id(query)]:
-            total = self._fts_total[id(query)]  # the same conditions were just counted
+        counted = self._fts_total.get(id(query))
+        if text and not self._fuzzy[id(query)] and counted is not None:
+            total = counted  # the same conditions were just counted
         else:
             total = await self.session.scalar(self._select(func.count()).where(*conds)) or 0
 

@@ -1,5 +1,5 @@
 from app.search.params import AttrSpec, canonical_query, parse_filters
-from app.search.text import latin_lookalike, normalize, tokens
+from app.search.text import latin_lookalike, normalize, one_alphabet, tokens
 
 CE_SPECS = {
     "trailer_type": AttrSpec(
@@ -60,3 +60,14 @@ def test_text_normalization() -> None:
     assert tokens("водій   се  мадрид") == ["водій", "се", "мадрид"]
     assert latin_lookalike("се") == "ce"
     assert latin_lookalike("водій") is None
+
+
+def test_a_word_typed_on_two_keyboards() -> None:
+    """A Spanish and a Ukrainian layout on the same machine: the letters that look the same get mixed."""
+    assert one_alphabet("кoмната") == "комната"  # latin "o"
+    assert one_alphabet("мaшина") == "машина"  # latin "a"
+    # a latin "i" becomes the Ukrainian "і"; turning "діван" into "диван" is the speller's job
+    assert one_alphabet("дiван") == "діван"
+    assert one_alphabet("диван") is None  # one alphabet already
+    assert one_alphabet("bmw") is None
+    assert one_alphabet("iphone") is None

@@ -129,9 +129,9 @@ async def expire_listings_cmd() -> None:
     print(f"expired {count} listings")
 
 
-async def fake_listings_cmd(count: int) -> None:
+async def fake_listings_cmd(count: int, with_photos: bool) -> None:
     async with SessionLocal() as session:
-        created = await create_fake_listings(session, count)
+        created = await create_fake_listings(session, count, with_photos=with_photos)
     await bump_cache_version(redis)
     print(f"created {created} fake listings (marked in contact._loadtest, removed by delete-fake-listings)")
 
@@ -191,7 +191,7 @@ async def run(args: argparse.Namespace) -> None:
             case "expire-listings":
                 await expire_listings_cmd()
             case "seed-fake-listings":
-                await fake_listings_cmd(args.count)
+                await fake_listings_cmd(args.count, not args.no_photos)
             case "delete-fake-listings":
                 await delete_fake_listings_cmd()
             case "recount-seo":
@@ -230,9 +230,10 @@ def main() -> None:
         "expire-listings", help="mark listings past expires_at as expired (the worker does it every 10 min)"
     )
 
-    fake = sub.add_parser("seed-fake-listings", help="bulk fake listings for the load test")
+    fake = sub.add_parser("seed-fake-listings", help="bulk fake listings for the load test, all sections")
     fake.add_argument("--count", type=int, default=10_000)
-    sub.add_parser("delete-fake-listings", help="remove the load-test listings")
+    fake.add_argument("--no-photos", action="store_true", help="skip the placeholder pictures")
+    sub.add_parser("delete-fake-listings", help="remove the load-test listings and their pictures")
     sub.add_parser("recount-seo", help="recount seo_pages (the worker does it hourly)")
     sub.add_parser("seed-content", help="static page texts from seeds/content.json")
     sub.add_parser("seed-demo-analytics", help="60 days of demo traffic for the dashboard (local only)")

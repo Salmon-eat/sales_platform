@@ -16,7 +16,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models import Category, Location, Section
-from app.search.text import STEM, STOPWORDS, close_enough, latin_lookalike, normalize
+from app.search.text import STEM, STOPWORDS, close_enough, latin_lookalike, normalize, one_alphabet
 from app.services.cache import TAXONOMY_VERSION_KEY
 
 MAX_NGRAM = 5
@@ -184,7 +184,11 @@ def understand(dictionary: Dictionary, q: str, section_key: str | None = None) -
         matched = False
         for n in range(min(MAX_NGRAM, len(words) - i), 0, -1):
             chunk = words[i : i + n]
-            variants = {" ".join(chunk), " ".join(latin_lookalike(w) or w for w in chunk)}
+            variants = {
+                " ".join(chunk),
+                " ".join(latin_lookalike(w) or w for w in chunk),
+                " ".join(one_alphabet(w) or w for w in chunk),
+            }
             # one word written with a different ending ("у Валенсії", "ремонту") still counts
             if n == 1:
                 same_place = _similar(chunk[0], dictionary.places_by_stem)

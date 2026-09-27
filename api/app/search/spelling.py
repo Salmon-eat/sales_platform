@@ -18,7 +18,7 @@ from sqlalchemy import func, select, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.search import SearchWord
-from app.search.text import normalize
+from app.search.text import normalize, one_alphabet
 
 log = logging.getLogger("bazarcito.spelling")
 
@@ -46,14 +46,21 @@ async def repair(session: AsyncSession, query: str) -> tuple[str, list[tuple[str
     if not words:
         return query, []
 
-    seen = await known(session, words)
+    # a word typed on two keyboard layouts is first put back into one alphabet, and only then looked up
+    one_script = {word: one_alphabet(word) for word in words}
+    seen = await known(session, words + [w for w in one_script.values() if w])
     fixed: list[str] = []
     changes: list[tuple[str, str]] = []
     for word in words:
         if word in seen or len(word) < MIN_LENGTH or word.isdigit():
             fixed.append(word)
             continue
-        better = await _closest(session, word)
+        same_script = one_script[word]
+        if same_script and same_script in seen:
+            fixed.append(same_script)
+            changes.append((word, same_script))
+            continue
+        better = await _closest(session, same_script or word)
         if better:
             fixed.append(better)
             changes.append((word, better))

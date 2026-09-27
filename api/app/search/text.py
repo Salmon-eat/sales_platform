@@ -54,6 +54,24 @@ def latin_lookalike(token: str) -> str | None:
     return None
 
 
+_TO_CYRILLIC = str.maketrans("aceopxkmtbhi", "асеорхкмтвні")
+
+
+def one_alphabet(token: str) -> str | None:
+    """"дiван" with a Latin "i" in the middle: one word typed on two keyboard layouts.
+
+    People here switch between a Spanish and a Ukrainian keyboard all day, and the letters that look
+    the same get mixed. Only a word that really contains both alphabets is touched — "bmw" and
+    "диван" are left exactly as they were.
+    """
+    has_cyrillic = any("Ѐ" <= ch <= "ӿ" for ch in token)
+    has_latin = any("a" <= ch <= "z" for ch in token)
+    if not (has_cyrillic and has_latin):
+        return None
+    together = token.translate(_TO_CYRILLIC)
+    return together if together != token else None
+
+
 # how many letters at the start of a word we trust to stay put: "Валенсія" and "Валенсії" share four
 STEM = 4
 
