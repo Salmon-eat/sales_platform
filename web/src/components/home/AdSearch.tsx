@@ -80,12 +80,17 @@ export function AdSearch({ sections, initialQuery = "", initialCity = null }: Pr
     return () => document.removeEventListener("click", close);
   }, []);
 
-  /** A chosen word goes straight to the place it belongs to: that is what the count under it means. */
+  /** A chosen word goes straight to the place it belongs to: that is what the count under it means.
+   *
+   * The word travels in the address. Without it the page fills the box with the name of the category
+   * instead, and somebody who typed "car" lands on a page that says "Авто" — their own word gone.
+   */
   function pick(word: SuggestWord) {
     setQuery(word.text);
     setWordMenu(false);
     track("search", { props: { q: word.text.slice(0, 100), picked: word.category } });
-    router.push(prefixed(locale, `${word.section_slug}/${word.category_slug}`));
+    const where = prefixed(locale, `${word.section_slug}/${word.category_slug}`);
+    router.push(`${where}?q=${encodeURIComponent(word.text)}`);
   }
 
   function onKeys(event: KeyboardEvent<HTMLInputElement>) {

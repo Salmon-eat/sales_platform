@@ -268,7 +268,10 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
       <section className="search-results">
         {q && <TrackSearch q={q} found={data.total} />}
         <div className="search-toolbar">
-          <p className="search-count">{t("found", { count: data.total })}</p>
+          {/* only the jobs section counts vacancies; everywhere else these are ads */}
+          <p className="search-count">
+            {t(state.section.key === "empleo" ? "found" : "foundAds", { count: data.total })}
+          </p>
           <div className="chips-row">
             {chips.map((chip) => (
               <Link key={chip.key} href={chip.href} scroll={false} className="chip" aria-label={t("removeFilter")}>
@@ -342,7 +345,9 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
                       <li key={r.kind}>
                         <Link href={target} className={r.count === 0 ? "relaxation relaxation--zero" : "relaxation"}>
                           <span>{t(`relax_${r.kind}`, { value: r.label_value ?? "" })}</span>
-                          <span className="facet-count">{t("found", { count: r.count })}</span>
+                          <span className="facet-count">
+                            {t(state.section.key === "empleo" ? "found" : "foundAds", { count: r.count })}
+                          </span>
                         </Link>
                       </li>
                     );

@@ -392,17 +392,22 @@ async def search_listings(
         relaxations=relaxations,
         fuzzy=page.used_fuzzy,
         corrected=[[typed, used] for typed, used in corrections],
-        close_enough=_close_enough(page, understood),
+        close_enough=_close_enough(page, understood, category_ids),
     )
 
 
-def _close_enough(page: SearchPage, understood: UnderstoodOut | None) -> CloseEnough | None:
+def _close_enough(
+    page: SearchPage, understood: UnderstoodOut | None, chosen: tuple[int, ...]
+) -> CloseEnough | None:
     """Ads that answer the query without containing it: "пилосос" brings back "Дім і сад".
 
     Worth saying out loud, and only when the whole page is like that — one real match among the
-    neighbours means the search did find what was asked for.
+    neighbours means the search did find what was asked for. And only when it explains something: to
+    somebody already standing in that category it says nothing they did not choose themselves.
     """
     if not page.hits or page.own_words or understood is None or understood.category is None:
+        return None
+    if understood.category.id in chosen:
         return None
     return CloseEnough(
         category=understood.category.name,
