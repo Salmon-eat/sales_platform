@@ -79,7 +79,8 @@ export function forgetApplied(id: number) {
   write(APPLIED, parse<AppliedEntry[]>(read(APPLIED), []).filter((e) => e.id !== id));
 }
 
-/** Job pages opened in this browser: their cards look "visited", like links in Google results. */
+/** Ads opened in this browser, the latest first: their cards look "visited", like links in Google results,
+ * and the home page shows them back as the visitor's history. */
 const VIEWED = "bazarcito:viewed";
 const VIEWED_LIMIT = 500;
 
@@ -87,6 +88,16 @@ export function useViewed() {
   const raw = useSyncExternalStore(subscribe, () => read(VIEWED), serverSnapshot);
   const ids = useMemo(() => new Set(parse<number[]>(raw, []).filter(Number.isInteger)), [raw]);
   return { has: (id: number) => ids.has(id) };
+}
+
+/** The opened ads in order, the latest first. */
+export function useViewedIds(): number[] {
+  const raw = useSyncExternalStore(subscribe, () => read(VIEWED), serverSnapshot);
+  return useMemo(() => parse<number[]>(raw, []).filter(Number.isInteger), [raw]);
+}
+
+export function clearViewed() {
+  write(VIEWED, []);
 }
 
 export function markViewed(id: number) {

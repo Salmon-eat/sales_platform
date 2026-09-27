@@ -88,7 +88,8 @@
     "allSections": "All sections",
     "seeAll": "See all",
     "freshAds": "Newest listings",
-    "allAds": "All {count}",
+    "history": "Recently viewed",
+    "historyClear": "Clear",
     "ctaTitle": "Post your listing for free",
     "ctaText": "Sign in with Google or an email code · up to 10 photos · checked by a moderator",
     "ctaButton": "Post a listing"

@@ -88,7 +88,8 @@
     "allSections": "Todas las secciones",
     "seeAll": "Ver todo",
     "freshAds": "Anuncios recientes",
-    "allAds": "Ver los {count}",
+    "history": "Vistos recientemente",
+    "historyClear": "Borrar",
     "ctaTitle": "Publica tu anuncio gratis",
     "ctaText": "Entra con Google o con un código al correo · hasta 10 fotos · revisado por un moderador",
     "ctaButton": "Publicar anuncio"

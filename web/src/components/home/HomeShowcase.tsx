@@ -1,17 +1,17 @@
-import { ArrowRight, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
-import { AdCard } from "@/components/home/AdCard";
 import { AdSearch } from "@/components/home/AdSearch";
 import { HeroScene } from "@/components/home/HeroScene";
 import { SectionGrid } from "@/components/home/SectionGrid";
+import { ViewedHistory } from "@/components/home/ViewedHistory";
 import type { Locale } from "@/i18n/routing";
 import { localizedPath } from "@/lib/routes";
 import type { Home } from "@/lib/types";
 
-/** The home page of the classifieds: search, the sections, the newest ads. Paid ads have no block of
- * their own here: they come first in their section and in the search, with a "top" mark on the card. */
+/** The home page of the classifieds: search, the sections, and the visitor's own history of opened ads.
+ * Paid ads have no block of their own here: they come first in their section and in the search. */
 export async function HomeShowcase({ locale, home }: { locale: Locale; home: Home }) {
   const t = await getTranslations("home");
   const number = new Intl.NumberFormat(locale);
@@ -36,21 +36,8 @@ export async function HomeShowcase({ locale, home }: { locale: Locale; home: Hom
       <div className="container home-content">
         <SectionGrid locale={locale} sections={home.sections} />
 
-        <section className="home-block">
-          <div className="home-block__head">
-            <h2>{t("freshAds")}</h2>
-            <Link href={localizedPath(locale, { type: "search" })} className="home-block__link">
-              {t("allAds", { count: number.format(home.totals.listings) })} <ArrowRight size={15} aria-hidden />
-            </Link>
-          </div>
-          <ul className="ad-grid">
-            {home.fresh.map((item) => (
-              <li key={item.id}>
-                <AdCard listing={item} locale={locale} />
-              </li>
-            ))}
-          </ul>
-        </section>
+        {/* the ads this visitor opened; nothing at all for somebody who has opened none */}
+        <ViewedHistory />
 
         <section className="home-cta">
           <span className="home-cta__icon" aria-hidden>
