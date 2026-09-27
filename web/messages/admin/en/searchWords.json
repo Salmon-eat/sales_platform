@@ -1,0 +1,19 @@
+{
+  "title": "Search words",
+  "subtitle": "What people searched for in vain, and what they opened next. The site adds a word by itself once the evidence is strong; the rest waits for you.",
+  "collect": "Collect now",
+  "empty": "Nothing here.",
+  "done": "Done",
+  "failed": "That did not work. Try again.",
+  "tab_new": "Waiting",
+  "tab_added": "Added",
+  "tab_ignored": "Dismissed",
+  "word": "Word",
+  "category": "Category",
+  "evidence": "Evidence",
+  "noGuess": "category unknown",
+  "counts": "searched {searches}, opened {opened}",
+  "add": "Add",
+  "ignore": "Dismiss",
+  "note": "An added word is kept in the category's own list and survives a taxonomy update. You can remove it from the category itself."
+}

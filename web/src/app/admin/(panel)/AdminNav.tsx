@@ -13,6 +13,7 @@ type Key =
   | "posts"
   | "listings"
   | "links"
+  | "searchWords"
   | "users";
 type Item = { href: string; label: Key; also?: string[] };
 
@@ -27,6 +28,7 @@ const STAFF: Item[] = [
   { href: "/admin/orders", label: "orders" },
   { href: "/admin/posts", label: "posts" },
   { href: "/admin/links", label: "links" },
+  { href: "/admin/search-words", label: "searchWords" },
 ];
 const ADMIN: Item[] = [
   { href: "/admin/users", label: "users" },

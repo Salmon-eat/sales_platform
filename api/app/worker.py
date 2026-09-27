@@ -21,6 +21,7 @@ from app.services.gdpr import anonymize_expired
 from app.services.listings import expire_listings
 from app.search.spelling import refresh as refresh_search_words
 from app.services.searches import notify_new
+from app.services.synonyms import collect as collect_synonyms
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger("worker")
@@ -91,6 +92,18 @@ async def search_words_job() -> None:
         logger.exception("search vocabulary refresh failed")
 
 
+async def synonyms_job() -> None:
+    """What people searched for in vain, and where they went instead: the dictionary grows by itself."""
+    try:
+        async with SessionLocal() as session:
+            written, applied = await collect_synonyms(session)
+        if written or applied:
+            await bump_cache_version(redis, taxonomy=True)
+            logger.info("search words learned: %s applied, %s waiting for a decision", applied, written)
+    except Exception:
+        logger.exception("synonym proposals failed")
+
+
 async def saved_searches_job() -> None:
     """A saved search tells its owner when something new turns up, once an hour at most."""
     try:
@@ -130,6 +143,7 @@ async def main() -> None:
     scheduler.add_job(
         search_words_job, "interval", minutes=WORDS_EVERY_MINUTES, id="search_words", coalesce=True
     )
+    scheduler.add_job(synonyms_job, "cron", hour=3, minute=20, id="synonym_proposals", coalesce=True)
     scheduler.add_job(analytics_cleanup_job, "cron", hour=4, id="analytics_cleanup", coalesce=True)
     scheduler.add_job(gdpr_job, "cron", hour=4, minute=30, id="gdpr_anonymize", coalesce=True)
     scheduler.start()

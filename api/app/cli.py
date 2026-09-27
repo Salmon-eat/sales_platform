@@ -25,6 +25,7 @@ from app.search.spelling import refresh as refresh_search_words
 from app.seo.counts import recount_seo_pages
 from app.services.cache import bump_cache_version
 from app.services.listings import expire_listings
+from app.services.synonyms import collect as collect_synonyms
 
 
 async def create_staff(email: str, role: UserRole) -> None:
@@ -122,6 +123,14 @@ async def search_words_cmd() -> None:
     print(f"search vocabulary: {count} words")
 
 
+async def learn_words_cmd() -> None:
+    """What visitors searched for in vain, and where they went instead (the worker does it nightly)."""
+    async with SessionLocal() as session:
+        written, applied = await collect_synonyms(session)
+    await bump_cache_version(redis, taxonomy=True)
+    print(f"search words: {applied} added on their own, {written} waiting for a decision")
+
+
 async def expire_listings_cmd() -> None:
     async with SessionLocal() as session:
         count = await expire_listings(session)
@@ -188,6 +197,8 @@ async def run(args: argparse.Namespace) -> None:
                 await delete_extras_cmd()
             case "refresh-search-words":
                 await search_words_cmd()
+            case "learn-search-words":
+                await learn_words_cmd()
             case "expire-listings":
                 await expire_listings_cmd()
             case "seed-fake-listings":
@@ -226,6 +237,9 @@ def main() -> None:
     sub.add_parser("seed-demo-extras", help="firms, CVs, reviews, chats, orders and articles (local only)")
     sub.add_parser("delete-demo-extras", help="remove all of that demo data")
     sub.add_parser("refresh-search-words", help="rebuild the words a search typo is repaired against")
+    sub.add_parser(
+        "learn-search-words", help="turn fruitless searches into category words (the worker does it nightly)"
+    )
     sub.add_parser(
         "expire-listings", help="mark listings past expires_at as expired (the worker does it every 10 min)"
     )

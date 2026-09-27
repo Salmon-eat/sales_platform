@@ -15,5 +15,6 @@
   "moderation": "Review",
   "reports": "Reports",
   "orders": "Orders",
-  "posts": "Blog"
+  "posts": "Blog",
+  "searchWords": "Search words"
 }

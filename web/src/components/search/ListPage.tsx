@@ -5,12 +5,13 @@ import { permanentRedirect, redirect, unstable_rethrow } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 
+import { TrackSearch } from "@/components/Analytics";
 import { ApplicationForm } from "@/components/apply/ApplicationForm";
 import { ListingCard } from "@/components/home/ListingCard";
 import type { Locale } from "@/i18n/routing";
 import { SaveSearchButton } from "@/components/search/SaveSearchButton";
 import { getAccount } from "@/lib/account";
-import { resolvePath, searchListings } from "@/lib/api";
+import { orFallback, resolvePath, searchListings } from "@/lib/api";
 import { getApplicationOptions } from "@/lib/application-options";
 import { FEATURE_SLUGS, type Linker, type ListState, listPath, makeLinker } from "@/lib/list-url";
 import { LIST_PAGES, localizedPath, prefixed } from "@/lib/routes";
@@ -241,7 +242,15 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
   const t = await getTranslations("search");
   const link = makeLinker(locale, state);
   const chips = activeChips(data, canonical, state, link, t);
-  const applyOptions = data.total === 0 ? await getApplicationOptions(locale) : null;
+  // "we will find you a job" belongs in the jobs section; on a page of sofas it is nonsense
+  const applyOptions =
+    data.total === 0 && state.section.key === "empleo" ? await getApplicationOptions(locale) : null;
+  // A page that says "nothing found" and stops is a dead end: whatever the search was, the section
+  // still has its newest ads, and they are better than an apology.
+  const instead =
+    data.total === 0
+      ? await orFallback(searchListings(locale, state.section.key, [["sort", "new"]], 120), null)
+      : null;
   const q = get(canonical, "q");
   const sortOptions = (q ? ["relevance", "new", "salary"] : ["new", "salary"]) as ("relevance" | "new" | "salary")[];
 
@@ -257,6 +266,7 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
       </FiltersSheet>
 
       <section className="search-results">
+        {q && <TrackSearch q={q} found={data.total} />}
         <div className="search-toolbar">
           <p className="search-count">{t("found", { count: data.total })}</p>
           <div className="chips-row">
@@ -311,7 +321,7 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
 
         {data.total === 0 ? (
           <div className="search-empty">
-            <h2>{t("emptyTitle")}</h2>
+            <h2>{q ? t("noExactMatch", { q }) : t("emptyTitle")}</h2>
             {data.relaxations.length > 0 && (
               <>
                 <p className="muted">{t("emptyText")}</p>
@@ -341,6 +351,18 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
                 <p className="muted">{t("pickJobText")}</p>
                 <ApplicationForm sectors={applyOptions.sectors} cities={applyOptions.cities} title={t("pickJobTitle")} />
               </div>
+            )}
+            {instead && instead.items.length > 0 && (
+              <>
+                <h3>{t("insteadTitle", { section: state.section.name })}</h3>
+                <ul className="search-list">
+                  {instead.items.slice(0, 6).map((item) => (
+                    <li key={item.id}>
+                      <ListingCard listing={item} locale={locale} />
+                    </li>
+                  ))}
+                </ul>
+              </>
             )}
           </div>
         ) : (

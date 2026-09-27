@@ -1,0 +1,19 @@
+{
+  "title": "Palabras de búsqueda",
+  "subtitle": "Lo que la gente buscó sin encontrar nada y lo que abrió después. La web añade la palabra sola cuando hay pruebas suficientes; el resto espera tu decisión.",
+  "collect": "Recoger ahora",
+  "empty": "Nada por ahora.",
+  "done": "Hecho",
+  "failed": "No ha funcionado. Inténtalo de nuevo.",
+  "tab_new": "Pendientes",
+  "tab_added": "Añadidas",
+  "tab_ignored": "Descartadas",
+  "word": "Palabra",
+  "category": "Categoría",
+  "evidence": "Pruebas",
+  "noGuess": "categoría desconocida",
+  "counts": "buscada {searches}, abierta {opened}",
+  "add": "Añadir",
+  "ignore": "Descartar",
+  "note": "La palabra añadida se guarda en una lista propia de la categoría y no se pierde al actualizar el catálogo. Puedes quitarla desde la categoría."
+}

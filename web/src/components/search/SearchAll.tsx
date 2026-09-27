@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 
 import { Building2 } from "lucide-react";
 
+import { TrackSearch } from "@/components/Analytics";
 import { AdCard } from "@/components/home/AdCard";
 import { AdSearch } from "@/components/home/AdSearch";
 import { SaveSearchButton } from "@/components/search/SaveSearchButton";
@@ -137,6 +138,7 @@ export async function SearchAll({
           </section>
         )}
 
+        {q && <TrackSearch q={q} found={data?.total ?? 0} />}
         <section className="home-block">
           <div className="home-block__head">
             <h2>{t("foundAds", { count: data?.total ?? 0 })}</h2>
@@ -161,7 +163,7 @@ export async function SearchAll({
 
           {items.length === 0 ? (
             <div className="search-empty">
-              <h2>{t("emptyTitle")}</h2>
+              <h2>{q ? t("noExactMatch", { q }) : t("emptyTitle")}</h2>
               {/* the word was recognised even though no ad carries it: send the visitor to the
                   section it belongs to instead of leaving them on an empty page */}
               {understoodHref ? (
@@ -177,7 +179,7 @@ export async function SearchAll({
               {/* the section we point at may be empty too, so there is always something to look at */}
               {home.fresh.length > 0 && (
                 <>
-                  <h3>{th("freshTitle")}</h3>
+                  <h3>{th("freshAds")}</h3>
                   <ul className="ad-grid">
                     {home.fresh.slice(0, 4).map((item) => (
                       <li key={item.id}>

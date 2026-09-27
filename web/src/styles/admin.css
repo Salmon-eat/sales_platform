@@ -1089,6 +1089,17 @@ a.admin-nav-item:hover {
   color: inherit;
   border-bottom-color: #ff6a1a;
 }
+/* two small buttons side by side inside a table row (yes / no to a search word) */
+.admin-table__actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+.btn--small {
+  padding: 5px 10px;
+  font-size: 13px;
+}
 /* listing form: optional questions to the candidate */
 .question-presets {
   display: grid;

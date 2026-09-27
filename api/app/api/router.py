@@ -10,6 +10,7 @@ from app.api.routes import (
     admin_moderation,
     admin_orders,
     admin_reports,
+    admin_synonyms,
     admin_users,
     analytics,
     applications,
@@ -63,4 +64,5 @@ admin_router.include_router(admin_orders.router)
 admin_router.include_router(posts.admin_router)
 admin_router.include_router(admin_analytics.router)
 admin_router.include_router(admin_users.router)
+admin_router.include_router(admin_synonyms.router)
 api_router.include_router(admin_router)

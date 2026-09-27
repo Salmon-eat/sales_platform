@@ -15,5 +15,6 @@
   "moderation": "Перевірка",
   "reports": "Скарги",
   "orders": "Замовлення",
-  "posts": "Блог"
+  "posts": "Блог",
+  "searchWords": "Слова пошуку"
 }

@@ -16,6 +16,7 @@ import type moderation from "./uk/moderation.json";
 import type orders from "./uk/orders.json";
 import type postsMessages from "./uk/posts.json";
 import type reportsMessages from "./uk/reports.json";
+import type searchWords from "./uk/searchWords.json";
 import type shell from "./uk/shell.json";
 import type users from "./uk/users.json";
 
@@ -33,6 +34,7 @@ export const ADMIN_NAMESPACES = [
   "applications",
   "dashboard",
   "links",
+  "searchWords",
 ] as const;
 
 export type AdminMessages = {
@@ -49,6 +51,7 @@ export type AdminMessages = {
   applications: typeof applications;
   dashboard: typeof dashboard;
   links: typeof links;
+  searchWords: typeof searchWords;
 };
 
 export async function loadAdminMessages(locale: Locale): Promise<AdminMessages> {

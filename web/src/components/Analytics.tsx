@@ -48,6 +48,16 @@ export function Analytics() {
   return null;
 }
 
+/** What was typed and how many ads came back. Together with the ad opened next, this is what lets the
+ * site learn that people who search "холодильник" end up in "Дім і сад" — and propose it as a word of
+ * that category, without anybody editing a file. */
+export function TrackSearch({ q, found }: { q: string; found: number }) {
+  useEffect(() => {
+    if (q.trim()) track("search", { props: { q: q.slice(0, 60), found } });
+  }, [q, found]);
+  return null;
+}
+
 /** Card page: "someone looked at this job" for the views -> applications numbers; in this browser the
  * job's cards now show it was opened. */
 export function TrackListingView({ listingId }: { listingId: number }) {

@@ -43,6 +43,8 @@ class Category(Base):
     slug: Mapped[Localized] = mapped_column(JSONB)
     name: Mapped[Localized] = mapped_column(JSONB)
     synonyms: Mapped[dict[str, list[str]]] = mapped_column(JSONB, default=dict, server_default="{}")
+    # words added from the admin, kept apart from the seed file so seeding never wipes them
+    extra_synonyms: Mapped[dict[str, list[str]]] = mapped_column(JSONB, default=dict, server_default="{}")
     icon: Mapped[str | None] = mapped_column(String(50))
     sort: Mapped[int] = mapped_column(default=0, server_default="0")
     is_enabled: Mapped[bool] = mapped_column(default=True, server_default="true")
