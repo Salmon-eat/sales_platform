@@ -21,6 +21,20 @@ next-env.d.ts
 # photos of ads (in production they live in a docker volume, in dev in this folder)
 api/media/
 
+# AI assistants (Claude, Cursor, Copilot...): their notes, settings and conversations are the owner's own
+# working tools, not part of the project; they stay on the machine that made them
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+.cursor/
+.cursorrules
+.aider*
+.continue/
+.copilot/
+.github/copilot-instructions.md
+.mcp.json
+
 # os / editors
 .DS_Store
 Thumbs.db
