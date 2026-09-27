@@ -2,7 +2,7 @@
 import type { Locale } from "@/i18n/routing";
 
 import { prefixed } from "./routes";
-import { href, type Pairs } from "./search-url";
+import { href, isActive, type Pairs, toggleValue } from "./search-url";
 import type { NamedSlug } from "./types";
 
 export const FEATURE_SLUGS: Record<"housing", Record<Locale, string>> = {
@@ -40,3 +40,19 @@ export function makeLinker(locale: Locale, state: ListState) {
 }
 
 export type Linker = ReturnType<typeof makeLinker>;
+
+type Mode = "bool" | "multi" | "single" | "range";
+
+/** Switching one filter value on or off from a list page, and whether it is on. "With housing" lives in
+ * the path (spec §6), every other filter in the query. Shared by the filters panel and the quick buttons. */
+export function makeFacetLinks(link: Linker, state: ListState, pairs: Pairs) {
+  return {
+    href(key: string, value: string, mode: Mode): string {
+      if (key === "housing") return link({ feature: state.feature ? null : "housing" }, pairs);
+      return link({}, toggleValue(pairs, key, value, mode));
+    },
+    active(key: string, value: string, mode: Mode): boolean {
+      return key === "housing" ? state.feature === "housing" : isActive(pairs, key, value, mode);
+    },
+  };
+}

@@ -33,6 +33,7 @@ import type { ResolveOut, SearchResponse } from "@/lib/types";
 
 import { FiltersPanel } from "./FiltersPanel";
 import { FiltersSheet } from "./FiltersSheet";
+import { QuickFilters } from "./QuickFilters";
 import { SearchBox } from "./SearchBox";
 
 const TIER2_CHIP_KEYS = ["no_language", "no_experience", "salary_min", "schedule", "contract", "posted", "radius"];
@@ -279,6 +280,7 @@ export async function Catalog({ locale, data, canonical, state, path, head }: Ca
 
       <section className="search-results">
         {q && <TrackSearch q={q} found={data.total} />}
+        <QuickFilters data={data} pairs={canonical} state={state} link={link} />
         <div className="search-toolbar">
           {/* only the jobs section counts vacancies; everywhere else these are ads */}
           <p className="search-count">

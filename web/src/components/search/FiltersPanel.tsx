@@ -2,12 +2,13 @@ import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Fragment, type ReactNode } from "react";
 
-import { RangeFilter } from "./RangeFilter";
-
-import type { Linker, ListState } from "@/lib/list-url";
+import { facetTitle, facetValueLabel } from "@/lib/facets";
+import { type Linker, type ListState, makeFacetLinks } from "@/lib/list-url";
 import { isJobsSection } from "@/lib/sections";
-import { get, isActive, type Pairs, setParam, toggleValue } from "@/lib/search-url";
+import { get, type Pairs, setParam } from "@/lib/search-url";
 import type { FacetGroup, NamedSlug, SearchResponse } from "@/lib/types";
+
+import { RangeFilter } from "./RangeFilter";
 
 const VISIBLE_TIER2_GROUPS = 4; // spec §5: tier 2 collapses after 4 items
 const PRIORITY = [
@@ -34,23 +35,10 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
   const tier3 = data.facets.filter((g) => g.tier === 3);
   const noLocation = setParam(pairs, "radius", null);
 
-  function facetLink(key: string, value: string, mode: FacetGroup["type"]): string {
-    // "with housing" is a path segment (spec §6), everything else stays in the query
-    if (key === "housing") return link({ feature: state.feature ? null : "housing" }, pairs);
-    return link({}, toggleValue(pairs, key, value, mode));
-  }
-  function active(key: string, value: string, mode: FacetGroup["type"]): boolean {
-    return key === "housing" ? state.feature === "housing" : isActive(pairs, key, value, mode);
-  }
-
-  function valueLabel(group: FacetGroup, value: string, label: string | null): string {
-    // attributes and section tags (a.<key>) come with labels from the dictionary
-    if (group.key.startsWith("a.")) return label ?? group.label ?? t("yes");
-    if (group.type === "bool") return t(group.key as "housing");
-    if (group.key === "salary_min") return t("salaryValue", { amount: value });
-    if (group.key === "radius") return t("radiusValue", { km: value });
-    return t(`${group.key}_${value}` as "schedule_full");
-  }
+  const facets = makeFacetLinks(link, state, pairs);
+  const facetLink = facets.href;
+  const active = facets.active;
+  const valueLabel = (group: FacetGroup, value: string, label: string | null) => facetValueLabel(group, value, label, t);
 
   // spec §11 mockup: yes/no conditions are switches, single-choice values are segmented pills, tier 3 are chips
   const variant = (group: FacetGroup) =>
@@ -113,7 +101,7 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
       return (
         <RangeFilter
           param={group.key}
-          label={group.label ?? t(group.key as "price")}
+          label={facetTitle(group, t)}
           unit={group.key === "price" ? "€" : group.unit}
           min={group.min}
           max={group.max}
@@ -132,7 +120,7 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
     if (items.every((i) => i.zero)) return null; // nothing to pick here right now
     return (
       <div className={`facet-group facet-group--${variant(group)}`}>
-        <h3>{group.label ?? t(group.key as "schedule")}</h3>
+        <h3>{facetTitle(group, t)}</h3>
         <Split items={items} />
       </div>
     );
