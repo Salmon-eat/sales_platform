@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 import { track } from "@/lib/analytics";
-import { markViewed } from "@/lib/saved";
+import { markViewed, rememberSearch } from "@/lib/saved";
 
 /** Page views and the time a page was actually visible (a background tab does not count). */
 export function Analytics() {
@@ -50,10 +50,13 @@ export function Analytics() {
 
 /** What was typed and how many ads came back. Together with the ad opened next, this is what lets the
  * site learn that people who search "холодильник" end up in "Дім і сад" — and propose it as a word of
- * that category, without anybody editing a file. */
+ * that category, without anybody editing a file. In this browser the search also goes into the recent
+ * searches, with this very page, however the visitor got here (typed, picked, followed a link). */
 export function TrackSearch({ q, found }: { q: string; found: number }) {
   useEffect(() => {
-    if (q.trim()) track("search", { props: { q: q.slice(0, 60), found } });
+    if (!q.trim()) return;
+    track("search", { props: { q: q.slice(0, 60), found } });
+    rememberSearch(q, `${window.location.pathname}${window.location.search}`);
   }, [q, found]);
   return null;
 }

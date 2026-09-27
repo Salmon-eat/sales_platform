@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { type FormEvent, type KeyboardEvent, useEffect, useRef, useState } from "react";
 
 import { announceHeroSection } from "@/components/home/heroEvents";
+import { RecentSearches } from "@/components/search/RecentSearches";
 import { asLocale } from "@/i18n/routing";
 import { track } from "@/lib/analytics";
 import { localizedPath, prefixed } from "@/lib/routes";
@@ -71,7 +72,9 @@ export function AdSearch({ sections, initialQuery = "", initialCity = null }: Pr
 
   useEffect(() => {
     const close = (event: MouseEvent) => {
-      if (box.current && !box.current.contains(event.target as Node)) {
+      // the path as it was at the click: a row that removed itself from the menu (a forgotten search)
+      // is no longer inside the box, yet the click was
+      if (box.current && !event.composedPath().includes(box.current)) {
         setCityMenu(false);
         setWordMenu(false);
       }
@@ -179,6 +182,10 @@ export function AdSearch({ sections, initialQuery = "", initialCity = null }: Pr
         {t("searchButton")}
       </button>
 
+      {/* an empty box shows what this visitor searched for before */}
+      {wordMenu && query.trim().length < 2 && (
+        <RecentSearches className="suggest suggest--words" onChoose={() => setWordMenu(false)} />
+      )}
       {wordMenu && words.length > 0 && (
         <div className="suggest suggest--words" id="search-suggestions" role="listbox">
           <div className="suggest-group">

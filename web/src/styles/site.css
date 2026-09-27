@@ -249,6 +249,58 @@
   font-style: normal;
   color: var(--muted);
 }
+/* recent searches: a clock, the words, and a cross to forget one */
+.suggest-title--row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.suggest .suggest-recent__clear {
+  width: auto;
+  min-height: 0;
+  padding: 2px 6px;
+  color: var(--accent-ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.suggest-recent {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  border-radius: var(--radius-sm);
+}
+.suggest-recent:hover {
+  background: var(--bg);
+}
+.suggest-recent__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 10px;
+  color: var(--ink);
+}
+.suggest-recent__link svg {
+  flex: none;
+  color: var(--faint);
+}
+.suggest-recent__link span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.suggest .suggest-recent__forget {
+  width: 36px;
+  min-height: 36px;
+  padding: 0;
+  justify-content: center;
+  color: var(--faint);
+}
+.suggest .suggest-recent__forget:hover {
+  color: var(--ink);
+}
 .suggest .suggest-all {
   margin-top: 6px;
   color: var(--accent-ink);

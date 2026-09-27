@@ -8,6 +8,8 @@ import { type FormEvent, type ReactNode, useEffect, useRef, useState } from "rea
 import { track } from "@/lib/analytics";
 import type { LocationRef, SuggestResponse } from "@/lib/types";
 
+import { RecentSearches } from "./RecentSearches";
+
 type Place = { slug: string; name: string };
 
 type Props = {
@@ -136,6 +138,8 @@ export function SearchBox({ sectionPaths, initialQuery = "", initialPlace = null
         {t("search.submit")}
       </button>
 
+      {/* an empty box shows what this visitor searched for before */}
+      {open && query.trim().length < 2 && <RecentSearches onChoose={() => setOpen(false)} />}
       {open && has ? (
         <div className="suggest" role="listbox">
           {suggestions.combos.length > 0 && (

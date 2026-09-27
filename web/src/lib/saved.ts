@@ -6,8 +6,9 @@
  */
 import { useCallback, useMemo, useSyncExternalStore } from "react";
 
-const FAVORITES = "bazarcito:favorites";
-const APPLIED = "bazarcito:applied";
+const PREFIX = "bazarcito:";
+const FAVORITES = `${PREFIX}favorites`;
+const APPLIED = `${PREFIX}applied`;
 const EVENT = "bazarcito:saved";
 const LIMIT = 100; // same as GET /v1/listings/cards
 
@@ -40,8 +41,9 @@ function parse<T>(raw: string, fallback: T): T {
 }
 
 function subscribe(onChange: () => void) {
+  // another tab changed any of the site's keys: every list here re-reads, a new list needs no edit here
   const onStorage = (e: StorageEvent) => {
-    if (e.key === FAVORITES || e.key === APPLIED || e.key === "bazarcito:viewed") onChange(); // other tabs
+    if (e.key === null || e.key.startsWith(PREFIX)) onChange();
   };
   window.addEventListener(EVENT, onChange);
   window.addEventListener("storage", onStorage);
@@ -81,7 +83,7 @@ export function forgetApplied(id: number) {
 
 /** Ads opened in this browser, the latest first: their cards look "visited", like links in Google results,
  * and the home page shows them back as the visitor's history. */
-const VIEWED = "bazarcito:viewed";
+const VIEWED = `${PREFIX}viewed`;
 const VIEWED_LIMIT = 500;
 
 export function useViewed() {
@@ -104,6 +106,41 @@ export function markViewed(id: number) {
   const current = parse<number[]>(read(VIEWED), []);
   if (current[0] === id) return;
   write(VIEWED, [id, ...current.filter((x) => x !== id)].slice(0, VIEWED_LIMIT));
+}
+
+/** What this visitor searched for, the latest first, with the page it led to (section, town and
+ * filters included), so a click in an empty search box brings the same results back. */
+const SEARCHES = `${PREFIX}searches`;
+const SEARCHES_LIMIT = 8;
+
+export type RecentSearch = { q: string; href: string };
+
+const sameWords = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
+
+export function useRecentSearches(): RecentSearch[] {
+  const raw = useSyncExternalStore(subscribe, () => read(SEARCHES), serverSnapshot);
+  return useMemo(
+    () => parse<RecentSearch[]>(raw, []).filter((s) => typeof s?.q === "string" && typeof s?.href === "string"),
+    [raw],
+  );
+}
+
+export function rememberSearch(q: string, href: string) {
+  const words = q.trim();
+  if (!words) return;
+  const current = parse<RecentSearch[]>(read(SEARCHES), []);
+  if (current[0] && sameWords(current[0].q, words) && current[0].href === href) return;
+  // the same words searched again move to the top with their newest page
+  const rest = current.filter((s) => !sameWords(s.q, words));
+  write(SEARCHES, [{ q: words, href }, ...rest].slice(0, SEARCHES_LIMIT));
+}
+
+export function forgetSearch(q: string) {
+  write(SEARCHES, parse<RecentSearch[]>(read(SEARCHES), []).filter((s) => !sameWords(s.q, q)));
+}
+
+export function clearSearches() {
+  write(SEARCHES, []);
 }
 
 /** The candidate's name and phone from the last application: the next one is sent in one click.
