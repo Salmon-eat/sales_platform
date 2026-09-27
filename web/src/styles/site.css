@@ -1149,6 +1149,34 @@
   border-bottom: 1px solid var(--line);
   text-align: center;
 }
+.home-search {
+  position: relative;
+}
+.home-search > .container {
+  position: relative;
+}
+/* the floating 3D section objects: behind the search, never in the way of a click */
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.hero-scene.is-ready {
+  opacity: 1;
+}
+.hero-scene canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+@media (min-width: 1200px) {
+  .home-search {
+    padding: 64px 0 52px;
+  }
+}
 .home-search h1 {
   margin-bottom: 20px;
   font-size: clamp(26px, 3.2vw, 38px);

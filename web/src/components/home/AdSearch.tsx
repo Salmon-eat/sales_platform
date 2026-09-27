@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { type FormEvent, useEffect, useRef, useState } from "react";
 
+import { announceHeroSection } from "@/components/home/heroEvents";
 import { asLocale } from "@/i18n/routing";
 import { track } from "@/lib/analytics";
 import { localizedPath, prefixed } from "@/lib/routes";
@@ -74,7 +75,14 @@ export function AdSearch({ sections, initialQuery = "", initialCity = null }: Pr
         />
       </label>
       <label className="ad-search__field ad-search__section">
-        <select value={section} onChange={(e) => setSection(e.target.value)} aria-label={t("allSectionsOption")}>
+        <select
+          value={section}
+          onChange={(e) => {
+            setSection(e.target.value);
+            announceHeroSection(sections.find((s) => s.slug === e.target.value)?.key ?? null);
+          }}
+          aria-label={t("allSectionsOption")}
+        >
           <option value="">{t("allSectionsOption")}</option>
           {sections.map((s) => (
             <option key={s.key} value={s.slug}>

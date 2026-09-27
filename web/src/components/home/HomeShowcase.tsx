@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 
 import { AdCard } from "@/components/home/AdCard";
 import { AdSearch } from "@/components/home/AdSearch";
+import { HeroScene } from "@/components/home/HeroScene";
 import { SectionGrid } from "@/components/home/SectionGrid";
 import type { Locale } from "@/i18n/routing";
 import { localizedPath } from "@/lib/routes";
@@ -18,6 +19,7 @@ export async function HomeShowcase({ locale, home }: { locale: Locale; home: Hom
   return (
     <>
       <section className="home-search">
+        <HeroScene />
         <div className="container">
           <h1>{t("searchTitle")}</h1>
           <AdSearch sections={home.sections} />
