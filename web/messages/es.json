@@ -270,6 +270,7 @@
     "prev": "← Anterior",
     "next": "Siguiente →",
     "pageOf": "Página {page} de {total}",
+    "suggestTitle": "Sugerencias",
     "suggestProfessions": "Profesiones",
     "suggestPlaces": "Ciudades",
     "suggestCombos": "Populares",

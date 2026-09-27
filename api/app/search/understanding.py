@@ -39,6 +39,15 @@ class CategoryEntry:
 
 
 @dataclass(frozen=True)
+class SectionEntry:
+    id: int
+    key: str
+    slug: dict[str, str]
+    name: dict[str, str]
+    kind: str = "listings"  # "services" sections are agency pages, they hold no ads
+
+
+@dataclass(frozen=True)
 class PlaceEntry:
     id: int
     level: str
@@ -65,6 +74,14 @@ class Dictionary:
     by_category_id: dict[int, CategoryEntry]
     version: str
     built_at: float
+    # phrases are stored stripped of accents for matching; this gives back the spelling to show
+    # somebody who is typing ("portatil" -> "portátil")
+    display: dict[str, str] = field(default_factory=dict)
+    # which languages a phrase was written in, so a Ukrainian is not offered Russian words first
+    phrase_langs: dict[str, set[str]] = field(default_factory=dict)
+    # the order words were written in the seed files: the common word comes before the slang for it
+    phrase_order: dict[str, int] = field(default_factory=dict)
+    sections: dict[int, SectionEntry] = field(default_factory=dict)
     # the same words grouped by their first letters, so a word with a different ending can be found
     # without walking the whole dictionary: {"вале": ["валencia", "valencia"…]}
     places_by_stem: dict[str, list[str]] = field(default_factory=dict)
@@ -90,10 +107,20 @@ async def get_dictionary(session: AsyncSession, redis: Redis) -> Dictionary:
     sections = {s.id: s for s in (await session.scalars(select(Section))).all()}
     categories: dict[str, list[CategoryEntry]] = defaultdict(list)
     by_id: dict[int, CategoryEntry] = {}
+    display: dict[str, str] = {}
+    phrase_langs: dict[str, set[str]] = {}
+    phrase_order: dict[str, int] = {}
     for c in (await session.scalars(select(Category).where(Category.is_enabled))).all():
         section = sections[c.section_id]
         if not section.is_enabled:
             continue
+        written_in: list[tuple[str, str]] = [(lang, text) for lang, text in c.name.items()]
+        written_in += [(lang, w) for lang, words in c.synonyms.items() for w in words]
+        for lang, written in written_in:
+            phrase = normalize(written)
+            display.setdefault(phrase, written)
+            phrase_langs.setdefault(phrase, set()).add(lang)
+            phrase_order.setdefault(phrase, len(phrase_order))
         base = dict(
             id=c.id,
             section_id=c.section_id,
@@ -134,6 +161,14 @@ async def get_dictionary(session: AsyncSession, redis: Redis) -> Dictionary:
         by_id,
         version,
         time.monotonic(),
+        display=display,
+        phrase_langs=phrase_langs,
+        phrase_order=phrase_order,
+        sections={
+            s.id: SectionEntry(s.id, s.key, s.slug, s.name, s.kind)
+            for s in sections.values()
+            if s.is_enabled
+        },
         places_by_stem=_by_stem(places, FUZZY_MIN_POPULATION),
         categories_by_stem=_by_stem(categories),
     )

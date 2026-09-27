@@ -128,7 +128,22 @@ class SuggestCombo(BaseModel):
     count: int
 
 
+class SuggestWord(BaseModel):
+    """A word the site knows, finished for somebody who is still typing it.
+
+    "ноут" -> "ноутбук", with the place it belongs to written underneath, the way every board does it.
+    """
+
+    text: str
+    category: str
+    section: str
+    section_slug: str
+    category_slug: str
+    count: int
+
+
 class SuggestResponse(BaseModel):
     professions: list[SuggestProfession]
     places: list[SuggestPlace]
     combos: list[SuggestCombo]
+    words: list[SuggestWord] = Field(default_factory=list)

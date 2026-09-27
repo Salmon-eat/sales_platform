@@ -270,6 +270,7 @@
     "prev": "← Назад",
     "next": "Далі →",
     "pageOf": "Сторінка {page} з {total}",
+    "suggestTitle": "Рекомендації",
     "suggestProfessions": "Професії",
     "suggestPlaces": "Міста",
     "suggestCombos": "Популярне",

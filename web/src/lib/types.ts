@@ -524,9 +524,19 @@ export type SitemapPage = { items: { path: string; lastmod: string | null; alter
 
 export type SuggestProfession ={ slug: string; key: string; section_key: string; name: string; count: number };
 export type SuggestPlace = { slug: string; level: string; name: string; parent_name: string | null; count: number };
+/** A word the site can finish for somebody who is still typing, and where it belongs. */
+export type SuggestWord = {
+  text: string;
+  category: string;
+  section: string;
+  section_slug: string;
+  category_slug: string;
+  count: number;
+};
 export type SuggestResponse = {
   professions: SuggestProfession[];
   places: SuggestPlace[];
+  words: SuggestWord[];
   combos: { category: SuggestProfession; place: SuggestPlace; count: number }[];
 };
 

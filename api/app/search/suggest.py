@@ -7,7 +7,13 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import settings
 from app.models import Listing, Location
 from app.models.i18n import tr
-from app.schemas.search import SuggestCombo, SuggestPlace, SuggestProfession, SuggestResponse
+from app.schemas.search import (
+    SuggestCombo,
+    SuggestPlace,
+    SuggestProfession,
+    SuggestResponse,
+    SuggestWord,
+)
 from app.search.text import normalize
 from app.search.understanding import CategoryEntry, Dictionary, get_dictionary, understand
 from app.services.cache import cached
@@ -56,6 +62,65 @@ def _match_professions(d: Dictionary, prefix: str, counts: dict[int, int]) -> li
 
     ranked = sorted(best.values(), key=lambda s: (-s[0], -total(s[1]), s[1].parent_id is None))
     return [(entry, total(entry)) for _, entry in ranked[:LIMIT]]
+
+
+WORDS = 8
+
+
+def _words(d: Dictionary, prefix: str, counts: dict[int, int], lang: str) -> list[SuggestWord]:
+    """Finish the word somebody is typing, and say where it belongs.
+
+    A board answers "ноут" with "ноутбук", not with the name of a section — the visitor is halfway
+    through a word, and what they want is the rest of it. Every phrase the site knows is a candidate:
+    category names and all their synonyms, which is where the slang lives.
+    """
+    if not prefix:
+        return []
+    found: dict[str, tuple[int, CategoryEntry]] = {}
+    for phrase, entries in d.categories.items():
+        if phrase == prefix:
+            continue  # they have typed it already; finishing it with itself helps nobody
+        if phrase.startswith(prefix):
+            rank = 0
+        elif f" {prefix}" in f" {phrase}":  # a later word of the phrase starts with it
+            rank = 1
+        else:
+            continue
+        # a word of another language still counts (a Ukrainian may well type "piso"), but after ours
+        if lang not in d.phrase_langs.get(phrase, {lang}):
+            rank += 2
+        for entry in entries:
+            best = found.get(phrase)
+            if best is None or rank < best[0]:
+                found[phrase] = (rank, entry)
+
+    def total(entry: CategoryEntry) -> int:
+        return counts.get(entry.id, 0) + sum(
+            counts.get(e.id, 0) for e in d.by_category_id.values() if e.parent_id == entry.id
+        )
+
+    ordered = sorted(
+        found.items(), key=lambda kv: (kv[1][0], -total(kv[1][1]), d.phrase_order.get(kv[0], 0))
+    )
+    out: list[SuggestWord] = []
+    for phrase, (_, entry) in ordered:
+        section = d.sections.get(entry.section_id)
+        # the agency's own pages are not a place to send somebody looking for ads
+        if section is None or section.kind != "listings":
+            continue
+        if len(out) >= WORDS:
+            break
+        out.append(
+            SuggestWord(
+                text=d.display.get(phrase, phrase),
+                category=tr(entry.name, lang),
+                section=tr(section.name, lang),
+                section_slug=section.slug.get(lang, section.slug["es"]),
+                category_slug=entry.slug.get(lang, entry.slug["es"]),
+                count=total(entry),
+            )
+        )
+    return out
 
 
 async def _places(
@@ -139,6 +204,7 @@ async def build_suggestions(session: AsyncSession, redis: Redis, q: str, lang: s
         professions=[_profession(e, lang, n) for e, n in professions],
         places=places,
         combos=combos,
+        words=_words(d, text, counts, lang),
     )
 
 
