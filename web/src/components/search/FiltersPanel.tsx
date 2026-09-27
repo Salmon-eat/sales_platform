@@ -1,18 +1,34 @@
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Fragment, type ReactNode } from "react";
+
+import { RangeFilter } from "./RangeFilter";
 
 import type { Linker, ListState } from "@/lib/list-url";
 import { get, isActive, type Pairs, setParam, toggleValue } from "@/lib/search-url";
 import type { FacetGroup, NamedSlug, SearchResponse } from "@/lib/types";
 
 const VISIBLE_TIER2_GROUPS = 4; // spec §5: tier 2 collapses after 4 items
-const PRIORITY = ["salary_min", "a.documents", "a.suitable_for", "schedule", "a.team_language", "a.housing_cost", "a.benefits", "contract", "radius"];
+const PRIORITY = [
+  "price",
+  "a.year",
+  "a.km",
+  "salary_min",
+  "a.documents",
+  "a.suitable_for",
+  "schedule",
+  "a.team_language",
+  "a.housing_cost",
+  "a.benefits",
+  "contract",
+  "radius",
+];
 
 type Props = { data: SearchResponse; pairs: Pairs; state: ListState; link: Linker };
 
 export async function FiltersPanel({ data, pairs, state, link }: Props) {
   const t = await getTranslations("search");
+  const locale = await getLocale();
   const tier2 = data.facets.filter((g) => g.tier === 2);
   const tier3 = data.facets.filter((g) => g.tier === 3);
   const noLocation = setParam(pairs, "radius", null);
@@ -90,6 +106,23 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
   }
 
   function Group({ group }: { group: FacetGroup }) {
+    if (group.type === "range") {
+      // no ad has this number yet (spare parts have no mileage): nothing to narrow
+      if (group.min === null && group.chosen_from === null && group.chosen_to === null) return null;
+      return (
+        <RangeFilter
+          param={group.key}
+          label={group.label ?? t(group.key as "price")}
+          unit={group.key === "price" ? "€" : group.unit}
+          min={group.min}
+          max={group.max}
+          from={group.chosen_from}
+          to={group.chosen_to}
+          base={link({}, setParam(pairs, group.key, null))}
+          locale={locale}
+        />
+      );
+    }
     const items = group.values.map((v) => ({
       key: v.value,
       zero: v.count === 0 && !active(group.key, v.value, group.type),
@@ -113,11 +146,16 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
     const i = PRIORITY.indexOf(key);
     return i === -1 ? PRIORITY.length : i;
   };
-  const others = tier2.filter((g) => g.type !== "bool" && g.key !== "posted").sort((a, b) => rank(a.key) - rank(b.key));
+  // price, year and kilometres stand right under the categories, as on every car and classifieds site
+  const ranges = tier2.filter((g) => g.type === "range").sort((a, b) => rank(a.key) - rank(b.key));
+  const others = tier2
+    .filter((g) => g.type !== "bool" && g.type !== "range" && g.key !== "posted")
+    .sort((a, b) => rank(a.key) - rank(b.key));
   const blocks: ({ kind: "bools" } | { kind: "group"; group: FacetGroup })[] = [
     ...(bools.length ? [{ kind: "bools" as const }] : []),
     ...others.map((group) => ({ kind: "group" as const, group })),
   ];
+  const visible = VISIBLE_TIER2_GROUPS;
   const renderBlock = (block: (typeof blocks)[number]) =>
     block.kind === "bools" ? (
       <div key="bools" className="facet-group facet-group--switch">
@@ -141,6 +179,16 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
     ) : (
       <Group key={block.group.key} group={block.group} />
     );
+
+  const jobs = state.section.key === "empleo";
+  const categoryBlock = tier3.length > 0 && data.category && (
+    <div className="facet-block facet-block--category">
+      <h2>{t("attributes", { category: data.category.name })}</h2>
+      {tier3.map((g) => (
+        <Group key={g.key} group={g} />
+      ))}
+    </div>
+  );
 
   // tier 1: which categories are listed depends on what is selected
   const selected = state.profession ?? state.sector;
@@ -189,6 +237,12 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
         />
       </div>
 
+      {ranges.map((g) => (
+        <Group key={g.key} group={g} />
+      ))}
+      {/* a car is chosen by its make before its town; a job by its town first */}
+      {!jobs && categoryBlock}
+
       <div className="facet-group facet-group--check">
         <h3>{t("places")}</h3>
         <ul>
@@ -216,23 +270,16 @@ export async function FiltersPanel({ data, pairs, state, link }: Props) {
         {data.spain_wide > 0 && <p className="facet-note">{t("spainWideNote", { count: data.spain_wide })}</p>}
       </div>
 
-      {tier3.length > 0 && data.category && (
-        <div className="facet-block facet-block--category">
-          <h2>{t("attributes", { category: data.category.name })}</h2>
-          {tier3.map((g) => (
-            <Group key={g.key} group={g} />
-          ))}
-        </div>
-      )}
+      {jobs && categoryBlock}
 
-      {blocks.slice(0, VISIBLE_TIER2_GROUPS).map(renderBlock)}
-      {blocks.length > VISIBLE_TIER2_GROUPS && (
+      {blocks.slice(0, visible).map(renderBlock)}
+      {blocks.length > visible && (
         <details
           className="facet-more"
-          open={blocks.slice(VISIBLE_TIER2_GROUPS).some((b) => b.kind === "group" && get(pairs, b.group.key))}
+          open={blocks.slice(visible).some((b) => b.kind === "group" && get(pairs, b.group.key))}
         >
           <summary>{t("moreFilters")}</summary>
-          {blocks.slice(VISIBLE_TIER2_GROUPS).map(renderBlock)}
+          {blocks.slice(visible).map(renderBlock)}
         </details>
       )}
     </div>

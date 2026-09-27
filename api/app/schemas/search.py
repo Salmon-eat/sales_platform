@@ -13,8 +13,14 @@ class FacetGroup(BaseModel):
     key: str = Field(description="query key: housing, schedule, a.trailer_type, radius, ...")
     tier: int = Field(description="2 = common filters, 3 = attributes of the selected category")
     label: str | None = None
-    type: str = Field(description="bool | multi | single")
+    type: str = Field(description="bool | multi | single | range")
     values: list[FacetValue]
+    # range only: the unit, what the ads on offer span (the inputs' hints) and the chosen ends
+    unit: str | None = None
+    min: int | None = None
+    max: int | None = None
+    chosen_from: int | None = None
+    chosen_to: int | None = None
 
 
 class CategoryFacet(BaseModel):

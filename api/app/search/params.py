@@ -23,10 +23,15 @@ MAX_PAGE = 100
 MAX_Q = 200
 
 
+MAX_NUMBER = 100_000_000  # a price, a year, kilometres: anything bigger is a typo
+
+Range = tuple[int | None, int | None]  # "from" and "to", either may be open
+
+
 @dataclass(frozen=True)
 class AttrSpec:
     key: str
-    type: str  # bool | enum | multi_enum | int_range
+    type: str  # bool | enum | multi_enum | int_range | int
     options: tuple[str, ...]
 
 
@@ -42,6 +47,8 @@ class Filters:
     posted: str | None = None
     radius: int | None = None
     attrs: dict[str, tuple[str, ...] | bool] = field(default_factory=dict)
+    # "from–to" filters: "price" and the number attributes as "a.year", "a.km"
+    ranges: dict[str, Range] = field(default_factory=dict)
     sort: str | None = None  # None = default: relevance with q, otherwise new
     page: int = 1
 
@@ -51,12 +58,14 @@ class Filters:
 
     def without(self, *groups: str) -> "Filters":
         """Copy with some filter groups removed (relaxations, disjunctive facets)."""
-        copy = Filters(**{**self.__dict__, "attrs": dict(self.attrs)})
+        copy = Filters(**{**self.__dict__, "attrs": dict(self.attrs), "ranges": dict(self.ranges)})
         for group in groups:
             if group == "attrs":
                 copy.attrs = {}
-            elif group.startswith("a."):
+                copy.ranges = {k: v for k, v in copy.ranges.items() if not k.startswith("a.")}
+            elif group.startswith("a.") or group == "price":
                 copy.attrs.pop(group[2:], None)
+                copy.ranges.pop(group, None)
             elif group in BOOL_KEYS:
                 setattr(copy, group, False)
             elif group in {"schedule", "contract"}:
@@ -74,10 +83,35 @@ def _values(raw: str | Iterable[str] | None) -> list[str]:
     return [v.strip() for item in items for v in item.split(",") if v.strip()]
 
 
+def parse_range(raw: str | Iterable[str] | None) -> Range | None:
+    """From "3000-8000", "2015-" (from) or "-150000" (up to); the ends swapped if given backwards."""
+    vals = _values(raw)
+    if not vals or "-" not in vals[0]:
+        return None
+    lo_text, _, hi_text = vals[0].partition("-")
+
+    def number(text: str) -> int | None:
+        text = text.strip().replace(" ", "")
+        return int(text) if text.isdigit() and int(text) <= MAX_NUMBER else None
+
+    lo, hi = number(lo_text), number(hi_text)
+    if lo is None and hi is None:
+        return None
+    if lo is not None and hi is not None and hi < lo:
+        lo, hi = hi, lo
+    return lo, hi
+
+
+def range_text(value: Range) -> str:
+    lo, hi = value
+    return f"{'' if lo is None else lo}-{'' if hi is None else hi}"
+
+
 def parse_filters(
     raw: Mapping[str, str | list[str]],
     attr_specs: Mapping[str, AttrSpec] | None = None,
     radius_allowed: bool = False,
+    price_allowed: bool = False,
 ) -> Filters:
     specs = attr_specs or {}
     f = Filters()
@@ -104,6 +138,9 @@ def parse_filters(
         f.sort = None if vals[0] == default else vals[0]
     if (vals := _values(raw.get("page"))) and vals[0].isdigit():
         f.page = max(1, min(int(vals[0]), MAX_PAGE))
+    # jobs have a salary, not a price
+    if price_allowed and (price := parse_range(raw.get("price"))):
+        f.ranges["price"] = price
 
     # tier 3: a.<key>, only for attributes of the selected category
     for name, value in raw.items():
@@ -117,6 +154,8 @@ def parse_filters(
             chosen = tuple(sorted({v for v in vals if v in spec.options}))
             if chosen:
                 f.attrs[spec.key] = chosen
+        elif spec.type == "int" and (bounds := parse_range(value)):
+            f.ranges[name] = bounds
     return f
 
 
@@ -135,6 +174,7 @@ def canonical_query(f: Filters) -> str:
         pairs.append(("radius", str(f.radius)))
     if f.salary_min:
         pairs.append(("salary_min", str(f.salary_min)))
+    pairs += [(key, range_text(value)) for key, value in f.ranges.items()]
     if f.q:
         pairs.append(("q", f.q))
     if f.sort:
@@ -151,4 +191,5 @@ def cache_params(f: Filters) -> dict[str, object]:
         **{k: v for k, v in f.__dict__.items() if k not in {"page", "sort", "attrs", "q"}},
         "q": normalize(f.q) if f.q else None,
         "attrs": {k: v for k, v in sorted(f.attrs.items())},
+        "ranges": {k: v for k, v in sorted(f.ranges.items())},
     }

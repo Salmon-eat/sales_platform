@@ -19,7 +19,19 @@ KIND = {
     "suitable_for": "info",
 }
 ORDER = list(KIND)
+# a car is read make first, then year and kilometres, then the rest
+LEADING = ["brand", "year", "km", "fuel", "gearbox", "body"]
 SKIP = {"housing_cost"}  # merged into the "housing" tag by the card itself
+THOUSANDS = {"es": ".", "en": ",", "uk": " ", "ru": " "}
+
+
+def number(value: int, lang: str) -> str:
+    """189000 -> "189.000" (es), "189,000" (en), "189 000" (uk, ru). Years stay as they are."""
+    if value < 10_000:
+        return str(value)
+    return f"{value:,}".replace(",", THOUSANDS.get(lang, " "))
+
+
 LOWERCASE_LANGS = {"uk", "ru", "es"}  # language names are not capitalized mid-sentence there
 
 
@@ -38,7 +50,11 @@ def _option(defn: AttributeDefinition, value: Any, lang: str) -> str | None:
 def card_tags(listing: Listing, definitions: list[AttributeDefinition], lang: str) -> list[CardTag]:
     attrs = listing.attributes or {}
     by_key = {d.key: d for d in definitions}
-    keys = [k for k in ORDER if k in attrs] + [k for k in attrs if k not in KIND and k not in SKIP]
+    keys = (
+        [k for k in LEADING if k in attrs]
+        + [k for k in ORDER if k in attrs]
+        + [k for k in attrs if k not in KIND and k not in SKIP and k not in LEADING]
+    )
     tags: list[CardTag] = []
     for key in keys:
         defn, value = by_key.get(key), attrs[key]
@@ -62,9 +78,15 @@ def card_tags(listing: Listing, definitions: list[AttributeDefinition], lang: st
                 for v in value
                 if (name := _option(defn, v, lang))
             ]
+        elif defn.type == "int" and isinstance(value, int):
+            # "189 000 km" says what it is by its unit; a bare year says it by itself
+            unit = tr(defn.unit, lang) if defn.unit else None
+            text = f"{number(value, lang)} {unit}" if unit else number(value, lang)
+            tags.append(CardTag(key=key, label=text, kind=kind))
         elif defn.type == "enum" and (name := _option(defn, value, lang)):
-            # "3/1" alone says nothing: short values get the field name
-            text = f"{_short(label)}: {name}" if len(name) <= 4 else name
+            # "3/1" alone says nothing: short values get the field name; a make ("Ford", "MG") is
+            # recognised by itself
+            text = f"{_short(label)}: {name}" if len(name) <= 4 and key != "brand" else name
             tags.append(CardTag(key=key, label=text, kind=kind))
     housing_cost = by_key.get("housing_cost")
     if listing.housing and housing_cost and (name := _option(housing_cost, attrs.get("housing_cost"), lang)):

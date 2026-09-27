@@ -45,6 +45,7 @@ def _attribute_out(attr: AttributeDefinition, lang: str) -> AttributeOut:
         key=attr.key,
         type=attr.type,
         label=tr(attr.label, lang),
+        unit=tr(attr.unit, lang) if attr.unit else None,
         options=[AttributeOption(value=o["value"], label=tr(o["label"], lang)) for o in attr.options],
         filterable=attr.filterable,
         facet_order=attr.facet_order,

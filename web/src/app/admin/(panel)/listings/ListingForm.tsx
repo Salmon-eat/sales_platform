@@ -639,6 +639,23 @@ function AttributeField({
       </div>
     );
   }
+  if (attr.type === "int") {
+    const unit = attr.unit ? attr.unit[locale] || attr.unit.es : null;
+    return (
+      <label className="field">
+        <span>
+          {label}
+          {unit ? `, ${unit}` : ""}
+        </span>
+        <input
+          type="number"
+          min={0}
+          value={typeof value === "number" ? value : ""}
+          onChange={(e) => onChange(e.target.value === "" ? null : Number(e.target.value))}
+        />
+      </label>
+    );
+  }
   const range = (value as { min?: number; max?: number }) ?? {};
   return (
     <div className="field">

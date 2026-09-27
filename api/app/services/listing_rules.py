@@ -27,7 +27,7 @@ def monthly_min(salary_min: int | None, salary_max: int | None, period: str | No
 @dataclass(frozen=True)
 class AttributeSpec:
     key: str
-    type: str  # bool | enum | multi_enum | int_range
+    type: str  # bool | enum | multi_enum | int_range | int
     options: tuple[str, ...]
     required: bool
 
@@ -78,6 +78,12 @@ def validate_attributes(
                 errors.append(f"attr_range:{spec.key}")
                 continue
             clean[spec.key] = {k: v for k, v in (("min", lo), ("max", hi)) if v is not None}
+        elif spec.type == "int":
+            # a year, kilometres, horsepower: a whole number, never negative
+            if isinstance(value, bool) or not isinstance(value, int) or not 0 <= value <= 100_000_000:
+                errors.append(f"attr_number:{spec.key}")
+                continue
+            clean[spec.key] = value
 
     return clean, errors
 

@@ -10,17 +10,17 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import ColumnElement, delete, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import AttributeDefinition, Category, Section
+from app.models import AttributeDefinition, Category, Listing, Section
 from app.models.i18n import LANGS
 from app.models.taxonomy import SECTION_KINDS
 
 SEED_FILE = Path(__file__).resolve().parents[2] / "seeds" / "taxonomy.json"
 # the words people really type, kept in a file of their own so taxonomy.json stays readable
 SLANG_FILE = Path(__file__).resolve().parents[2] / "seeds" / "search_slang.json"
-ATTRIBUTE_TYPES = {"bool", "enum", "multi_enum", "int_range"}
+ATTRIBUTE_TYPES = {"bool", "enum", "multi_enum", "int_range", "int"}
 
 
 class SeedError(ValueError):
@@ -100,11 +100,37 @@ async def _upsert_attribute(
         session.add(attr)
     attr.type = data["type"]
     attr.label = _require_langs(data.get("label"), where)
+    attr.unit = _require_langs(data["unit"], f"{where} unit") if data.get("unit") else None
     attr.options = options
     attr.filterable = data.get("filterable", True)
     attr.facet_order = data.get("facet_order", 0)
     attr.required = data.get("required", False)
     attr.seo_indexable = data.get("seo_indexable", False)
+
+
+async def _prune(
+    session: AsyncSession,
+    report: SeedReport,
+    owner: ColumnElement[bool],
+    keep: set[str],
+    listings: ColumnElement[bool],
+    where: str,
+) -> None:
+    """An attribute taken out of the seed goes from the site too, and its value from the ads that had
+    it: a key no definition knows would block every later save of those ads ("attr_foreign")."""
+    gone = (
+        await session.scalars(
+            select(AttributeDefinition.key).where(owner, AttributeDefinition.key.not_in(keep or {""}))
+        )
+    ).all()
+    for key in gone:
+        await session.execute(
+            update(Listing)
+            .where(listings, Listing.attributes.has_key(key))
+            .values(attributes=Listing.attributes - key)
+        )
+        await session.execute(delete(AttributeDefinition).where(owner, AttributeDefinition.key == key))
+        report.warnings.append(f"{where}: attribute {key!r} removed (no longer in the seed)")
 
 
 async def _upsert_category(
@@ -149,6 +175,18 @@ async def _upsert_category(
             raise SeedError(f"{where}: attribute {attribute['key']!r} clashes with a tag of {section.key}")
         await _upsert_attribute(session, attribute, category=category)
         report.attributes += 1
+    await _prune(
+        session,
+        report,
+        AttributeDefinition.category_id == category.id,
+        {a["key"] for a in data.get("attributes", [])},
+        # a sector's attributes are inherited by its professions, so their ads carry them too
+        or_(
+            Listing.category_id == category.id,
+            Listing.category_id.in_(select(Category.id).where(Category.parent_id == category.id)),
+        ),
+        where,
+    )
 
     for i, child in enumerate(data.get("children", []), start=1):
         if parent is not None:
@@ -186,6 +224,14 @@ async def seed_taxonomy(session: AsyncSession, path: Path = SEED_FILE) -> SeedRe
             await _upsert_attribute(session, attribute, section=section)
             section_keys.add(attribute["key"])
             report.attributes += 1
+        await _prune(
+            session,
+            report,
+            AttributeDefinition.section_id == section.id,
+            section_keys,
+            Listing.section_id == section.id,
+            f"section {section.key}",
+        )
 
         for j, category in enumerate(item.get("categories", []), start=1):
             await _upsert_category(session, report, section, None, category, j, section_keys, slang)

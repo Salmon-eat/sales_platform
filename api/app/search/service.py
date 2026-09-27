@@ -31,6 +31,7 @@ from app.search.params import (
     BOOL_KEYS,
     RADII,
     AttrSpec,
+    Range,
     cache_params,
     canonical_query,
     parse_filters,
@@ -184,7 +185,27 @@ async def _place_facets(
     ]
 
 
-def _facet_groups(facets: FacetResult, definitions: list[AttributeDefinition], lang: str) -> list[FacetGroup]:
+def _range_group(
+    key: str, tier: int, label: str | None, unit: str | None, bounds: Range, chosen: Range | None
+) -> FacetGroup:
+    """A "from–to" filter: two inputs, the chosen ends, and what the ads on offer span as the hint."""
+    return FacetGroup(
+        key=key,
+        tier=tier,
+        label=label,
+        type="range",
+        values=[],
+        unit=unit,
+        min=bounds[0],
+        max=bounds[1],
+        chosen_from=chosen[0] if chosen else None,
+        chosen_to=chosen[1] if chosen else None,
+    )
+
+
+def _facet_groups(
+    facets: FacetResult, definitions: list[AttributeDefinition], lang: str, applied: dict[str, Range]
+) -> list[FacetGroup]:
     groups: list[FacetGroup] = []
     # the radius filter is not shown (the client removed it); old links with ?radius= still work
     order = [*BOOL_KEYS, "salary_min", "schedule", "contract", "posted"]
@@ -199,8 +220,19 @@ def _facet_groups(facets: FacetResult, definitions: list[AttributeDefinition], l
                     values=[FacetValue(value=b.value, count=b.count) for b in facets.groups[key]],
                 )
             )
+    # price "from–to" first: on a board of things it is the filter people reach for before any other
+    if "price" in facets.ranges:
+        groups.insert(0, _range_group("price", 2, None, None, facets.ranges["price"], applied.get("price")))
     # section tags -> tier 2 (always shown in the section), category attributes -> tier 3 (spec §5)
     for definition in definitions:
+        tier = 2 if definition.section_id is not None else 3
+        if definition.type == "int":
+            key = f"a.{definition.key}"
+            if key in facets.ranges:
+                unit = tr(definition.unit, lang) if definition.unit else None
+                label = tr(definition.label, lang)
+                groups.append(_range_group(key, tier, label, unit, facets.ranges[key], applied.get(key)))
+            continue
         buckets = facets.groups.get(f"a.{definition.key}")
         if buckets is None:
             continue
@@ -261,7 +293,13 @@ async def search_listings(
     location, place = (await resolve_place(session, location_slug)) if location_slug else (None, None)
     definitions = await filterable_definitions(session, section, category)
     specs = attribute_specs(definitions)
-    filters = parse_filters(raw, specs, radius_allowed=place is not None and place.level == "municipio")
+    price_allowed = section_key != "empleo"  # jobs have a salary, everything else a price
+    filters = parse_filters(
+        raw,
+        specs,
+        radius_allowed=place is not None and place.level == "municipio",
+        price_allowed=price_allowed,
+    )
 
     # "диван у Валенсії": the town named inside the query becomes the place filter, and only the rest
     # is looked for in the text. Without this the words "у валенсії" are searched for in the ad itself
@@ -276,6 +314,7 @@ async def search_listings(
                 {**raw, "q": [guess.rest]},
                 specs,
                 radius_allowed=place is not None and place.level == "municipio",
+                price_allowed=price_allowed,
             )
 
     query = SearchQuery(
@@ -286,6 +325,7 @@ async def search_listings(
         filters=filters,
         attr_specs=specs,
         per_page=per_page,
+        price_filter=price_allowed,
         # cheapest attempt first: exact words only (see the third step below)
         allow_fuzzy=False,
     )
@@ -301,7 +341,10 @@ async def search_listings(
         repaired, guesses = await spelling.repair(session, filters.q)
         if guesses:
             retry_filters = parse_filters(
-                {**raw, "q": [repaired]}, specs, radius_allowed=place is not None and place.level == "municipio"
+                {**raw, "q": [repaired]},
+                specs,
+                radius_allowed=place is not None and place.level == "municipio",
+                price_allowed=price_allowed,
             )
             retry_query = replace(query, filters=retry_filters)
             retry_backend = get_backend(session)  # the backend caches per query object; start clean
@@ -387,7 +430,7 @@ async def search_listings(
         categories=await _category_facets(session, query.section_id, category, facets, lang),
         places=await _place_facets(session, facets, location, lang),
         spain_wide=facets.spain_wide,
-        facets=_facet_groups(facets, definitions, lang),
+        facets=_facet_groups(facets, definitions, lang, filters.ranges),
         understood=understood,
         relaxations=relaxations,
         fuzzy=page.used_fuzzy,

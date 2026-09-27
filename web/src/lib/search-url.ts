@@ -39,17 +39,20 @@ export function setParam(pairs: Pairs, key: string, value: string | null): Pairs
   return sortPairs(value === null || value === "" ? rest : [...rest, [key, value]]);
 }
 
-export function toggleValue(pairs: Pairs, key: string, value: string, mode: "bool" | "multi" | "single"): Pairs {
+/** "range" is set by its own form ("2015-2020"); as a link it behaves like a single value */
+type Mode = "bool" | "multi" | "single" | "range";
+
+export function toggleValue(pairs: Pairs, key: string, value: string, mode: Mode): Pairs {
   const current = get(pairs, key);
   if (mode === "bool") return setParam(pairs, key, current ? null : "1");
-  if (mode === "single") return setParam(pairs, key, current === value ? null : value);
+  if (mode === "single" || mode === "range") return setParam(pairs, key, current === value ? null : value);
   const values = new Set((current ?? "").split(",").filter(Boolean));
   if (values.has(value)) values.delete(value);
   else values.add(value);
   return setParam(pairs, key, [...values].sort().join(","));
 }
 
-export function isActive(pairs: Pairs, key: string, value: string, mode: "bool" | "multi" | "single"): boolean {
+export function isActive(pairs: Pairs, key: string, value: string, mode: Mode): boolean {
   const current = get(pairs, key);
   if (!current) return false;
   return mode === "multi" ? current.split(",").includes(value) : mode === "bool" || current === value;

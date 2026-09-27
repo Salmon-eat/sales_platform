@@ -17,6 +17,7 @@ class AttributeOut(BaseModel):
     key: str
     type: str
     label: str
+    unit: str | None = Field(None, description="a number's unit: km, CV")
     options: list[AttributeOption]
     filterable: bool
     facet_order: int
@@ -61,6 +62,7 @@ class AdminAttribute(BaseModel):
     key: str
     type: str
     label: Localized
+    unit: Localized | None = None
     options: list[dict[str, Any]]
     filterable: bool
     facet_order: int

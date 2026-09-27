@@ -20,5 +20,6 @@
   "attr_required": "Rellena «{key}»",
   "attr_bool": "«{key}»: se espera sí/no",
   "attr_value": "«{key}»: valor desconocido",
-  "attr_range": "«{key}»: rango no válido"
+  "attr_range": "«{key}»: rango no válido",
+  "attr_number": "«{key}»: debe ser un número entero"
 }

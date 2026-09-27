@@ -2114,6 +2114,38 @@
 .facet-more .facet-group + .facet-group {
   margin-top: 16px;
 }
+/* "from – to": price, year, kilometres */
+.facet-range__unit {
+  text-transform: none;
+  letter-spacing: 0;
+}
+.facet-range__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+  color: var(--faint);
+}
+.facet-range__row input {
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14.5px;
+}
+.facet-range__row input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+.facet-range__row .btn {
+  height: 38px;
+  padding: 0 12px;
+}
 
 .search-toolbar {
   display: flex;

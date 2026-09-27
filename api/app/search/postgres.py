@@ -7,11 +7,20 @@ from geoalchemy2 import Geography
 from sqlalchemy import ColumnElement, and_, case, cast, func, literal, or_, select, true
 from sqlalchemy.dialects.postgresql import ARRAY, TSQUERY
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.types import Text
+from sqlalchemy.types import Integer, Text
 
 from app.models import Listing, ListingSearch, Location
 from app.search.backend import Bucket, FacetResult, Hit, PlaceRef, SearchPage, SearchQuery
-from app.search.params import BOOL_KEYS, CONTRACTS, EXPLICIT_SORTS, POSTED_DAYS, RADII, SCHEDULES, Filters
+from app.search.params import (
+    BOOL_KEYS,
+    CONTRACTS,
+    EXPLICIT_SORTS,
+    POSTED_DAYS,
+    RADII,
+    SCHEDULES,
+    Filters,
+    Range,
+)
 from app.search.text import latin_lookalike, meaningful, normalize, one_alphabet, tokens
 
 FUZZY_BELOW = 5  # spec §7: if FTS gives < 5 results, add trigram similarity
@@ -76,6 +85,23 @@ def attr_condition(key: str, value: tuple[str, ...] | bool) -> ColumnElement[boo
     )
 
 
+def range_value(group: str) -> ColumnElement[Any]:
+    """What a "from–to" filter compares: the price, or a number attribute out of the JSONB ("a.year")."""
+    if group == "price":
+        return Listing.price
+    return cast(Listing.attributes[group[2:]].astext, Integer)
+
+
+def range_condition(group: str, bounds: Range) -> ColumnElement[bool]:
+    value, (lo, hi) = range_value(group), bounds
+    parts = [value.is_not(None)]
+    if lo is not None:
+        parts.append(value >= lo)
+    if hi is not None:
+        parts.append(value <= hi)
+    return and_(*parts)
+
+
 def filter_groups(query: SearchQuery, f: Filters) -> dict[str, ColumnElement[bool]]:
     """Applied filters by group; AND between groups, OR inside a multi-value group (spec §5)."""
     groups: dict[str, ColumnElement[bool]] = {}
@@ -94,6 +120,8 @@ def filter_groups(query: SearchQuery, f: Filters) -> dict[str, ColumnElement[boo
         groups["place"] = place_condition(query.place, f.radius)
     for key, value in f.attrs.items():
         groups[f"a.{key}"] = attr_condition(key, value)
+    for group, bounds in f.ranges.items():
+        groups[group] = range_condition(group, bounds)
     return groups
 
 
@@ -268,6 +296,16 @@ class PostgresSearchBackend:
                 for option in spec.options:
                     columns.append((group, option, counter(group, attr_condition(spec.key, (option,)))))
 
+        # "from–to" filters: the lowest and highest value the other filters leave, as hints in the inputs
+        range_groups = [f"a.{s.key}" for s in query.attr_specs.values() if s.type == "int"]
+        if query.price_filter:
+            range_groups.insert(0, "price")
+        range_columns: list[Any] = []
+        for group in range_groups:
+            value = range_value(group)
+            scope = and_(true(), *others(group))
+            range_columns += [func.min(value).filter(scope), func.max(value).filter(scope)]
+
         # narrow the scanned rows to the place; for a municipality keep the widest radius (radius facet)
         narrow: list[ColumnElement[bool]] = []
         place = query.place
@@ -285,13 +323,18 @@ class PostgresSearchBackend:
         total_col = func.count().filter(and_(true(), *applied.values()))
         row = (
             await self.session.execute(
-                self._select(total_col, *(c for _, _, c in columns)).where(*self._base(query), *text, *narrow)
+                self._select(total_col, *(c for _, _, c in columns), *range_columns).where(
+                    *self._base(query), *text, *narrow
+                )
             )
         ).one()
 
         groups: dict[str, list[Bucket]] = {}
-        for (group, value, _), count in zip(columns, row[1:], strict=True):
+        counts = row[1 : 1 + len(columns)]
+        for (group, value, _), count in zip(columns, counts, strict=True):
             groups.setdefault(group, []).append(Bucket(value, count))
+        bounds = row[1 + len(columns) :]
+        ranges = {group: (bounds[2 * i], bounds[2 * i + 1]) for i, group in enumerate(range_groups)}
 
         # tier 1: categories without the category filter, places without the place filter
         category_rows = await self.session.execute(
@@ -318,4 +361,5 @@ class PostgresSearchBackend:
             categories=[Bucket(str(c), n) for c, n in category_rows],
             places=[Bucket(str(p), n) for p, n in place_rows],
             spain_wide=spain_wide or 0,
+            ranges=ranges,
         )

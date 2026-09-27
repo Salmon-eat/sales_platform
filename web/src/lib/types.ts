@@ -40,8 +40,10 @@ export type AttributeOption = { value: string; label: string };
 /** A field of a category or a tag of a whole section, already in the page language. */
 export type AttributeDef = {
   key: string;
-  type: "bool" | "enum" | "multi_enum" | "int_range";
+  type: "bool" | "enum" | "multi_enum" | "int_range" | "int";
   label: string;
+  /** a number's unit: km, CV */
+  unit: string | null;
   options: AttributeOption[];
   filterable: boolean;
   facet_order: number;
@@ -144,7 +146,19 @@ export type ListingStats = { total: number; today: number };
 // ---------- search ----------
 
 export type FacetValue = { value: string; count: number; label: string | null };
-export type FacetGroup = { key: string; tier: 2 | 3; label: string | null; type: "bool" | "multi" | "single"; values: FacetValue[] };
+export type FacetGroup = {
+  key: string;
+  tier: 2 | 3;
+  label: string | null;
+  type: "bool" | "multi" | "single" | "range";
+  values: FacetValue[];
+  /** range only ("price", "a.year", "a.km"): the unit, what the ads span, the chosen ends */
+  unit: string | null;
+  min: number | null;
+  max: number | null;
+  chosen_from: number | null;
+  chosen_to: number | null;
+};
 export type CategoryFacet = { id: number; slug: string; key: string; name: string; count: number; selected: boolean };
 export type PlaceFacet = { slug: string; name: string; count: number; selected: boolean };
 export type SelectedCategory = {
@@ -827,8 +841,9 @@ export type AdminStats = {
 export type AdminAttribute = {
   id: number;
   key: string;
-  type: "bool" | "enum" | "multi_enum" | "int_range";
+  type: "bool" | "enum" | "multi_enum" | "int_range" | "int";
   label: Localized;
+  unit: Localized | null;
   options: { value: string; label: Localized }[];
   filterable: boolean;
   facet_order: number;

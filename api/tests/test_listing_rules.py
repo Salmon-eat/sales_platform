@@ -63,6 +63,16 @@ def test_attribute_errors() -> None:
     assert len(errors) == 5
 
 
+def test_number_attributes() -> None:
+    specs = [AttributeSpec("year", "int", (), False), AttributeSpec("mileage", "int", (), False)]
+    clean, errors = validate_attributes(specs, {"year": 2016, "mileage": 189000})
+    assert errors == [] and clean == {"year": 2016, "mileage": 189000}
+    # text, a yes/no, a negative number: none of them is a year
+    for bad in ("2016", True, -5):
+        _, errors = validate_attributes(specs, {"year": bad})
+        assert errors == ["attr_number:year"]
+
+
 def test_status_flow() -> None:
     published = apply_action(
         "publish", status="draft", published_at=None, expires_at=None, closed_at=None, now=NOW

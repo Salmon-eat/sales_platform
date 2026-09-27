@@ -414,6 +414,25 @@ function AttributeField({
       </label>
     );
   }
+  if (field.type === "int") {
+    // a year, kilometres: digits only, kept as a number
+    return (
+      <label className="field">
+        <span>
+          {field.label}
+          {field.unit ? `, ${field.unit}` : ""}
+        </span>
+        <input
+          inputMode="numeric"
+          value={typeof value === "number" ? String(value) : ""}
+          onChange={(e) => {
+            const digits = e.target.value.replace(/\D/g, "");
+            onChange(digits ? Number(digits) : null);
+          }}
+        />
+      </label>
+    );
+  }
   if (field.type === "multi_enum") {
     const chosen = Array.isArray(value) ? (value as string[]) : [];
     return (

@@ -65,8 +65,10 @@ class AttributeDefinition(Base):
     category_id: Mapped[int | None] = mapped_column(ForeignKey("categories.id", ondelete="CASCADE"))
     section_id: Mapped[int | None] = mapped_column(ForeignKey("sections.id", ondelete="CASCADE"))
     key: Mapped[str] = mapped_column(String(50))
-    type: Mapped[str] = mapped_column(String(20))  # bool | enum | multi_enum | int_range
+    type: Mapped[str] = mapped_column(String(20))  # bool | enum | multi_enum | int_range | int
     label: Mapped[Localized] = mapped_column(JSONB)
+    # a number's unit in 4 languages ("km", "CV"); none for a year or a count
+    unit: Mapped[Localized | None] = mapped_column(JSONB)
     # [{"value": "frigorifico", "label": {"es": ..., "en": ..., "uk": ..., "ru": ...}}]
     options: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, default=list, server_default="[]")
     filterable: Mapped[bool] = mapped_column(default=True, server_default="true")

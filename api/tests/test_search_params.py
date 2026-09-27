@@ -28,6 +28,38 @@ def test_unknown_keys_and_values_are_dropped_and_sorted() -> None:
     )
 
 
+CAR_SPECS = {
+    "year": AttrSpec("year", "int", ()),
+    "km": AttrSpec("km", "int", ()),
+    "fuel": AttrSpec("fuel", "enum", ("diesel", "gasolina")),
+}
+
+
+def test_from_to_filters() -> None:
+    f = parse_filters(
+        {"price": ["8 000-15000"], "a.year": ["2018-"], "a.km": ["-100000"], "a.fuel": ["diesel"]},
+        CAR_SPECS,
+        price_allowed=True,
+    )
+    assert f.ranges == {"price": (8000, 15000), "a.year": (2018, None), "a.km": (None, 100000)}
+    assert canonical_query(f) == "a.fuel=diesel&a.km=-100000&a.year=2018-&price=8000-15000"
+
+
+def test_from_to_filters_forgive_and_refuse() -> None:
+    # the ends the wrong way round are swapped; nonsense and a price on the jobs page are dropped
+    raw = {"price": ["15000-8000"], "a.year": ["abc-"], "a.km": ["-"]}
+    f = parse_filters(raw, CAR_SPECS, price_allowed=True)
+    assert f.ranges == {"price": (8000, 15000)}
+    assert parse_filters({"price": ["100-200"]}, CAR_SPECS).ranges == {}
+    # a number filter is only read for an attribute that is a number
+    assert parse_filters({"a.fuel": ["1-2"]}, CAR_SPECS).ranges == {}
+
+
+def test_price_sorts() -> None:
+    assert canonical_query(parse_filters({"sort": ["price_asc"]})) == "sort=price_asc"
+    assert canonical_query(parse_filters({"sort": ["price_desc"]})) == "sort=price_desc"
+
+
 def test_defaults_are_omitted() -> None:
     assert canonical_query(parse_filters({"sort": ["new"], "page": ["1"]})) == ""
     # with a text query the default sort is relevance

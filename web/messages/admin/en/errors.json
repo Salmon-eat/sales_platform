@@ -20,5 +20,6 @@
   "attr_required": "Fill in “{key}”",
   "attr_bool": "“{key}”: yes/no expected",
   "attr_value": "“{key}”: unknown value",
-  "attr_range": "“{key}”: invalid range"
+  "attr_range": "“{key}”: invalid range",
+  "attr_number": "“{key}”: must be a whole number"
 }

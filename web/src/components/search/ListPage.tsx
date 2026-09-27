@@ -242,7 +242,7 @@ type CatalogProps = {
 export async function Catalog({ locale, data, canonical, state, path, head }: CatalogProps) {
   const t = await getTranslations("search");
   const link = makeLinker(locale, state);
-  const chips = activeChips(data, canonical, state, link, t);
+  const chips = activeChips(data, canonical, state, link, t, locale);
   // "we will find you a job" belongs in the jobs section; on a page of sofas it is nonsense
   const applyOptions =
     data.total === 0 && state.section.key === "empleo" ? await getApplicationOptions(locale) : null;
@@ -433,7 +433,7 @@ function withQueryString(path: string, pairs: Pairs): string {
 
 type Translate = Awaited<ReturnType<typeof getTranslations<"search">>>;
 
-function activeChips(data: SearchResponse, pairs: Pairs, state: ListState, link: Linker, t: Translate) {
+function activeChips(data: SearchResponse, pairs: Pairs, state: ListState, link: Linker, t: Translate, locale: Locale) {
   const chips: { key: string; label: string; href: string }[] = [];
   const q = get(pairs, "q");
   if (q) chips.push({ key: "q", label: `«${q}»`, href: link({}, setParam(pairs, "q", null)) });
@@ -457,8 +457,21 @@ function activeChips(data: SearchResponse, pairs: Pairs, state: ListState, link:
       chips.push({ key: `${key}:${v}`, label, href: link({}, setParam(pairs, key, rest || null)) });
     }
   }
+  // "from–to": one chip for the whole range, "Рік: 2015–2020", "Ціна: до 8 000 €"
+  for (const group of data.facets.filter((g) => g.type === "range")) {
+    const { chosen_from: lo, chosen_to: hi } = group;
+    if (lo === null && hi === null) continue;
+    const n = (v: number) => (group.key === "a.year" ? String(v) : v.toLocaleString(locale)); // not "2 016"
+    const span = lo !== null && hi !== null ? `${n(lo)}–${n(hi)}` : lo !== null ? t("rangeFromValue", { value: n(lo) }) : t("rangeToValue", { value: n(hi!) });
+    const unit = group.key === "price" ? " €" : group.unit ? ` ${group.unit}` : "";
+    chips.push({
+      key: group.key,
+      label: `${group.label ?? t(group.key as "price")}: ${span}${unit}`,
+      href: link({}, setParam(pairs, group.key, null)),
+    });
+  }
   // attributes of the profession (tier 3) and tags of the section (tier 2) share the a.<key> form
-  for (const group of data.facets.filter((g) => g.key.startsWith("a."))) {
+  for (const group of data.facets.filter((g) => g.key.startsWith("a.") && g.type !== "range")) {
     const value = get(pairs, group.key);
     if (!value) continue;
     for (const v of value.split(",")) {
