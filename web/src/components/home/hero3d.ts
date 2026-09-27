@@ -22,6 +22,10 @@ const C = {
 const PX_PER_UNIT = 40;
 /** Half the width of the middle kept free for the title and the search box, in pixels. */
 const CLEAR_HALF = 540;
+/** The objects stand within this width around the middle. Zooming the page out (Ctrl + wheel) makes it
+ * thousands of pixels wide while the search keeps its size; without a limit the objects drift to the far
+ * edges, away from what they frame. */
+const MAX_BAND = 1760;
 /** A narrow lens: the hero is very wide and low, so a wide one stretches the objects near the screen edges. */
 const FOV = 10;
 
@@ -318,6 +322,7 @@ export function mountHeroScene(container: HTMLElement): () => void {
 
   let width = 0;
   let height = 0;
+  let half = 0; // half the width the objects stand in
   let unit = 1; // how big the objects are on this screen
   const layout = () => {
     width = container.clientWidth;
@@ -332,7 +337,8 @@ export function mountHeroScene(container: HTMLElement): () => void {
     // the objects further back fade into the page colour, the way far things do in air
     fog.near = distance - 1;
     fog.far = distance + 7;
-    const free = width / 2 - CLEAR_HALF;
+    half = Math.min(width, MAX_BAND) / 2;
+    const free = half - CLEAR_HALF;
     unit = THREE.MathUtils.clamp(free / 300, 0.5, 1.15);
     for (const item of items) item.rig.visible = free > 75;
   };
@@ -366,7 +372,7 @@ export function mountHeroScene(container: HTMLElement): () => void {
     pointer.x += (pointer.tx - pointer.x) * ease;
     pointer.y += (pointer.ty - pointer.y) * ease;
 
-    const free = width / 2 - CLEAR_HALF;
+    const free = half - CLEAR_HALF;
     for (const item of items) {
       const { spec } = item;
       const mine = chosen === spec.key;
@@ -375,9 +381,9 @@ export function mountHeroScene(container: HTMLElement): () => void {
 
       const near = 1 + spec.depth * 0.35;
       const bob = Math.sin(t * 0.7 + item.phase) * 0.18;
-      // never closer to the screen edge than an object's own half width
+      // never closer to the edge of the band than an object's own half width
       const across =
-        spec.inner ?? Math.min(CLEAR_HALF + free * (spec.across ?? 0.5), width / 2 - (62 * spec.scale + 12) * unit);
+        spec.inner ?? Math.min(CLEAR_HALF + free * (spec.across ?? 0.5), half - (62 * spec.scale + 12) * unit);
       const x = (spec.side * across) / PX_PER_UNIT;
       const y = (spec.up * height) / 2 / PX_PER_UNIT;
       // a chosen object comes nearer, so it also moves in a little, or perspective pushes it off the edge;
