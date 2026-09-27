@@ -7,6 +7,7 @@ import { asLocale } from "@/i18n/routing";
 import { accountFetch, getAccount } from "@/lib/account";
 import { getHome, orFallback } from "@/lib/api";
 import { localizedPath, prefixed } from "@/lib/routes";
+import { TELEGRAM_URL } from "@/lib/telegram";
 
 import { LocaleSwitcher } from "./LocaleSwitcher";
 import { SavedCount } from "./saved/SavedCount";
@@ -14,7 +15,6 @@ import { Logo } from "./Logo";
 import { SectionTabs, type Tab } from "./SectionTabs";
 import { ThemeToggle } from "./ThemeToggle";
 
-const TELEGRAM_URL = process.env.NEXT_PUBLIC_TELEGRAM_BOT_URL ?? "https://t.me/";
 /** The rest of the sections are one click away, in the grid on the home page. */
 const MAX_SECTION_TABS = 6;
 

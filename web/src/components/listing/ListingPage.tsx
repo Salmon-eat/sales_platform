@@ -21,9 +21,9 @@ import { getApplicationOptions } from "@/lib/application-options";
 import { formatEuro } from "@/lib/listing-format";
 import { localizedPath, prefixed, sellerPath } from "@/lib/routes";
 import { absoluteUrl, apiAlternates, jsonLd } from "@/lib/seo";
+import { TELEGRAM_URL } from "@/lib/telegram";
 import type { ListingDetail, ResolveOut } from "@/lib/types";
 
-const TELEGRAM_BOT = process.env.NEXT_PUBLIC_TELEGRAM_BOT_URL ?? "https://t.me/";
 const LANG_LABEL: Record<string, string> = { es: "ES", en: "EN", uk: "UA", ru: "RU" };
 const UNIT: Record<string, string> = { hour: "HOUR", day: "DAY", week: "WEEK", month: "MONTH" };
 const PRICE_PERIOD = { month: "perMonth", week: "perWeek", day: "perDay", hour: "perHour" } as const;
@@ -324,7 +324,7 @@ export async function ListingPage({ locale, resolved }: { locale: Locale; resolv
                 questions={listing.questions ?? []}
                 title={t("applyTitle")}
               />
-              <a className="btn btn--telegram btn--lg btn--block" href={`${TELEGRAM_BOT.replace(/\/$/, "")}?start=l_${listing.id}`} rel="noopener">
+              <a className="btn btn--telegram btn--lg btn--block" href={`${TELEGRAM_URL.replace(/\/$/, "")}?start=l_${listing.id}`} rel="noopener">
                 <Send size={16} aria-hidden /> {t("telegram")}
               </a>
               <p className="muted small">{t("applyText")}</p>

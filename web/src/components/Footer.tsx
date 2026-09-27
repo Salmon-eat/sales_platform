@@ -4,10 +4,9 @@ import { getLocale, getTranslations } from "next-intl/server";
 
 import { asLocale } from "@/i18n/routing";
 import { type AppRoute, localizedPath } from "@/lib/routes";
+import { TELEGRAM_URL } from "@/lib/telegram";
 
 import { Logo } from "./Logo";
-
-const TELEGRAM_URL = process.env.NEXT_PUBLIC_TELEGRAM_BOT_URL ?? "https://t.me/";
 
 type Item = { label: string; route: AppRoute };
 
